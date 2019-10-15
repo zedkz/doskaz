@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Infrastructure\Api\KernelExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: -10 }
+
+    App\Infrastructure\Api\ExceptionNormalizer:
+        arguments:
+            - '%kernel.debug%'
+        tags:
+            - { name: serializer.normalizer, priority: 7 }
+
+    App\Infrastructure\Api\HttpExceptionNormalizer:
+        arguments:
+            - '%kernel.debug%'
+        tags:
+            - { name: serializer.normalizer, priority: 8 }
