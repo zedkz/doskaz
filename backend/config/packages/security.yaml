@@ -6,6 +6,15 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        secured:
+            pattern: ^/api
+            guard:
+                authenticators:
+                    - App\Users\Security\AccessTokenAuthenticator
+            anonymous: true
+            stateless: true
+
         main:
             anonymous: true
 

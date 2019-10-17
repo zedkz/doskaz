@@ -13,3 +13,4 @@ services:
 
 imports:
     - { resource: '../src/Infrastructure/services.yaml' }
+    - { resource: '../src/Users/services.yaml' }

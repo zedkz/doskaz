@@ -1,0 +1,22 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Users\UserRepository:
+
+    League\OAuth2\Client\Provider\Google:
+        lazy: true
+        arguments:
+            - {clientId: '%env(OAUTH_GOOGLE_CLIENT_ID)%', clientSecret: '%env(OAUTH_GOOGLE_CLIENT_SECRET)%', redirectUri: '%env(resolve:OAUTH_GOOGLE_REDIRECT_URI)%'}
+
+    App\Users\Security\Oauth\OauthController:
+        tags: [ 'controller.service_arguments' ]
+
+    App\Users\UserController:
+        tags: [ 'controller.service_arguments' ]
+
+    App\Users\Security\AccessTokenRepository:
+    App\Users\Security\UserAuthenticator:
+    App\Users\Security\Oauth\OauthCredentialsRepository:
+    App\Users\Security\AccessTokenAuthenticator:

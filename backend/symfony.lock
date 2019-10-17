@@ -81,6 +81,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
     "guzzlehttp/promises": {
         "version": "v1.3.1"
     },
@@ -95,6 +98,12 @@
     },
     "jean85/pretty-package-versions": {
         "version": "1.2"
+    },
+    "league/oauth2-client": {
+        "version": "2.4.1"
+    },
+    "league/oauth2-google": {
+        "version": "3.0.1"
     },
     "ocramius/package-versions": {
         "version": "1.5.1"
@@ -146,6 +155,18 @@
     },
     "ramsey/uuid": {
         "version": "3.8.0"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "config/packages/sensio_framework_extra.yaml"
+        ]
     },
     "sentry/sdk": {
         "version": "2.0.4"
@@ -368,6 +389,9 @@
     },
     "symfony/yaml": {
         "version": "v4.3.5"
+    },
+    "tuupola/base62": {
+        "version": "2.0.0"
     },
     "twig/twig": {
         "version": "v2.12.0"

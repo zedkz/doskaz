@@ -18,3 +18,9 @@ services:
             - '%kernel.debug%'
         tags:
             - { name: serializer.normalizer, priority: 8 }
+
+    App\Infrastructure\Doctrine\Flusher:
+
+    App\Infrastructure\Doctrine\MigrationEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber}
