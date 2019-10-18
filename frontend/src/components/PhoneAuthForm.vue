@@ -87,8 +87,7 @@
     import get from 'lodash/get'
 
     const app = firebase.initializeApp({
-        apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
-        authDomain: 'localhost'
+        apiKey: process.env.VUE_APP_FIREBASE_API_KEY
     });
 
     firebase.auth().languageCode = 'ru';
