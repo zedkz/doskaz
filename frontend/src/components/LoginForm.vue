@@ -115,16 +115,16 @@
             <span>Или войдите с помощью телефона</span>
           </div>
           <form action="#" class="phone-form__form">
-            <div class="input input_error">
-              <input type="text" placeholder="Номер телефона" />
+            <div class="input" :class="{input_error: phoneError}">
+              <input type="text" placeholder="Номер телефона" v-model="phoneAuth.number" :disabled="confirmationResult"/>
               <div class="input__error-text">
-                <span>Неправильный номер телефона</span>
+                <span>{{ phoneError }}</span>
               </div>
             </div>
-            <div class="input">
-              <input type="text" placeholder="Код из СМС" />
+            <div class="input" v-if="confirmationResult" :class="{input_error: codeError}">
+              <input type="text" placeholder="Код из СМС" v-model="phoneAuth.code"/>
               <div class="input__error-text">
-                <span>Неправильный код</span>
+                <span>{{ codeError }}</span>
               </div>
             </div>
             <div class="help">
@@ -187,7 +187,10 @@
               </svg>
               <span>Повторную отправку можно выполнить через 15 секунд</span>
             </div>
-            <button class="button">
+            <button class="button" id="sign-in-button" @click="sendSmsCode" v-if="!confirmationResult">
+              <span>Отправить код</span>
+            </button>
+            <button class="button" @click="signIn" v-if="confirmationResult">
               <span>Войти на сайт</span>
             </button>
           </form>
@@ -198,18 +201,82 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      isOpened: true
-    };
-  },
-  methods: {
-    loginFormClose() {
-      this.isOpened = false;
+
+  import * as firebase from 'firebase/app'
+  import 'firebase/auth'
+  import get from 'lodash/get'
+
+  const app = firebase.initializeApp({
+    apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+    authDomain: 'localhost'
+  });
+
+  firebase.auth().languageCode = 'ru';
+
+  const errorMessages = {
+    'auth/invalid-phone-number': 'Введен неверный формат номера',
+    'auth/invalid-verification-code': 'Введен неверный код'
+  };
+
+  export default {
+    data() {
+      return {
+        phoneAuth: {
+          number: null,
+          code: null
+        },
+        errors: {
+          number: null,
+          code: null
+        },
+        isOpened: true,
+        confirmationResult: null
+      };
+    },
+    mounted() {
+      this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+        'size': 'invisible',
+        'callback': function(response) {
+        }
+      });
+    },
+    methods: {
+      loginFormClose() {
+        this.isOpened = false;
+      },
+      async sendSmsCode() {
+        if(!this.phoneAuth.number) {
+          return
+        }
+        this.confirmationResult = null;
+        try {
+          this.confirmationResult = await firebase.auth().signInWithPhoneNumber(this.phoneAuth.number, this.recaptchaVerifier);
+        } catch (e) {
+          this.errors.number = e.code
+        }
+      },
+      async signIn() {
+        if(!this.phoneAuth.code) {
+          return
+        }
+        try {
+          const result = await this.confirmationResult.confirm(this.phoneAuth.code);
+          const idToken = await result.user.getIdToken();
+          console.log(idToken);
+        } catch (e) {
+          this.errors.code = e.code
+        }
+      }
+    },
+    computed: {
+      phoneError() {
+        return get(errorMessages, [this.errors.number], this.errors.number)
+      },
+      codeError() {
+        return get(errorMessages, [this.errors.code], this.errors.code)
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
