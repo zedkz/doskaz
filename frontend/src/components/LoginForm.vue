@@ -115,11 +115,17 @@
             <span>Или войдите с помощью телефона</span>
           </div>
           <form action="#" class="phone-form__form">
-            <div class="input">
+            <div class="input input_error">
               <input type="text" placeholder="Номер телефона" />
+              <div class="input__error-text">
+                <span>Неправильный номер телефона</span>
+              </div>
             </div>
             <div class="input">
               <input type="text" placeholder="Код из СМС" />
+              <div class="input__error-text">
+                <span>Неправильный код</span>
+              </div>
             </div>
             <div class="help">
               <svg
@@ -346,9 +352,20 @@ export default {
           border: 1px solid #7b95a7;
           box-sizing: border-box;
           margin-top: 20px;
+          position: relative;
 
           &:first-child {
             margin-top: 0;
+          }
+
+          &.input_error {
+            border-color: $red;
+
+            .input {
+              &__error-text {
+                opacity: 1;
+              }
+            }
           }
 
           input {
@@ -364,6 +381,18 @@ export default {
             &::placeholder {
               color: #5b6067;
             }
+          }
+
+          &__error-text {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            font-size: 14px;
+            line-height: 20px;
+            color: $red;
+            opacity: 0;
+            pointer-events: none;
           }
         }
 
