@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="buttons">
-          <button class="button button_google">
+          <a class="button button_google" :href="oauthLinks.google">
             <svg
               width="20"
               height="20"
@@ -66,7 +66,7 @@
               />
             </svg>
             <span>Войти через Google</span>
-          </button>
+          </a>
           <button class="button">
             <svg
               width="10"
@@ -122,21 +122,35 @@
 </template>
 
 <script>
-
   import PhoneAuthForm from "./PhoneAuthForm";
   export default {
     components: {PhoneAuthForm},
     data() {
       return {
-
-        isOpened: true,
       };
+    },
+    watch: {
+      '$store.state.authentication.user'(value) {
+        if(value) {
+          this.isOpened = false
+        }
+      }
     },
     methods: {
       loginFormClose() {
-        this.isOpened = false;
+        this.$store.dispatch('hideLoginForm')
       },
     },
+    computed: {
+      isOpened() {
+        return this.$store.state.authentication.showLoginForm
+      },
+      oauthLinks() {
+        return {
+          google: '/api/oauth/google/redirect'
+        }
+      }
+    }
   };
 </script>
 

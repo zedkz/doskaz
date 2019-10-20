@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "./views/MainPage.vue";
+import Oauth from "./components/Oauth";
 
 Vue.use(Router);
 
@@ -10,8 +11,13 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Main page",
+      name: "main",
       component: MainPage
+    },
+    {
+      path: "/oauth/:provider",
+      name: "oauth",
+      component: Oauth
     }
   ]
 });

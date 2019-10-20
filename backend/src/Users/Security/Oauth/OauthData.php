@@ -12,4 +12,9 @@ final class OauthData implements DataObject
      * @var string
      */
     public $code;
+
+    /**
+     * @var string
+     */
+    public $provider;
 }

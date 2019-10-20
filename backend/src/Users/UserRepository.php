@@ -23,7 +23,7 @@ final class UserRepository
         $this->entityManager->persist($user);
     }
 
-    public function find($id): ?User
+    public function find(int $id): ?User
     {
         return $this->repository->find($id);
     }

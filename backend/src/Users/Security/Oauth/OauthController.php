@@ -29,7 +29,7 @@ final class OauthController extends AbstractController
     }
 
     /**
-     * @Route(path="/oauth/{providerKey}/redirect", methods={"GET"})
+     * @Route(path="/api/oauth/{providerKey}/redirect", methods={"GET"})
      * @param string $providerKey
      * @return RedirectResponse
      */
@@ -42,9 +42,8 @@ final class OauthController extends AbstractController
     }
 
     /**
-     * @Route(path="/api/token/oauth/{providerKey}", methods={"POST"})
+     * @Route(path="/api/token/oauth", methods={"POST"})
      * @param Request $request
-     * @param string $providerKey
      * @param OauthData $oauthData
      * @param OauthCredentialsRepository $credentialsRepository
      * @param UserRepository $userRepository
@@ -53,8 +52,9 @@ final class OauthController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function oauthAuthenticate(Request $request, string $providerKey, OauthData $oauthData, OauthCredentialsRepository $credentialsRepository, UserRepository $userRepository, Flusher $flusher, UserAuthenticator $authenticator)
+    public function oauthAuthenticate(Request $request, OauthData $oauthData, OauthCredentialsRepository $credentialsRepository, UserRepository $userRepository, Flusher $flusher, UserAuthenticator $authenticator)
     {
+        $providerKey = $oauthData->provider;
         if (!$this->oauthProviderLocator->has($providerKey)) {
             throw new NotFoundHttpException(sprintf('Provider %s not found', $providerKey));
         }

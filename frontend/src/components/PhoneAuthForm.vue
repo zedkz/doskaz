@@ -85,6 +85,7 @@
     import * as firebase from 'firebase/app'
     import 'firebase/auth'
     import get from 'lodash/get'
+    import api from '@/api'
 
     const app = firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_API_KEY
@@ -139,6 +140,8 @@
                     const result = await this.confirmationResult.confirm(this.phoneAuth.code);
                     const idToken = await result.user.getIdToken();
                     console.log(idToken);
+                    await api.post('token/phone', {idToken});
+                    await this.$store.dispatch('loadUser')
                 } catch (e) {
                     this.errors.code = e.code
                 }
