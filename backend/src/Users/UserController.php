@@ -3,6 +3,7 @@
 
 namespace App\Users;
 
+use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +16,26 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class UserController extends AbstractController
 {
     /**
-     * @Route(path="/me", methods={"GET", "POST"})
+     * @Route(path="/me", methods={"GET"})
      * @param TokenStorageInterface $tokenStorage
+     * @param Connection $connection
+     * @return array
      */
-    public function me(TokenStorageInterface $tokenStorage)
+    public function me(TokenStorageInterface $tokenStorage, Connection $connection)
     {
-        dd($tokenStorage->getToken()->getUser());
+        $user = $connection->createQueryBuilder()
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->from('users')
+            ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
+            ->andWhere('users.id = :id')
+            ->setParameter('id', $tokenStorage->getToken()->getUser()->id())
+            ->setMaxResults(1)
+            ->execute()
+            ->fetch();
+
+        return array_replace($user, [
+            'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
+            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
+        ]);
     }
 }

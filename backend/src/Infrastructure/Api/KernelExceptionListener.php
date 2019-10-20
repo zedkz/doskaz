@@ -13,21 +13,24 @@ final class KernelExceptionListener
 {
     private $serializer;
 
-    public function __construct(SerializerInterface $serializer)
+    private $isDebug;
+
+    public function __construct(SerializerInterface $serializer, bool $isDebug = false)
     {
         $this->serializer = $serializer;
+        $this->isDebug = $isDebug;
     }
 
     public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getException();
-        $statusCode = 500;
-        if ($exception instanceof HttpExceptionInterface) {
-            $statusCode = $exception->getStatusCode();
+        $normalizedData = $this->serializer->normalize($exception);
+        if ($this->isDebug) {
+            $normalizedData['exception'] = get_class($exception);
+            $normalizedData['stack'] = $exception->getTraceAsString();
         }
-
-        $data = $this->serializer->serialize($event->getException(), 'json');
-        $response = new JsonResponse($data, $statusCode, [], true);
+        $data = $this->serializer->serialize($normalizedData, 'json');
+        $response = new JsonResponse($data, $normalizedData['code'], [], true);
         $event->setResponse($response);
     }
 }

@@ -36,7 +36,7 @@ final class UserAuthenticator
         $this->flusher->flush();
 
 
-        $response = new Response('', 201);
+        $response = new Response('', 204);
 
         $accessTokenCookie = new Cookie(
             AccessTokenAuthenticator::COOKIE_NAME,

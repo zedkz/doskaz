@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Users\Security;
+namespace App\Users\Security\PhoneAuth;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="phone_credentials")
  */
-class PhoneCredentials
+class Credentials
 {
     /**
      * @var integer
@@ -35,5 +35,10 @@ class PhoneCredentials
         $this->id = $id;
         $this->number = $number;
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function id()
+    {
+        return $this->id;
     }
 }

@@ -17,16 +17,10 @@ class ExceptionNormalizer implements NormalizerInterface
 
     public function normalize($object, $format = null, array $context = [])
     {
-        $result = [
+        return [
             'message' => $this->isDebug ? $object->getMessage() : 'Server error',
             'code' => 500
         ];
-
-        if ($this->isDebug) {
-            $result['stack'] = $object->getTrace();
-        }
-
-        return $result;
     }
 
     public function supportsNormalization($data, $format = null)

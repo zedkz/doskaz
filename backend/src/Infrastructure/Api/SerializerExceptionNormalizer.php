@@ -1,16 +1,16 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Infrastructure\Api;
 
 
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class HttpExceptionNormalizer implements NormalizerInterface
+final class SerializerExceptionNormalizer implements NormalizerInterface
 {
     /**
-     * @param HttpExceptionInterface|\Exception $object
+     * @param NotNormalizableValueException $object
      * @param null $format
      * @param array $context
      * @return array
@@ -18,13 +18,14 @@ class HttpExceptionNormalizer implements NormalizerInterface
     public function normalize($object, $format = null, array $context = [])
     {
         return [
-            'message' => $object->getMessage(),
-            'code' => $object->getStatusCode()
+            'message' => 'Bad Request',
+            'code' => 400
         ];
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof HttpExceptionInterface;
+        return $data instanceof NotNormalizableValueException;
     }
+
 }

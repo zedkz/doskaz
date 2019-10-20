@@ -6,6 +6,8 @@ services:
     App\Infrastructure\Api\KernelExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: -10 }
+        arguments:
+            $isDebug: '%kernel.debug%'
 
     App\Infrastructure\Api\ExceptionNormalizer:
         arguments:
@@ -14,8 +16,10 @@ services:
             - { name: serializer.normalizer, priority: 7 }
 
     App\Infrastructure\Api\HttpExceptionNormalizer:
-        arguments:
-            - '%kernel.debug%'
+        tags:
+            - { name: serializer.normalizer, priority: 8 }
+
+    App\Infrastructure\Api\SerializerExceptionNormalizer:
         tags:
             - { name: serializer.normalizer, priority: 8 }
 
@@ -24,3 +28,11 @@ services:
     App\Infrastructure\Doctrine\MigrationEventSubscriber:
         tags:
             - { name: doctrine.event_subscriber}
+
+    App\Infrastructure\Api\ResponseViewListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+
+    App\Infrastructure\ObjectResolver\ObjectArgumentResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: -49 }
