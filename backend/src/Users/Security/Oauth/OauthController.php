@@ -8,45 +8,57 @@ use App\Infrastructure\Doctrine\Flusher;
 use App\Users\Security\UserAuthenticator;
 use App\Users\User;
 use App\Users\UserRepository;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Provider\Google;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route(path="/oauth")
- */
+
 final class OauthController extends AbstractController
 {
-    /**
-     * @Route(path="/google", methods={"GET"})
-     * @param Google $google
-     * @return RedirectResponse
-     */
-    public function googleRedirect(Google $google)
+    private $oauthProviderLocator;
+
+    public function __construct(ServiceLocator $oauthProviderLocator)
     {
-        return new RedirectResponse($google->getAuthorizationUrl());
+        $this->oauthProviderLocator = $oauthProviderLocator;
     }
 
     /**
-     * @Route(path="/google/{code}", methods={"POST"}, requirements={"code"=".+"})
+     * @Route(path="/oauth/{provider}/redirect", methods={"GET"})
+     * @param string $provider
+     * @return RedirectResponse
+     */
+    public function oauthRedirect(string $provider)
+    {
+        if (!$this->oauthProviderLocator->has($provider)) {
+            throw new NotFoundHttpException(sprintf('Provider %s not found', $provider));
+        }
+        return new RedirectResponse($this->oauthProviderLocator->get($provider)->getAuthorizationUrl());
+    }
+
+    /**
+     * @Route(path="/api/token/oauth/{providerKey}", methods={"POST"})
      * @param Request $request
-     * @param string $code
-     * @param Google $provider
+     * @param string $providerKey
+     * @param OauthData $oauthData
      * @param OauthCredentialsRepository $credentialsRepository
      * @param UserRepository $userRepository
      * @param Flusher $flusher
      * @param UserAuthenticator $authenticator
      * @return Response
-     * @throws IdentityProviderException
+     * @throws \Exception
      */
-    public function googleAuthenticate(Request $request, string $code, Google $provider, OauthCredentialsRepository $credentialsRepository, UserRepository $userRepository, Flusher $flusher, UserAuthenticator $authenticator)
+    public function oauthAuthenticate(Request $request, string $providerKey, OauthData $oauthData, OauthCredentialsRepository $credentialsRepository, UserRepository $userRepository, Flusher $flusher, UserAuthenticator $authenticator)
     {
+        if (!$this->oauthProviderLocator->has($providerKey)) {
+            throw new NotFoundHttpException(sprintf('Provider %s not found', $providerKey));
+        }
+        $provider = $this->oauthProviderLocator->get($providerKey);
         $accessToken = $provider->getAccessToken('authorization_code', [
-            'code' => $code
+            'code' => $oauthData->code
         ]);
 
         $resourceOwner = $provider->getResourceOwner($accessToken);
