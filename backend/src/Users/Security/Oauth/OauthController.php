@@ -27,16 +27,16 @@ final class OauthController extends AbstractController
     }
 
     /**
-     * @Route(path="/oauth/{provider}/redirect", methods={"GET"})
-     * @param string $provider
+     * @Route(path="/oauth/{providerKey}/redirect", methods={"GET"})
+     * @param string $providerKey
      * @return RedirectResponse
      */
-    public function oauthRedirect(string $provider)
+    public function oauthRedirect(string $providerKey)
     {
-        if (!$this->oauthProviderLocator->has($provider)) {
-            throw new NotFoundHttpException(sprintf('Provider %s not found', $provider));
+        if (!$this->oauthProviderLocator->has($providerKey)) {
+            throw new NotFoundHttpException(sprintf('Provider %s not found', $providerKey));
         }
-        return new RedirectResponse($this->oauthProviderLocator->get($provider)->getAuthorizationUrl());
+        return new RedirectResponse($this->oauthProviderLocator->get($providerKey)->getAuthorizationUrl());
     }
 
     /**
