@@ -8,6 +8,8 @@ use App\Infrastructure\Doctrine\Flusher;
 use App\Users\Security\UserAuthenticator;
 use App\Users\User;
 use App\Users\UserRepository;
+use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -56,11 +58,18 @@ final class OauthController extends AbstractController
         if (!$this->oauthProviderLocator->has($providerKey)) {
             throw new NotFoundHttpException(sprintf('Provider %s not found', $providerKey));
         }
+
+        /**
+         * @var AbstractProvider $provider
+         */
         $provider = $this->oauthProviderLocator->get($providerKey);
         $accessToken = $provider->getAccessToken('authorization_code', [
             'code' => $oauthData->code
         ]);
 
+        /**
+         * @var ResourceOwnerInterface $resourceOwner
+         */
         $resourceOwner = $provider->getResourceOwner($accessToken);
 
         $credentials = $credentialsRepository->findByNetworkAndIdentifier('google', (string)$resourceOwner->getId());
