@@ -87,7 +87,7 @@
     import get from 'lodash/get'
     import api from '@/api'
 
-    const app = firebase.initializeApp({
+    firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_API_KEY
     });
 
@@ -115,14 +115,12 @@
         },
         mounted() {
             this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
-                'size': 'invisible',
-                'callback': function(response) {
-                }
+                'size': 'invisible'
             });
         },
         methods: {
             async sendSmsCode() {
-                if(!this.phoneAuth.number) {
+                if (!this.phoneAuth.number) {
                     return
                 }
                 this.confirmationResult = null;
@@ -133,13 +131,12 @@
                 }
             },
             async signIn() {
-                if(!this.phoneAuth.code) {
+                if (!this.phoneAuth.code) {
                     return
                 }
                 try {
                     const result = await this.confirmationResult.confirm(this.phoneAuth.code);
                     const idToken = await result.user.getIdToken();
-                    console.log(idToken);
                     await api.post('token/phone', {idToken});
                     await this.$store.dispatch('loadUser')
                 } catch (e) {
@@ -160,6 +157,7 @@
 
 <style lang="scss" scoped>
     @import "./../styles/mixins.scss";
+
     .phone-form__form {
         padding-top: 30px;
 
