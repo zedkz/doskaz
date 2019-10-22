@@ -15,7 +15,7 @@
                 try {
                     await this.$store.dispatch('oauthAuthenticate', {code, provider});
                 } finally {
-                    this.$router.replace({name: 'main'})
+                    this.$router.push({name: 'main'})
                 }
             }
         }
