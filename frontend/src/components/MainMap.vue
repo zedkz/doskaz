@@ -1,6 +1,6 @@
 <template>
-  <yandexMap class="ymap" :settings="settings" :coords="coords" :zoom="zoom" :controls="controls">
-    <ymap-marker marker-id="123" :coords="markerCoords" :icon="markerIcon" />
+  <yandexMap class="ymap" :settings="settings" :coords="coords" :zoom="zoom" :controls="controls" @map-was-initialized="mapWasInitialized">
+    <!--<ymap-marker marker-id="123" :coords="markerCoords" :icon="markerIcon" />-->
   </yandexMap>
 </template>
 
@@ -16,8 +16,9 @@ export default {
         coordorder: "latlong",
         version: "2.1"
       },
-      coords: [51.159807, 71.438674],
-      zoom: 15,
+      coords: [52.2944954, 76.970281],
+      //coords: [62.2, 31.9],
+      zoom: 14,
       controls: [],
 
       markerCoords: [51.159807, 71.446774],
@@ -36,7 +37,15 @@ export default {
       }
     };
   },
-  components: { yandexMap, ymapMarker }
+  components: { yandexMap, ymapMarker },
+  methods: {
+    mapWasInitialized(map) {
+      var remoteObjectManager = new ymaps.RemoteObjectManager('/api/objects/ymaps?bbox=%b&zoom=%z', {
+        splitRequests: false,
+      });
+      map.geoObjects.add(remoteObjectManager)
+    }
+  }
 };
 </script>
 

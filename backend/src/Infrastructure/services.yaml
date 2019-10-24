@@ -36,3 +36,7 @@ services:
     App\Infrastructure\ObjectResolver\ObjectArgumentResolver:
         tags:
             - { name: controller.argument_value_resolver, priority: -49 }
+
+    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

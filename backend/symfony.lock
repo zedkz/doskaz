@@ -99,6 +99,9 @@
     "jean85/pretty-package-versions": {
         "version": "1.2"
     },
+    "jsor/doctrine-postgis": {
+        "version": "v1.7.0"
+    },
     "league/oauth2-client": {
         "version": "2.4.1"
     },

@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Objects\MapObjectRepository:
+
+    App\Objects\ImportMapObjects:
+        tags: ['console.command']
+        arguments:
+            $connection: '@doctrine.dbal.dospav_connection'
+
+    App\Objects\ObjectsApiController:
+        tags: ['controller.service_arguments']

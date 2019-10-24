@@ -17,6 +17,7 @@
                 try {
                     await this.$store.dispatch('loadUser')
                 } catch (e) {
+                    console.log('not authenticated')
                 }
             }
         },
