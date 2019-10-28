@@ -6,7 +6,11 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/admin',
+    path: '/login',
+    name: 'login',
+  },
+  {
+    path: '/',
     name: 'home',
     component: Adminpanel
   }

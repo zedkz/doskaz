@@ -1,4 +1,5 @@
 module.exports = {
+    publicPath: '/adminpanel',
     devServer: {
         proxy: {
             "^/api": {
