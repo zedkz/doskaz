@@ -30,3 +30,5 @@ services:
             - '%env(FIREBASE_API_KEY)%'
         tags: [ 'controller.service_arguments' ]
     App\Users\Security\PhoneAuth\CredentialsRepository:
+    App\Users\Security\AuthController:
+        tags: [ 'controller.service_arguments' ]
