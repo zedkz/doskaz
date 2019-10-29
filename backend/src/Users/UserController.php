@@ -38,4 +38,32 @@ final class UserController extends AbstractController
             'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
         ]);
     }
+
+    /**
+     * @Route(methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Connection $connection
+     * @return array
+     */
+    public function list(Connection $connection)
+    {
+        $usersQb = $connection->createQueryBuilder()
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->from('users')
+            ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id');
+
+        $count = (clone $usersQb)->select('count(*)')->execute()->fetchColumn();
+
+        $items = array_map(function ($user) use ($connection) {
+            return array_replace($user, [
+                'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
+                'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
+            ]);
+        }, $usersQb->setMaxResults(10)->orderBy('id', 'desc')->execute()->fetchAll());
+
+        return [
+            'items' => $items,
+            'count' => $count
+        ];
+    }
 }

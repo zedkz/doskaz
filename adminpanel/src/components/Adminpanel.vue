@@ -10,7 +10,9 @@
         <div v-else id="main-wrapper">
             <nav-header/>
             <sidebar/>
-            <router-view/>
+            <div class="page-wrapper">
+                <router-view/>
+            </div>
         </div>
     </div>
 </template>

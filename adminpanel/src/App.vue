@@ -5,5 +5,9 @@
 </template>
 
 <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap&subset=cyrillic,cyrillic-ext,latin-ext');
 
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
 </style>

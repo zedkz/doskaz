@@ -1,25 +1,33 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Adminpanel from "../components/Adminpanel";
+import UsersList from "../components/Users/UsersList";
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/login',
-    name: 'login',
-  },
-  {
-    path: '/',
-    name: 'home',
-    component: Adminpanel
-  }
+    {
+        path: '/login',
+        name: 'login',
+    },
+    {
+        path: '/',
+        name: 'home',
+        component: Adminpanel,
+        children: [
+            {
+                path: 'users',
+                component: UsersList,
+                name: 'admin.users'
+            }
+        ]
+    }
 ];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 });
 
 export default router
