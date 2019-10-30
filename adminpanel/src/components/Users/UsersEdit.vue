@@ -11,7 +11,7 @@
                     <text-field property="name" :resource-name="resourceName" label="Имя"/>
                     <text-field :disabled="true" property="email" :resource-name="resourceName" label="Email"/>
                     <text-field :disabled="true" property="phone" :resource-name="resourceName" label="Номер телефона"/>
-                    <selection-field label="Роли"/>
+                    <selection-field :resource-name="resourceName" property="roles" label="Роли" :options="options"/>
                     <submit-button :resource-name="resourceName"/>
                 </form>
             </edit>
@@ -32,7 +32,15 @@
         components: {SubmitButton, SelectionField, TextField, Edit, Adminpanel2, AdminPage},
         props: [
             'resourceName'
-        ]
+        ],
+        computed: {
+            options() {
+                return [
+                    {value: 'ROLE_USER', title: 'Пользователь'},
+                    {value: 'ROLE_ADMIN', title: 'Администратор'},
+                ]
+            }
+        }
     }
 </script>
 

@@ -1,26 +1,63 @@
 <template>
     <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">{{label}} <span class="text-danger" v-if="required">*</span></label>
+        <label class="col-sm-2 col-form-label">{{label}} <span class="text-danger" v-if="required">*</span></label>
         <div class="col-sm-10">
-            <v-select :options="[]"></v-select>
-            <!--<input type="text" class="form-control" :placeholder="placeholder" :disabled="disabled" v-model="value" id="ddd">-->
+            <select multiple="multiple"
+                    class="select2 form-control custom-select select2-hidden-accessible" ref="select"
+                    style="width: 100%">
+                <option v-for="option in options" :key="option.value" :value="option.value">{{option.title}}</option>
+            </select>
         </div>
     </div>
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import Vue from 'vue'
-    Vue.component('v-select', vSelect)
-    import 'vue-select/dist/vue-select.css';
+    import 'select2'
 
     export default {
         name: "SelectionField",
         props: {
             label: String,
+            resourceName: String,
+            property: String,
             required: {
                 type: Boolean,
                 default: false
+            },
+            options: {
+                type: Array,
+                default() {
+                    return []
+                }
+            }
+        },
+        mounted() {
+            const vm = this;
+            $(this.$refs.select).select2({
+                width: 'resolve'
+            }).val(this.value)
+                .trigger('change')
+                .on('change', function () {
+                    vm.value = $(this).val()
+                })
+        },
+        watch: {
+            value(value, old) {
+                if (value.toString() !== old.toString()) {
+                    $(this.$refs.select)
+                        .val(value)
+                        .trigger('change');
+                }
+            }
+        },
+        computed: {
+            value: {
+                get() {
+                    return this.$store.state[this.resourceName].edit.item[this.property] || [];
+                },
+                set(value) {
+                    this.$store.commit(`${this.resourceName}/edit/changeField`, {field: this.property, value: value});
+                }
             }
         }
     }
