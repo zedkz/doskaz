@@ -17,16 +17,19 @@
 
     export default {
         name: "Sidebar",
+        mounted() {
+          console.log(this.$route)
+        },
         computed: {
             links() {
                 return [
-                    {route: {name: 'admin.users'}, title: 'Пользователи', icon: 'fas fa-user'}
+                    {route: {name: 'resources.users.list'}, title: 'Пользователи', icon: 'fas fa-user'},
                 ]
             }
         },
         methods: {
             isActiveRoute(route) {
-                return this.$route.name === route.name
+                return this.$route.name.startsWith(route.name)
             }
         }
     }

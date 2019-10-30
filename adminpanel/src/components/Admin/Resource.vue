@@ -1,0 +1,47 @@
+<script>
+    import createResourceModule from '@/store/resource'
+
+    export default {
+        name: "Resource",
+        props: {
+            name: {
+                type: String,
+                required: true
+            },
+            list: {
+                type: Object
+            },
+            edit: {
+                type: Object
+            },
+            title: {
+                type: String,
+                required: true
+            }
+        },
+        render() {
+            return null
+        },
+        mounted() {
+            this.$router.addRoutes([
+                {
+                    name: `resources.${this.name}.list`,
+                    path: `/resources/${this.name}`,
+                    component: this.list,
+                    props: {resourceName: this.name}
+                },
+                {
+                    name: `resources.${this.name}.edit`,
+                    path: `/resources/${this.name}/:id/edit`,
+                    component: this.edit,
+                    props: {resourceName: this.name}
+                }
+            ])
+        },
+        created() {
+            if (!this.$store.state[this.name]) {
+                this.$store.registerModule(this.name, createResourceModule(this.name, this.title));
+            }
+        }
+    }
+</script>

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Adminpanel from "../components/Adminpanel";
-import UsersList from "../components/Users/UsersList";
 
 Vue.use(VueRouter);
 
@@ -10,7 +8,7 @@ const routes = [
         path: '/login',
         name: 'login',
     },
-    {
+/*    {
         path: '/',
         name: 'home',
         component: Adminpanel,
@@ -19,9 +17,14 @@ const routes = [
                 path: 'users',
                 component: UsersList,
                 name: 'admin.users'
+            },
+            {
+                path: 'users/:id',
+                component: UsersEdit,
+                name: 'admin.users.edit'
             }
         ]
-    }
+    }*/
 ];
 
 const router = new VueRouter({

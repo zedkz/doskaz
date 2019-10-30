@@ -1,45 +1,41 @@
 <template>
-    <div class="container-fluid">
-        <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
-                <h4 class="text-themecolor">Пользователи</h4>
+    <adminpanel2>
+        <admin-page>
+            <div class="row page-titles" slot="header">
+                <div class="col-md-5 align-self-center">
+                    <h4 class="text-themecolor">{{ $store.state.users.title }}</h4>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <b-card>
-                    <b-table striped bordered hover :fields="fields" :items="users">
-                        <template v-slot:cell(roles)="data">
-                            {{ data.item.roles.map(role => roles[role]).join(', ') }}
-                        </template>
-                        <template v-slot:cell(_actions)="data">
-                            <b-button-group size="sm">
-                                <b-button variant="success">Редактировать</b-button>
-                            </b-button-group>
-                        </template>
-                    </b-table>
-                </b-card>
-            </div>
-        </div>
-    </div>
+            <list :resource-name="resourceName" slot="content">
+                <b-table striped bordered hover :fields="fields" :items="users">
+                    <template v-slot:cell(roles)="data">
+                        {{ data.item.roles.map(role => roles[role]).join(', ') }}
+                    </template>
+                    <template v-slot:cell(_actions)="data">
+                        <b-button-group size="sm">
+                            <edit-button :resource-name="resourceName" :resource-id="data.item.id"/>
+                        </b-button-group>
+                    </template>
+                </b-table>
+            </list>
+        </admin-page>
+    </adminpanel2>
 </template>
 
 <script>
-    import api from '@/api'
+    import AdminPage from "../AdminPage";
+    import Adminpanel2 from "../Adminpanel2";
+    import List from "../Admin/Actions/List";
+    import EditButton from "../Admin/EditButton";
 
     export default {
+        props: ['resourceName'],
         name: "UsersList",
-        mounted() {
-            this.loadUsers()
-        },
-        data() {
-            return {
-                users: [],
-                count: 0
-            }
-        },
+        components: {EditButton, List, Adminpanel2, AdminPage},
         computed: {
+            users() {
+                return this.$store.state[this.resourceName].list.items
+            },
             fields() {
                 return [
                     {key: 'name', label: 'Имя'},
@@ -54,13 +50,6 @@
                     ROLE_USER: 'Пользователь',
                     ROLE_ADMIN: 'Администратор'
                 }
-            }
-        },
-        methods: {
-            async loadUsers() {
-                const {data: {items, count}} = await api.get('users');
-                this.users = items;
-                this.count = count
             }
         }
     }
