@@ -55,6 +55,12 @@ class User
         $this->updatedAt = new \DateTimeImmutable();
     }
 
+    public function update(UserData $data)
+    {
+        $this->name = $data->name;
+        $this->roles = $data->roles;
+    }
+
     public function id()
     {
         return $this->id;

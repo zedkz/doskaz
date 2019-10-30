@@ -3,9 +3,11 @@
 
 namespace App\Users;
 
+use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -59,11 +61,52 @@ final class UserController extends AbstractController
                 'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
                 'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
             ]);
-        }, $usersQb->setMaxResults(10)->orderBy('id', 'desc')->execute()->fetchAll());
+        }, $usersQb->setMaxResults(20)->orderBy('id', 'desc')->execute()->fetchAll());
 
         return [
             'items' => $items,
             'count' => $count
         ];
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param $id
+     * @param Connection $connection
+     * @return array
+     */
+    public function user($id, Connection $connection)
+    {
+        $user = $connection->createQueryBuilder()
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->from('users')
+            ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
+            ->andWhere('users.id = :id')
+            ->setParameter('id', $id)
+            ->execute()
+            ->fetch();
+
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        return array_replace($user, [
+            'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
+            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
+        ]);
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"PUT"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param User $user
+     * @param UserData $data
+     * @param Flusher $flusher
+     */
+    public function update(User $user, UserData $data, Flusher $flusher)
+    {
+        $user->update($data);
+        $flusher->flush();
     }
 }
