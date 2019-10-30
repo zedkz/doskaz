@@ -32,17 +32,7 @@
         components: {SubmitButton, SelectionField, TextField, Edit, Adminpanel2, AdminPage},
         props: [
             'resourceName'
-        ],
-        computed: {
-            item: {
-                get() {
-                    return {email: 'asdasd'}
-                },
-                set(data) {
-                    console.log(data)
-                }
-            }
-        }
+        ]
     }
 </script>
 
