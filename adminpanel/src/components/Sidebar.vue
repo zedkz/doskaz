@@ -17,9 +17,6 @@
 
     export default {
         name: "Sidebar",
-        mounted() {
-          console.log(this.$route)
-        },
         computed: {
             links() {
                 return [
