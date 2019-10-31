@@ -7,6 +7,7 @@ use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -47,7 +48,7 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @return array
      */
-    public function list(Connection $connection)
+    public function list(Request $request, Connection $connection)
     {
         $usersQb = $connection->createQueryBuilder()
             ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
@@ -61,7 +62,7 @@ final class UserController extends AbstractController
                 'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
                 'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
             ]);
-        }, $usersQb->setMaxResults(20)->orderBy('id', 'desc')->execute()->fetchAll());
+        }, $usersQb->setMaxResults(20)->setFirstResult($request->query->getInt('offset'))->orderBy('id', 'desc')->execute()->fetchAll());
 
         return [
             'items' => $items,
