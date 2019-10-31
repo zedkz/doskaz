@@ -2,9 +2,7 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">{{label}} <span class="text-danger" v-if="required">*</span></label>
         <div class="col-sm-10">
-            <select multiple="multiple"
-                    class="select2 form-control custom-select select2-hidden-accessible" ref="select"
-                    style="width: 100%">
+            <select multiple="multiple" ref="select" style="width: 100%">
                 <option v-for="option in options" :key="option.value" :value="option.value">{{option.title}}</option>
             </select>
         </div>
