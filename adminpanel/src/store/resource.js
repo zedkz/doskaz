@@ -89,8 +89,8 @@ export default (resourceName, title) => ({
                         commit('setLoading', true);
                         try {
                             await api.put(`${resourceName}/${item.id}`, item);
+                            await dispatch('load', item.id);
                             commit('changeOperationState', 'success');
-                            dispatch('load', item.id);
                         }catch (e) {
                             commit('changeOperationState', 'fail')
                         }
