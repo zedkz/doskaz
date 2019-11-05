@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "./views/MainPage.vue";
+import UserObjects from "./views/UserObjects.vue";
+import UserAchievments from "./views/UserAchievments.vue";
 import Oauth from "./components/Oauth";
 
 Vue.use(Router);
@@ -18,6 +20,16 @@ export default new Router({
       path: "/oauth/:provider",
       name: "oauth",
       component: Oauth
+    },
+    {
+      path: "/user/objects",
+      name: "userObjects",
+      component: UserObjects
+    },
+    {
+      path: "/user/achievments",
+      name: "userAchievments",
+      component: UserAchievments
     }
   ]
 });
