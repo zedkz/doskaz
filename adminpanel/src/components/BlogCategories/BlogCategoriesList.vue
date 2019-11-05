@@ -14,6 +14,7 @@
                     <template v-slot:cell(_actions)="data">
                         <b-button-group size="sm">
                             <edit-button :resource-name="resourceName" :resource-id="data.item.id"/>
+                            <delete-button :resource-name="resourceName" :resource-id="data.item.id"/>
                         </b-button-group>
                     </template>
                 </b-table>
@@ -27,11 +28,12 @@
     import Adminpanel2 from "../Adminpanel2";
     import List from "../Admin/Actions/List";
     import EditButton from "../Admin/EditButton";
+    import DeleteButton from "@/components/Admin/DeleteButton";
 
     export default {
         props: ['resourceName'],
         name: "BlogCategoriesList",
-        components: {EditButton, List, Adminpanel2, AdminPage},
+        components: {DeleteButton, EditButton, List, Adminpanel2, AdminPage},
         computed: {
             items() {
                 return this.$store.state[this.resourceName].list.items

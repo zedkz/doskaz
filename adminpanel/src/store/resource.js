@@ -48,7 +48,11 @@ export default (resourceName, title) => ({
                     commit('startLoading');
                     commit('changePage', page);
                     await dispatch('reload')
-                }
+                },
+                async delete({dispatch}, id) {
+                    await api.delete(`${resourceName}/${id}`);
+                    await dispatch('load')
+                },
             }
         },
         edit: {
@@ -91,10 +95,9 @@ export default (resourceName, title) => ({
                             await api.put(`${resourceName}/${item.id}`, item);
                             await dispatch('load', item.id);
                             commit('changeOperationState', 'success');
-                        }catch (e) {
+                        } catch (e) {
                             commit('changeOperationState', 'fail')
-                        }
-                        finally {
+                        } finally {
                             commit('setLoading', false);
                         }
                     }
