@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Blog\SlugFactory:
+
+    App\Blog\Categories\CategoryRepository:
+
+    App\Blog\Categories\CategoriesController:
+        tags: ['controller.service_arguments']
+
+    App\Blog\Categories\ImportCategories:
+        tags: ['console.command']
+        arguments:
+            $source: '@doctrine.dbal.dospav_connection'

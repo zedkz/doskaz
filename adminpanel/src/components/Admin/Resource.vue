@@ -26,13 +26,13 @@
             this.$router.addRoutes([
                 {
                     name: `resources.${this.name}.list`,
-                    path: `/resources/${this.name}`,
+                    path: `/${this.name}`,
                     component: this.list,
                     props: {resourceName: this.name}
                 },
                 {
                     name: `resources.${this.name}.edit`,
-                    path: `/resources/${this.name}/:id/edit`,
+                    path: `/${this.name}/:id/edit`,
                     component: this.edit,
                     props: {resourceName: this.name}
                 }

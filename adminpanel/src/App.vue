@@ -1,6 +1,7 @@
 <template>
     <div>
         <resource name="users" :list="users.list" :edit="users.edit" title="Пользователи"/>
+        <resource name="blogCategories" :list="blogCategories.list" :edit="blogCategories.edit" title="Категории блога"/>
         <router-view/>
     </div>
 </template>
@@ -13,9 +14,11 @@
     }
 </style>
 <script>
-    import Resource from "./components/Admin/Resource";
-    import UsersList from "./components/Users/UsersList";
-    import UsersEdit from "./components/Users/UsersEdit";
+    import Resource from "@/components/Admin/Resource";
+    import UsersList from "@/components/Users/UsersList";
+    import UsersEdit from "@/components/Users/UsersEdit";
+    import BlogCategoriesList from "@/components/BlogCategories/BlogCategoriesList";
+    import BlogCategoriesEdit from "@/components/BlogCategories/BlogCategoriesEdit";
     export default {
         components: {Resource},
         computed: {
@@ -23,6 +26,12 @@
                 return {
                     list: UsersList,
                     edit: UsersEdit
+                }
+            },
+            blogCategories() {
+                return {
+                    list: BlogCategoriesList,
+                    edit: BlogCategoriesEdit
                 }
             }
         }

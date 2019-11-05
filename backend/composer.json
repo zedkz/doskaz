@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "cocur/slugify": "^3.2",
         "guzzlehttp/guzzle": "~6.0",
         "jsor/doctrine-postgis": "^1.7",
         "league/oauth2-client": "^2.4",

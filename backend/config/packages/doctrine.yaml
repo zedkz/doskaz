@@ -40,3 +40,9 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Objects'
                 prefix: 'App\Objects'
+            Blog:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Blog'
+                prefix: 'App\Blog'
+

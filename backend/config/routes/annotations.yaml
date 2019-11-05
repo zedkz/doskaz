@@ -5,3 +5,7 @@ users:
 objects:
     resource: ../../src/Objects
     type: annotation
+
+blog:
+    resource: ../../src/Blog
+    type: annotation

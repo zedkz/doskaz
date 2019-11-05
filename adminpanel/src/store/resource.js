@@ -84,12 +84,13 @@ export default (resourceName, title) => ({
                     const {data: item} = await api.get(`${resourceName}/${id}`);
                     commit('loadItem', item)
                 },
-                async submit({commit, state: {item}}) {
+                async submit({commit, dispatch, state: {item}}) {
                     if (item.id) {
                         commit('setLoading', true);
                         try {
                             await api.put(`${resourceName}/${item.id}`, item);
-                            commit('changeOperationState', 'success')
+                            commit('changeOperationState', 'success');
+                            dispatch('load', item.id);
                         }catch (e) {
                             commit('changeOperationState', 'fail')
                         }

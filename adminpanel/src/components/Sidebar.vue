@@ -21,6 +21,7 @@
             links() {
                 return [
                     {route: {name: 'resources.users.list'}, isActive: 'resources.users', title: 'Пользователи', icon: 'fas fa-user'},
+                    {route: {name: 'resources.blogCategories.list'}, isActive: 'resources.blogCategories', title: 'Категории блога', icon: ''},
                 ]
             }
         },
