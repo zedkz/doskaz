@@ -10,7 +10,6 @@ use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,18 +21,19 @@ final class CategoriesController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      * @Route(methods={"POST"})
+     * @param Connection $connection
      * @param CategoryData $categoryData
      * @param CategoryRepository $categoryRepository
      * @param SlugFactory $slugFactory
      * @param Flusher $flusher
-     * @return Response
+     * @return CategoryData
      */
-    public function create(CategoryData $categoryData, CategoryRepository $categoryRepository, SlugFactory $slugFactory, Flusher $flusher)
+    public function create(Connection $connection, CategoryData $categoryData, CategoryRepository $categoryRepository, SlugFactory $slugFactory, Flusher $flusher)
     {
         $category = new Category($categoryData->title, $slugFactory->make($categoryData->slug ?? $categoryData->title));
         $categoryRepository->add($category);
         $flusher->flush();
-        return new Response('', Response::HTTP_CREATED);
+        return $this->retrieve($category->id(), $connection);
     }
 
     /**

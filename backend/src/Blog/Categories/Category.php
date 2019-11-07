@@ -53,6 +53,11 @@ class Category
         $this->updatedAt = new \DateTimeImmutable();
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
     public function update(string $title, Slug $slug)
     {
         $this->title = $title;

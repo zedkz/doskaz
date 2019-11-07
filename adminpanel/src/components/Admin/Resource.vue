@@ -14,6 +14,9 @@
             edit: {
                 type: Object
             },
+            create: {
+                type: Object
+            },
             title: {
                 type: String,
                 required: true
@@ -34,6 +37,12 @@
                     name: `resources.${this.name}.edit`,
                     path: `/${this.name}/:id/edit`,
                     component: this.edit,
+                    props: {resourceName: this.name}
+                },
+                {
+                    name: `resources.${this.name}.create`,
+                    path: `/${this.name}/create`,
+                    component: this.create,
                     props: {resourceName: this.name}
                 }
             ])
