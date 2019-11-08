@@ -30,7 +30,7 @@ final class CategoriesController extends AbstractController
      */
     public function create(Connection $connection, CategoryData $categoryData, CategoryRepository $categoryRepository, SlugFactory $slugFactory, Flusher $flusher)
     {
-        $category = new Category($categoryData->title, $slugFactory->make($categoryData->slug ?? $categoryData->title));
+        $category = new Category($categoryData->title, $slugFactory->make($categoryData->slug ?: $categoryData->title));
         $categoryRepository->add($category);
         $flusher->flush();
         return $this->retrieve($category->id(), $connection);
@@ -47,7 +47,7 @@ final class CategoriesController extends AbstractController
      */
     public function update(Category $category, CategoryData $categoryData, SlugFactory $slugFactory, Flusher $flusher)
     {
-        $category->update($categoryData->title, $slugFactory->make($categoryData->slug ?? $categoryData->title));
+        $category->update($categoryData->title, $slugFactory->make($categoryData->slug ?: $categoryData->title));
         $flusher->flush();
     }
 

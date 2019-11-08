@@ -22,13 +22,15 @@
             Loading
         },
         props: [
-            'resourceName',
             'resourceId'
         ],
         mounted() {
             this.$store.dispatch(`${this.resourceName}/edit/load`, this.resourceId)
         },
         computed: {
+            resourceName() {
+                return this.$store.getters.resourceName
+            },
             isLoading() {
                 return this.$store.state[this.resourceName].edit.isLoading
             },

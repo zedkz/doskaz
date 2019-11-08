@@ -7,11 +7,8 @@
                 </div>
             </div>
             <edit slot="content" :resource-id="$route.params.id" :resource-name="resourceName">
-                <form>
-                    <text-field property="title" required :resource-name="resourceName" label="Наименование"/>
-                    <text-field property="slug" :resource-name="resourceName" label="ЧПУ"/>
-                    <submit-button :resource-name="resourceName"/>
-                </form>
+                <blog-category-form :resource-name="resourceName"/>
+                <submit-button :resource-name="resourceName"/>
             </edit>
         </admin-page>
     </adminpanel2>
@@ -21,12 +18,12 @@
     import AdminPage from "../AdminPage";
     import Adminpanel2 from "../Adminpanel2";
     import Edit from "@/components/Admin/Actions/Edit";
-    import TextField from "@/components/Admin/Fields/TextField";
     import SubmitButton from "@/components/Admin/SubmitButton";
+    import BlogCategoryForm from "@/components/BlogCategories/BlogCategoryForm";
 
     export default {
         name: "BlogCategoriesEdit",
-        components: {SubmitButton, TextField, Edit, Adminpanel2, AdminPage},
+        components: {BlogCategoryForm, SubmitButton, Edit, Adminpanel2, AdminPage},
         props: [
             'resourceName'
         ],

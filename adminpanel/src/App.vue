@@ -1,7 +1,7 @@
 <template>
     <div>
         <resource name="users" :list="users.list" :edit="users.edit" title="Пользователи"/>
-        <resource name="blogCategories" :list="blogCategories.list" :edit="blogCategories.edit" title="Категории блога"/>
+        <resource name="blogCategories" :list="blogCategories.list" :edit="blogCategories.edit" :create="blogCategories.create" title="Категории блога"/>
         <router-view/>
     </div>
 </template>
@@ -19,6 +19,7 @@
     import UsersEdit from "@/components/Users/UsersEdit";
     import BlogCategoriesList from "@/components/BlogCategories/BlogCategoriesList";
     import BlogCategoriesEdit from "@/components/BlogCategories/BlogCategoriesEdit";
+    import BlogCategoryCreate from "@/components/BlogCategories/BlogCategoryCreate";
     export default {
         components: {Resource},
         computed: {
@@ -31,7 +32,8 @@
             blogCategories() {
                 return {
                     list: BlogCategoriesList,
-                    edit: BlogCategoriesEdit
+                    edit: BlogCategoriesEdit,
+                    create: BlogCategoryCreate
                 }
             }
         }

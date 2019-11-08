@@ -1,4 +1,6 @@
 import api from '@/api'
+import get from 'lodash/get'
+import transform from 'lodash/transform'
 
 export default (resourceName, title) => ({
     namespaced: true,
@@ -60,10 +62,12 @@ export default (resourceName, title) => ({
             state: {
                 isLoading: false,
                 item: {},
-                operationState: null
+                operationState: null,
+                violations: {}
             },
             mutations: {
                 startLoadItem(state) {
+                    state.violations = {};
                     state.operationState = null;
                     state.isLoading = true;
                     state.item = {}
@@ -80,6 +84,17 @@ export default (resourceName, title) => ({
                 },
                 changeOperationState(state, operationState) {
                     state.operationState = operationState
+                },
+                replaceViolations(state, payload) {
+                    state.violations = transform(payload, (res, i) => {
+                        res[i.propertyPath] = i;
+                    }, {});
+                },
+                reset(state) {
+                    state.violations = {};
+                    state.operationState = null;
+                    state.isLoading = false;
+                    state.item = {}
                 }
             },
             actions: {
@@ -88,19 +103,34 @@ export default (resourceName, title) => ({
                     const {data: item} = await api.get(`${resourceName}/${id}`);
                     commit('loadItem', item)
                 },
-                async submit({commit, dispatch, state: {item}}) {
-                    if (item.id) {
-                        commit('setLoading', true);
-                        try {
-                            await api.put(`${resourceName}/${item.id}`, item);
-                            await dispatch('load', item.id);
-                            commit('changeOperationState', 'success');
-                        } catch (e) {
-                            commit('changeOperationState', 'fail')
-                        } finally {
-                            commit('setLoading', false);
-                        }
+                async create({commit, state: {item}}) {
+                    commit('setLoading', true);
+                    try {
+                        const {data: createdItem} = await api.post(`${resourceName}`, item);
+                        await commit('loadItem', createdItem);
+                    } catch (e) {
+                        const violations = get(e, 'response.data.errors.violations', []);
+                        commit('replaceViolations', violations);
+                        throw e
+                    } finally {
+                        commit('setLoading', false);
                     }
+                },
+                async submit({commit, dispatch, state: {item}}) {
+                    commit('setLoading', true);
+                    try {
+                        await api.put(`${resourceName}/${item.id}`, item);
+                        await dispatch('load', item.id);
+                        commit('changeOperationState', 'success');
+                    } catch (e) {
+                        const violations = get(e, 'response.data.errors.violations', []);
+                        commit('replaceViolations', violations);
+                        commit('changeOperationState', 'fail')
+                    }
+                    commit('setLoading', false);
+                },
+                async reset({commit}) {
+                    commit('reset')
                 }
             }
         }
