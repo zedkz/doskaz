@@ -57,6 +57,11 @@ class Post
     private $isPublished = true;
 
     /**
+     * @ORM\Column(type="datetimetz_immutable", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
      * @var Meta
      * @ORM\Embedded(class="\App\Blog\Meta")
      */
@@ -72,5 +77,10 @@ class Post
         $this->slug = $slug;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function id(): ?int
+    {
+        return $this->id;
     }
 }

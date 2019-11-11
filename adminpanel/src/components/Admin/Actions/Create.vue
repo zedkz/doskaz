@@ -8,10 +8,17 @@
     export default {
         name: "Create",
         props: [
-            'resourceName'
+            'initialData'
         ],
+        computed: {
+            resourceName() {
+                return this.$store.getters.resourceName
+            }
+        },
         mounted() {
-
+            if (this.initialData) {
+                this.$store.commit(`${this.resourceName}/edit/initialize`, this.initialData())
+            }
         }
     }
 </script>

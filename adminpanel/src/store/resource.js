@@ -1,6 +1,9 @@
 import api from '@/api'
 import get from 'lodash/get'
+import set from 'lodash/set'
+import cloneDeep from 'lodash/cloneDeep'
 import transform from 'lodash/transform'
+
 
 export default (resourceName, title) => ({
     namespaced: true,
@@ -77,7 +80,8 @@ export default (resourceName, title) => ({
                     state.isLoading = false;
                 },
                 changeField(state, {field, value}) {
-                    state.item[field] = value
+                    state.item = set(cloneDeep(state.item), field, value);
+
                 },
                 setLoading(state, loading) {
                     state.isLoading = loading
@@ -95,7 +99,13 @@ export default (resourceName, title) => ({
                     state.operationState = null;
                     state.isLoading = false;
                     state.item = {}
+                },
+                initialize(state, itemData) {
+                    state.item = itemData
                 }
+            },
+            getters: {
+                getItemProperty: state => property => get(state.item, property)
             },
             actions: {
                 async load({commit}, id) {

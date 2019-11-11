@@ -4,11 +4,17 @@ declare(strict_types=1);
 namespace App\Blog\Posts;
 
 
+use App\Blog\MetaData;
 use App\Infrastructure\ObjectResolver\DataObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class PostData implements DataObject
 {
+    /**
+     * @var int|null
+     */
+    public $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -16,12 +22,17 @@ final class PostData implements DataObject
     public $title;
 
     /**
+     * @var string | null
+     */
+    public $lead;
+
+    /**
      * @var string|null
      */
     public $slug;
 
     /**
-     * @var \DateTimeImmutable
+     * @var \DateTimeImmutable|null
      * @Assert\NotBlank()
      */
     public $publishedAt;
@@ -36,4 +47,9 @@ final class PostData implements DataObject
      * @Assert\NotBlank()
      */
     public $categoryId;
+
+    /**
+     * @var MetaData|null
+     */
+    public $meta;
 }
