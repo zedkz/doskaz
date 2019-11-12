@@ -69,6 +69,21 @@ final class PostsController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route(path="/{id}", methods={"PUT"})
+     * @param PostData $postData
+     * @param Post $post
+     * @param SlugFactory $slugFactory
+     * @return PostData
+     */
+    public function update(PostData $postData, Post $post, SlugFactory $slugFactory)
+    {
+        $post->update($postData, Meta::fromMetaData($postData->meta), $slugFactory->make($postData->slug ?: $postData->title));
+        $this->flusher->flush();
+        return $this->retrieve($post->id());
+    }
+
+    /**
      * @Route(path="/{id}", methods={"GET"})
      * @param $id
      * @return PostData
@@ -79,6 +94,8 @@ final class PostsController extends AbstractController
             ->addSelect('id')
             ->addSelect('title')
             ->addSelect('slug_value as slug')
+            ->addSelect('published_at')
+            ->addSelect('is_published')
             ->from('blog_posts')
             ->andWhere('id = :id')
             ->andWhere('deleted_at IS NULL')
@@ -98,5 +115,16 @@ final class PostsController extends AbstractController
         $postData->publishedAt = $this->connection->convertToPHPValue($data['published_at'], 'datetimetz_immutable');
         $postData->isPublished = $data['is_published'];
         return $postData;
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route(path="/{id}", methods={"DELETE"})
+     * @param Post $post
+     */
+    public function delete(Post $post)
+    {
+        $post->markAsDeleted();
+        $this->flusher->flush();
     }
 }

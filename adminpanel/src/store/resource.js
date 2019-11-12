@@ -26,7 +26,7 @@ export default (resourceName, title) => ({
                     state.isLoading = true;
                     state.page = 1
                 },
-                loadItems(state, items, count) {
+                loadItems(state, {items, count}) {
                     state.items = items;
                     state.count = count;
                     state.isLoading = false
@@ -39,7 +39,7 @@ export default (resourceName, title) => ({
                 async load({commit}) {
                     commit('startLoading');
                     const {data: {items, count}} = await api.get(resourceName);
-                    commit('loadItems', items, count)
+                    commit('loadItems', {items, count})
                 },
                 async reload({commit, state: {page}}) {
                     const {data: {items, count}} = await api.get(resourceName, {
@@ -47,10 +47,9 @@ export default (resourceName, title) => ({
                             offset: (page - 1) * 20
                         }
                     });
-                    commit('loadItems', items, count)
+                    commit('loadItems', {items, count})
                 },
                 async changePage({dispatch, commit}, page) {
-                    commit('startLoading');
                     commit('changePage', page);
                     await dispatch('reload')
                 },

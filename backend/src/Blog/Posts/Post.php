@@ -83,4 +83,19 @@ class Post
     {
         return $this->id;
     }
+
+    public function markAsDeleted()
+    {
+        $this->deletedAt = new \DateTimeImmutable();
+    }
+
+    public function update(PostData $postData, Meta $meta, Slug $slug) {
+        $this->title = $postData->title;
+        $this->categoryId = $postData->categoryId;
+        $this->publishedAt = $postData->publishedAt;
+        $this->isPublished = $postData->isPublished;
+        $this->meta = $meta;
+        $this->slug = $slug;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 }

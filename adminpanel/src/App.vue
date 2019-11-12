@@ -2,7 +2,7 @@
     <div>
         <resource name="users" :list="users.list" :edit="users.edit" title="Пользователи"/>
         <resource name="blogCategories" :list="blogCategories.list" :edit="blogCategories.edit" :create="blogCategories.create" title="Категории блога"/>
-        <resource name="blogPosts" :list="blogPosts.list" :edit="blogCategories.edit" :create="blogPosts.create" title="Записи блога"/>
+        <resource name="blogPosts" :list="blogPosts.list" :edit="blogPosts.edit" :create="blogPosts.create" title="Записи блога"/>
         <router-view/>
     </div>
 </template>
@@ -23,6 +23,7 @@
     import BlogCategoryCreate from "@/components/BlogCategories/BlogCategoryCreate";
     import BlogPostsList from "@/components/BlogPosts/BlogPostsList";
     import BlogPostCreate from "@/components/BlogPosts/BlogPostCreate";
+    import BlogPostEdit from "@/components/BlogPosts/BlogPostEdit";
     export default {
         components: {Resource},
         computed: {
@@ -42,7 +43,8 @@
             blogPosts() {
                 return {
                     list: BlogPostsList,
-                    create: BlogPostCreate
+                    create: BlogPostCreate,
+                    edit: BlogPostEdit
                 }
             }
         }
