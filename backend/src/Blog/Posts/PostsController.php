@@ -40,14 +40,32 @@ final class PostsController extends AbstractController
     {
         $query = $this->connection->createQueryBuilder()
             ->from('blog_posts')
+            ->leftJoin('blog_posts', 'blog_categories', 'blog_categories', 'blog_categories.id = blog_posts.category_id')
             ->andWhere('blog_posts.deleted_at IS NULL');
+
+        if($request->query->has('category')) {
+            $query->andWhere('blog_categories.slug_value = :categorySlug')
+                ->setParameter('categorySlug', $request->query->get('category'));
+        }
 
         return [
             'items' => (clone $query)
                 ->addSelect('blog_posts.id')
                 ->addSelect('blog_posts.title')
+                ->addSelect('blog_posts.slug_value as slug')
+                ->addSelect('blog_posts.published_at')
+                ->addSelect('blog_posts.is_published')
+                ->addSelect('blog_posts.annotation')
+                ->addSelect('blog_posts.content')
+                ->addSelect('blog_posts.category_id')
+                ->addSelect('blog_posts.image')
+                ->addSelect('blog_posts.meta_title')
+                ->addSelect('blog_posts.meta_description')
+                ->addSelect('blog_posts.meta_keywords')
+                ->addSelect('blog_posts.meta_og_title')
+                ->addSelect('blog_posts.meta_og_description')
+                ->addSelect('blog_posts.meta_og_image')
                 ->addSelect('blog_categories.title as "categoryTitle"')
-                ->leftJoin('blog_posts', 'blog_categories', 'blog_categories', 'blog_categories.id = blog_posts.category_id')
                 ->setMaxResults($request->query->getInt('limit', 20))
                 ->setFirstResult($request->query->getInt('offset', 0))
                 ->addOrderBy('blog_posts.id', 'desc')

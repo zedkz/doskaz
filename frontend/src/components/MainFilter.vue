@@ -11,9 +11,7 @@
         <a href="#">
           <span>Оставить жалобу</span>
         </a>
-        <a href="#">
-          <span>Блог</span>
-        </a>
+        <router-link :to="{name: 'blog'}"><span>Блог</span></router-link>
         <a href="#">
           <span>Контакты</span>
         </a>

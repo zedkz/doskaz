@@ -34,7 +34,7 @@ export default new Router({
       component: UserAchievments
     },
     {
-      path: "/blog",
+      path: "/blog/:categorySlug?",
       name: "blog",
       component: Blog
     },
