@@ -84,6 +84,9 @@
         components: {
             Pagination
         },
+        metaInfo: {
+            title: 'Блог',
+        },
         data() {
             return {
                 categories: [],
@@ -100,7 +103,12 @@
                 this.categories = categories;
             },
             async loadPosts() {
-                const {data: {items: posts}} = await api.get('blogPosts', {params: {limit: 10, category: this.activeCategory}});
+                const {data: {items: posts}} = await api.get('blogPosts', {
+                    params: {
+                        limit: 10,
+                        category: this.activeCategory
+                    }
+                });
                 this.posts = posts;
             }
         },

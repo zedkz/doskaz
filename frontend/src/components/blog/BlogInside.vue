@@ -1,8 +1,8 @@
 <template>
 	<div class="blog__inside">
 		<div class="breadcrumbs">
-			<a href="" class="breadcrumbs__link">Блог</a>
-			<a href="" class="breadcrumbs__link">Новости</a>
+			<router-link :to="{name: 'blog'}" class="breadcrumbs__link">Блог</router-link>
+			<router-link :to="{name: 'blog', params: {categorySlug: $route.params.categorySlug}}" class="breadcrumbs__link">Новости</router-link>
 		</div>
 		<div class="blog__in">
 			<div class="blog__content">
@@ -131,7 +131,7 @@
 				> h4 {
 					font-size: 22px;
 					line-height: 30px;
-					margin: 0 0 18px 0 0;
+					margin: 0 0 18px 0;
 				}
 				> p {
 					font-size: 16px;
@@ -201,7 +201,7 @@
 			&-pic {
 				display: flex;
 				flex-wrap: wrap;
-				align-items: start;
+				align-items: flex-start;
 				justify-content: flex-start;
 				margin: -5px -15px;
 				img {

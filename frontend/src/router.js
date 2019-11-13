@@ -39,7 +39,7 @@ export default new Router({
       component: Blog
     },
     {
-      path: "/blog/inside",
+      path: "/blog/:categorySlug/:postSlug",
       name: "blogInside",
       component: BlogInside
     }
