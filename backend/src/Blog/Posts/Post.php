@@ -80,7 +80,7 @@ class Post
 
     /**
      * @var Image
-     * @ORM\Column(type=Image::class, nullable=true)
+     * @ORM\Column(type=Image::class, nullable=true, options={"jsonb" = true})
      */
     private $image;
 

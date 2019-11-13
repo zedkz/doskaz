@@ -42,7 +42,7 @@ final class Meta
 
     /**
      * @var Image
-     * @ORM\Column(type=Image::class, nullable=true)
+     * @ORM\Column(type=Image::class, nullable=true, options={"jsonb": true})
      */
     private $ogImage;
 
