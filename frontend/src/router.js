@@ -3,6 +3,8 @@ import Router from "vue-router";
 import MainPage from "./views/MainPage.vue";
 import UserObjects from "./views/UserObjects.vue";
 import UserAchievments from "./views/UserAchievments.vue";
+import Blog from "./views/Blog.vue";
+import BlogInside from "./views/BlogInside.vue";
 import Oauth from "./components/Oauth";
 
 Vue.use(Router);
@@ -30,6 +32,16 @@ export default new Router({
       path: "/user/achievments",
       name: "userAchievments",
       component: UserAchievments
+    },
+    {
+      path: "/blog",
+      name: "blog",
+      component: Blog
+    },
+    {
+      path: "/blog/inside",
+      name: "blogInside",
+      component: BlogInside
     }
   ]
 });

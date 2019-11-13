@@ -246,30 +246,7 @@ export default {
     align-items: center;
 
     .input {
-      border: 1px solid #7b95a7;
-      height: 50px;
-      display: flex;
-      flex: 1 0 auto;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px 0 20px;
       margin-right: 10px;
-
-      input {
-        border: none;
-        font-size: 18px;
-        line-height: 20px;
-        color: #333333;
-        height: 100%;
-        display: block;
-        width: calc(100% - 40px);
-      }
-
-      button {
-        background: $tr;
-        border: none;
-        cursor: pointer;
-      }
     }
 
     .voice-input {

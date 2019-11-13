@@ -63,12 +63,15 @@ export default {
   width: 100%;
 
   &__content {
-    padding: 17px 80px 14px;
+    padding: 17px 20px 14px;
+    max-width: 1800px;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     position: relative;
+    border-bottom: 1px solid #7B95A7;
 
     &:after {
       content: "";
@@ -84,6 +87,7 @@ export default {
   &__logo {
     display: block;
     margin-right: 73px;
+    font-size: 0;
   }
 
   &__menu {

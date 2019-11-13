@@ -98,7 +98,7 @@ export default {
         color: #ffffff;
         height: 50px;
 
-        &.isActive {
+        &.isActive, &:hover {
           background: transparentize(#0f6bf5, 0.25);
         }
       }
@@ -130,11 +130,6 @@ export default {
     flex: 1 0 auto;
     max-width: calc(100% - 450px);
     margin-left: 60px;
-  }
-
-  .container {
-    width: 1160px;
-    margin: 0 auto;
   }
 }
 </style>

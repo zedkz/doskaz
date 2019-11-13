@@ -12,6 +12,15 @@
     <button class="pagination__btn">
       <span>3</span>
     </button>
+    <button class="pagination__btn">
+      <span>4</span>
+    </button>
+    <button class="pagination__btn">
+      <span>...</span>
+    </button>
+    <button class="pagination__btn">
+      <span>16</span>
+    </button>
     <button class="pagination__next">
       <span>Ctrl →</span>
     </button>
@@ -59,13 +68,17 @@ export default {};
 
     &.pagination__btn_active {
       background: #0f6bf5;
-      color: #fff;
       font-weight: 500;
+      span {
+        color: #fff;
+      }
     }
 
     &:hover {
       background: #0f6bf5;
-      color: #fff;
+      span {
+        color: #fff;
+      }
     }
   }
 }
