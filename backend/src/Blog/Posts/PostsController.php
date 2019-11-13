@@ -32,6 +32,7 @@ final class PostsController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route(methods={"GET"})
      * @param Request $request
      * @return array
@@ -43,7 +44,7 @@ final class PostsController extends AbstractController
             ->leftJoin('blog_posts', 'blog_categories', 'blog_categories', 'blog_categories.id = blog_posts.category_id')
             ->andWhere('blog_posts.deleted_at IS NULL');
 
-        if($request->query->has('category')) {
+        if ($request->query->has('category')) {
             $query->andWhere('blog_categories.slug_value = :categorySlug')
                 ->setParameter('categorySlug', $request->query->get('category'));
         }
@@ -106,6 +107,7 @@ final class PostsController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route(path="/{id}", methods={"GET"})
      * @param $id
      * @return PostData
