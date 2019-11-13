@@ -39,8 +39,8 @@
                     height: 500,
                     language_url: '/tinymce/langs/ru.js',
                     images_upload_handler: function (blobInfo, success, failure) {
-                        api.post('storage/images', blobInfo.blob())
-                            .then(({data: {url}}) => success(url))
+                        api.post('storage/upload', blobInfo.blob())
+                            .then(({data: {path}}) => success(path))
                             .catch(e => failure(e));
                     }
 

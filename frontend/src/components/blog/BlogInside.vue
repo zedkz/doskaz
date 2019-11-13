@@ -124,7 +124,7 @@
 			padding: 35px 0 40px;
 			&-content {
 				> h3{
-					ont-size: 32px;
+					font-size: 32px;
 					line-height: 40px;
 					margin: 0 0 20px;
 				}

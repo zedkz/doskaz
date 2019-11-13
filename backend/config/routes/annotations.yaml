@@ -9,3 +9,7 @@ objects:
 blog:
     resource: ../../src/Blog
     type: annotation
+
+storage:
+    resource: ../../src/Infrastructure/Storage
+    type: annotation

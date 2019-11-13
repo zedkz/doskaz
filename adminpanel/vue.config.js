@@ -5,7 +5,10 @@ module.exports = {
     devServer: {
         proxy: {
             "^/api": {
-                target: "http://localhost:8000"
+                target: "http://doskaz.local"
+            },
+            "^/storage": {
+                target: "http://doskaz.local"
             }
         }
     },

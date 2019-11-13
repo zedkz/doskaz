@@ -105,6 +105,9 @@
     "jsor/doctrine-postgis": {
         "version": "v1.7.0"
     },
+    "league/flysystem": {
+        "version": "1.0.57"
+    },
     "league/oauth2-client": {
         "version": "2.4.1"
     },

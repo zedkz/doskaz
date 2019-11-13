@@ -44,3 +44,12 @@ services:
     Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    League\Flysystem\Adapter\Local:
+        arguments:
+            - '%kernel.project_dir%/storage'
+
+    App\Infrastructure\Storage\StorageController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@League\Flysystem\Adapter\Local'
