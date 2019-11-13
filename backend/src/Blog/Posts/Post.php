@@ -26,6 +26,16 @@ class Post
     private $title;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $annotation;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $content;
+
+    /**
      * @var Slug
      * @ORM\Embedded(class="\App\Blog\Slug")
      */

@@ -96,6 +96,8 @@ final class PostsController extends AbstractController
             ->addSelect('slug_value as slug')
             ->addSelect('published_at')
             ->addSelect('is_published')
+            ->addSelect('annotation')
+            ->addSelect('content')
             ->from('blog_posts')
             ->andWhere('id = :id')
             ->andWhere('deleted_at IS NULL')
@@ -114,6 +116,8 @@ final class PostsController extends AbstractController
         $postData->slug = $data['slug'];
         $postData->publishedAt = $this->connection->convertToPHPValue($data['published_at'], 'datetimetz_immutable');
         $postData->isPublished = $data['is_published'];
+        $postData->annotation = $data['annotation'];
+        $postData->content = $data['content'];
         return $postData;
     }
 

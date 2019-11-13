@@ -33,6 +33,8 @@ final class ImportBlogPosts extends Command
             ->addSelect('type_id')
             ->addSelect('date')
             ->addSelect('is_published')
+            ->addSelect('annotation')
+            ->addSelect('description')
             ->from('materials')
             ->execute()
             ->fetchAll();
@@ -48,7 +50,9 @@ final class ImportBlogPosts extends Command
                 'created_at' => $this->destination->convertToDatabaseValue($date, 'datetimetz'),
                 'published_at' => $this->destination->convertToDatabaseValue($date, 'datetimetz'),
                 'updated_at' => $this->destination->convertToDatabaseValue($date, 'datetimetz'),
-                'is_published' => $this->destination->convertToDatabaseValue($sourcePost['is_published'] == '1' ? true : false, 'boolean')
+                'is_published' => $this->destination->convertToDatabaseValue($sourcePost['is_published'] == '1' ? true : false, 'boolean'),
+                'annotation' => $sourcePost['annotation'],
+                'content' => $sourcePost['description'],
             ]);
         }
     }
