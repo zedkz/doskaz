@@ -84,8 +84,10 @@
         components: {
             Pagination
         },
-        metaInfo: {
-            title: 'Блог',
+        metaInfo() {
+            return {
+                title: 'Блог',
+            }
         },
         data() {
             return {
@@ -95,7 +97,7 @@
         },
         mounted() {
             this.loadCategories();
-            this.loadPosts()
+            this.loadPosts();
         },
         methods: {
             async loadCategories() {
