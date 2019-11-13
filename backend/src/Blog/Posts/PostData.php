@@ -16,15 +16,20 @@ final class PostData implements DataObject
     public $id;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      */
     public $title;
 
     /**
-     * @var string | null
+     * @var string|null
      */
-    public $lead;
+    public $annotation;
+
+    /**
+     * @var string|null
+     */
+    public $content;
 
     /**
      * @var string|null
@@ -43,7 +48,7 @@ final class PostData implements DataObject
     public $isPublished;
 
     /**
-     * @var integer
+     * @var integer|null
      * @Assert\NotBlank()
      */
     public $categoryId;
