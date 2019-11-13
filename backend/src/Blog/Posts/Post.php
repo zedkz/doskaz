@@ -93,6 +93,8 @@ class Post
         $this->image = $image;
         $this->meta = $meta;
         $this->slug = $slug;
+        $this->annotation = $postData->annotation;
+        $this->content = $postData->content;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
@@ -116,6 +118,8 @@ class Post
         $this->image = $image;
         $this->meta = $meta;
         $this->slug = $slug;
+        $this->annotation = $postData->annotation;
+        $this->content = $postData->content;
         $this->updatedAt = new \DateTimeImmutable();
     }
 }
