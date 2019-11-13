@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Blog\Posts;
 
 
+use App\Blog\Image;
 use App\Blog\MetaData;
 use App\Infrastructure\ObjectResolver\DataObject;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -57,4 +58,9 @@ final class PostData implements DataObject
      * @var MetaData|null
      */
     public $meta;
+
+    /**
+     * @var Image|null
+     */
+    public $image;
 }

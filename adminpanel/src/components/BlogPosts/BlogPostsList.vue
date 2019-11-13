@@ -47,6 +47,7 @@
             fields() {
                 return [
                     {key: 'title', label: 'Имя'},
+                    {key: 'categoryTitle', label: 'Категория'},
                     {key: '_actions', label: 'Действия'},
                 ]
             },

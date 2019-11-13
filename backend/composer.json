@@ -8,6 +8,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "cocur/slugify": "^3.2",
+        "goodwix/doctrine-json-odm": "^0.2.6",
         "guzzlehttp/guzzle": "~6.0",
         "jsor/doctrine-postgis": "^1.7",
         "league/flysystem": "^1.0",

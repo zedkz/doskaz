@@ -1,19 +1,18 @@
 <template>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">{{label}} <span class="text-danger" v-if="required">*</span></label>
-        <div class="col-sm-10">
-            <select multiple="multiple" ref="select" style="width: 100%">
-                <option v-for="option in options" :key="option.value" :value="option.value">{{option.title}}</option>
-            </select>
-        </div>
-    </div>
+    <field :label="label" :required="required" :property="property">
+        <select :multiple="multiple" ref="select" style="width: 100%">
+            <option v-for="option in options" :key="option.value" :value="option.value">{{option.title}}</option>
+        </select>
+    </field>
 </template>
 
 <script>
     import 'select2'
+    import Field from "@/components/Admin/Fields/Field";
 
     export default {
         name: "SelectionField",
+        components: {Field},
         props: {
             label: String,
             property: String,
@@ -26,7 +25,11 @@
                 default() {
                     return []
                 }
-            }
+            },
+            multiple: {
+                type: Boolean,
+                default: false
+            },
         },
         mounted() {
             const vm = this;
@@ -53,7 +56,11 @@
             },
             value: {
                 get() {
-                    return this.$store.state[this.resourceName].edit.item[this.property] || [];
+                    if (this.multiple) {
+                        return this.$store.state[this.resourceName].edit.item[this.property] || [];
+                    } else {
+                        return this.$store.state[this.resourceName].edit.item[this.property] || null;
+                    }
                 },
                 set(value) {
                     this.$store.commit(`${this.resourceName}/edit/changeField`, {field: this.property, value: value});

@@ -3,6 +3,7 @@
 
 namespace App\Blog\Posts;
 
+use App\Blog\Image;
 use App\Blog\Meta;
 use App\Blog\Slug;
 use Doctrine\ORM\Mapping as ORM;
@@ -77,12 +78,19 @@ class Post
      */
     private $meta;
 
-    public function __construct(PostData $postData, Meta $meta, Slug $slug)
+    /**
+     * @var Image
+     * @ORM\Column(type=Image::class, nullable=true)
+     */
+    private $image;
+
+    public function __construct(PostData $postData, ?Image $image, Meta $meta, Slug $slug)
     {
         $this->title = $postData->title;
         $this->categoryId = $postData->categoryId;
         $this->publishedAt = $postData->publishedAt;
         $this->isPublished = $postData->isPublished;
+        $this->image = $image;
         $this->meta = $meta;
         $this->slug = $slug;
         $this->createdAt = new \DateTimeImmutable();
@@ -99,11 +107,13 @@ class Post
         $this->deletedAt = new \DateTimeImmutable();
     }
 
-    public function update(PostData $postData, Meta $meta, Slug $slug) {
+    public function update(PostData $postData, ?Image $image, Meta $meta, Slug $slug)
+    {
         $this->title = $postData->title;
         $this->categoryId = $postData->categoryId;
         $this->publishedAt = $postData->publishedAt;
         $this->isPublished = $postData->isPublished;
+        $this->image = $image;
         $this->meta = $meta;
         $this->slug = $slug;
         $this->updatedAt = new \DateTimeImmutable();

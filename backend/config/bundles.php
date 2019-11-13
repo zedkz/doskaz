@@ -11,4 +11,5 @@ return [
     Sentry\SentryBundle\SentryBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
+    Goodwix\DoctrineJsonOdm\Bridge\Symfony\DoctrineJsonOdmBundle::class => ['all' => true],
 ];

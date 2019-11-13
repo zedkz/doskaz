@@ -40,13 +40,20 @@ final class Meta
      */
     private $ogDescription;
 
-    public function __construct(?string $title = null, ?string $description = null, ?string $keywords = null, ?string $ogTitle = null, ?string $ogDescription = null)
+    /**
+     * @var Image
+     * @ORM\Column(type=Image::class, nullable=true)
+     */
+    private $ogImage;
+
+    public function __construct(?string $title = null, ?string $description = null, ?string $keywords = null, ?string $ogTitle = null, ?string $ogDescription = null, ?Image $ogImage = null)
     {
         $this->title = $title;
         $this->description = $description;
         $this->keywords = $keywords;
         $this->ogTitle = $ogTitle;
         $this->ogDescription = $ogDescription;
+        $this->ogImage = $ogImage;
     }
 
     public static function fromMetaData(?MetaData $data): self
@@ -57,7 +64,8 @@ final class Meta
                 $data->description,
                 $data->keywords,
                 $data->ogTitle,
-                $data->ogDescription
+                $data->ogDescription,
+                $data->ogImage
             );
         }
         return new self();

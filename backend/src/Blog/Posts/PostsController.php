@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Blog\Posts;
 
 
+use App\Blog\Image;
 use App\Blog\Meta;
+use App\Blog\MetaData;
 use App\Blog\SlugFactory;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
@@ -38,15 +40,17 @@ final class PostsController extends AbstractController
     {
         $query = $this->connection->createQueryBuilder()
             ->from('blog_posts')
-            ->andWhere('deleted_at IS NULL');
+            ->andWhere('blog_posts.deleted_at IS NULL');
 
         return [
             'items' => (clone $query)
-                ->addSelect('id')
-                ->addSelect('title')
+                ->addSelect('blog_posts.id')
+                ->addSelect('blog_posts.title')
+                ->addSelect('blog_categories.title as "categoryTitle"')
+                ->leftJoin('blog_posts', 'blog_categories', 'blog_categories', 'blog_categories.id = blog_posts.category_id')
                 ->setMaxResults($request->query->getInt('limit', 20))
                 ->setFirstResult($request->query->getInt('offset', 0))
-                ->addOrderBy('id', 'desc')
+                ->addOrderBy('blog_posts.id', 'desc')
                 ->execute()->fetchAll(),
             'count' => $query->select('COUNT(*)')->execute()->fetchColumn()
         ];
@@ -62,7 +66,7 @@ final class PostsController extends AbstractController
      */
     public function create(PostData $postData, PostRepository $postRepository, SlugFactory $slugFactory)
     {
-        $post = new Post($postData, Meta::fromMetaData($postData->meta), $slugFactory->make($postData->slug ?: $postData->title));
+        $post = new Post($postData, $postData->image, Meta::fromMetaData($postData->meta), $slugFactory->make($postData->slug ?: $postData->title));
         $postRepository->add($post);
         $this->flusher->flush();
         return $this->retrieve($post->id());
@@ -78,7 +82,7 @@ final class PostsController extends AbstractController
      */
     public function update(PostData $postData, Post $post, SlugFactory $slugFactory)
     {
-        $post->update($postData, Meta::fromMetaData($postData->meta), $slugFactory->make($postData->slug ?: $postData->title));
+        $post->update($postData, $postData->image, Meta::fromMetaData($postData->meta), $slugFactory->make($postData->slug ?: $postData->title));
         $this->flusher->flush();
         return $this->retrieve($post->id());
     }
@@ -98,6 +102,14 @@ final class PostsController extends AbstractController
             ->addSelect('is_published')
             ->addSelect('annotation')
             ->addSelect('content')
+            ->addSelect('category_id')
+            ->addSelect('image')
+            ->addSelect('meta_title')
+            ->addSelect('meta_description')
+            ->addSelect('meta_keywords')
+            ->addSelect('meta_og_title')
+            ->addSelect('meta_og_description')
+            ->addSelect('meta_og_image')
             ->from('blog_posts')
             ->andWhere('id = :id')
             ->andWhere('deleted_at IS NULL')
@@ -118,6 +130,18 @@ final class PostsController extends AbstractController
         $postData->isPublished = $data['is_published'];
         $postData->annotation = $data['annotation'];
         $postData->content = $data['content'];
+        $postData->categoryId = $data['category_id'];
+        $postData->image = $this->connection->convertToPHPValue($data['image'], Image::class);
+
+        $meta = new MetaData();
+        $meta->title = $data['meta_title'];
+        $meta->description = $data['meta_description'];
+        $meta->keywords = $data['meta_keywords'];
+        $meta->ogTitle = $data['meta_og_title'];
+        $meta->ogDescription = $data['meta_og_description'];
+        $meta->ogImage = $this->connection->convertToPHPValue($data['meta_og_image'], Image::class);
+        $postData->meta = $meta;
+
         return $postData;
     }
 

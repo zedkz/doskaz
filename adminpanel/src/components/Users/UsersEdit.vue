@@ -11,7 +11,7 @@
                     <text-field property="name" label="Имя"/>
                     <text-field :disabled="true" property="email" label="Email"/>
                     <text-field :disabled="true" property="phone" label="Номер телефона"/>
-                    <selection-field property="roles" label="Роли" :options="options"/>
+                    <selection-field property="roles" label="Роли" multiple :options="options"/>
                     <submit-button/>
                 </form>
             </edit>

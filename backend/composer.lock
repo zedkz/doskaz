@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74f58fadfeb07d609f9e31ec03923c70",
+    "content-hash": "d3b19f7a4f19b88cfcef8003c9fc99bb",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1324,6 +1324,69 @@
                 "reflection"
             ],
             "time": "2018-06-14T14:45:07+00:00"
+        },
+        {
+            "name": "goodwix/doctrine-json-odm",
+            "version": "v0.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goodwix/doctrine-json-odm.git",
+                "reference": "2d210f3164ccb4e17107d239df06371f4ed64ef9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goodwix/doctrine-json-odm/zipball/2d210f3164ccb4e17107d239df06371f4ed64ef9",
+                "reference": "2d210f3164ccb4e17107d239df06371f4ed64ef9",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^2.5",
+                "ext-json": "*",
+                "php": "^7.2",
+                "symfony/property-access": "^4.0",
+                "symfony/property-info": "^4.0",
+                "symfony/serializer": "^4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.6",
+                "phake/phake": "^3.0",
+                "phpunit/phpunit": "^8.0",
+                "ramsey/collection": "^1.0",
+                "roave/security-advisories": "dev-master",
+                "symfony/expression-language": "^4.0",
+                "symfony/framework-bundle": "^4.0",
+                "symplify/easy-coding-standard": "^5.0"
+            },
+            "suggest": {
+                "ramsey/collection": "To use Java-like collection normalizers"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Goodwix\\DoctrineJsonOdm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Lazarev",
+                    "email": "ilazarev@goodwix.team"
+                }
+            ],
+            "description": "JSON Object-Document Mapping bundle for Symfony and Doctrine",
+            "keywords": [
+                "database",
+                "doctrine",
+                "json",
+                "odm",
+                "orm",
+                "postgresql",
+                "symfony"
+            ],
+            "time": "2019-09-18T18:54:14+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -6769,6 +6832,7 @@
     "platform": {
         "php": "^7.1.3",
         "ext-ctype": "*",
+        "ext-fileinfo": "*",
         "ext-iconv": "*",
         "ext-json": "*"
     },

@@ -32,4 +32,9 @@ final class MetaData implements DataObject
      * @var string|null
      */
     public $ogDescription;
+
+    /**
+     * @var Image|null
+     */
+    public $ogImage;
 }
