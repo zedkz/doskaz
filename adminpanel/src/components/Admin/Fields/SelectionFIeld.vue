@@ -16,7 +16,6 @@
         name: "SelectionField",
         props: {
             label: String,
-            resourceName: String,
             property: String,
             required: {
                 type: Boolean,
@@ -49,6 +48,9 @@
             }
         },
         computed: {
+            resourceName() {
+                return this.$store.getters.resourceName
+            },
             value: {
                 get() {
                     return this.$store.state[this.resourceName].edit.item[this.property] || [];

@@ -7,7 +7,7 @@
                 </div>
             </div>
             <edit slot="content" :resource-id="$route.params.id" :resource-name="resourceName">
-                <blog-category-form :resource-name="resourceName"/>
+                <blog-post-form :resource-name="resourceName"/>
                 <submit-button :resource-name="resourceName"/>
             </edit>
         </admin-page>
@@ -19,21 +19,15 @@
     import Adminpanel2 from "../Adminpanel2";
     import Edit from "@/components/Admin/Actions/Edit";
     import SubmitButton from "@/components/Admin/SubmitButton";
-    import BlogCategoryForm from "@/components/BlogCategories/BlogCategoryForm";
+    import BlogPostForm from "@/components/BlogPosts/BlogPostForm";
 
     export default {
-        name: "BlogCategoriesEdit",
-        components: {BlogCategoryForm, SubmitButton, Edit, Adminpanel2, AdminPage},
+        name: "BlogPostEdit",
+        components: {BlogPostForm, SubmitButton, Edit, Adminpanel2, AdminPage},
         props: [
             'resourceName'
         ],
         computed: {
-            options() {
-                return [
-                    {value: 'ROLE_USER', title: 'Пользователь'},
-                    {value: 'ROLE_ADMIN', title: 'Администратор'},
-                ]
-            }
         }
     }
 </script>

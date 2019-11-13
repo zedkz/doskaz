@@ -14,3 +14,13 @@ services:
         tags: ['console.command']
         arguments:
             $source: '@doctrine.dbal.dospav_connection'
+
+    App\Blog\Posts\PostRepository:
+
+    App\Blog\Posts\PostsController:
+        tags: ['controller.service_arguments']
+
+    App\Blog\Posts\ImportBlogPosts:
+        tags: ['console.command']
+        arguments:
+            $source: '@doctrine.dbal.dospav_connection'

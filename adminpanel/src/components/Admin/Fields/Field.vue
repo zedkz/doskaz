@@ -1,10 +1,9 @@
 <template>
-    <div class="form-group row">
+    <div class="form-group row" :class="{error: error}">
         <label class="col-sm-2 col-form-label">{{label}} <span class="text-danger" v-if="required">*</span></label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" :class="{'is-invalid': error}" :placeholder="placeholder"
-                   :disabled="disabled" v-model="value">
-            <div class="invalid-feedback" v-if="error">
+            <slot v-bind:error="error"/>
+            <div class="invalid-feedback" v-if="error" style="display: block">
                 {{error.title}}
             </div>
         </div>
@@ -13,20 +12,13 @@
 
 <script>
     export default {
-        name: "TextField",
+        name: "Field",
         props: {
             label: String,
             property: String,
             readonly: {
                 type: Boolean,
                 default: false
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            placeholder: {
-                type: String
             },
             required: {
                 type: Boolean,
@@ -36,14 +28,6 @@
         computed: {
             resourceName() {
                 return this.$store.getters.resourceName
-            },
-            value: {
-                get() {
-                    return this.$store.getters[`${this.resourceName}/edit/getItemProperty`](this.property);
-                },
-                set(val) {
-                    this.$store.commit(`${this.resourceName}/edit/changeField`, {field: this.property, value: val});
-                }
             },
             error() {
                 return this.$store.state[this.resourceName].edit.violations[this.property];

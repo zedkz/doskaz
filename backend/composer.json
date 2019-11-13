@@ -23,6 +23,7 @@
         "symfony/proxy-manager-bridge": "4.3.*",
         "symfony/security-bundle": "4.3.*",
         "symfony/serializer": "4.3.*",
+        "symfony/translation": "4.3.*",
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "4.3.*",
         "symfony/yaml": "4.3.*",

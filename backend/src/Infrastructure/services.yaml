@@ -23,6 +23,10 @@ services:
         tags:
             - { name: serializer.normalizer, priority: 8 }
 
+    App\Infrastructure\ObjectResolver\ValidationExceptionNormalizer:
+        tags:
+            - { name: serializer.normalizer, priority: 8 }
+
     App\Infrastructure\Doctrine\Flusher:
 
     App\Infrastructure\Doctrine\MigrationEventSubscriber:

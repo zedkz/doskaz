@@ -6,13 +6,13 @@
                     <h4 class="text-themecolor">Редактирование пользователя</h4>
                 </div>
             </div>
-            <edit slot="content" :resource-id="$route.params.id" :resource-name="resourceName">
+            <edit slot="content" :resource-id="$route.params.id">
                 <form>
-                    <text-field property="name" :resource-name="resourceName" label="Имя"/>
-                    <text-field :disabled="true" property="email" :resource-name="resourceName" label="Email"/>
-                    <text-field :disabled="true" property="phone" :resource-name="resourceName" label="Номер телефона"/>
-                    <selection-field :resource-name="resourceName" property="roles" label="Роли" :options="options"/>
-                    <submit-button :resource-name="resourceName"/>
+                    <text-field property="name" label="Имя"/>
+                    <text-field :disabled="true" property="email" label="Email"/>
+                    <text-field :disabled="true" property="phone" label="Номер телефона"/>
+                    <selection-field property="roles" label="Роли" :options="options"/>
+                    <submit-button/>
                 </form>
             </edit>
         </admin-page>

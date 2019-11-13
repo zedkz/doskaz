@@ -6,9 +6,13 @@
     export default {
         name: "DeleteButton",
         props: [
-            'resourceName',
             'resourceId'
         ],
+        computed: {
+            resourceName() {
+                return this.$store.getters.resourceName
+            }
+        },
         methods: {
             doDelete() {
                 if (confirm('Вы действительно хотите удалить эту запись?')) {

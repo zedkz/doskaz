@@ -38,7 +38,7 @@
 
     export default {
         props: ['resourceName'],
-        name: "BlogCategoriesList",
+        name: "BlogPostsList",
         components: {CreateResourceLink, DeleteButton, EditButton, List, Adminpanel2, AdminPage},
         computed: {
             items() {

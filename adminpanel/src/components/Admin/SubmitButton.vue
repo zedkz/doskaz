@@ -9,9 +9,11 @@
 <script>
     export default {
         name: "SubmitButton",
-        props: [
-            'resourceName'
-        ],
+        computed: {
+            resourceName() {
+                return this.$store.getters.resourceName
+            }
+        },
         methods: {
             submit() {
                 this.$store.dispatch(`${this.resourceName}/edit/submit`)
