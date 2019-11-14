@@ -10,38 +10,41 @@ import Oauth from "./components/Oauth";
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      name: "main",
-      component: MainPage
+    mode: "history",
+    base: process.env.BASE_URL,
+    scrollBehavior() {
+        return {x: 0, y: 0}
     },
-    {
-      path: "/oauth/:provider",
-      name: "oauth",
-      component: Oauth
-    },
-    {
-      path: "/user/objects",
-      name: "userObjects",
-      component: UserObjects
-    },
-    {
-      path: "/user/achievments",
-      name: "userAchievments",
-      component: UserAchievments
-    },
-    {
-      path: "/blog/:categorySlug?",
-      name: "blog",
-      component: Blog
-    },
-    {
-      path: "/blog/:categorySlug/:postSlug",
-      name: "blogInside",
-      component: BlogInside
-    }
-  ]
+    routes: [
+        {
+            path: "/",
+            name: "main",
+            component: MainPage
+        },
+        {
+            path: "/oauth/:provider",
+            name: "oauth",
+            component: Oauth
+        },
+        {
+            path: "/user/objects",
+            name: "userObjects",
+            component: UserObjects
+        },
+        {
+            path: "/user/achievments",
+            name: "userAchievments",
+            component: UserAchievments
+        },
+        {
+            path: "/blog/:categorySlug?",
+            name: "blog",
+            component: Blog
+        },
+        {
+            path: "/blog/:categorySlug/:postSlug",
+            name: "blogView",
+            component: BlogInside
+        }
+    ]
 });

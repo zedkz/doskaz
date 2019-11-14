@@ -15,15 +15,18 @@
                 <li class="blog__list-item" v-for="post in posts" :key="post.id">
                     <div class="blog__item">
                         <h3 class="blog__item-title">{{ post.title }}</h3>
-                        <img class="blog__item-img" src="./../../assets/img/blog/blog1.jpg" :alt="post.title">
+                        <img class="blog__item-img" v-if="post.image" :src="post.image" :alt="post.title">
                         <p class="blog__item-text" v-html="post.annotation"></p>
                         <div class="blog__item-bottom">
                             <div>
-                                <span class="blog__item-link">7 марта 2019</span>
+                                <span class="blog__item-link">{{ post.publishedAt | date }}</span>
                                 <span class="blog__item-link">{{ post.categoryTitle }}</span>
                             </div>
                             <div>
-                                <a href="" class="blog__item-link">Подробнее</a>
+                                <router-link
+                                        :to="{name: 'blogView', params: {categorySlug: post.categorySlug, postSlug: post.slug}}"
+                                        class="blog__item-link">Подробнее
+                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -31,17 +34,26 @@
 
             </ul>
             <div class="blog__pagination">
-                <Pagination/>
+                <Pagination :current-page="Number($route.query.page || 1)" :pages="pages" @change="changePage" v-if="pages > 1"/>
             </div>
         </div>
         <div class="blog__side">
             <div class="blog__category">
                 <span class="blog__category-title">Категории</span>
-                <router-link exact :to="{name: 'blog'}" class="blog__category-link" active-class="isActive"><span>Все категории</span>
+                <router-link
+                        :to="{name: 'blog'}"
+                        class="blog__category-link"
+                        :class="{isActive: !activeCategory}">
+                    <span>Все категории</span>
                 </router-link>
 
-                <router-link :to="{name: 'blog', params: {categorySlug: category.slug }}" class="blog__category-link"
-                             active-class="isActive" v-for="category in categories" :key="category.slug"><span>{{ category.title }}</span>
+                <router-link
+                        :to="{name: 'blog', params: {categorySlug: category.slug }}"
+                        class="blog__category-link"
+                        active-class="isActive"
+                        v-for="category in categories"
+                        :key="category.slug">
+                    <span>{{ category.title }}</span>
                 </router-link>
 
             </div>
@@ -79,6 +91,8 @@
 <script>
     import Pagination from "./../Pagination";
     import api from '@/api'
+    import {format} from 'date-fns'
+    import {ru} from 'date-fns/locale'
 
     export default {
         components: {
@@ -87,12 +101,21 @@
         metaInfo() {
             return {
                 title: 'Блог',
+                meta: [
+                    {property: 'og:title', content: 'Блог'}
+                ]
             }
         },
         data() {
             return {
                 categories: [],
+                pages: 0,
                 posts: []
+            }
+        },
+        filters: {
+            date(value) {
+                return format(new Date(value), 'd MMMM y', {locale: ru})
             }
         },
         mounted() {
@@ -100,22 +123,26 @@
             this.loadPosts();
         },
         methods: {
+            changePage(page) {
+                this.$router.push({name: 'blog', params: this.$route.params, query: {...this.$route.query, page}})
+            },
             async loadCategories() {
                 const {data: {items: categories}} = await api.get('blogCategories', {params: {limit: 100}});
-                this.categories = categories;
+                this.categories = categories.reverse();
             },
             async loadPosts() {
-                const {data: {items: posts}} = await api.get('blogPosts', {
+                const {data: {items: posts, pages}} = await api.get('blogPosts/list', {
                     params: {
-                        limit: 10,
+                        page: this.$route.query.page || 1,
                         category: this.activeCategory
                     }
                 });
                 this.posts = posts;
+                this.pages = pages;
             }
         },
         watch: {
-            activeCategory() {
+            $route() {
                 this.loadPosts()
             }
         },

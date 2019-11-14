@@ -32,6 +32,17 @@ final class PostsController extends AbstractController
     }
 
     /**
+     * @Route(path="/list")
+     * @param Request $request
+     * @param PostsFinder $postsFinder
+     * @return array
+     */
+    public function listPosts(Request $request, PostsFinder $postsFinder)
+    {
+        return $postsFinder->find($request->query->get('category', null), $request->query->getInt('page', 1));
+    }
+
+    /**
      * @IsGranted("ROLE_ADMIN")
      * @Route(methods={"GET"})
      * @param Request $request
@@ -166,13 +177,51 @@ final class PostsController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @Route(path="/{id}", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Post $post
      */
     public function delete(Post $post)
     {
         $post->markAsDeleted();
         $this->flusher->flush();
+    }
+
+    /**
+     * @Route(path="/bySlug/{categorySlug}/{postSlug}", methods={"GET"})
+     * @param string $categorySlug
+     * @param string $postSlug
+     * @return array
+     */
+    public function findPostBySlug(string $categorySlug, string $postSlug)
+    {
+        $post = $this->connection->createQueryBuilder()
+            ->select('slug_value as slug')
+            ->addSelect('blog_categories.slug_value as category_slug')
+            ->addSelect('title')
+            ->addSelect('content')
+            ->addSelect('image')
+            ->addSelect('blog_categories.title as category_title')
+            ->from('blog_posts')
+            ->andWhere('blog_posts.deleted_at IS NULL AND blog_posts.is_published = true')
+            ->andWhere('blog_posts.published_at <= CURRENT_TIMESTAMP')
+            ->andWhere('slug_value = :postSlug')
+            ->setParameter('postSlug', $postSlug)
+            ->andwhere('blog_categories.slug_value = :categorySlug')
+            ->setParameter('categorySlug', $categorySlug)
+            ->join('blog_posts', 'blog_categories', 'blog_posts.category_id = blog_categories.id')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetch();
+
+        if (!$post) {
+            throw new NotFoundHttpException();
+        }
+
+        return [
+            'title' => $post['title'],
+            'content' => $post['content'],
+            'categoryTitle' => $post['category_title']
+        ];
     }
 }
