@@ -13,8 +13,12 @@ use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Zend\Diactoros\Response\XmlResponse;
+use Zend\Feed\Writer\Entry;
+use Zend\Feed\Writer\Feed;
 
 /**
  * @Route(path="/api/blogPosts")
@@ -40,6 +44,33 @@ final class PostsController extends AbstractController
     public function listPosts(Request $request, PostsFinder $postsFinder)
     {
         return $postsFinder->find($request->query->get('category', null), $request->query->getInt('page', 1));
+    }
+
+    /**
+     * @Route(path="/rss")
+     * @param Request $request
+     * @param PostsFinder $postsFinder
+     * @return Response
+     */
+    public function rss(Request $request, PostsFinder $postsFinder)
+    {
+        $feed = new Feed();
+        $feed->setTitle('Доступный Казахстан - Блог');
+        $feed->setDescription('Доступный Казахстан - Блог');
+        $feed->setLink($request->getSchemeAndHttpHost());
+
+        $posts = $postsFinder->find(null);
+        foreach ($posts['items'] as $post) {
+            $entry = new Entry();
+            $entry->setTitle($post['title']);
+            $entry->setDateCreated($post['publishedAt']);
+            $entry->setDescription($post['annotation']);
+            $entry->setContent($post['content']);
+            $entry->setLink($request->getSchemeAndHttpHost() . '/blog/' . $post['categorySlug'] . '/' . $post['slug']);
+            $feed->addEntry($entry);
+        }
+
+        return new Response($feed->export('rss'), 200, ['Content-Type' => 'application/rss+xml']);
     }
 
     /**
