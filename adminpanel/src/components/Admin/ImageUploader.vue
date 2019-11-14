@@ -22,12 +22,12 @@
         <div ref="previewBlock" class="preview-block">
             <img ref="previewImage"
                  class="preview-image"
-                 :src="croppedImageUrl||uploadedImage"
-                 v-if="croppedImageUrl||uploadedImage"
+                 :src="previewLink"
+                 v-if="previewLink"
                  alt="preview">
         </div>
 
-        <b-modal ref="cropModal" size="lg" centered title="BootstrapVue">
+        <b-modal ref="cropModal" size="lg" centered title="BootstrapVue" no-close-on-backdrop>
             <div class="img-container">
                 <img ref="cropImage" :src="uploadedImage" v-if="uploadedImage" alt="Picture">
                 <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
@@ -73,6 +73,7 @@
                 defaultAspectRatio: 16 / 9,
                 cropOptions: {
                     autoCropArea: 0.5,
+                    viewMode: 3,
                     aspectRatio: null,
                     data: null
                 },
@@ -98,15 +99,6 @@
             }
         },
         mounted() {
-            if (this.value && this.value.cropData) {
-                this.cropOptions.data = this.value.cropData;
-                this.cropper = new Cropper(this.$refs.cropImage, {
-                    ...this.cropOptions,
-                    ready: () => {
-                        this.croppedImageUrl = this.cropper.getCroppedCanvas().toDataURL();
-                    }
-                });
-            }
         },
         methods: {
             async imageSelected(e) {
@@ -136,17 +128,18 @@
             removeImage() {
                 this.updateValue(null);
                 this.croppedImageUrl = '';
-                this.cropper.destroy();
-                this.cropOptions = {
-                    autoCropArea: 0.5,
-                    aspectRatio: 16 / 9,
-                    data: null
-                };
-
+                if (this.cropper) {
+                    this.cropper.destroy();
+                    this.cropOptions = {
+                        autoCropArea: 0.5,
+                        aspectRatio: 16 / 9,
+                        data: null
+                    };
+                }
             },
             showCropModal() {
                 this.$refs.cropModal.show();
-                this.initCropper();
+                this.$nextTick(() => this.initCropper())
             },
             initCropper() {
                 if (this.cropper) {
@@ -174,6 +167,15 @@
             },
         },
         computed: {
+            previewLink() {
+                if (!this.uploadedImage) {
+                    return null;
+                }
+                if (this.value.cropData && this.value.cropData.y) {
+                    return `/image/extract?file=${encodeURIComponent(this.uploadedImage)}&top=${this.value.cropData.y}&left=${this.value.cropData.x}&areawidth=${this.value.cropData.width}&areaheight=${this.value.cropData.height}`
+                }
+                return this.uploadedImage
+            },
             fileName: {
                 get() {
                     return this.value ? this.value.name : '';
