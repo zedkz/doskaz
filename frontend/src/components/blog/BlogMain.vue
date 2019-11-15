@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="blog__category">
-                <a href="" class="subscribe-link">Подписаться на рассылку</a>
+                <a href="/blog/rss" class="subscribe-link">Подписаться на рассылку</a>
             </div>
         </div>
     </div>

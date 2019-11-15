@@ -36,7 +36,7 @@ final class PostsController extends AbstractController
     }
 
     /**
-     * @Route(path="/list")
+     * @Route(path="/list", methods={"GET"})
      * @param Request $request
      * @param PostsFinder $postsFinder
      * @return array
@@ -47,7 +47,7 @@ final class PostsController extends AbstractController
     }
 
     /**
-     * @Route(path="/rss")
+     * @Route(path="/rss", methods={"GET"})
      * @param Request $request
      * @param PostsFinder $postsFinder
      * @return Response
