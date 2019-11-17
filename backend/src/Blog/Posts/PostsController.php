@@ -47,6 +47,21 @@ final class PostsController extends AbstractController
     }
 
     /**
+     * @Route(path="/bySlug/{slug}", methods={"GET"})
+     * @param string $slug
+     * @param PostsFinder $postsFinder
+     * @return array
+     */
+    public function bySlug(string $slug, PostsFinder $postsFinder)
+    {
+        $post = $postsFinder->findOneBySlug($slug);
+        if (!$post) {
+            throw new NotFoundHttpException();
+        }
+        return $post;
+    }
+
+    /**
      * @Route(path="/rss", methods={"GET"})
      * @param Request $request
      * @param PostsFinder $postsFinder

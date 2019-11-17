@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Blog\Categories;
 
 
+use App\Blog\Meta;
+use App\Blog\MetaData;
 use App\Blog\SlugFactory;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
@@ -30,7 +32,7 @@ final class CategoriesController extends AbstractController
      */
     public function create(Connection $connection, CategoryData $categoryData, CategoryRepository $categoryRepository, SlugFactory $slugFactory, Flusher $flusher)
     {
-        $category = new Category($categoryData->title, $slugFactory->make($categoryData->slug ?: $categoryData->title));
+        $category = new Category($categoryData->title, $slugFactory->make($categoryData->slug ?: $categoryData->title), Meta::fromMetaData($categoryData->meta));
         $categoryRepository->add($category);
         $flusher->flush();
         return $this->retrieve($category->id(), $connection);
@@ -47,7 +49,7 @@ final class CategoriesController extends AbstractController
      */
     public function update(Category $category, CategoryData $categoryData, SlugFactory $slugFactory, Flusher $flusher)
     {
-        $category->update($categoryData->title, $slugFactory->make($categoryData->slug ?: $categoryData->title));
+        $category->update($categoryData->title, $slugFactory->make($categoryData->slug ?: $categoryData->title), Meta::fromMetaData($categoryData->meta));
         $flusher->flush();
     }
 
@@ -63,6 +65,7 @@ final class CategoriesController extends AbstractController
             ->addSelect('id')
             ->addSelect('title')
             ->addSelect('slug_value as slug')
+            ->addSelect('meta')
             ->from('blog_categories')
             ->andWhere('id = :id')
             ->andWhere('deleted_at IS NULL')
@@ -79,6 +82,7 @@ final class CategoriesController extends AbstractController
         $categoryData->id = $data['id'];
         $categoryData->title = $data['title'];
         $categoryData->slug = $data['slug'];
+        $categoryData->meta = MetaData::fromMeta($connection->convertToPHPValue($data['meta'], Meta::class));
         return $categoryData;
     }
 

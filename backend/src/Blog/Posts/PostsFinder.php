@@ -22,6 +22,7 @@ final class PostsFinder
     private function initializeQuery(): QueryBuilder
     {
         return $this->connection->createQueryBuilder()
+            ->addSelect('blog_posts.id')
             ->addSelect('blog_posts.title')
             ->addSelect('blog_posts.annotation')
             ->addSelect('blog_posts.content')
@@ -31,6 +32,12 @@ final class PostsFinder
             ->addSelect('image')
             ->addSelect('blog_categories.title as category_title')
             ->addSelect('blog_posts.published_at')
+            ->addSelect('blog_posts.meta_title')
+            ->addSelect('blog_posts.meta_description')
+            ->addSelect("coalesce(blog_posts.meta_keywords, blog_categories.meta->>'keywords') as meta_keywords")
+            ->addSelect('blog_posts.meta_og_title')
+            ->addSelect('blog_posts.meta_og_description')
+            ->addSelect("coalesce(blog_posts.meta_og_image, image) as meta_og_image")
             ->from('blog_posts')
             ->andWhere('blog_posts.deleted_at IS NULL AND blog_posts.is_published = true')
             ->andWhere('blog_posts.published_at <= CURRENT_TIMESTAMP')
@@ -40,33 +47,28 @@ final class PostsFinder
     private function mapItem(array $data)
     {
         $image = $this->connection->convertToPHPValue($data['image'], Image::class);
+        $ogImage = $this->connection->convertToPHPValue($data['meta_og_image'], Image::class);
 
-        $imageLink = null;
-
-        if ($image) {
-            if ($image->cropData) {
-                $imageLink = "/image/extract?" . http_build_query([
-                        'file' => $image->image,
-                        'top' => $image->cropData['y'],
-                        'left' => $image->cropData['x'],
-                        'areawidth' => $image->cropData['width'],
-                        'areaheight' => $image->cropData['height'],
-                    ]);
-            } else {
-                $imageLink = $image->image;
-            }
-
-        }
+        $annotation = strip_tags($data['annotation']);
 
         return [
+            'id' => $data['id'],
             'title' => $data['title'],
-            'annotation' => $data['annotation'],
+            'annotation' => $annotation,
             'content' => $data['content'],
             'slug' => $data['slug'],
             'categorySlug' => $data['categorySlug'],
             'categoryTitle' => $data['category_title'],
             'publishedAt' => $this->connection->convertToPHPValue($data['published_at'], 'datetimetz_immutable'),
-            'image' => $imageLink
+            'image' => $image ? $image->link() : null,
+            'meta' => [
+                'title' => $data['meta_title'] ?: $data['title'],
+                'description' => $data['meta_description'] ?: $annotation,
+                'keywords' => $data['meta_keywords'],
+                'ogTitle' => $data['meta_og_title'] ?: $data['title'],
+                'ogDescription' => $data['meta_og_description'] ?: $annotation,
+                'ogImage' => $ogImage ? $ogImage->link() : null
+            ]
         ];
     }
 
@@ -113,6 +115,35 @@ final class PostsFinder
         return [
             'items' => $items,
             'pages' => ceil($count / $perPage)
+        ];
+    }
+
+    public function findOneBySlug(string $slug): array
+    {
+        $item = $this->initializeQuery()
+            ->andWhere('blog_posts.slug_value = :slug')
+            ->setParameter('slug', $slug)
+            ->execute()->fetch();
+
+        $similarPosts = $this->initializeQuery()
+            ->andWhere('blog_posts.id != :id')
+            ->orderBy('similarity(:title, blog_posts.title)', 'desc')
+            ->setParameter('title', $item['title'])
+            ->setParameter('id', $item['id'])
+            ->setMaxResults(3)
+            ->execute()->fetchAll();
+
+        return [
+            'post' => $this->mapItem($item),
+            'similar' => array_map(function ($item) {
+                $post = $this->mapItem($item);
+                return [
+                    'title' => $post['title'],
+                    'image' => $post['image'],
+                    'slug' => $post['slug'],
+                    'categorySlug' => $post['categorySlug']
+                ];
+            }, $similarPosts)
         ];
     }
 }
