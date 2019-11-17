@@ -14,7 +14,7 @@
                     <div v-html="post.content">
                     </div>
                     <h4>Комментарии</h4>
-                    <img src="./../../assets/img/blog/comments.jpg"/>
+                    <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/>
                 </div>
             </div>
             <div class="blog__side">
@@ -37,8 +37,13 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    import VueDisqus from 'vue-disqus'
+
+    Vue.use(VueDisqus);
     import api from '@/api'
     import get from 'lodash/get'
+
 
     export default {
         metaInfo() {
@@ -62,7 +67,7 @@
         watch: {
             '$route': {
                 handler() {
-                    this.loadPost()
+                    this.loadPost();
                 },
                 immediate: true
             }
