@@ -1,9 +1,20 @@
+var domain = process.env['BACKEND_DOMAIN'];
+
 module.exports = {
-  devServer: {
-    proxy: {
-      "^/api": {
-        target: "http://doskaz.vps3.zed.kz"
-      }
+    devServer: {
+        proxy: {
+            "^/api": {
+                target: domain
+            },
+            "^/storage": {
+                target: domain
+            },
+            "^/image": {
+                target: domain
+            },
+            '^/blog/rss': {
+                target: domain
+            }
+        }
     }
-  }
 };

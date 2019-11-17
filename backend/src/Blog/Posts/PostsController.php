@@ -43,7 +43,7 @@ final class PostsController extends AbstractController
      */
     public function listPosts(Request $request, PostsFinder $postsFinder)
     {
-        return $postsFinder->find($request->query->get('category', null), $request->query->getInt('page', 1));
+        return $postsFinder->find($request->query->all(), $request->query->getInt('page', 1));
     }
 
     /**

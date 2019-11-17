@@ -2,8 +2,8 @@
     <div class="blog__in">
         <div class="blog__content">
             <h2 class="title">Блог</h2>
-            <form class="input">
-                <input type="text" placeholder="Поиск по блогу"/>
+            <form class="input" @submit.prevent="search">
+                <input type="text" placeholder="Поиск по блогу" :value="$route.query.search" ref="search"/>
                 <button alt="search">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M23.3397 20.1519L19.3617 16.1746C20.4101 14.5385 21.036 12.6053 21.036 10.5179C21.036 4.70874 16.3272 0 10.518 0C4.70944 0 0 4.70874 0 10.518C0 16.3273 4.70944 21.036 10.518 21.036C12.6053 21.036 14.5385 20.4101 16.1739 19.3617L20.1518 23.3397C21.0322 24.2201 22.4593 24.2201 23.3397 23.3397C24.2201 22.4593 24.2201 21.0323 23.3397 20.1519ZM10.518 18.0309C6.369 18.0309 3.00511 14.6677 3.00511 10.518C3.00511 6.36905 6.36905 3.00516 10.518 3.00516C14.6676 3.00516 18.0308 6.36905 18.0308 10.518C18.0308 14.6677 14.6676 18.0309 10.518 18.0309Z"
@@ -41,14 +41,14 @@
             <div class="blog__category">
                 <span class="blog__category-title">Категории</span>
                 <router-link
-                        :to="{name: 'blog'}"
+                        :to="{name: 'blog', query: {period: $route.query.period}}"
                         class="blog__category-link"
                         :class="{isActive: !activeCategory}">
                     <span>Все категории</span>
                 </router-link>
 
                 <router-link
-                        :to="{name: 'blog', params: {categorySlug: category.slug }}"
+                        :to="{name: 'blog', params: {categorySlug: category.slug }, query: {period: $route.query.period}}"
                         class="blog__category-link"
                         active-class="isActive"
                         v-for="category in categories"
@@ -59,10 +59,8 @@
             </div>
             <div class="blog__category">
                 <span class="blog__category-title">Дата</span>
-                <a href="" class="blog__category-link isActive"><span>За все время</span></a>
-                <a href="" class="blog__category-link"><span>За год</span></a>
-                <a href="" class="blog__category-link"><span>За месяц</span></a>
-                <a href="" class="blog__category-link"><span>За неделю</span></a>
+                <router-link :to="{...$route, query: {}}" class="blog__category-link" :class="{isActive: !$route.query.period}"><span>За все время</span></router-link>
+                <router-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ period.title }}</span></router-link>
             </div>
             <div class="blog__category --share">
                 <span class="blog__category-title">Поделиться</span>
@@ -110,7 +108,7 @@
             return {
                 categories: [],
                 pages: 0,
-                posts: []
+                posts: [],
             }
         },
         filters: {
@@ -134,11 +132,16 @@
                 const {data: {items: posts, pages}} = await api.get('blogPosts/list', {
                     params: {
                         page: this.$route.query.page || 1,
-                        category: this.activeCategory
+                        category: this.activeCategory,
+                        period: this.$route.query.period,
+                        search: this.$route.query.search
                     }
                 });
                 this.posts = posts;
                 this.pages = pages;
+            },
+            search() {
+                this.$router.push({...this.$route, query: {...this.$route.query, page: undefined, search: this.$refs.search.value || undefined}})
             }
         },
         watch: {
@@ -149,6 +152,13 @@
         computed: {
             activeCategory() {
                 return this.$route.params.categorySlug
+            },
+            periods() {
+                return [
+                    {key: 'year', title: 'За год'},
+                    {key: 'month', title: 'За месяц'},
+                    {key: 'week', title: 'За неделю'}
+                ]
             }
         }
     };

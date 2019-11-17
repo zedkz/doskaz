@@ -52,8 +52,7 @@ final class PostsFinder
                         'areawidth' => $image->cropData['width'],
                         'areaheight' => $image->cropData['height'],
                     ]);
-            }
-            else {
+            } else {
                 $imageLink = $image->image;
             }
 
@@ -71,14 +70,37 @@ final class PostsFinder
         ];
     }
 
-    public function find(?string $categorySlug = null, int $page = 1, int $perPage = self::ITEMS_PER_PAGE): array
+    public function find(array $filter = [], int $page = 1, int $perPage = self::ITEMS_PER_PAGE): array
     {
         $queryBuilder = $this->initializeQuery();
 
-        if ($categorySlug) {
-            $queryBuilder->andWhere('blog_categories.slug_value = :categorySlug')
-                ->setParameter('categorySlug', $categorySlug);
+        foreach ($filter as $property => $filterValue) {
+            switch ($property) {
+                case 'category':
+                    $queryBuilder->andWhere('blog_categories.slug_value = :categorySlug')
+                        ->setParameter('categorySlug', $filterValue);
+                    break;
+                case 'period':
+                    switch ($filterValue) {
+                        case 'year':
+                            $queryBuilder->andWhere("blog_posts.published_at > CURRENT_TIMESTAMP - INTERVAL '1 YEAR'");
+                            break;
+                        case 'month':
+                            $queryBuilder->andWhere("blog_posts.published_at > CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
+                            break;
+                        case 'week':
+                            $queryBuilder->andWhere("blog_posts.published_at > CURRENT_TIMESTAMP - INTERVAL '1 WEEK'");
+                            break;
+                    }
+                    break;
+                case 'search':
+                    if ($filterValue) {
+                        $queryBuilder->andWhere("to_tsvector('russian', concat(blog_posts.title, blog_posts.annotation, blog_posts.content)) @@ websearch_to_tsquery('russian', :search)")->setParameter('search', $filterValue);
+                    }
+                    break;
+            }
         }
+
 
         $count = (clone $queryBuilder)->select('count(*)')->execute()->fetchColumn();
 
