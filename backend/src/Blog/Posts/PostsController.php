@@ -74,7 +74,7 @@ final class PostsController extends AbstractController
         $feed->setDescription('Доступный Казахстан - Блог');
         $feed->setLink($request->getSchemeAndHttpHost());
 
-        $posts = $postsFinder->find(null);
+        $posts = $postsFinder->find();
         foreach ($posts['items'] as $post) {
             $entry = new Entry();
             $entry->setTitle($post['title']);
