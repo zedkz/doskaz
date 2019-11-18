@@ -34,7 +34,7 @@
 
             </ul>
             <div class="blog__pagination">
-                <Pagination :current-page="Number($route.query.page || 1)" :pages="pages" @change="changePage" v-if="pages > 1"/>
+                <Pagination :pages="pages" v-if="pages > 1"/>
             </div>
         </div>
         <div class="blog__side">
@@ -121,9 +121,6 @@
             this.loadPosts();
         },
         methods: {
-            changePage(page) {
-                this.$router.push({name: 'blog', params: this.$route.params, query: {...this.$route.query, page}})
-            },
             async loadCategories() {
                 const {data: {items: categories}} = await api.get('blogCategories', {params: {limit: 100}});
                 this.categories = categories.reverse();
