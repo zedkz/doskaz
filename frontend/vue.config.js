@@ -12,6 +12,9 @@ module.exports = {
             "^/image": {
                 target: domain
             },
+            "^/pipeline": {
+                target: domain
+            },
             '^/blog/rss': {
                 target: domain
             }

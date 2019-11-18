@@ -13,6 +13,23 @@
                     <img :src="post.image" :alt="post.title"/>
                     <div v-html="post.content">
                     </div>
+                    <div class="blog__inside-bottom">
+                        <span class="blog__inside-date" v-if="post.id">{{ post.publishedAt | date }}</span>
+                        <div class="social --md">
+                            <a :href="shareLinks.fb" target="_blank" class="social__link --fcb">
+                                <img src="@/assets/img/social/fcb.svg"/>
+                            </a>
+                            <a :href="shareLinks.vk" target="_blank" class="social__link --vk">
+                                <img src="@/assets/img/social/vk.svg"/>
+                            </a>
+                            <a :href="shareLinks.ok" target="_blank" class="social__link --ok">
+                                <img src="@/assets/img/social/ok.svg"/>
+                            </a>
+                            <a :href="shareLinks.mailru" target="_blank" class="social__link --my">
+                                <img src="@/assets/img/social/my.svg"/>
+                            </a>
+                        </div>
+                    </div>
                     <h4>Комментарии</h4>
                     <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/>
                 </div>
@@ -39,11 +56,12 @@
 <script>
     import Vue from 'vue'
     import VueDisqus from 'vue-disqus'
-
-    Vue.use(VueDisqus);
     import api from '@/api'
     import get from 'lodash/get'
+    import {format} from 'date-fns'
+    import {ru} from 'date-fns/locale'
 
+    Vue.use(VueDisqus);
 
     export default {
         metaInfo() {
@@ -58,10 +76,18 @@
                 ].filter(({content}) => !!content)
             }
         },
+        mounted() {
+            console.log(this.$route)
+        },
         data() {
             return {
                 post: {},
                 similarPosts: []
+            }
+        },
+        filters: {
+            date(value) {
+                return format(new Date(value), 'd MMMM y', {locale: ru})
             }
         },
         watch: {
@@ -77,6 +103,18 @@
                 const {data: {post, similar}} = await api.get(`blogPosts/bySlug/${this.$route.params.postSlug}`);
                 this.post = post;
                 this.similarPosts = similar
+            }
+        },
+        computed: {
+            shareLinks() {
+                const path = encodeURIComponent(window.location.origin + this.$route.fullPath);
+
+                return {
+                    ok: `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${path}`,
+                    fb: `https://www.facebook.com/sharer.php?u=${path}`,
+                    vk: `https://vk.com/share.php?url=${path}`,
+                    mailru: `https://connect.mail.ru/share?url=${path}`,
+                }
             }
         }
     }

@@ -60,14 +60,15 @@ final class PostsFinder
             'categorySlug' => $data['categorySlug'],
             'categoryTitle' => $data['category_title'],
             'publishedAt' => $this->connection->convertToPHPValue($data['published_at'], 'datetimetz_immutable'),
-            'image' => $image ? $image->link() : null,
+            'image' => $image ? $image->resize(710) : null,
+            'previewImage' => $image ? $image->resize(260) : null,
             'meta' => [
                 'title' => $data['meta_title'] ?: $data['title'],
                 'description' => $data['meta_description'] ?: $annotation,
                 'keywords' => $data['meta_keywords'],
                 'ogTitle' => $data['meta_og_title'] ?: $data['title'],
                 'ogDescription' => $data['meta_og_description'] ?: $annotation,
-                'ogImage' => $ogImage ? $ogImage->link() : null
+                'ogImage' => $ogImage ? $ogImage->resize(710) : null
             ]
         ];
     }
@@ -139,7 +140,7 @@ final class PostsFinder
                 $post = $this->mapItem($item);
                 return [
                     'title' => $post['title'],
-                    'image' => $post['image'],
+                    'image' => $post['previewImage'],
                     'slug' => $post['slug'],
                     'categorySlug' => $post['categorySlug']
                 ];
