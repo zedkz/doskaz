@@ -50,8 +50,8 @@
                 <router-link
                         :to="{name: 'blog', params: {categorySlug: category.slug }, query: {period: $route.query.period}}"
                         class="blog__category-link"
-                        active-class="isActive"
                         v-for="category in categories"
+                        :class="{isActive: activeCategory === category.slug}"
                         :key="category.slug">
                     <span>{{ category.title }}</span>
                 </router-link>
