@@ -16,16 +16,16 @@
                     <div class="blog__inside-bottom">
                         <span class="blog__inside-date" v-if="post.id">{{ post.publishedAt | date }}</span>
                         <div class="social --md">
-                            <a :href="shareLinks.fb" target="_blank" class="social__link --fcb">
+                            <a class="social__link --fcb" @click="share('fb')">
                                 <img src="@/assets/img/social/fcb.svg"/>
                             </a>
-                            <a :href="shareLinks.vk" target="_blank" class="social__link --vk">
+                            <a class="social__link --vk" @click="share('vk')">
                                 <img src="@/assets/img/social/vk.svg"/>
                             </a>
-                            <a :href="shareLinks.ok" target="_blank" class="social__link --ok">
+                            <a class="social__link --ok" @click="share('ok')">
                                 <img src="@/assets/img/social/ok.svg"/>
                             </a>
-                            <a :href="shareLinks.mailru" target="_blank" class="social__link --my">
+                            <a class="social__link --my" @click="share('mailru')">
                                 <img src="@/assets/img/social/my.svg"/>
                             </a>
                         </div>
@@ -103,6 +103,9 @@
                 const {data: {post, similar}} = await api.get(`blogPosts/bySlug/${this.$route.params.postSlug}`);
                 this.post = post;
                 this.similarPosts = similar
+            },
+            share(network) {
+                window.open(this.shareLinks[network])
             }
         },
         computed: {
