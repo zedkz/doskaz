@@ -245,6 +245,9 @@ export default {
 
     .input {
       margin-right: 10px;
+      input {
+        width: calc(100% - 40px);
+      }
     }
 
     .voice-input {

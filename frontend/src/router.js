@@ -5,6 +5,7 @@ import UserObjects from "./views/UserObjects.vue";
 import UserAchievments from "./views/UserAchievments.vue";
 import Blog from "./views/Blog.vue";
 import BlogInside from "./views/BlogInside.vue";
+import Complaint from "./views/Complaint.vue";
 import Oauth from "./components/Oauth";
 
 Vue.use(Router);
@@ -42,6 +43,11 @@ export default new Router({
       path: "/blog/:categorySlug/:postSlug",
       name: "blogInside",
       component: BlogInside
-    }
+    },
+    {
+      path: "/complaint",
+      name: "complaint",
+      component: Complaint
+    },
   ]
 });

@@ -155,6 +155,9 @@
 
             .input {
                 margin: 34px 0;
+                input {
+                    width: calc(100% - 40px);
+                }
             }
         }
 

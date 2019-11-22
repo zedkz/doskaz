@@ -2,9 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import api from "./api";
+import api from "./api"
 import VueMeta from 'vue-meta'
+import Vuelidate from 'vuelidate'
+import Moment from 'moment'
 
+Vue.use(Vuelidate),
+Vue.use(Moment),
 Vue.use(VueMeta, {
   // optional pluginOptions
   refreshOnceOnNavigation: true
