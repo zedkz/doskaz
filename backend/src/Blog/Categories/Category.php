@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Blog\Categories;
 
+use App\Blog\Meta;
 use App\Blog\Slug;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -45,10 +46,17 @@ class Category
      */
     private $deletedAt;
 
-    public function __construct(string $title, Slug $slug)
+    /**
+     * @var Meta|null
+     * @ORM\Column(type=Meta::class, nullable=true, options={"jsonb" = true})
+     */
+    private $meta;
+
+    public function __construct(string $title, Slug $slug, ?Meta $meta = null)
     {
         $this->title = $title;
         $this->slug = $slug;
+        $this->meta = $meta;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
@@ -58,10 +66,11 @@ class Category
         return $this->id;
     }
 
-    public function update(string $title, Slug $slug)
+    public function update(string $title, Slug $slug, ?Meta $meta = null)
     {
         $this->title = $title;
         $this->slug = $slug;
+        $this->meta = $meta;
         $this->updatedAt = new \DateTimeImmutable();
     }
 

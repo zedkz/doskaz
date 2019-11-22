@@ -5,6 +5,7 @@ namespace App\Blog\Posts;
 
 use App\Blog\Image;
 use App\Blog\Meta;
+use App\Blog\MetaData;
 use App\Blog\Slug;
 use Doctrine\ORM\Mapping as ORM;
 

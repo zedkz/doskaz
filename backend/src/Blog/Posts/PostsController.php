@@ -13,8 +13,12 @@ use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Zend\Diactoros\Response\XmlResponse;
+use Zend\Feed\Writer\Entry;
+use Zend\Feed\Writer\Feed;
 
 /**
  * @Route(path="/api/blogPosts")
@@ -29,6 +33,59 @@ final class PostsController extends AbstractController
     {
         $this->connection = $connection;
         $this->flusher = $flusher;
+    }
+
+    /**
+     * @Route(path="/list", methods={"GET"})
+     * @param Request $request
+     * @param PostsFinder $postsFinder
+     * @return array
+     */
+    public function listPosts(Request $request, PostsFinder $postsFinder)
+    {
+        return $postsFinder->find($request->query->all(), $request->query->getInt('page', 1));
+    }
+
+    /**
+     * @Route(path="/bySlug/{slug}", methods={"GET"})
+     * @param string $slug
+     * @param PostsFinder $postsFinder
+     * @return array
+     */
+    public function bySlug(string $slug, PostsFinder $postsFinder)
+    {
+        $post = $postsFinder->findOneBySlug($slug);
+        if (!$post) {
+            throw new NotFoundHttpException();
+        }
+        return $post;
+    }
+
+    /**
+     * @Route(path="/rss", methods={"GET"})
+     * @param Request $request
+     * @param PostsFinder $postsFinder
+     * @return Response
+     */
+    public function rss(Request $request, PostsFinder $postsFinder)
+    {
+        $feed = new Feed();
+        $feed->setTitle('Доступный Казахстан - Блог');
+        $feed->setDescription('Доступный Казахстан - Блог');
+        $feed->setLink($request->getSchemeAndHttpHost());
+
+        $posts = $postsFinder->find();
+        foreach ($posts['items'] as $post) {
+            $entry = new Entry();
+            $entry->setTitle($post['title']);
+            $entry->setDateCreated($post['publishedAt']);
+            $entry->setDescription($post['annotation']);
+            $entry->setContent($post['content']);
+            $entry->setLink($request->getSchemeAndHttpHost() . '/blog/' . $post['categorySlug'] . '/' . $post['slug']);
+            $feed->addEntry($entry);
+        }
+
+        return new Response($feed->export('rss'), 200, ['Content-Type' => 'application/rss+xml']);
     }
 
     /**
@@ -166,13 +223,51 @@ final class PostsController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @Route(path="/{id}", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Post $post
      */
     public function delete(Post $post)
     {
         $post->markAsDeleted();
         $this->flusher->flush();
+    }
+
+    /**
+     * @Route(path="/bySlug/{categorySlug}/{postSlug}", methods={"GET"})
+     * @param string $categorySlug
+     * @param string $postSlug
+     * @return array
+     */
+    public function findPostBySlug(string $categorySlug, string $postSlug)
+    {
+        $post = $this->connection->createQueryBuilder()
+            ->select('slug_value as slug')
+            ->addSelect('blog_categories.slug_value as category_slug')
+            ->addSelect('title')
+            ->addSelect('content')
+            ->addSelect('image')
+            ->addSelect('blog_categories.title as category_title')
+            ->from('blog_posts')
+            ->andWhere('blog_posts.deleted_at IS NULL AND blog_posts.is_published = true')
+            ->andWhere('blog_posts.published_at <= CURRENT_TIMESTAMP')
+            ->andWhere('slug_value = :postSlug')
+            ->setParameter('postSlug', $postSlug)
+            ->andwhere('blog_categories.slug_value = :categorySlug')
+            ->setParameter('categorySlug', $categorySlug)
+            ->join('blog_posts', 'blog_categories', 'blog_posts.category_id = blog_categories.id')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetch();
+
+        if (!$post) {
+            throw new NotFoundHttpException();
+        }
+
+        return [
+            'title' => $post['title'],
+            'content' => $post['content'],
+            'categoryTitle' => $post['category_title']
+        ];
     }
 }

@@ -14,7 +14,7 @@ final class Slug
     /**
      * @ORM\Column(type="text", unique=true)
      */
-    private $value;
+    public $value;
 
     public static function fromRaw(string $value): self
     {

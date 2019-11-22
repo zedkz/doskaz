@@ -9,6 +9,9 @@ module.exports = {
             },
             "^/storage": {
                 target: "http://doskaz.local"
+            },
+            "^/image": {
+                target: "http://doskaz.local"
             }
         }
     },

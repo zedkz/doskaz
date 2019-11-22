@@ -37,4 +37,18 @@ final class MetaData implements DataObject
      * @var Image|null
      */
     public $ogImage;
+
+    public static function fromMeta(?Meta $meta)
+    {
+        $self = new self();
+        if ($meta) {
+            $self->title = $meta->title;
+            $self->description = $meta->description;
+            $self->keywords = $meta->keywords;
+            $self->ogTitle = $meta->ogTitle;
+            $self->ogDescription = $meta->ogDescription;
+            $self->ogImage = $meta->ogImage;
+        }
+        return $self;
+    }
 }

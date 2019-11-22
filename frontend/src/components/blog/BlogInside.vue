@@ -1,279 +1,344 @@
 <template>
-	<div class="blog__inside">
-		<div class="breadcrumbs">
-			<router-link :to="{name: 'blog'}" class="breadcrumbs__link">Блог</router-link>
-			<router-link :to="{name: 'blog', params: {categorySlug: $route.params.categorySlug}}" class="breadcrumbs__link">Новости</router-link>
-		</div>
-		<div class="blog__in">
-			<div class="blog__content">
-				<div class="blog__inside-content">
-					<h3>Жалоба на отделение банка</h3>
-					<p>Каждый гражданин может повлиять на то, чтобы его окружала городская безбарьерная среда. Взывание к совести хозяев объектов, споры, объяснения и скандалы обычно ни к чему не приводят. Самый действенный способ – подача жалобы на недоступный объект в уполномоченный государственный орган. В Казахстане жалобы принимают областные Департаменты Комитета труда, социальной защиты и миграции населения. Данные государственные органы наделены полномочиями выдавать предписание на адаптацию объекта или накладывать административные штрафы за невыполнение предписаний.</p>
-					<img src="./../../assets/img/blog/blog1.jpg"/>
-					<p>В январе от команды проекта «Доступный Казахстан» в Департамент Комитета труда, социальной защиты и миграции по Павлодарской области было подано 4 жалобы. Чтобы понять, как это работает, разберем жалобу на филиал Банка Центр Кредит по адресу ул. Торайгырова, 34.</p>
-					<p>На объекте имелись нарушения, которые классифицируются как «препятствующие реализации права на доступ к объекту социальной инфраструктуры людям с инвалидностью и другим маломобильным группам населения» согласно Своду правил Республики Казахстан 3.06-101-2012 «Проектирование зданий и сооружений с учетом доступности для маломобильных групп населения. Общие положения»:</p>
-					<ul>
-						<li>площадка на крыльце слишком узкая для разворота на кресле-коляске, ступени имеют высоту более 15 см, уклон пандуса крутой, нет навеса над входной площадкой, воспользоваться банкоматом человеку в кресле-коляске будет сложно, так как под банкоматом нет места для коленей;</li>
-						<li>в тамбуре сразу начинается внутренняя лестница, при этом нет внутреннего пандуса или внутреннего электрического подъемника, то есть для человека на кресле-коляске отсутствует возможность воспользоваться услугами банка.</li>
-					</ul>
-					<a href="">
-						<div>
-							<svg class="inside-link__svg" xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
-								<path d="M9.04233 1.18331C9.40172 1.34922 9.32698 1.56421 9.21646 2.57994C9.10355 3.62761 8.72509 5.54146 7.99598 7.42414C7.26608 9.30372 6.18316 11.1506 5.23938 12.5176C4.29639 13.8854 3.48937 14.7742 2.87396 15.2875C2.25617 15.8008 1.8292 15.9379 1.55012 15.9831C1.27343 16.0283 1.14781 15.9831 1.07307 15.8452C0.998327 15.7081 0.972089 15.4822 1.03649 15.2065C1.0993 14.9339 1.24958 14.6145 1.67575 14.2056C2.1059 13.7951 2.80956 13.2926 3.79151 12.8261C4.77345 12.3587 6.0313 11.9256 7.06413 11.6288C8.09696 11.3336 8.9016 11.1732 9.60606 11.0478C10.3121 10.9216 10.9156 10.832 11.5071 10.7853C12.0987 10.7416 12.6791 10.7416 13.2452 10.7853C13.8113 10.832 14.3647 10.9216 14.8442 11.0369C15.3212 11.1506 15.7251 11.2869 16.0774 11.505C16.4288 11.72 16.7317 12.0168 16.882 12.3486C17.0347 12.6781 17.0347 13.0442 16.9082 13.3051C16.7826 13.5676 16.5298 13.7265 16.2411 13.8192C15.9517 13.9088 15.6249 13.9314 15.2338 13.8192C14.8442 13.7039 14.3894 13.4531 13.9123 13.1228C13.4345 12.7918 12.9304 12.3813 12.2768 11.7433C11.6216 11.1054 10.8154 10.24 10.1364 9.39641C9.45737 8.55282 8.9016 7.7326 8.52393 7.03701C8.14785 6.34142 7.94589 5.77202 7.7821 5.20262C7.61831 4.63166 7.49269 4.06226 7.44259 3.54972C7.3925 3.03718 7.41556 2.57994 7.46645 2.21462C7.51654 1.85164 7.59366 1.57589 7.71849 1.39284C7.84412 1.21369 8.02143 1.12022 8.14705 1.07504C8.27268 1.02986 8.34901 1.02986 8.42375 1.01817C8.49848 1.00649 8.57322 0.983901 8.68851 1.01817C8.79824 1.05089 8.94374 1.13813 9.08924 1.22693" fill="#0F6BF5"/>
-								<path d="M9.04233 1.18331C9.40172 1.34922 9.32698 1.56421 9.21646 2.57994C9.10355 3.62761 8.72509 5.54146 7.99598 7.42414C7.26608 9.30372 6.18316 11.1506 5.23938 12.5176C4.29639 13.8854 3.48937 14.7742 2.87396 15.2875C2.25617 15.8008 1.8292 15.9379 1.55012 15.9831C1.27343 16.0283 1.14781 15.9831 1.07307 15.8452C0.998327 15.7081 0.972089 15.4822 1.03649 15.2065C1.0993 14.9339 1.24958 14.6145 1.67575 14.2056C2.1059 13.7951 2.80956 13.2926 3.79151 12.8261C4.77345 12.3587 6.0313 11.9256 7.06413 11.6288C8.09696 11.3336 8.9016 11.1732 9.60606 11.0478C10.3121 10.9216 10.9156 10.832 11.5071 10.7853C12.0987 10.7416 12.6791 10.7416 13.2452 10.7853C13.8113 10.832 14.3647 10.9216 14.8442 11.0369C15.3212 11.1506 15.7251 11.2869 16.0774 11.505C16.4288 11.72 16.7317 12.0168 16.882 12.3486C17.0347 12.6781 17.0347 13.0442 16.9082 13.3051C16.7826 13.5676 16.5298 13.7265 16.2411 13.8192C15.9517 13.9088 15.6249 13.9314 15.2338 13.8192C14.8442 13.7039 14.3894 13.4531 13.9123 13.1228C13.4345 12.7918 12.9304 12.3813 12.2768 11.7433C11.6216 11.1054 10.8154 10.24 10.1364 9.39641C9.45737 8.55282 8.9016 7.7326 8.52393 7.03701C8.14785 6.34142 7.94589 5.77202 7.7821 5.20262C7.61831 4.63166 7.49269 4.06226 7.44259 3.54972C7.3925 3.03718 7.41556 2.57994 7.46645 2.21462C7.51654 1.85164 7.59366 1.57589 7.71849 1.39284C7.84412 1.21369 8.02143 1.12022 8.14705 1.07504C8.27268 1.02986 8.34901 1.02986 8.42375 1.01817C8.49848 1.00649 8.57322 0.983901 8.68851 1.01817C8.79824 1.05089 8.94374 1.13813 9.08924 1.22693" stroke="white" stroke-width="1.4" stroke-miterlimit="10" stroke-linejoin="round"/>
-							</svg>
-						</div>
-						<span>Текст жалобы</span>
-					</a>
-					<p>На данную жалобу от Департамента Комитета труда, социальной защиты и миграции по Павлодарской области было получено 2 ответа. В первом письме Департамент указывает, что банк данное помещение арендует, а так как собственник не находиться в данный момент в Казахстане, проверка будет проведена по возвращению собственника в страну. Во втором письме отражены результаты проведенной проверки.</p>
-					<div class="slider">
-						<div><img src="./../../assets/img/blog/doc.jpg"/></div>
-						<div><img src="./../../assets/img/blog/doc.jpg"/></div>
-						<div><img src="./../../assets/img/blog/doc.jpg"/></div>
-						<div><img src="./../../assets/img/blog/doc.jpg"/></div>
-					</div>
-					<p>Сотрудник проекта «Доступный Казахстан» выехал на место и зафиксировал текущие адаптационные работы – установлены поручни на наружном пандусе, кнопка вызова персонала, внутри установлен электрический подъемник. Предлагаем вашему вниманию фотографии «до» и «после».</p>
-					<div class="blog__inside-pic">
-						<img src="./../../assets/img/blog/inside1.jpg"/>
-						<img src="./../../assets/img/blog/inside2.jpg"/>
-						<img src="./../../assets/img/blog/inside3.jpg"/>
-						<img src="./../../assets/img/blog/inside4.jpg"/>
-						<img src="./../../assets/img/blog/inside1.jpg"/>
-						<img src="./../../assets/img/blog/inside2.jpg"/>
-					</div>
-					<p>Несмотря на то, что собственник объекта произвел адаптационные работы, стоит отметить, что поручни и конструкция электрического подъемника сделаны с нарушениями. Адаптационные работы считаются выполненными только в том случае, если они соответствуют действующими строительными нормам и правилами. Поэтому для того, чтобы не выбрасывать деньги на ветер, необходимо относиться к формированию доступной среды ответственно, руководствуясь строгим алгоритмом, и не создавать доступность «для галочки». В данном случае придется направить еще одну жалобу, указав текущие нарушения.</p>
-					<div class="blog__inside-bottom">
-						<span class="blog__inside-date">19 марта 2019</span>
-						<div class="social --md">
-							<a href="" class="social__link --fcb">
-								<img src="./../../assets/img/social/fcb.svg"/>
-							</a>
-							<a href="" class="social__link --vk">
-								<img src="./../../assets/img/social/vk.svg"/>
-							</a>
-							<a href="" class="social__link --ok">
-								<img src="./../../assets/img/social/ok.svg"/>
-							</a>
-							<a href="" class="social__link --my">
-								<img src="./../../assets/img/social/my.svg"/>
-							</a>
-						</div>
-					</div>
-					<h4>Комментарии</h4>
-					<img src="./../../assets/img/blog/comments.jpg"/>
-				</div>
-			</div>
-			<div class="blog__side">
-				<div class="blog__category">
-					<span class="blog__category-title">Похожие материалы</span>
-					<ul class="blog__material">
-						<li class="blog__material-item">
-							<a href="" class="blog__material-link">
-								<img src="./../../assets/img/blog/blog1.jpg"/>
-								<span>«Народный контроль» в Павлодаре: эпизоды 3 и 4</span>
-							</a>
-						</li>
-						<li class="blog__material-item">
-							<a href="" class="blog__material-link">
-								<img src="./../../assets/img/blog/blog2.jpg"/>
-								<span>«Народный контроль» в Павлодаре: эпизоды 1 и 2</span>
-							</a>
-						</li>
-						<li class="blog__material-item">
-							<a href="" class="blog__material-link">
-								<img src="./../../assets/img/blog/blog3.jpg"/>
-								<span>Анонс встречи с правозащитником по правам людей с инвалидностью Мохаммадом Саидом</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="blog__inside">
+        <div class="breadcrumbs">
+            <router-link :to="{name: 'blog'}" class="breadcrumbs__link">Блог</router-link>
+            <router-link :to="{name: 'blog', params: {categorySlug: $route.params.categorySlug}}"
+                         class="breadcrumbs__link">{{ post.categoryTitle }}
+            </router-link>
+        </div>
+        <div class="blog__in">
+            <div class="blog__content">
+                <div class="blog__inside-content">
+                    <h3>{{ post.title }}</h3>
+                    <img :src="post.image" :alt="post.title"/>
+                    <div v-html="post.content">
+                    </div>
+                    <div class="blog__inside-bottom">
+                        <span class="blog__inside-date" v-if="post.id">{{ post.publishedAt | date }}</span>
+                        <div class="social --md">
+                            <a class="social__link --fcb" @click="share('fb')">
+                                <img src="@/assets/img/social/fcb.svg"/>
+                            </a>
+                            <a class="social__link --vk" @click="share('vk')">
+                                <img src="@/assets/img/social/vk.svg"/>
+                            </a>
+                            <a class="social__link --ok" @click="share('ok')">
+                                <img src="@/assets/img/social/ok.svg"/>
+                            </a>
+                            <a class="social__link --my" @click="share('mailru')">
+                                <img src="@/assets/img/social/my.svg"/>
+                            </a>
+                        </div>
+                    </div>
+                    <h4>Комментарии</h4>
+                    <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/>
+                </div>
+            </div>
+            <div class="blog__side">
+                <div class="blog__category">
+                    <span class="blog__category-title">Похожие материалы</span>
+                    <ul class="blog__material">
+                        <li class="blog__material-item" v-for="post in similarPosts" :key="post.id">
+                            <router-link
+                                    :to="{name: 'blogView', params: {categorySlug: post.categorySlug, postSlug: post.slug}}"
+                                    class="blog__material-link">
+                                <img :src="post.image" :alt="post.title"/>
+                                <span>{{ post.title }}</span>
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
+<script>
+    import Vue from 'vue'
+    import VueDisqus from 'vue-disqus'
+    import api from '@/api'
+    import get from 'lodash/get'
+    import {format} from 'date-fns'
+    import {ru} from 'date-fns/locale'
+
+    Vue.use(VueDisqus);
+
+    export default {
+        metaInfo() {
+            return {
+                title: get(this.post, 'meta.title'),
+                meta: [
+                    {name: 'keywords', content: get(this.post, 'meta.keywords')},
+                    {name: 'description', content: get(this.post, 'meta.description')},
+                    {property: 'og:title', content: get(this.post, 'meta.ogTitle')},
+                    {property: 'og:description', content: get(this.post, 'meta.ogDescription')},
+                    {property: 'og:image', content: get(this.post, 'meta.ogImage')}
+                ].filter(({content}) => !!content)
+            }
+        },
+        mounted() {
+            console.log(this.$route)
+        },
+        data() {
+            return {
+                post: {},
+                similarPosts: []
+            }
+        },
+        filters: {
+            date(value) {
+                return format(new Date(value), 'd MMMM y', {locale: ru})
+            }
+        },
+        watch: {
+            '$route': {
+                handler() {
+                    this.loadPost();
+                },
+                immediate: true
+            }
+        },
+        methods: {
+            async loadPost() {
+                const {data: {post, similar}} = await api.get(`blogPosts/bySlug/${this.$route.params.postSlug}`);
+                this.post = post;
+                this.similarPosts = similar
+            },
+            share(network) {
+                window.open(this.shareLinks[network])
+            }
+        },
+        computed: {
+            shareLinks() {
+                const path = encodeURIComponent(window.location.origin + this.$route.fullPath);
+
+                return {
+                    ok: `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${path}`,
+                    fb: `https://www.facebook.com/sharer.php?u=${path}`,
+                    vk: `https://vk.com/share.php?url=${path}`,
+                    mailru: `https://connect.mail.ru/share?url=${path}`,
+                }
+            }
+        }
+    }
+
+</script>
+
 <style lang="scss">
-	.slider {
-		position: relative;
-		padding: 0 20px;
-		margin: 30px 0 70px;
-		img {
-			margin: 0 auto;
-		}
-		.slick-prev {
-			position: absolute;
-			left: 0;
-			top: 50%;
-			width: 20px;
-			height: 50px;
-			margin: -25px 0 0;
-			cursor: pointer;
-		}
-		.slick-next {
-			position: absolute;
-			right: 0;
-			top: 50%;
-			width: 20px;
-			height: 50px;
-			margin: -25px 0 0;
-			cursor: pointer;
-		}
-	}
-	.blog {
-		&__inside {
-			padding: 35px 0 40px;
-			&-content {
-				> h3{
-					font-size: 32px;
-					line-height: 40px;
-					margin: 0 0 20px;
-				}
-				> h4 {
-					font-size: 22px;
-					line-height: 30px;
-					margin: 0 0 18px 0;
-				}
-				> p {
-					font-size: 16px;
-					line-height: 30px;
-					margin: 20px 0;
-				}
-				> img {
-					max-width: 100%;
-					margin: 32px 0 28px;
-					display: block;
-				}
-				> ul {
-					padding: 0 0 0 40px;
-					margin: -10px 0 20px;
-					list-style: none;
-					li {
-						position: relative;
-						font-size: 16px;
-						line-height: 30px;
-						margin: 10px 0 0;
-						&:first-child {
-							margin: 0;
-						}
-						&:before {
-							position: absolute;
-							left: -18px;
-							top: 12px;
-							content: '';
-							width: 6px;
-							height: 6px;
-							-webkit-border-radius:50%;
-							-moz-border-radius:50%;
-							border-radius:50%;
-							background: #0F6BF5;
-						}
-					}
-				}
-				> a {
-					display: flex;
-					align-items: center;
-					padding: 20px 40px;
-					background: #D5E9FC;
-					font-size: 0;
-					transition: opacity 0.3s;
-					&:hover {
-						 opacity: 0.7;
-					}
-					svg {
-						 display: inline-block;
-						 vertical-align: middle;
-					}
-					div {
-						text-align: center;
-						width: 30px;
-						height: 30px;
-						line-height: 30px;
-						background: #0F6BF5;
-						margin: 0 10px 0 0;
-					}
-					span {
-						font-size: 16px;
-						line-height: 30px;
-						color: #333333;
-					}
-				}
-			}
-			&-pic {
-				display: flex;
-				flex-wrap: wrap;
-				align-items: flex-start;
-				justify-content: flex-start;
-				margin: -5px -15px;
-				img {
-					margin: 15px;
-				}
-			}
-			&-bottom {
-				margin: 30px 0 28px;
-				padding: 0 0 40px;
-				border-bottom: 1px solid #7B95A7;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-			}
-			&-date {
-				color: #5B6067;
-				font-size: 14px;
-				line-height: 20px;
-			}
-			.blog__in {
-				padding: 32px 0 0;
-			}
-		}
-		&__material {
-			list-style: none;
-			padding: 0;
-			&-item {
-				margin: 30px 0 0;
-			}
-			&-link {
-				display: block;
-				transition: opacity 0.3s;
-				&:hover {
-					opacity: 0.7;
-				}
-				img {
-					display: block;
-					max-width: 100%;
-					margin: 0 0 15px;
-				}
-				span {
-					display: block;
-					font-size: 14px;
-					line-height: 20px;
-					color: #333333;
-				}
-			}
-		}
-	}
-	.breadcrumbs {
-		font-size: 0;
-		&__link {
-			display: inline-block;
-			vertical-align: middle;
-			font-size: 14px;
-			line-height: 20px;
-			color: #5B6067;
-			transition: opacity 0.3s;
-			&:hover {
-				opacity: 0.7
-			}
-			&:before {
-				content: '/';
-				display: inline-block;
-				vertical-align: middle;
-				margin: 0 5px;
-			}
-			&:first-child {
-				&:before {
-					display: none;
-				}
-			}
-		}
-	}
+    .slider {
+        position: relative;
+        padding: 0 20px;
+        margin: 30px 0 70px;
+
+        img {
+            margin: 0 auto;
+        }
+
+        .slick-prev {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 20px;
+            height: 50px;
+            margin: -25px 0 0;
+            cursor: pointer;
+        }
+
+        .slick-next {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 20px;
+            height: 50px;
+            margin: -25px 0 0;
+            cursor: pointer;
+        }
+    }
+
+    .blog {
+        &__inside {
+            padding: 35px 0 40px;
+
+            &-content {
+                > h3 {
+                    font-size: 32px;
+                    line-height: 40px;
+                    margin: 0 0 20px;
+                }
+
+                > h4 {
+                    font-size: 22px;
+                    line-height: 30px;
+                    margin: 0 0 18px 0;
+                }
+
+                > p {
+                    font-size: 16px;
+                    line-height: 30px;
+                    margin: 20px 0;
+                }
+
+                > img {
+                    max-width: 100%;
+                    margin: 32px 0 28px;
+                    display: block;
+                }
+
+                > ul {
+                    padding: 0 0 0 40px;
+                    margin: -10px 0 20px;
+                    list-style: none;
+
+                    li {
+                        position: relative;
+                        font-size: 16px;
+                        line-height: 30px;
+                        margin: 10px 0 0;
+
+                        &:first-child {
+                            margin: 0;
+                        }
+
+                        &:before {
+                            position: absolute;
+                            left: -18px;
+                            top: 12px;
+                            content: '';
+                            width: 6px;
+                            height: 6px;
+                            -webkit-border-radius: 50%;
+                            -moz-border-radius: 50%;
+                            border-radius: 50%;
+                            background: #0F6BF5;
+                        }
+                    }
+                }
+
+                > a {
+                    display: flex;
+                    align-items: center;
+                    padding: 20px 40px;
+                    background: #D5E9FC;
+                    font-size: 0;
+                    transition: opacity 0.3s;
+
+                    &:hover {
+                        opacity: 0.7;
+                    }
+
+                    svg {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    div {
+                        text-align: center;
+                        width: 30px;
+                        height: 30px;
+                        line-height: 30px;
+                        background: #0F6BF5;
+                        margin: 0 10px 0 0;
+                    }
+
+                    span {
+                        font-size: 16px;
+                        line-height: 30px;
+                        color: #333333;
+                    }
+                }
+            }
+
+            &-pic {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                justify-content: flex-start;
+                margin: -5px -15px;
+
+                img {
+                    margin: 15px;
+                }
+            }
+
+            &-bottom {
+                margin: 30px 0 28px;
+                padding: 0 0 40px;
+                border-bottom: 1px solid #7B95A7;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            &-date {
+                color: #5B6067;
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .blog__in {
+                padding: 32px 0 0;
+            }
+        }
+
+        &__material {
+            list-style: none;
+            padding: 0;
+
+            &-item {
+                margin: 30px 0 0;
+            }
+
+            &-link {
+                display: block;
+                transition: opacity 0.3s;
+
+                &:hover {
+                    opacity: 0.7;
+                }
+
+                img {
+                    display: block;
+                    max-width: 100%;
+                    margin: 0 0 15px;
+                }
+
+                span {
+                    display: block;
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: #333333;
+                }
+            }
+        }
+    }
+
+    .breadcrumbs {
+        font-size: 0;
+
+        &__link {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            line-height: 20px;
+            color: #5B6067;
+            transition: opacity 0.3s;
+
+            &:hover {
+                opacity: 0.7
+            }
+
+            &:before {
+                content: '/';
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0 5px;
+            }
+
+            &:first-child {
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
 </style>

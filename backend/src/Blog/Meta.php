@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
+use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 
 /**
  * @ORM\Embeddable()
+ * @ODM()
  */
 final class Meta
 {
@@ -14,37 +16,37 @@ final class Meta
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
-    private $title;
+    public $title;
 
     /**
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    public $description;
 
     /**
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
-    private $keywords;
+    public $keywords;
 
     /**
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
-    private $ogTitle;
+    public $ogTitle;
 
     /**
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
-    private $ogDescription;
+    public $ogDescription;
 
     /**
      * @var Image
      * @ORM\Column(type=Image::class, nullable=true, options={"jsonb": true})
      */
-    private $ogImage;
+    public $ogImage;
 
     public function __construct(?string $title = null, ?string $description = null, ?string $keywords = null, ?string $ogTitle = null, ?string $ogDescription = null, ?Image $ogImage = null)
     {

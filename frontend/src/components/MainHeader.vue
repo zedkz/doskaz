@@ -1,9 +1,9 @@
 <template>
   <div class="main-header">
     <div class="main-header__content">
-      <a href="#" class="main-header__logo">
-        <img :src="require('./../assets/logo.svg')" alt />
-      </a>
+      <router-link to="/" class="main-header__logo">
+        <img :src="require('@/assets/logo.svg')" alt />
+      </router-link>
 
       <div class="main-header__menu">
         <a href="#">
