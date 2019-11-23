@@ -115,6 +115,8 @@
         </svg>
       </button>
     </div>
+
+    <slot/>
   </div>
 </template>
 
@@ -129,13 +131,28 @@ export default {
   data() {
     return {};
   },
+  name: 'mainPage',
   components: {
     IntroForm,
     LoginForm,
     Sidebar,
     ObjectModal,
     MainMap
-  }
+  },
+  mounted() {
+    if(this.$route.name === 'login') {
+      this.$store.dispatch('showLoginForm')
+    }
+  },
+  watch: {
+    '$store.state.authentication.user'(value) {
+      if(value) {
+        if(this.$route.name === 'login' && this.$route.query.next) {
+          this.$router.push(this.$route.query.next)
+        }
+      }
+    }
+  },
 };
 </script>
 

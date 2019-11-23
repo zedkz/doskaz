@@ -20,6 +20,11 @@ export default new Router({
       component: MainPage
     },
     {
+      path: "/login",
+      name: "login",
+      component: MainPage
+    },
+    {
       path: "/oauth/:provider",
       name: "oauth",
       component: Oauth
