@@ -25,3 +25,4 @@ imports:
     - { resource: '../src/Users/services.yaml' }
     - { resource: '../src/Objects/services.yaml' }
     - { resource: '../src/Blog/services.yaml' }
+    - { resource: '../src/Complaints/services.yaml' }

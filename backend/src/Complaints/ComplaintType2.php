@@ -15,4 +15,9 @@ final class ComplaintType2 extends ComplaintContent
      * @var string|null
      */
     public $comment;
+
+    /**
+     * @var array
+     */
+    public $options;
 }

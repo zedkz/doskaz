@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Complaints;
 
 
+use App\Infrastructure\Doctrine\Flusher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +18,14 @@ final class ComplaintController extends AbstractController
     /**
      * @Route(methods={"POST"})
      * @param ComplaintData $complaintData
+     * @param ComplaintRepository $complaintRepository
+     * @param Flusher $flusher
      */
-    public function make(ComplaintData $complaintData)
+    public function make(ComplaintData $complaintData, ComplaintRepository $complaintRepository, Flusher $flusher)
     {
-
+        $complaint = new Complaint($complaintData->complainant, $complaintData->content, $complaintData->authorityId, $this->getUser()->id());
+        $complaintRepository->add($complaint);
+        $flusher->flush();
     }
 
     /**
@@ -36,7 +41,8 @@ final class ComplaintController extends AbstractController
     /**
      * @Route(path="/cities", methods={"GET"})
      */
-    public function complaintCities() {
+    public function complaintCities()
+    {
         return [
             ['id' => 1, 'name' => 'Нур-Султан'],
             ['id' => 2, 'name' => 'Павлодар']

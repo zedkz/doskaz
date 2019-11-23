@@ -23,7 +23,12 @@
 		components: {
 			MainHeader,
 			ComplaintContent
-		}
+		},
+		metaInfo() {
+			return {
+				title: 'Подать жалобу',
+			}
+		},
 	};
 </script>
 

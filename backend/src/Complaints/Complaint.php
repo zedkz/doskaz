@@ -32,10 +32,29 @@ class Complaint
     private $authorityId;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    private $complainantId;
+
+    /**
      * @var \DateTimeImmutable
      * @ORM\Column(type="datetimetz_immutable")
      */
     private $createdAt;
 
-    private $data;
+    /**
+     * @var ComplaintContent
+     * @ORM\Column(type=ComplaintContent::class, options={"jsonb" = true})
+     */
+    private $content;
+
+    public function __construct(Complainant $complainant, ComplaintContent $complaintContent, $authorityId, $complainantId)
+    {
+        $this->complainant = $complainant;
+        $this->content = $complaintContent;
+        $this->authorityId = $authorityId;
+        $this->complainantId = $complainantId;
+        $this->createdAt = new \DateTimeImmutable();
+    }
 }

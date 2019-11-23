@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Complaints;
 
+use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ODM()
  * @DiscriminatorMap(typeProperty="type", mapping={
  *     "complaint1" = "App\Complaints\ComplaintType1",
  *     "complaint2" = "App\Complaints\ComplaintType2",
