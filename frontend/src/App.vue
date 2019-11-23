@@ -136,23 +136,6 @@
             cursor: pointer;
         }
     }
-    .button {
-        padding: 14px 50px 16px;
-        font-size: 16px;
-        line-height: 20px;
-        color: #ffffff;
-        border: none;
-        background: #3DBA3B;
-        cursor: pointer;
-        -webkit-transition: opacity 0.3s;
-        -moz-transition: opacity 0.3s;
-        -ms-transition: opacity 0.3s;
-        -o-transition: opacity 0.3s;
-        transition: opacity 0.3s;
-        &:hover {
-            opacity: 0.7;
-        }
-    }
     .textarea {
          height: auto;
          min-height: 80px;
