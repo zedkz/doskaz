@@ -13,3 +13,7 @@ blog:
 storage:
     resource: ../../src/Infrastructure/Storage
     type: annotation
+
+complaints:
+    resource: ../../src/Complaints
+    type: annotation

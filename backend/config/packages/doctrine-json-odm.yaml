@@ -2,3 +2,4 @@ doctrine_json_odm:
     mapping:
         paths:
             - '%kernel.project_dir%/src/Blog'
+            - '%kernel.project_dir%/src/Complaints'

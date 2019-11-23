@@ -2,19 +2,11 @@
   <div class="main-filter">
     <div class="main-filter__header">
       <div class="main-filter__menu">
-        <a href="#">
-          <span>Помощь</span>
-        </a>
-        <a href="#">
-          <span>О проекте</span>
-        </a>
-        <a href="#">
-          <span>Оставить жалобу</span>
-        </a>
+        <a href="#"><span>Помощь</span></a>
+        <a href="#"><span>О проекте</span></a>
+        <router-link :to="{name: 'complaint'}"><span>Оставить жалобу</span></router-link>
         <router-link :to="{name: 'blog'}"><span>Блог</span></router-link>
-        <a href="#">
-          <span>Контакты</span>
-        </a>
+        <a href="#"><span>Контакты</span></a>
       </div>
 
       <div class="spacer"></div>

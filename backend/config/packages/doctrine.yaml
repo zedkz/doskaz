@@ -45,4 +45,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Blog'
                 prefix: 'App\Blog'
-
+            Complaints:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Complaints'
+                prefix: 'App\Complaints'

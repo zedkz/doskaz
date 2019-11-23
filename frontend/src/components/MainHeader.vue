@@ -12,9 +12,7 @@
         <a href="#">
           <span>О проекте</span>
         </a>
-        <a href="#">
-          <span>Оставить жалобу</span>
-        </a>
+        <router-link :to="{name: 'complaint'}"><span>Оставить жалобу</span></router-link>
         <a href="#">
           <span>Контакты</span>
         </a>
