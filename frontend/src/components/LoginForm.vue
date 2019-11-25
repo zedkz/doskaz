@@ -116,6 +116,12 @@
           </div>
           <phone-auth-form/>
         </div>
+        <div class="phone-form">
+          <div class="phone-form__switch">
+            <span>Продолжите регистрацию и заполните свой профиль</span>
+            <phone-auth-form-points/>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -123,11 +129,12 @@
 
 <script>
   import PhoneAuthForm from "./PhoneAuthForm";
+  import PhoneAuthFormPoints from "./PhoneAuthFormPoints";
   import openPopup from '@/oauth/popup';
   import providers from '@/oauth/providers';
 
   export default {
-    components: {PhoneAuthForm},
+    components: {PhoneAuthForm,PhoneAuthFormPoints},
     watch: {
       '$store.state.authentication.user'(value) {
         if(value) {

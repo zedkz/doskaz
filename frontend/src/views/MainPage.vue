@@ -4,6 +4,8 @@
 
     <LoginForm />
 
+    <StartCategoryForm />
+
     <ObjectModal></ObjectModal>
 
     <div class="main-page__map">
@@ -123,6 +125,7 @@
 <script>
 import IntroForm from "./../components/IntroForm.vue";
 import LoginForm from "./../components/LoginForm.vue";
+import StartCategoryForm from "./../components/StartCategoryForm.vue";
 import Sidebar from "./../components/Sidebar.vue";
 import ObjectModal from "./../components/ObjectModal.vue";
 import MainMap from "./../components/MainMap.vue";
@@ -135,6 +138,7 @@ export default {
   components: {
     IntroForm,
     LoginForm,
+    StartCategoryForm,
     Sidebar,
     ObjectModal,
     MainMap

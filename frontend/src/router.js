@@ -54,5 +54,10 @@ export default new Router({
       name: "complaint",
       component: Complaint
     },
+    {
+      path: "/startCategory",
+      name: "StartCategory",
+      component: MainPage
+    }
   ]
 });
