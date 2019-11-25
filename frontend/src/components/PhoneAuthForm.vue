@@ -1,7 +1,7 @@
 <template>
     <div class="phone-form__form">
         <div class="input" :class="{input_error: phoneError}">
-            <input type="text" placeholder="Номер телефона" v-model="phoneAuth.number" :disabled="confirmationResult"/>
+            <input type="text" placeholder="Номер телефона" v-mask="'+7##########'" v-model="phoneAuth.number" :disabled="confirmationResult"/>
             <div class="input__error-text">
                 <span>{{ phoneError }}</span>
             </div>
@@ -86,6 +86,9 @@
     import 'firebase/auth'
     import get from 'lodash/get'
     import api from '@/api'
+    import VueMask from 'v-mask'
+    import Vue from 'vue'
+    Vue.use(VueMask);
 
     firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_API_KEY
@@ -103,7 +106,7 @@
         data() {
             return {
                 phoneAuth: {
-                    number: null,
+                    number: '+7',
                     code: null
                 },
                 errors: {

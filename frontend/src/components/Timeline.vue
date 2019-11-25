@@ -87,9 +87,9 @@
                     </div>
                 </a>
                 <div class="item item_link">
-                    <a href="#">
+                    <router-link :to="{name: 'blog'}">
                         <span>Перейти в раздел</span>
-                    </a>
+                    </router-link>
                 </div>
             </div>
             <div class="timeline__tab timeline__tab_events" :class="{'isActive': activeTab===1}">

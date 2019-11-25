@@ -46,7 +46,7 @@ export default new Router({
     },
     {
       path: "/blog/:categorySlug/:postSlug",
-      name: "blogInside",
+      name: "blogView",
       component: BlogInside
     },
     {
