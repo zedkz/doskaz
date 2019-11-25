@@ -84,7 +84,7 @@
           />
         </svg>
       </button>
-      <button class="button button_red" type="button" name="claim_object">
+      <router-link :to="{name: 'complaint'}" class="button button_red" >
         <svg
           width="19"
           height="21"
@@ -113,7 +113,7 @@
             fill="white"
           />
         </svg>
-      </button>
+      </router-link>
     </div>
 
     <slot/>
