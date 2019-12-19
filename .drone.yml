@@ -6,6 +6,8 @@ clone:
   disable: true
 
 steps:
-  - name: pull
+  - name: update
     commands:
+      - cd /var/www/dockaz/docker
       - git pull
+      - docker-compose up -d --buld
