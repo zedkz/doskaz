@@ -8,6 +8,6 @@ clone:
 steps:
   - name: update
     commands:
-      - cd /var/www/dockaz/docker
+      - cd /var/www/doskaz/docker
       - git pull
       - docker-compose up -d --buld
