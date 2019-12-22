@@ -3,14 +3,6 @@ type: docker
 name: stage
 
 steps:
-  - name: init
-    image: docker
-    commands:
-      - docker network create web
-    volumes:
-      - name: docker.sock
-        path: /var/run/docker.sock
-
   - name: deploy
     image: docker/compose
     commands:
