@@ -25,6 +25,8 @@ services:
       - traefik.http.routers.app_rss.rule=Host(`${APP_HOST}`) && Path(`/blog/rss`)
       - traefik.http.middlewares.rss_replace.replacepath.path=/api/blogPosts/rss
       - traefik.http.routers.app_rss.middlewares=rss_replace
+    depends_on:
+      - database
 
   frontend:
     build:
@@ -39,6 +41,8 @@ services:
       - traefik.http.routers.doskaz_frontend.middlewares=doskaz_compress_frontend
     networks:
       - web
+    depends_on:
+      - backend
 
   adminpanel:
     build:
@@ -51,6 +55,8 @@ services:
       - traefik.http.routers.doskaz_adminpanel.rule=Host(`${APP_HOST}`) && PathPrefix(`/adminpanel`)
       - traefik.http.middlewares.stripprefix.stripprefix.prefixes=/adminpanel
       - traefik.http.routers.doskaz_adminpanel.middlewares=doskaz_compress_frontend,stripprefix
+    depends_on:
+      - backend
 
   database:
     image: mdillon/postgis:11
