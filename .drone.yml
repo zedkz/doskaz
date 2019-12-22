@@ -4,7 +4,7 @@ name: stage
 
 steps:
   - name: deploy
-    image: docker/compose
+    image: docker/compose:1.25
     commands:
       - cd docker
       - docker-compose -f docker-compose.yml -f docker-compose.stage.yml up -d --build
