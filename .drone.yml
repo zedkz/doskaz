@@ -18,14 +18,20 @@ steps:
         from_secret: db_password
       SENTRY_DSN:
         from_secret: sentry_dsn
+      OAUTH_GOOGLE_CLIENT_ID:
+        from_secret: oauth_google_client_id
+      OAUTH_GOOGLE_CLIENT_SECRET:
+        from_secret: oauth_google_client_secret
+      OAUTH_GOOGLE_REDIRECT_URI:
+        from_secret: oauth_google_redirect_uri
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
 
 volumes:
-  -   name: docker.sock
-      host:
-        path: /var/run/docker.sock
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
 
 node:
   server: test
