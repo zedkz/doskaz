@@ -55,16 +55,16 @@ final class ObjectsApiController extends AbstractController
         $query = "       
            SELECT COUNT(*) AS number,
                    ST_GEOHASH(point_value, :precision) AS hash,
-                   ST_XMIN(ST_COLLECT(objects.point_value::geometry)) as p1x,
-                   ST_YMIN(ST_COLLECT(objects.point_value::geometry)) as p1y,
-                   ST_XMAX(ST_COLLECT(objects.point_value::geometry)) as p2x,
-                   ST_YMAX(ST_COLLECT(objects.point_value::geometry)) as p2y,
-                   ST_X(ST_CENTROID(ST_COLLECT(objects.point_value::geometry))) AS lat,
-                   ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::geometry))) AS long
-            from objects
+                   ST_XMIN(ST_COLLECT(objects.point_value::GEOMETRY)) AS p1x,
+                   ST_YMIN(ST_COLLECT(objects.point_value::GEOMETRY)) AS p1y,
+                   ST_XMAX(ST_COLLECT(objects.point_value::GEOMETRY)) AS p2x,
+                   ST_YMAX(ST_COLLECT(objects.point_value::GEOMETRY)) AS p2y,
+                   ST_X(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS lat,
+                   ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS long
+            FROM objects
             WHERE ST_CONTAINS(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326), point_value::GEOMETRY)
-            group by hash
-            having count(*) > 1
+            GROUP BY hash
+            HAVING COUNT(*) > 1
         ";
 
         $clusters = [];
