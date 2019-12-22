@@ -38,8 +38,19 @@ services:
       - traefik.http.middlewares.doskaz_compress_frontend.compress=true
       - traefik.http.routers.doskaz_frontend.middlewares=doskaz_compress_frontend
     networks:
-      - default
       - web
+
+  adminpanel:
+    build:
+      context: ../adminpanel
+      dockerfile: Dockerfile
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.doskaz_adminpanel.rule=Host(`${APP_HOST}`) && PathPrefix(`/adminpanel`)
+      - traefik.http.middlewares.stripprefix.stripprefix.prefixes=/adminpanel
+      - traefik.http.routers.doskaz_adminpanel.middlewares=doskaz_compress_frontend,stripprefix
 
   database:
     image: mdillon/postgis:11

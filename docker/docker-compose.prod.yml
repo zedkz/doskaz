@@ -16,6 +16,5 @@ services:
   imaginary:
     restart: unless-stopped
 
-networks:
-  server:
-    external: true
+  adminpanel:
+    restart: unless-stopped

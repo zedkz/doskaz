@@ -15,3 +15,6 @@ services:
 
   imaginary:
     restart: unless-stopped
+
+  adminpanel:
+    restart: unless-stopped
