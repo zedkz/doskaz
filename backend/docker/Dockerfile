@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:7.3
+FROM webdevops/php-nginx:7.3 AS base
 
 RUN apt-get update \
     && apt-get install -y \
@@ -9,6 +9,9 @@ RUN docker-php-ext-install -j$(nproc) \
 USER application
 RUN composer global require hirak/prestissimo
 WORKDIR /app
+
+
+FROM base
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader --no-suggest && \
     composer clear-cache

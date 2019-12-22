@@ -1,0 +1,11 @@
+version: "3.4"
+
+services:
+  backend:
+    build:
+      target: base
+    volumes:
+      - ../backend:/app
+
+  imaginary:
+    command: -mount /mnt/data

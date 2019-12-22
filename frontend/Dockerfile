@@ -10,6 +10,10 @@ RUN ["npm", "install"]
 
 COPY . .
 
+ARG firebase_api_key
+
+ENV VUE_APP_FIREBASE_API_KEY=$firebase_api_key
+
 RUN ["npm", "run", "build"]
 
 FROM webdevops/nginx:alpine
