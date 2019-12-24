@@ -33,7 +33,7 @@ steps:
   - name: sentry release
     image: curlimages/curl:7.67.0
     commands:
-      - "curl ${SENTRY_RELEASE_HOOK_URL} -X POST -H 'Content-Type: application/json' -d '{\"version\": \"${DRONE_COMMIT}\", \"url\": \"${DRONE_COMMIT_LINK}\"}'"
+      - "$${SENTRY_RELEASE_HOOK_URL} -X POST -H 'Content-Type: application/json' -d '{\"version\": \"${DRONE_COMMIT}\", \"url\": \"${DRONE_COMMIT_LINK}\"}'"
     environment:
       SENTRY_RELEASE_HOOK_URL:
         from_secret: sentry_release_hook_url
