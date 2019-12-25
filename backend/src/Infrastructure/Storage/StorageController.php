@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_USER")
  * @Route(path="/api/storage")
  */
 final class StorageController extends AbstractController
