@@ -9,7 +9,9 @@ RUN docker-php-ext-install -j$(nproc) \
 USER application
 RUN composer global require hirak/prestissimo
 WORKDIR /app
-
+ENV WEB_DOCUMENT_ROOT /app/public
+RUN mkdir /app/storage
+VOLUME /app/storage
 
 FROM base
 COPY composer.json composer.lock ./
@@ -19,5 +21,4 @@ COPY . .
 RUN composer dump-autoload --optimize
 RUN php bin/console c:c --env=prod --no-debug
 USER root
-ENV WEB_DOCUMENT_ROOT /app/public
 ENV APP_ENV prod
