@@ -11,6 +11,7 @@ services:
       - OAUTH_GOOGLE_CLIENT_ID
       - OAUTH_GOOGLE_CLIENT_SECRET
       - OAUTH_GOOGLE_REDIRECT_URI
+      - PHP_DATE_TIMEZONE=Asia/Almaty
     volumes:
       - doskaz_storage:/app/public/storage
       - doskaz_storage:/app/storage
