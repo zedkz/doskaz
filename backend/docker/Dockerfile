@@ -12,8 +12,10 @@ WORKDIR /app
 ENV WEB_DOCUMENT_ROOT /app/public
 RUN mkdir /app/storage
 VOLUME /app/storage
+USER root
 
 FROM base
+USER application
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader --no-suggest && \
     composer clear-cache
