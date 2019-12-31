@@ -23,6 +23,7 @@
                     {route: {name: 'resources.users.list'}, isActive: 'resources.users', title: 'Пользователи', icon: 'fas fa-user'},
                     {route: {name: 'resources.blogCategories.list'}, isActive: 'resources.blogCategories', title: 'Категории блога', icon: ''},
                     {route: {name: 'resources.blogPosts.list'}, isActive: 'resources.blogPosts', title: 'Записи блога', icon: ''},
+                    {route: {name: 'resources.complaints.list'}, isActive: 'resources.complaints', title: 'Жалобы', icon: ''},
                 ]
             }
         },

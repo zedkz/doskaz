@@ -5,6 +5,7 @@ namespace App\Complaints;
 
 
 use App\Infrastructure\Doctrine\Flusher;
+use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,6 +47,30 @@ final class ComplaintController extends AbstractController
         return [
             ['id' => 1, 'name' => 'Нур-Султан'],
             ['id' => 2, 'name' => 'Павлодар']
+        ];
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route(methods={"GET"})
+     * @param Connection $connection
+     * @return mixed[]
+     */
+    public function list(Connection $connection)
+    {
+        $complaints = $connection->createQueryBuilder()
+            ->select('id', 'created_at as "createdAt"')
+            ->from('complaints')
+            ->orderBy('id', 'desc')
+            ->execute()->fetchAll();
+
+        return [
+            'items' => array_map(function($complaint) use($connection) {
+                return array_replace($complaint, [
+                    'createdAt' => $connection->convertToPHPValue($complaint['createdAt'], 'datetimetz_immutable')
+                ]);
+            }, $complaints),
+            'count' => 1
         ];
     }
 }

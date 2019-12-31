@@ -3,6 +3,7 @@
         <resource name="users" :list="users.list" :edit="users.edit" title="Пользователи"/>
         <resource name="blogCategories" :list="blogCategories.list" :edit="blogCategories.edit" :create="blogCategories.create" title="Категории блога"/>
         <resource name="blogPosts" :list="blogPosts.list" :edit="blogPosts.edit" :create="blogPosts.create" title="Записи блога"/>
+        <resource name="complaints" :list="complaints.list" title="Жалобы"/>
         <router-view/>
     </div>
 </template>
@@ -24,6 +25,7 @@
     import BlogPostsList from "@/components/BlogPosts/BlogPostsList";
     import BlogPostCreate from "@/components/BlogPosts/BlogPostCreate";
     import BlogPostEdit from "@/components/BlogPosts/BlogPostEdit";
+    import ComplaintsList from "@/components/Complaints/ComplaintsList";
     export default {
         components: {Resource},
         computed: {
@@ -45,6 +47,11 @@
                     list: BlogPostsList,
                     create: BlogPostCreate,
                     edit: BlogPostEdit
+                }
+            },
+            complaints() {
+                return {
+                    list: ComplaintsList
                 }
             }
         }
