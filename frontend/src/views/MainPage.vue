@@ -86,7 +86,7 @@
           />
         </svg>
       </button>
-      <router-link :to="{name: 'complaint'}" class="button button_red" >
+      <button @click.prevent="goTo('complaint')" class="button button_red">
         <svg
           width="19"
           height="21"
@@ -115,10 +115,10 @@
             fill="white"
           />
         </svg>
-      </router-link>
+      </button>
     </div>
 
-    <slot/>
+    <slot />
   </div>
 </template>
 
@@ -134,7 +134,7 @@ export default {
   data() {
     return {};
   },
-  name: 'mainPage',
+  name: "mainPage",
   components: {
     IntroForm,
     LoginForm,
@@ -143,20 +143,31 @@ export default {
     ObjectModal,
     MainMap
   },
-  mounted() {
-    if(this.$route.name === 'login') {
-      this.$store.dispatch('showLoginForm')
-    }
-  },
-  watch: {
-    '$store.state.authentication.user'(value) {
-      if(value) {
-        if(this.$route.name === 'login' && this.$route.query.next) {
-          this.$router.push(this.$route.query.next)
+  methods: {
+    goTo(param) {
+      if (JSON.parse(localStorage.getItem("userIsAuth")) == true) {
+        if (param == "complaint") {
+          this.$router.push({ path: "complaint" });
         }
+      } else {
+        this.$store.dispatch("showLoginForm");
       }
     }
   },
+  mounted() {
+    if (this.$route.name === "login") {
+      this.$store.dispatch("showLoginForm");
+    }
+  },
+  watch: {
+    "$store.state.authentication.user"(value) {
+      if (value) {
+        if (this.$route.name === "login" && this.$route.query.next) {
+          this.$router.push(this.$route.query.next);
+        }
+      }
+    }
+  }
 };
 </script>
 
