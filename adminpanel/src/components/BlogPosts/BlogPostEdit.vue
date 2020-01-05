@@ -3,7 +3,7 @@
         <admin-page>
             <div class="row page-titles" slot="header">
                 <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">Редактирование категории блога</h4>
+                    <h4 class="text-themecolor">Редактирование записи блога</h4>
                 </div>
             </div>
             <edit slot="content" :resource-id="$route.params.id" :resource-name="resourceName">

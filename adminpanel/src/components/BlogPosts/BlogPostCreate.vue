@@ -4,7 +4,7 @@
            <admin-page>
                <div class="row page-titles" slot="header">
                    <div class="col-md-5 align-self-center">
-                       <h4 class="text-themecolor">Создание категории блога</h4>
+                       <h4 class="text-themecolor">Создание записи блога</h4>
                    </div>
                </div>
 
