@@ -32,6 +32,8 @@ final class Complainant
     /**
      * @var string
      * @Assert\NotBlank()
+     * @Assert\Length(12)
+     * @Assert\Regex(pattern="/^\d+$/")
      */
     public $iin;
 
