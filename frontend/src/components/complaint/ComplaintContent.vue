@@ -8,42 +8,48 @@
                     <div class="complaint__col required" :class="{error: violations['complainant.lastName']}">
                         <label for="11" class="label">Фамилия</label>
                         <div class="input">
-                            <input id="11" type="text" v-model="complaint.complainant.lastName">
+                            <input id="11" type="text" v-model="complaint.complainant.lastName" @click="focus.lastName = true">
                         </div>
+                        <span class="violations_error" v-if="focus.lastName">{{violations['complainant.lastName']}}</span>
                     </div>
                     <div class="complaint__col required" :class="{error: violations['complainant.firstName']}">
                         <label for="12" class="label">Имя</label>
                         <div class="input">
-                            <input id="12" type="text" v-model="complaint.complainant.firstName">
+                            <input id="12" type="text" v-model="complaint.complainant.firstName" @click="focus.firstName = true">
                         </div>
+                        <span class="violations_error" v-if="focus.firstName">{{violations['complainant.firstName']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line complaint__row">
                     <div class="complaint__col required" :class="{error: violations['complainant.middleName']}">
                         <label for="21" class="label">Отчество</label>
                         <div class="input">
-                            <input id="21" type="text" v-model="complaint.complainant.middleName">
+                            <input id="21" type="text" v-model="complaint.complainant.middleName" @click="focus.middleName = true">
                         </div>
+                        <span class="violations_error" v-if="focus.middleName">{{violations['complainant.middleName']}}</span>
                     </div>
                     <div class="complaint__col required" :class="{error: violations['complainant.iin']}">
                         <label for="22" class="label">ИИН</label>
                         <div class="input">
-                            <input id="22" type="text" v-model="complaint.complainant.iin">
+                            <input id="22" type="text" v-model="complaint.complainant.iin" @click="focus.iin = true">
                         </div>
+                        <span class="violations_error" v-if="focus.iin">{{violations['complainant.iin']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line complaint__row">
                     <div class="complaint__col --lg-2 required" :class="{error: violations['complainant.address']}">
                         <label for="31" class="label">Адрес проживания</label>
                         <div class="input">
-                            <input id="31" type="text" v-model="complaint.complainant.address">
+                            <input id="31" type="text" v-model="complaint.complainant.address" @click="focus.address = true">
                         </div>
+                        <span class="violations_error" v-if="focus.address">{{violations['complainant.address']}}</span>
                     </div>
                     <div class="complaint__col required" :class="{error: violations['complainant.phone']}">
                         <label for="32" class="label">Телефон</label>
                         <div class="input">
-                            <input id="32" type="text" v-model="complaint.complainant.phone">
+                            <input id="32" type="text" v-model="complaint.complainant.phone" @click="focus.phone = true">
                         </div>
+                        <span class="violations_error" v-if="focus.phone">{{violations['complainant.phone']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line complaint__row">
@@ -88,8 +94,9 @@
                     </div>
                     <div class="complaint__col --sm">
                         <div class="input --date">
-                            <vuejs-datepicker :format="format" :language="ru" v-model="complaint.content.visitedAt"/>
+                            <vuejs-datepicker id="x3" :format="format" :language="ru" v-model="complaint.content.visitedAt"/>
                         </div>
+                        <span class="violations_error" v-if="focus.visitedAt">{{violations['content.visitedAt']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line --sm complaint__row required"
@@ -99,8 +106,9 @@
                     </div>
                     <div class="complaint__col --lg">
                         <div class="input">
-                            <input id="i2" type="text" v-model="complaint.content.objectName">
+                            <input id="i2" type="text" v-model="complaint.content.objectName" @click="focus.objectName = true">
                         </div>
+                        <span class="violations_error" v-if="focus.objectName">{{violations['content.objectName']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line --sm complaint__row required"
@@ -124,8 +132,9 @@
                     </div>
                     <div class="complaint__col --lg">
                         <div class="input">
-                            <input type="text" id="i3" v-model="complaint.content.street">
+                            <input type="text" id="i3" v-model="complaint.content.street" @click="focus.street = true">
                         </div>
+                        <span class="violations_error" v-if="focus.street">{{violations['content.street']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line --sm complaint__row required"
@@ -135,8 +144,9 @@
                     </div>
                     <div class="complaint__col --sm">
                         <div class="input">
-                            <input type="text" id="i4" v-model="complaint.content.building">
+                            <input type="text" id="i4" v-model="complaint.content.building" @click="focus.building = true">
                         </div>
+                        <span class="violations_error" v-if="focus.building">{{violations['content.building']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line --sm complaint__row">
@@ -145,8 +155,9 @@
                     </div>
                     <div class="complaint__col --sm">
                         <div class="input">
-                            <input type="text" id="i5" v-model="complaint.content.office">
+                            <input type="text" id="i5" v-model="complaint.content.office" @click="focus.office = true">
                         </div>
+                        <span class="violations_error" v-if="focus.office">{{violations['content.office']}}</span>
                     </div>
                 </div>
                 <div class="complaint__line --sm complaint__row required"
@@ -156,8 +167,9 @@
                     </div>
                     <div class="complaint__col --lg">
                         <div class="input">
-                            <input type="text" id="i6" v-model="complaint.content.visitPurpose">
+                            <input type="text" id="i6" v-model="complaint.content.visitPurpose" @click="focus.visitPurpose = true">
                         </div>
+                        <span class="violations_error" v-if="focus.visitPurpose">{{violations['content.visitPurpose']}}</span>
                     </div>
                 </div>
                 <div class="complaint__accordion" v-if="complaint.content.type === 'complaint2'">
@@ -416,6 +428,20 @@
     export default {
         data() {
             return {
+                focus: {
+                    lastName: false,
+                    firstName: false,
+                    middleName: false,
+                    iin: false,
+                    address: false,
+                    phone: false,
+                    visitedAt: false,
+                    objectName: false,
+                    street: false,
+                    building: false,
+                    office: false,
+                    visitPurpose: false
+                },
                 isLoading: false,
                 authorities: [],
                 cities: [],
@@ -507,6 +533,52 @@
                     this.$router.push('/')
                 } catch (e) {
                     this.violations = get(e, 'response.data.errors.violations', []).reduce((violations, violation) => {
+                        if (violations['complainant.lastName']) {
+                            document.getElementById("11").focus();
+                            this.focus.lastName = true
+                        }
+                        if (violations['complainant.firstName']) {
+                            document.getElementById("12").focus();
+                        }
+                        if (violations['complainant.middleName']) {
+                            document.getElementById("21").focus();
+                        }
+                        if (violations['complainant.iin']) {
+                            document.getElementById("22").focus();
+                        }
+                        if (violations['complainant.address']) {
+                            document.getElementById("31").focus();
+                        }
+                        if (violations['complainant.phone']) {
+                            document.getElementById("32").focus();
+                        }
+                        if (violations['complainant.authorityId']) {
+                            document.getElementById("41").focus();
+                        }
+                        if (violations['complainant.complaint.rememberPersonalData']) {
+                            document.getElementById("f1").focus();
+                        }
+                        if (violations['content.type']) {
+                            document.getElementById("s2").focus();
+                        }
+                        if (violations['content.visitedAt']) {
+                            document.getElementById("x3").focus();
+                        }
+                        if (violations['content.objectName']) {
+                            document.getElementById("i2").focus();
+                        }
+                        if (violations['content.street']) {
+                            document.getElementById("i3").focus();
+                        }
+                        if (violations['content.building']) {
+                            document.getElementById("i4").focus();
+                        }
+                        if (violations['content.office']) {
+                            document.getElementById("i5").focus();
+                        }
+                        if (violations['content.visitPurpose']) {
+                            document.getElementById("i6").focus();
+                        }
                         violations[violation.propertyPath] = violation.title;
                         return violations
                     }, {})
@@ -556,6 +628,12 @@
 </script>
 
 <style lang="scss" scoped>
+.input {
+    margin-bottom: 10px;
+}
+    .violations_error {
+        color: red;
+    }
 
     .required {
         label {
