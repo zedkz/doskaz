@@ -3,7 +3,7 @@
         <admin-page>
             <div class="row page-titles" slot="header">
                 <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">{{ $store.state.blogCategories.title }}</h4>
+                    <h4 class="text-themecolor">{{ $store.state.complaints.title }}</h4>
                 </div>
             </div>
             <list :resource-name="resourceName" slot="content">
@@ -12,8 +12,7 @@
                     </template>
                     <template v-slot:cell(_actions)="data">
                         <b-button-group size="sm">
-                            <edit-button :resource-name="resourceName" :resource-id="data.item.id"/>
-                            <delete-button :resource-id="data.item.id"/>
+                            <a :href="`/api/complaints/${data.item.id}/pdf`" target="_blank" class="btn btn-success"><i class="fa fa-download"/> Загрузить</a>
                         </b-button-group>
                     </template>
                 </b-table>
@@ -26,14 +25,12 @@
     import AdminPage from "@/components/AdminPage"
     import Adminpanel2 from "@/components/Adminpanel2"
     import List from "@/components/Admin/Actions/List"
-    import EditButton from "@/components/Admin/EditButton"
-    import DeleteButton from "@/components/Admin/DeleteButton"
     import {format} from 'date-fns'
 
     export default {
         props: ['resourceName'],
         name: "ComplaintsList",
-        components: {DeleteButton, EditButton, List, Adminpanel2, AdminPage},
+        components: {List, Adminpanel2, AdminPage},
         filters: {
           formatDate(date) {
               return format(new Date(date), 'yyyy-MM-dd HH:mm')
@@ -46,6 +43,7 @@
             fields() {
                 return [
                     {key: 'id', label: 'id'},
+                    {key: 'fullName', label: 'ФИО'},
                     {key: 'createdAt', label: 'Дата подачи'},
                     {key: '_actions', label: 'Действия'},
                 ]

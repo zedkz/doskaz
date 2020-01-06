@@ -135,6 +135,9 @@
     "php-http/discovery": {
         "version": "1.7.0"
     },
+    "php-http/guzzle6-adapter": {
+        "version": "v2.0.1"
+    },
     "php-http/httplug": {
         "version": "v2.0.0"
     },
@@ -465,6 +468,12 @@
     },
     "symfony/yaml": {
         "version": "v4.3.5"
+    },
+    "thecodingmachine/gotenberg-php-client": {
+        "version": "6.1.0"
+    },
+    "thecodingmachine/safe": {
+        "version": "v0.1.16"
     },
     "tuupola/base62": {
         "version": "2.0.0"

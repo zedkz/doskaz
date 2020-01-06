@@ -7,3 +7,8 @@ services:
         tags: ['controller.service_arguments']
 
     App\Complaints\ComplaintRepository:
+
+    App\Complaints\SeedComplaintAuthorities:
+        tags: ['console.command']
+
+    App\Complaints\AuthorityRepository:
