@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Complaints;
 
 
+use App\Cities\Cities;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Safe\Exceptions\FilesystemException;
@@ -57,10 +58,7 @@ final class ComplaintController extends AbstractController
      */
     public function complaintCities()
     {
-        return [
-            ['id' => 1, 'name' => 'Нур-Султан'],
-            ['id' => 2, 'name' => 'Павлодар']
-        ];
+        return Cities::list();
     }
 
     /**
