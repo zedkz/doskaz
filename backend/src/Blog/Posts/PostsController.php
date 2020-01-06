@@ -10,15 +10,14 @@ use App\Blog\MetaData;
 use App\Blog\SlugFactory;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use Laminas\Feed\Writer\Entry;
+use Laminas\Feed\Writer\Feed;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Zend\Diactoros\Response\XmlResponse;
-use Zend\Feed\Writer\Entry;
-use Zend\Feed\Writer\Feed;
 
 /**
  * @Route(path="/api/blogPosts")
