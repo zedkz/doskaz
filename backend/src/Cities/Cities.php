@@ -52,7 +52,7 @@ class Cities
         ];
     }
 
-    public function find(string $id): ?array
+    public static function find(int $id): ?array
     {
         foreach (self::list() as $item) {
             if ($item['id'] === $id) {
