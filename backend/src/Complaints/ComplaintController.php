@@ -41,6 +41,8 @@ final class ComplaintController extends AbstractController
 
     /**
      * @Route(path="/authorities", methods={"GET"})
+     * @param Connection $connection
+     * @return mixed[]
      */
     public function complaintAuthorities(Connection $connection)
     {
@@ -158,7 +160,6 @@ final class ComplaintController extends AbstractController
 
         return (new BinaryFileResponse($path, 200, [], true))->deleteFileAfterSend();
     }
-
 
     public function complaintAttributes()
     {
@@ -440,5 +441,13 @@ final class ComplaintController extends AbstractController
                 ]
             ]
         ];
+    }
+
+    /**
+     * @Route(path="/validate", methods={"POST"})
+     * @param ComplaintData $complaintData
+     */
+    public function validate(ComplaintData $complaintData) {
+
     }
 }
