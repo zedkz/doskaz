@@ -48,4 +48,22 @@ final class Complainant
      * @Assert\NotBlank()
      */
     public $phone;
+
+    /**
+     * @var string|int|null
+     * @Assert\NotBlank()
+     */
+    public $cityId;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     */
+    public $street;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     */
+    public $building;
 }
