@@ -7,7 +7,6 @@ namespace App\Complaints;
 use App\Cities\Cities;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
-use OpenApi\Annotations\Get;
 use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Post;
 use OpenApi\Annotations\RequestBody;
@@ -31,6 +30,23 @@ use TheCodingMachine\Gotenberg\RequestException;
  */
 final class ComplaintController extends AbstractController
 {
+    /**
+     * @Route(path="/validate", methods={"POST"})
+     * @param ComplaintData $complaintData
+     * @Post(path="/api/complaints/validate",
+     *     tags={"Жалобы"},
+     *     summary="Валидация жалобы",
+     *     @RequestBody(required=true, description="Жалоба", @JsonContent(ref="#/components/schemas/Complaint")),
+     *     responses={
+     *         @Response(response="204", description="No content"),
+     *         @Response(response="401", description="Not authorized"),
+     *         @Response(response="400", description="Bad content")
+     * })
+     */
+    public function validate(ComplaintData $complaintData) {
+
+    }
+
     /**
      * @Route(methods={"POST"})
      * @param ComplaintData $complaintData
@@ -456,13 +472,5 @@ final class ComplaintController extends AbstractController
                 ]
             ]
         ];
-    }
-
-    /**
-     * @Route(path="/validate", methods={"POST"})
-     * @param ComplaintData $complaintData
-     */
-    public function validate(ComplaintData $complaintData) {
-
     }
 }
