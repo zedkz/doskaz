@@ -58,5 +58,3 @@ services:
         tags: ['controller.service_arguments']
         arguments:
             - '%kernel.project_dir%/src'
-
-    Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
