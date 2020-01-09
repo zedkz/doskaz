@@ -7,6 +7,11 @@ namespace App\Complaints;
 use App\Cities\Cities;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use OpenApi\Annotations\Get;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Post;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Response;
 use Safe\Exceptions\FilesystemException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,6 +36,16 @@ final class ComplaintController extends AbstractController
      * @param ComplaintData $complaintData
      * @param ComplaintRepository $complaintRepository
      * @param Flusher $flusher
+     *
+     * @Post(path="/api/complaints",
+     *     tags={"Жалобы"},
+     *     summary="Подача жалобы",
+     *     @RequestBody(required=true, description="Жалоба", @JsonContent(ref="#/components/schemas/Complaint")),
+     *     responses={
+     *         @Response(response="204", description="No content"),
+     *         @Response(response="401", description="Not authorized"),
+     *         @Response(response="400", description="Bad content")
+     * })
      */
     public function make(ComplaintData $complaintData, ComplaintRepository $complaintRepository, Flusher $flusher)
     {

@@ -35,7 +35,7 @@ services:
 
     App\Infrastructure\Api\ResponseViewListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.view }
+            - { name: kernel.event_listener, event: kernel.view, priority: -1}
 
     App\Infrastructure\ObjectResolver\ObjectArgumentResolver:
         tags:
@@ -53,3 +53,10 @@ services:
         tags: ['controller.service_arguments']
         arguments:
             - '@League\Flysystem\Adapter\Local'
+
+    App\Infrastructure\Api\DocumentationController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '%kernel.project_dir%/src'
+
+    Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'

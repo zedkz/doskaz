@@ -17,3 +17,7 @@ storage:
 complaints:
     resource: ../../src/Complaints
     type: annotation
+
+apiDocs:
+    resource: ../../src/Infrastructure/Api
+    type: annotation
