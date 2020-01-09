@@ -34,12 +34,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  */
-abstract class ComplaintContent
+class ComplaintContent
 {
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Property()
+     * @Property(example="complaint1")
      */
     public $type;
 
@@ -93,11 +93,13 @@ abstract class ComplaintContent
 
     /**
      * @var string[]
+     * @Property()
      */
     public $videos = [];
 
     /**
      * @var string[]
+     * @Property()
      */
     public $photos = [];
 
