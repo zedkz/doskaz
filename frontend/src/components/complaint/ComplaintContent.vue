@@ -844,7 +844,12 @@ export default {
             }
           };
         } else {
-          url = "complainant";
+          url = {
+            complainant: {
+              type: this.complaint.complainant.type,
+              [param]: this.complaint.complainant[param]
+            }
+          };
           validate_param[param] = this.complaint.complainant[param];
         }
         api.post("complaints/validate", url).catch(error => {
