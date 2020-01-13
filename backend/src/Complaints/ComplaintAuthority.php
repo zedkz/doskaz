@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="complain_authorities")
+ * @ORM\Table(name="complaint_authorities")
  */
 class ComplaintAuthority
 {
@@ -37,4 +37,11 @@ class ComplaintAuthority
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
     private $deletedAt;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 }

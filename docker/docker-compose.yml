@@ -82,6 +82,9 @@ services:
       - traefik.http.middlewares.doskaz_imaginary.stripprefix.prefixes=/image
       - traefik.http.routers.doskaz_imaginary.middlewares=doskaz_imaginary
 
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+
 volumes:
   doskaz_db:
     external: true
