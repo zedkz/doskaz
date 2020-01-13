@@ -26,3 +26,8 @@ services:
             $source: '@doctrine.dbal.dospav_connection'
 
     App\Blog\Posts\PostsFinder:
+
+    App\Blog\Comments\CommentRepository:
+
+    App\Blog\Comments\CommentController:
+        tags: ['controller.service_arguments']
