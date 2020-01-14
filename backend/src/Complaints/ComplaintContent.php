@@ -58,7 +58,7 @@ class ComplaintContent
     public $objectName;
 
     /**
-     * @var string
+     * @var string|int
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Id города")
      */
