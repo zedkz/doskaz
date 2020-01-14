@@ -12,3 +12,11 @@ services:
 
     App\Objects\ObjectsApiController:
         tags: ['controller.service_arguments']
+
+    App\Objects\ImportCategories:
+        tags: ['console.command']
+        arguments:
+            $sourceConnection: '@doctrine.dbal.dospav_connection'
+
+    App\Objects\CategoriesController:
+        tags: ['controller.service_arguments']

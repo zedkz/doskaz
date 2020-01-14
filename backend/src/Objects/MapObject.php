@@ -19,12 +19,18 @@ class MapObject
     private $id;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $categoryId;
+
+    /**
      * @ORM\Embedded(class="App\Objects\Point")
      */
     private $point;
 
-    public function __construct(Point $point)
+    public function __construct(Point $point, ?int $categoryId)
     {
         $this->point = $point;
+        $this->categoryId = $categoryId;
     }
 }
