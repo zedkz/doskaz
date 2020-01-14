@@ -20,7 +20,7 @@ services:
       - web
     labels:
       - traefik.enable=true
-      - traefik.http.routers.doskaz_app.rule=Host(`${APP_HOST}`) && (PathPrefix(`/api`) || PathPrefix(`/storage`))
+      - traefik.http.routers.doskaz_app.rule=Host(`${APP_HOST}`) && (PathPrefix(`/api`) || PathPrefix(`/storage`) || PathPrefix(`/static`))
       - traefik.http.middlewares.doskaz_compress_app.compress=true
       - traefik.http.routers.doskaz_app.middlewares=doskaz_compress_app
       - traefik.http.routers.app_rss.rule=Host(`${APP_HOST}`) && Path(`/blog/rss`)

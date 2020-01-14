@@ -71,7 +71,7 @@ class CommentData implements DataObject
         $self->id = $data['id'];
         $self->userId = $data['userId'];
         $self->userName = $data['userName'] ?: 'Без имени';
-        $self->userAvatar = '';
+        $self->userAvatar = '/static/ava.png';
         $self->text = $data['text'];
         $self->parentId = $data['parentId'];
         $self->createdAt = $connection->convertToPHPValue($data['createdAt'], 'datetimetz_immutable');
