@@ -31,7 +31,7 @@ class CategoryData
 
     /**
      * @var array
-     * @Property(type="array", example={}, items={@Schema(ref="#/components/schemas/ObjectCategory")})
+     * @Property(type="array", description="Подкатегории", example={}, items={@Schema(ref="#/components/schemas/ObjectCategory")})
      */
     public $subCategories;
 
