@@ -114,6 +114,78 @@
         </div>
         <div class="complaint__line complaint__row">
           <div
+            class="complaint__col required"
+            :class="{ error: violations['complainant.user_cityId'] }"
+          >
+            <label for="u21" class="label">Город</label>
+            <div class="select">
+              <select id="u21" v-model="complaint.complainant.cityId">
+                <option v-for="city in cities" :value="city.id" :key="city.id"
+                  >{{ city.name }}
+                </option>
+              </select>
+            </div>
+            <span class="violations_error" v-if="user_focus.cityId"
+              >Поле не может быть пустым</span
+            >
+          </div>
+          <div
+            class="complaint__col required"
+            :class="{ error: violations['complainant.user_street'] }"
+          >
+            <label for="u22" class="label">Улица</label>
+            <div class="input">
+              <input
+                type="text"
+                id="u22"
+                v-model="complaint.complainant.street"
+                @input="checValue('street', 'complainant', 'user')"
+              />
+            </div>
+            <span class="violations_error" v-if="user_focus.street"
+              >Поле не может быть пустым</span
+            >
+          </div>
+        </div>
+
+        <div class="complaint__line complaint__row">
+          <div
+            class="complaint__col required"
+            :class="{ error: violations['complainant.user_building'] }"
+          >
+            <label for="u23" class="label">Номер дома</label>
+            <div class="input">
+              <input
+                type="text"
+                id="u23"
+                v-model="complaint.complainant.building"
+                @input="checValue('building', 'complainant', 'user')"
+              />
+            </div>
+            <span class="violations_error" v-if="user_focus.building"
+              >Поле не может быть пустым</span
+            >
+          </div>
+          <div
+            class="complaint__col required"
+            :class="{ error: violations['complainant.authorityId'] }"
+          >
+            <label for="41" class="label">Наименование органа обращения</label>
+            <div class="select">
+              <select v-model="complaint.authorityId" id="41">
+                <option
+                  v-for="authority in authorities"
+                  :key="authority.id"
+                  :value="authority.id"
+                  >{{ authority.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="complaint__line complaint__row">
+          <div
             class="complaint__col --lg-2 required"
             :class="{ error: violations['authorityId'] }"
           >
@@ -130,7 +202,7 @@
             </div>
           </div>
           <div class="complaint__col"></div>
-        </div>
+        </div> -->
         <div class="complaint__line complaint__row">
           <div class="checkbox">
             <input
@@ -760,6 +832,11 @@ const fields = [
 export default {
   data() {
     return {
+      user_focus: {
+        street: false,
+        building: false,
+        cityId: 0
+      },
       focus: {
         lastName: false,
         firstName: false,
@@ -785,6 +862,9 @@ export default {
           lastName: "",
           middleName: "",
           iin: "",
+          cityId: 1,
+          street: "",
+          building: "",
           address: "",
           phone: ""
         },
@@ -832,11 +912,12 @@ export default {
     this.initialize();
   },
   methods: {
-    async checValue(param, content) {
+    async checValue(param, content, user) {
+      console.log(content);
       var url = {};
       var validate_param = {};
       let refreshInterval = await setInterval(() => {
-        if (content) {
+        if (content == "content") {
           url = {
             content: {
               type: this.complaint.content.type,
@@ -853,7 +934,7 @@ export default {
           validate_param[param] = this.complaint.complainant[param];
         }
         api.post("complaints/validate", url).catch(error => {
-          if (content) {
+          if (content  == "content") {
             if (
               error.response.data.errors.violations.find(
                 item => item.propertyPath == `content.${param}`
@@ -869,9 +950,17 @@ export default {
                 item => item.propertyPath == `complainant.${param}`
               ) !== undefined
             ) {
-              this.focus[param] = true;
+              if (user === "user") {
+                this.user_focus[param] = true;
+              } else {
+                this.focus[param] = true;
+              }
             } else {
-              this.focus[param] = false;
+              if (user === "user") {
+                this.user_focus[param] = false;
+              } else {
+                this.focus[param] = false;
+              }
             }
           }
         });
@@ -900,6 +989,7 @@ export default {
       const { data: cities } = await api.get("complaints/cities");
       this.cities = cities;
       this.complaint.content.cityId = cities[0].id;
+      this.complaint.complainant.cityId = cities[0].id;
     },
     async submit() {
       this.isLoading = true;
