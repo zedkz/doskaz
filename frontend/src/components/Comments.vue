@@ -1,6 +1,5 @@
 <template>
   <div class="comments-block">
-    <!-- <h4>{{ declension }}</h4> -->
     <div class="comments-list">
       <div class="person-comment">
         <div>
@@ -19,41 +18,20 @@
           <div>
             <span class="person-name">{{ comment.userName }}</span>
             <p class="text-comment">{{ comment.text }}</p>
-            <span class="date-comment small">Вчера в 22:25</span>
+            <span class="date-comment small">{{
+              formatDate(comment.createdAt)
+            }}</span>
             <span class="small" @click="requestComment(comment.id)"
               >Ответить</span
             >
           </div>
-          <Comment :replies="comment.replies" />
-          <!-- <div
-            class="replie-comment"
-            v-for="replie in comment.replies"
+          <Comments
+            v-for="(replie, i) in comment.replies"
+            :comment="replie"
+            :index="i"
             :key="replie.id"
-          >
-            <div>
-              <img
-                :src="replie.userAvatar"
-                class="avatar"
-                v-if="!!replie.userAvatar.length"
-              />
-              <div
-                v-else
-                :style="`background:${colorGenerator()}`"
-                class="no-avatar"
-              ></div>
-            </div>
-            <div class="person-info">
-              <span class="person-name">{{ replie.userName }}</span
-              ><small class="small">
-                ответил {{ serchParenById(replie.parentId).userName }}</small
-              >
-              <p class="text-comment">{{ replie.text }}</p>
-              <span class="date-comment small">Вчера в 22:25</span>
-              <span class="small" @click="requestComment(replie.id)"
-                >Ответить</span
-              >
-            </div>
-          </div> -->
+            :parentItem="comment"
+          />
         </div>
       </div>
     </div>
@@ -61,11 +39,13 @@
 </template>
 
 <script>
-import api from "@/api";
-import Comment from "@/components/Comment";
+import Comments from "@/components/Comments";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 export default {
-  components: { Comment },
+  name: "Comments",
+  components: { Comments },
   props: ["comment"],
   data: () => ({
     commentText: "",
@@ -73,48 +53,13 @@ export default {
     comments: [],
     commentId: undefined
   }),
-  computed: {
-    declension() {
-      let number = this.comments.length;
-      let txt = ["Комментарий", "Комментария", "Комментариев"];
-      let cases = [2, 0, 1, 1, 1, 2];
-      return (
-        number +
-        " " +
-        txt[
-          number % 100 > 4 && number % 100 < 20
-            ? 2
-            : cases[number % 10 < 5 ? number % 10 : 5]
-        ]
-      );
-    }
-  },
   methods: {
-    resizeHeight(e) {
-      e.target.style.height = "70px";
-      e.target.style.height = e.target.scrollHeight + "px";
-    },
-    sendComment() {
-      api
-        .post(`blogPosts/${this.postId}/comments`, {
-          text: this.comment,
-          parentId: this.commentId
-        })
-        .then(res => {
-          console.log(res);
-          this.comment = "";
-          this.commentId = null;
-        });
-      this.commentId = null;
+    formatDate(date) {
+      return format(new Date(date), "d MMMM y", { locale: ru });
     },
     requestComment(id) {
-      this.commentId = id;
-      this.$nextTick(() => {
-        this.$refs.comment.focus();
-      });
-    },
-    clearComment() {
-      this.comment = "";
+      this.$store.commit("setId", id);
+      this.$emit("formFocus");
     },
     colorGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
@@ -139,7 +84,7 @@ export default {
   .person-comment,
   .replie-comment {
     display: flex;
-    margin-bottom: 35px;
+    margin-top: 35px;
 
     .person-info {
       padding-top: 6px;
@@ -163,36 +108,6 @@ export default {
       height: 30px;
       width: 30px;
       border-radius: 50%;
-    }
-  }
-
-  form {
-    display: flex;
-
-    textarea {
-      padding: 14px 20px;
-      width: 100%;
-      border: 1px solid #7b95a7;
-      box-sizing: border-box;
-      resize: none;
-      overflow: hidden;
-      height: 100%;
-    }
-
-    .form-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      button {
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        outline: none;
-        background: none;
-      }
     }
   }
 }

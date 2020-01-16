@@ -40,11 +40,42 @@
           </div>
 
           <!-- <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/> -->
+          <h4>{{ declension }}</h4>
           <Comments
-            v-for="comment in comments"
+            @formFocus="formFocus"
+            v-for="comment in comments.items"
             :key="comment.id"
             :comment="comment"
           />
+          <form class="comment-form">
+            <textarea
+              ref="comment"
+              placeholder="Напишите комментарий"
+              name="comment"
+              rows="2"
+              v-model="commentText"
+              @input="resizeHeight"
+            />
+            <div class="form-actions">
+              <div>
+                <button
+                  type="button"
+                  class="send-button"
+                  @click="sendComment('clear')"
+                >
+                  <img src="@/assets/icons/send.svg" alt="" />
+                </button>
+                <button
+                  type="button"
+                  @click="clearComment()"
+                  class="clear-button"
+                  v-if="commentText.length > 0"
+                >
+                  <img src="@/assets/icons/close.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
       <div class="blog__side">
@@ -109,6 +140,7 @@ export default {
     return {
       post: {},
       similarPosts: [],
+      commentText: "",
       comments: []
     };
   },
@@ -126,6 +158,29 @@ export default {
     }
   },
   methods: {
+    formFocus() {
+      this.$refs.comment.focus();
+    },
+    sendComment() {
+      api
+        .post(`blogPosts/${this.post.id}/comments`, {
+          text: this.commentText,
+          parentId: this.$store.getters.getId
+        })
+        .then(res => {
+          console.log(res);
+          this.comment = "";
+          this.$store.commit("setId", null);
+        });
+      this.$store.commit("setId", null);
+    },
+    clearComment() {
+      this.commentText = "";
+    },
+    resizeHeight(e) {
+      e.target.style.height = "70px";
+      e.target.style.height = e.target.scrollHeight + "px";
+    },
     async loadPost() {
       await api
         .get(`blogPosts/bySlug/${this.$route.params.postSlug}`)
@@ -133,7 +188,7 @@ export default {
           this.post = res.data.post;
           this.similarPosts = res.data.similar;
           api.get(`blogPosts/${res.data.post.id}/comments`).then(res => {
-            this.comments =  res.data.items;
+            this.comments = res.data;
           });
         });
     },
@@ -142,6 +197,20 @@ export default {
     }
   },
   computed: {
+    declension() {
+      let number = this.comments.count;
+      let txt = ["Комментарий", "Комментария", "Комментариев"];
+      let cases = [2, 0, 1, 1, 1, 2];
+      return (
+        number +
+        " " +
+        txt[
+          number % 100 > 4 && number % 100 < 20
+            ? 2
+            : cases[number % 10 < 5 ? number % 10 : 5]
+        ]
+      );
+    },
     shareLinks() {
       const path = encodeURIComponent(
         window.location.origin + this.$route.fullPath
@@ -159,6 +228,37 @@ export default {
 </script>
 
 <style lang="scss">
+.comment-form {
+  display: flex;
+  margin-top: 35px;
+
+  textarea {
+    padding: 14px 20px;
+    width: 100%;
+    border: 1px solid #7b95a7;
+    box-sizing: border-box;
+    resize: none;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      outline: none;
+      background: none;
+    }
+  }
+}
+
 .slider {
   position: relative;
   padding: 0 20px;
