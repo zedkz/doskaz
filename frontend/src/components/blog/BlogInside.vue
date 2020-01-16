@@ -41,7 +41,6 @@
 
           <!-- <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/> -->
           <Comments
-            v-if="comments.length > 0"
             v-for="comment in comments"
             :key="comment.id"
             :comment="comment"

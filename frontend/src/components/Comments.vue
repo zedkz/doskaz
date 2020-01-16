@@ -1,13 +1,13 @@
 <template>
   <div class="comments-block">
-    <h4>{{ declension }}</h4>
+    <!-- <h4>{{ declension }}</h4> -->
     <div class="comments-list">
-      <div class="person-comment" v-for="replie in comment" :key="replie.id">
+      <div class="person-comment">
         <div>
           <img
-            :src="replie.userAvatar"
+            :src="comment.userAvatar"
             class="avatar"
-            v-if="!!replie.userAvatar.length"
+            v-if="!!comment.userAvatar"
           />
           <div
             v-else
@@ -17,13 +17,14 @@
         </div>
         <div class="person-info">
           <div>
-            <span class="person-name">{{ replie.userName }}</span>
-            <p class="text-comment">{{ replie.text }}</p>
+            <span class="person-name">{{ comment.userName }}</span>
+            <p class="text-comment">{{ comment.text }}</p>
             <span class="date-comment small">Вчера в 22:25</span>
-            <span class="small" @click="requestComment(replie.id)"
+            <span class="small" @click="requestComment(comment.id)"
               >Ответить</span
             >
           </div>
+          <Comment :replies="comment.replies" />
           <!-- <div
             class="replie-comment"
             v-for="replie in comment.replies"
@@ -55,61 +56,23 @@
           </div> -->
         </div>
       </div>
-
-      <form>
-        <textarea
-          ref="comment"
-          placeholder="Напишите комментарий"
-          name="comment"
-          id="1"
-          rows="2"
-          v-model="comment"
-          @input="resizeHeight"
-        />
-        <div class="form-actions">
-          <div>
-            <button
-              type="button"
-              class="send-button"
-              @click="sendComment('clear')"
-            >
-              <img src="@/assets/icons/send.svg" alt="" />
-            </button>
-            <button
-              type="button"
-              @click="clearComment()"
-              class="clear-button"
-              v-if="comment.length > 0"
-            >
-              <img src="@/assets/icons/close.svg" alt="" />
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
   </div>
 </template>
 
 <script>
 import api from "@/api";
+import Comment from "@/components/Comment";
 
 export default {
+  components: { Comment },
   props: ["comment"],
   data: () => ({
+    commentText: "",
     postId: "",
     comments: [],
     commentId: undefined
   }),
-  // mounted() {
-  //   api
-  //     .get(`blogPosts/bySlug/${this.$route.params.postSlug}`)
-  //     .then(response => {
-  //       this.postId = response.data.post.id;
-  //       api.get(`blogPosts/${this.postId}/comments`).then(res => {
-  //         this.comments = res.data.items;
-  //       });
-  //     });
-  // },
   computed: {
     declension() {
       let number = this.comments.length;
@@ -231,10 +194,6 @@ export default {
         background: none;
       }
     }
-  }
-
-  .comment-error {
-    color: red;
   }
 }
 </style>
