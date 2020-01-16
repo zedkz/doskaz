@@ -7,7 +7,7 @@
           <img
             :src="comment.userAvatar"
             class="avatar"
-            v-if="comment.userAvatar.length !== 0"
+            v-if="!!comment.userAvatar.length"
           />
           <div
             v-else
@@ -20,7 +20,11 @@
             <span class="person-name">{{ comment.userName }}</span>
             <p class="text-comment">{{ comment.text }}</p>
             <span class="date-comment small">Вчера в 22:25</span>
-            <span class="small" @click="sendComment(comment.id)">Ответить</span>
+            <span
+              class="small"
+              @click="requestComment(comment.id)"
+              >Ответить</span
+            >
           </div>
           <div
             class="replie-comment"
@@ -31,7 +35,7 @@
               <img
                 :src="replie.userAvatar"
                 class="avatar"
-                v-if="replie.userAvatar.length !== 0"
+                v-if="!!replie.userAvatar.length"
               />
               <div
                 v-else
@@ -46,7 +50,7 @@
               >
               <p class="text-comment">{{ replie.text }}</p>
               <span class="date-comment small">Вчера в 22:25</span>
-              <span class="small" @click="sendComment(replie.id)"
+              <span class="small" @click="requestComment(replie.id)"
                 >Ответить</span
               >
             </div>
@@ -57,6 +61,7 @@
       <form>
         <textarea
           ref="comment"
+          placeholder="Напишите комментарий"
           name="comment"
           id="1"
           rows="2"
@@ -65,7 +70,11 @@
         />
         <div class="form-actions">
           <div>
-            <button type="button" class="send-button" @click="sendComment()">
+            <button
+              type="button"
+              class="send-button"
+              @click="sendComment('clear')"
+            >
               <img src="@/assets/icons/send.svg" alt="" />
             </button>
             <button
@@ -79,7 +88,6 @@
           </div>
         </div>
       </form>
-      <p class="comment-error" v-if="commentError">Пожалуйста укажите комментарий</p>
     </div>
   </div>
 </template>
@@ -93,7 +101,7 @@ export default {
     comment: "",
     postId: "",
     comments: [],
-    commentError: false
+    commentId: undefined
   }),
   mounted() {
     api
@@ -102,7 +110,6 @@ export default {
         this.postId = response.data.post.id;
         api.get(`blogPosts/${this.postId}/comments`).then(res => {
           this.comments = res.data.items;
-          this;
         });
       });
   },
@@ -124,26 +131,27 @@ export default {
   },
   methods: {
     resizeHeight(e) {
-      this.commentError = false
       e.target.style.height = "70px";
       e.target.style.height = e.target.scrollHeight + "px";
     },
-    sendComment(id) {
-      if (id == undefined) {
-        id = null
-      }
-
-      if (this.comment.length > 1) {
-        api.post(`blogPosts/${this.postId}/comments`, {
+    sendComment() {
+      api
+        .post(`blogPosts/${this.postId}/comments`, {
           text: this.comment,
-          parentId: id
+          parentId: this.commentId
         })
         .then(res => {
           console.log(res);
+          this.comment = "";
+          this.commentId = null
         });
-      } else {
-        this.commentError = true
-      }
+      this.commentId = null;
+    },
+    requestComment(id) {
+      this.commentId = id;
+      this.$nextTick(() => {
+        this.$refs.comment.focus();
+      });
     },
     clearComment() {
       this.comment = "";
