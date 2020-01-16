@@ -2,12 +2,12 @@
   <div class="comments-block">
     <h4>{{ declension }}</h4>
     <div class="comments-list">
-      <div class="person-comment" v-for="comment in comments" :key="comment.id">
+      <div class="person-comment" v-for="replie in comment" :key="replie.id">
         <div>
           <img
-            :src="comment.userAvatar"
+            :src="replie.userAvatar"
             class="avatar"
-            v-if="!!comment.userAvatar.length"
+            v-if="!!replie.userAvatar.length"
           />
           <div
             v-else
@@ -17,16 +17,14 @@
         </div>
         <div class="person-info">
           <div>
-            <span class="person-name">{{ comment.userName }}</span>
-            <p class="text-comment">{{ comment.text }}</p>
+            <span class="person-name">{{ replie.userName }}</span>
+            <p class="text-comment">{{ replie.text }}</p>
             <span class="date-comment small">Вчера в 22:25</span>
-            <span
-              class="small"
-              @click="requestComment(comment.id)"
+            <span class="small" @click="requestComment(replie.id)"
               >Ответить</span
             >
           </div>
-          <div
+          <!-- <div
             class="replie-comment"
             v-for="replie in comment.replies"
             :key="replie.id"
@@ -54,7 +52,7 @@
                 >Ответить</span
               >
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -96,23 +94,22 @@
 import api from "@/api";
 
 export default {
-  props: ["id", "postSlug"],
+  props: ["comment"],
   data: () => ({
-    comment: "",
     postId: "",
     comments: [],
     commentId: undefined
   }),
-  mounted() {
-    api
-      .get(`blogPosts/bySlug/${this.$route.params.postSlug}`)
-      .then(response => {
-        this.postId = response.data.post.id;
-        api.get(`blogPosts/${this.postId}/comments`).then(res => {
-          this.comments = res.data.items;
-        });
-      });
-  },
+  // mounted() {
+  //   api
+  //     .get(`blogPosts/bySlug/${this.$route.params.postSlug}`)
+  //     .then(response => {
+  //       this.postId = response.data.post.id;
+  //       api.get(`blogPosts/${this.postId}/comments`).then(res => {
+  //         this.comments = res.data.items;
+  //       });
+  //     });
+  // },
   computed: {
     declension() {
       let number = this.comments.length;
@@ -143,7 +140,7 @@ export default {
         .then(res => {
           console.log(res);
           this.comment = "";
-          this.commentId = null
+          this.commentId = null;
         });
       this.commentId = null;
     },

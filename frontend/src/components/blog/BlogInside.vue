@@ -38,9 +38,14 @@
               </a>
             </div>
           </div>
-          
+
           <!-- <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/> -->
-          <Comments :id="post.id" :postSlug="this.$route.params.postSlug"/>
+          <Comments
+            v-if="comments.length > 0"
+            v-for="comment in comments"
+            :key="comment.id"
+            :comment="comment"
+          />
         </div>
       </div>
       <div class="blog__side">
@@ -101,13 +106,11 @@ export default {
       ].filter(({ content }) => !!content)
     };
   },
-  mounted() {
-    console.log(this.$route);
-  },
   data() {
     return {
       post: {},
-      similarPosts: []
+      similarPosts: [],
+      comments: []
     };
   },
   filters: {
@@ -125,11 +128,15 @@ export default {
   },
   methods: {
     async loadPost() {
-      const {
-        data: { post, similar }
-      } = await api.get(`blogPosts/bySlug/${this.$route.params.postSlug}`);
-      this.post = post;
-      this.similarPosts = similar;
+      await api
+        .get(`blogPosts/bySlug/${this.$route.params.postSlug}`)
+        .then(res => {
+          this.post = res.data.post;
+          this.similarPosts = res.data.similar;
+          api.get(`blogPosts/${res.data.post.id}/comments`).then(res => {
+            this.comments =  res.data.items;
+          });
+        });
     },
     share(network) {
       window.open(this.shareLinks[network]);
