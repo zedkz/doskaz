@@ -33,11 +33,11 @@ final class StorageController extends AbstractController
     {
         $filesystem = new Filesystem($this->adapter);
         $name = bin2hex(random_bytes(16));
+        $filesystem->assertAbsent($name);
         $filesystem->writeStream($name, $request->getContent(true));
 
         return [
             'path' => "/storage/{$name}"
         ];
     }
-
 }
