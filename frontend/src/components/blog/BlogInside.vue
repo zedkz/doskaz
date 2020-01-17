@@ -41,6 +41,13 @@
 
           <!-- <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/> -->
           <h4>{{ declension }}</h4>
+          <span class="custom-dropdown">
+            <select v-model="comments_sort" @change="sortedComment()">
+              <option>сначала новые</option>
+              <option>сначала старые</option>
+              <option>популярные</option>
+            </select>
+          </span>
           <Comments
             @formFocus="formFocus"
             v-for="comment in comments.items"
@@ -138,10 +145,12 @@ export default {
   },
   data() {
     return {
+      comments_sort: "сначала новые",
       post: {},
       similarPosts: [],
       commentText: "",
-      comments: []
+      comments: [],
+      notSortedComments: [],
     };
   },
   filters: {
@@ -158,6 +167,13 @@ export default {
     }
   },
   methods: {
+    sortedComment() {
+      if (this.comments_sort == 'сначала старые') {
+        this.comments.items.reverse()
+      } else if (this.comments_sort == 'сначала новые') {
+        this.comments.items = this.comments.items.reverse()
+      }
+    },
     formFocus() {
       this.$refs.comment.focus();
     },
@@ -228,6 +244,68 @@ export default {
 </script>
 
 <style lang="scss">
+/* Custom dropdown */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px; /* demo only */
+}
+
+.custom-dropdown select {
+  cursor:pointer;
+  background-color: #fff;
+  color: #5B6067;
+  font-size: 14px;
+  padding: .5em;
+  padding-right: 2.5em;	
+  border: 0;
+  margin: 0;
+  border-radius: 3px;
+  text-indent: 0.01px;
+  text-overflow: '';
+}
+
+.custom-dropdown::before,
+.custom-dropdown::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.custom-dropdown::after { /*  Custom dropdown arrow */
+  content: "\25BC";
+  height: 1em;
+  font-size: .625em;
+  line-height: 1;
+  right: 1.2em;
+  top: 50%;
+  margin-top: -.5em;
+}
+
+.custom-dropdown::before { /*  Custom dropdown arrow cover */
+  width: 2em;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.custom-dropdown select[disabled] {
+  color: rgba(0,0,0,.3);
+}
+
+.custom-dropdown select[disabled]::after {
+  color: rgba(0,0,0,.1);
+}
+
+.custom-dropdown::after {
+  color: rgba(0,0,0,.4);
+}
+
+select::-ms-expand {
+    display: none;
+}
 .comment-form {
   display: flex;
   margin-top: 35px;

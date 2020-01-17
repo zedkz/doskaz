@@ -104,6 +104,11 @@ export default {
         font-size: 14px;
       }
     }
+    .avatar {
+      height: 20px;
+      width: 30px;
+      border-radius: 50%;
+    }
     .no-avatar {
       height: 30px;
       width: 30px;
