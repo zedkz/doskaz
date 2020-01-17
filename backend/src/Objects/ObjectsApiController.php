@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use OpenApi\Annotations\ExternalDocumentation;
 use OpenApi\Annotations\Get;
+use OpenApi\Annotations\Items;
 use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
@@ -35,6 +36,8 @@ final class ObjectsApiController extends AbstractController
      *     @ExternalDocumentation(url="https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/remote-object-manager/backend-docpage/"),
      *     @Parameter(name="zoom", in="query", required=true, description="Масштаб", @Schema(type="integer"), example=14),
      *     @Parameter(name="bbox", in="query", required=true, description="Массив географических координат углов", @Schema(type="string"), example="52.2523,76.8384,52.3332,77.1021"),
+     *     @Parameter(name="categories", in="query", description="Категории", style="deepObject", @Schema(type="array", @Items(type="integer"))),
+     *     @Parameter(name="search", in="query", description="Поисковой запрос", @Schema(type="string")),
      *     @Response(response="200", description="")
      * )
      */
