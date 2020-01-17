@@ -20,7 +20,7 @@ services:
       - web
     labels:
       - traefik.enable=true
-      - traefik.http.routers.doskaz_app.rule=Host(`${APP_HOST}`) && (PathPrefix(`/api`) || PathPrefix(`/storage`) || PathPrefix(`/static`))
+      - traefik.http.routers.doskaz_app.rule=Host(`${APP_HOST}`) && PathPrefix(`/api`, `/storage`, `/static`)
       - traefik.http.middlewares.doskaz_compress_app.compress=true
       - traefik.http.routers.doskaz_app.middlewares=doskaz_compress_app
       - traefik.http.routers.app_rss.rule=Host(`${APP_HOST}`) && Path(`/blog/rss`)
@@ -78,7 +78,7 @@ services:
       - traefik.enable=true
       - traefik.port=9000
       - traefik.docker.network=web
-      - traefik.http.routers.doskaz_imaginary.rule=Host(`${APP_HOST}`) && (PathPrefix(`/image`) || PathPrefix(`/pipeline`))
+      - traefik.http.routers.doskaz_imaginary.rule=Host(`${APP_HOST}`) && PathPrefix(`/image`, `/pipeline`)
       - traefik.http.middlewares.doskaz_imaginary.stripprefix.prefixes=/image
       - traefik.http.routers.doskaz_imaginary.middlewares=doskaz_imaginary
 
