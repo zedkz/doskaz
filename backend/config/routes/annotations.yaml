@@ -18,6 +18,10 @@ complaints:
     resource: ../../src/Complaints
     type: annotation
 
+cities:
+    resource: ../../src/Cities
+    type: annotation
+
 apiDocs:
     resource: ../../src/Infrastructure/Api
     type: annotation
