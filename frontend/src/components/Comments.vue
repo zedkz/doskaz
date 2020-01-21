@@ -16,13 +16,9 @@
         </div>
         <div class="person-info">
           <div>
-            {{ getParent(comment.parentId) }}
-            <span class="person-name" style="margin-right:10px;">{{
-              comment.userName
-            }}</span>
-            <small class="small"
-              >ответил {{ getParent(comment.parentId) }}</small
-            >
+            <span class="person-name">{{ comment.userName }}</span>
+            <small class="small" style="margin:0 10px;">ответил </small
+            ><small class="small">{{ getParent(comment.parentId) }}</small>
             <p class="text-comment">{{ comment.text }}</p>
             <span class="date-comment small">{{
               formatDate(comment.createdAt)
@@ -80,13 +76,14 @@ export default {
   }),
   methods: {
     inArr(val, arr) {
-        if (arr === null) return;
-        for (let i = 0; i < arr.length; i++) {
-          if (arr[i].id == val) return arr[i].userName;
-          if ("object" == typeof arr[i]) if (this.inArr(val, arr[i].replies)) return arr[i].userName;
-          return arr[i].userName
-        }
-      },
+      if (arr === null) return;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id == val) return arr[i].userName;
+        if ("object" == typeof arr[i])
+          if (this.inArr(val, arr[i].replies)) return arr[i].userName;
+        return;
+      }
+    },
     flatten(arr) {
       if (Array.isArray(arr)) {
         return arr.reduce((done, curr) => {
@@ -112,9 +109,9 @@ export default {
     getParent(id) {
       // this.flatten(this.$store.getters.getComments).forEach(e => {
       //   if (e.id == id) return e.userName;
-        
+
       // });
-      return this.inArr(id, this.$store.getters.getComments)
+      return this.inArr(id, this.$store.getters.getComments);
     }
   }
 };
