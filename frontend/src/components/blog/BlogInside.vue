@@ -55,7 +55,7 @@
             :comment="comment"
             :comments="comments.items"
           />
-          <form class="comment-form">
+          <form class="comment-form" v-if="auth == true">
             <textarea
               ref="comment"
               placeholder="Напишите комментарий"
@@ -69,7 +69,7 @@
                 <button
                   type="button"
                   class="send-button"
-                  @click="sendComment('clear')"
+                  @click="sendComment()"
                 >
                   <img src="@/assets/icons/send.svg" alt="" />
                 </button>
@@ -151,7 +151,6 @@ export default {
       similarPosts: [],
       commentText: "",
       comments: [],
-      notSortedComments: [],
       commentId: Number
     };
   },
@@ -171,9 +170,29 @@ export default {
   methods: {
     sortedComment() {
       if (this.comments_sort == "сначала старые") {
-        this.comments.items.reverse();
+        api
+          .get(`blogPosts/${this.post.id}/comments`, {
+            params: { sortOrder: "asc" }
+          })
+          .then(res => {
+            this.comments = res.data;
+          });
       } else if (this.comments_sort == "сначала новые") {
-        this.comments.items = this.comments.items.reverse();
+        api
+          .get(`blogPosts/${this.post.id}/comments`, {
+            params: { sortOrder: "desc" }
+          })
+          .then(res => {
+            this.comments = res.data;
+          });
+      } else if (this.comments_sort == "популярные") {
+        api
+          .get(`blogPosts/${this.post.id}/comments`, {
+            params: { sortBy: "popularity" }
+          })
+          .then(res => {
+            this.comments = res.data;
+          });
       }
     },
     formFocus(id) {
@@ -191,7 +210,7 @@ export default {
           api.get(`blogPosts/${this.post.id}/comments`).then(res => {
             this.comments = res.data;
           });
-          this.comment = "";
+          this.commentText = "";
           this.$store.commit("setId", null);
         });
       this.$store.commit("setId", null);
@@ -219,6 +238,9 @@ export default {
     }
   },
   computed: {
+    auth() {
+      return JSON.parse(localStorage.getItem("userIsAuth"));
+    },
     declension() {
       let number = this.comments.count;
       let txt = ["Комментарий", "Комментария", "Комментариев"];

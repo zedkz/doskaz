@@ -29,7 +29,7 @@
               >Ответить</span
             >
           </div>
-          <transition-group class="slide-group" name="slide" mode="out-in">
+          <!-- <transition-group class="slide-group" name="slide" mode="out-in"> -->
             <Comments
               v-show="showAllComments"
               v-for="(replie, i) in comment.replies"
@@ -39,17 +39,24 @@
               :parentItem="comment"
             >
             </Comments>
-          </transition-group>
+            <Comments
+              v-show="!showAllComments"
+              :comment="comment.replies[0]"
+              :key="comment.replies.id"
+              :parentItem="comment"
+            >
+            </Comments>
+          <!-- </transition-group> -->
           <p
             class="check-comments"
-            v-if="showAllComments == false && comment.replies.length > 0"
+            v-if="showAllComments == false && comment.replies.length > 1"
             @click="showAllComments = true"
           >
             Показать комментарии &#11206;
           </p>
           <p
             class="check-comments"
-            v-if="showAllComments == true && comment.replies.length > 0"
+            v-if="showAllComments == true && comment.replies.length > 1"
             @click="showAllComments = false"
           >
             Скрыть комментарии &#11205;
@@ -73,9 +80,12 @@ export default {
     commentText: "",
     postId: "",
     commentId: undefined,
-    showAllComments: false
+    showAllComments: false,
   }),
   methods: {
+    firstComment(arr) {
+      return arr[0]
+    },
     // inArr(val, arr) {
     //   if (arr === null) return;
     //   for (let i = 0; i < arr.length; i++) {
@@ -111,7 +121,7 @@ export default {
     //   console.log(this.parentItem)
     //   return this.inArr(id, this.$store.getters.getComments);
     // }
-  }
+  },
 };
 </script>
 
