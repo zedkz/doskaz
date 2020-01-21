@@ -211,7 +211,6 @@ export default {
           this.similarPosts = res.data.similar;
           api.get(`blogPosts/${res.data.post.id}/comments`).then(res => {
             this.comments = res.data;
-            this.$store.commit('setComments', res.data.items)
           });
         });
     },

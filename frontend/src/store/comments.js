@@ -9,18 +9,12 @@ export default {
         id = null
       }
       state.commentId = id;
-    },
-    setComments(state, comments) {
-      state.comments = comments;
     }
   },
   actions: {},
   getters: {
     getId: state => {
       return state.commentId
-    },
-    getComments: state => {
-      return state.comments
     }
   }
 }
