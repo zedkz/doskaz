@@ -24,14 +24,31 @@
             <span class="small" @click="requestComment(comment.id)"
               >Ответить</span
             >
+            <slot> </slot>
           </div>
+          <transition-group class="slide-group" name="slide" mode="out-in">
           <Comments
+            v-show="showAllComments"
             v-for="(replie, i) in comment.replies"
             :comment="replie"
             :index="i"
             :key="replie.id"
             :parentItem="comment"
-          />
+          >
+          </Comments>
+          </transition-group>
+          <p class="check-comments"
+            v-if="showAllComments == false && comment.replies.length > 1"
+            @click="showAllComments = true"
+          >
+            Показать комментарии &#11206;
+          </p>
+          <p class="check-comments"
+            v-if="showAllComments == true && comment.replies.length > 1"
+            @click="showAllComments = false"
+          >
+            Скрыть комментарии &#11205;
+          </p>
         </div>
       </div>
     </div>
@@ -51,7 +68,8 @@ export default {
     commentText: "",
     postId: "",
     comments: [],
-    commentId: undefined
+    commentId: undefined,
+    showAllComments: true
   }),
   methods: {
     formatDate(date) {
@@ -72,6 +90,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.slide-enter-active, .slide-leave-active {
+  transition: opacity .2s ease-in-out, transform .2s ease-in-out;
+}
+
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.check-comments {
+  margin: 30px 0;
+  font-size: 14px;
+  color: #5B6067;
+}
 .comments-block {
   h4 {
     font-size: 22px;
