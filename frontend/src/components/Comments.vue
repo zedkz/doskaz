@@ -18,10 +18,10 @@
           <div>
             <span class="person-name">{{ comment.userName }}</span>
             <p class="text-comment">{{ comment.text }}</p>
-            <span class="date-comment small">{{
+            <span class="date-comment small" v-if="comment.createdAt">{{
               formatDate(comment.createdAt)
             }}</span>
-            <span class="small" @click="requestComment(comment.id)"
+            <span class="small res" @click="requestComment(comment.id)"
               >Ответить</span
             >
             <slot> </slot>
@@ -37,18 +37,25 @@
           >
           </Comments>
           </transition-group>
-          <p class="check-comments"
-            v-if="showAllComments == false && comment.replies.length > 1"
-            @click="showAllComments = true"
-          >
-            Показать комментарии &#11206;
-          </p>
-          <p class="check-comments"
-            v-if="showAllComments == true && comment.replies.length > 1"
-            @click="showAllComments = false"
-          >
-            Скрыть комментарии &#11205;
-          </p>
+          <div v-if="comment.replies.length > 0">
+            <p
+              class="check-comments"
+              v-if="showAllComments == false"
+              @click="showAllComments = true"
+            >
+              Показать комментарии &#11206;
+            </p>
+            <p
+              class="check-comments"
+              v-if="showAllComments == true"
+              @click="showAllComments = false"
+            >
+              Скрыть комментарии &#11205;
+            </p>
+          </div>
+          <div v-else>
+            
+          </div>
         </div>
       </div>
     </div>
@@ -57,7 +64,7 @@
 
 <script>
 import Comments from "@/components/Comments";
-import { format } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 
 export default {
@@ -69,15 +76,18 @@ export default {
     postId: "",
     comments: [],
     commentId: undefined,
-    showAllComments: true
+    showAllComments: false
   }),
   methods: {
     formatDate(date) {
-      return format(new Date(date), "d MMMM y", { locale: ru });
+      return formatDistanceToNow(new Date(date), {
+        addSuffix: true,
+        locale: ru
+      });
     },
     requestComment(id) {
       this.$store.commit("setId", id);
-      this.$emit("formFocus");
+      this.$emit("formFocus", id);
     },
     colorGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
@@ -90,18 +100,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.slide-enter-active, .slide-leave-active {
-  transition: opacity .2s ease-in-out, transform .2s ease-in-out;
+.res {
+  cursor: pointer;
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-.slide-enter, .slide-leave-to {
+.slide-enter,
+.slide-leave-to {
   opacity: 0;
   transform: translateX(-20px);
 }
 .check-comments {
-  margin: 30px 0;
+  margin-top: 30px;
   font-size: 14px;
-  color: #5B6067;
+  color: #5b6067;
 }
 .comments-block {
   h4 {
@@ -136,7 +151,7 @@ export default {
       }
     }
     .avatar {
-      height: 20px;
+      height: 30px;
       width: 30px;
       border-radius: 50%;
     }

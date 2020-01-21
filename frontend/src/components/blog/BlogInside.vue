@@ -151,6 +151,7 @@ export default {
       commentText: "",
       comments: [],
       notSortedComments: [],
+      commentId: Number
     };
   },
   filters: {
@@ -168,14 +169,15 @@ export default {
   },
   methods: {
     sortedComment() {
-      if (this.comments_sort == 'сначала старые') {
-        this.comments.items.reverse()
-      } else if (this.comments_sort == 'сначала новые') {
-        this.comments.items = this.comments.items.reverse()
+      if (this.comments_sort == "сначала старые") {
+        this.comments.items.reverse();
+      } else if (this.comments_sort == "сначала новые") {
+        this.comments.items = this.comments.items.reverse();
       }
     },
-    formFocus() {
+    formFocus(id) {
       this.$refs.comment.focus();
+      this.commentId = id;
     },
     sendComment() {
       api
@@ -185,6 +187,9 @@ export default {
         })
         .then(res => {
           console.log(res);
+          api.get(`blogPosts/${this.post.id}/comments`).then(res => {
+            this.comments = res.data;
+          });
           this.comment = "";
           this.$store.commit("setId", null);
         });
@@ -253,17 +258,17 @@ export default {
 }
 
 .custom-dropdown select {
-  cursor:pointer;
+  cursor: pointer;
   background-color: #fff;
-  color: #5B6067;
+  color: #5b6067;
   font-size: 14px;
-  padding: .5em;
-  padding-right: 2.5em;	
+  padding: 0.5em;
+  padding-right: 2.5em;
   border: 0;
   margin: 0;
   border-radius: 3px;
   text-indent: 0.01px;
-  text-overflow: '';
+  text-overflow: "";
 }
 
 .custom-dropdown::before,
@@ -273,17 +278,19 @@ export default {
   pointer-events: none;
 }
 
-.custom-dropdown::after { /*  Custom dropdown arrow */
+.custom-dropdown::after {
+  /*  Custom dropdown arrow */
   content: "\25BC";
   height: 1em;
-  font-size: .625em;
+  font-size: 0.625em;
   line-height: 1;
   right: 1.2em;
   top: 50%;
-  margin-top: -.5em;
+  margin-top: -0.5em;
 }
 
-.custom-dropdown::before { /*  Custom dropdown arrow cover */
+.custom-dropdown::before {
+  /*  Custom dropdown arrow cover */
   width: 2em;
   right: 0;
   top: 0;
@@ -292,19 +299,19 @@ export default {
 }
 
 .custom-dropdown select[disabled] {
-  color: rgba(0,0,0,.3);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .custom-dropdown select[disabled]::after {
-  color: rgba(0,0,0,.1);
+  color: rgba(0, 0, 0, 0.1);
 }
 
 .custom-dropdown::after {
-  color: rgba(0,0,0,.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 select::-ms-expand {
-    display: none;
+  display: none;
 }
 .comment-form {
   display: flex;
