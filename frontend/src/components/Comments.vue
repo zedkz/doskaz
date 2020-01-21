@@ -16,46 +16,46 @@
         </div>
         <div class="person-info">
           <div>
-            <span class="person-name">{{ comment.userName }}</span>
+            {{ getParent(comment.parentId) }}
+            <span class="person-name" style="margin-right:10px;">{{
+              comment.userName
+            }}</span>
+            <small class="small"
+              >ответил {{ getParent(comment.parentId) }}</small
+            >
             <p class="text-comment">{{ comment.text }}</p>
-            <span class="date-comment small" v-if="comment.createdAt">{{
+            <span class="date-comment small">{{
               formatDate(comment.createdAt)
             }}</span>
             <span class="small res" @click="requestComment(comment.id)"
               >Ответить</span
             >
-            <slot> </slot>
           </div>
           <transition-group class="slide-group" name="slide" mode="out-in">
-          <Comments
-            v-show="showAllComments"
-            v-for="(replie, i) in comment.replies"
-            :comment="replie"
-            :index="i"
-            :key="replie.id"
-            :parentItem="comment"
-          >
-          </Comments>
+            <Comments
+              v-show="showAllComments"
+              v-for="(replie, i) in comment.replies"
+              :comment="replie"
+              :index="i"
+              :key="replie.id"
+              :parentItem="comment"
+            >
+            </Comments>
           </transition-group>
-          <div v-if="comment.replies.length > 0">
-            <p
-              class="check-comments"
-              v-if="showAllComments == false"
-              @click="showAllComments = true"
-            >
-              Показать комментарии &#11206;
-            </p>
-            <p
-              class="check-comments"
-              v-if="showAllComments == true"
-              @click="showAllComments = false"
-            >
-              Скрыть комментарии &#11205;
-            </p>
-          </div>
-          <div v-else>
-            
-          </div>
+          <p
+            class="check-comments"
+            v-if="showAllComments == false && comment.replies.length > 0"
+            @click="showAllComments = true"
+          >
+            Показать комментарии &#11206;
+          </p>
+          <p
+            class="check-comments"
+            v-if="showAllComments == true && comment.replies.length > 0"
+            @click="showAllComments = false"
+          >
+            Скрыть комментарии &#11205;
+          </p>
         </div>
       </div>
     </div>
@@ -79,6 +79,23 @@ export default {
     showAllComments: false
   }),
   methods: {
+    inArr(val, arr) {
+        if (arr === null) return;
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].id == val) return arr[i].userName;
+          if ("object" == typeof arr[i]) if (this.inArr(val, arr[i].replies)) return arr[i].userName;
+          return arr[i].userName
+        }
+      },
+    flatten(arr) {
+      if (Array.isArray(arr)) {
+        return arr.reduce((done, curr) => {
+          return done.concat(this.flatten(curr));
+        }, []);
+      } else {
+        return arr;
+      }
+    },
     formatDate(date) {
       return formatDistanceToNow(new Date(date), {
         addSuffix: true,
@@ -92,8 +109,12 @@ export default {
     colorGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
     },
-    serchParenById(id) {
-      return this.comments.find(comment => comment.id === id);
+    getParent(id) {
+      // this.flatten(this.$store.getters.getComments).forEach(e => {
+      //   if (e.id == id) return e.userName;
+        
+      // });
+      return this.inArr(id, this.$store.getters.getComments)
     }
   }
 };
