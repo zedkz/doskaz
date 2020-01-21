@@ -29,7 +29,7 @@
               >Ответить</span
             >
           </div>
-          <!-- <transition-group class="slide-group" name="slide" mode="out-in"> -->
+          <transition-group class="slide-group" name="slide" mode="out-in">
             <Comments
               v-show="showAllComments"
               v-for="(replie, i) in comment.replies"
@@ -39,14 +39,16 @@
               :parentItem="comment"
             >
             </Comments>
-            <Comments
-              v-show="!showAllComments"
-              :comment="comment.replies[0]"
-              :key="comment.replies.id"
-              :parentItem="comment"
-            >
-            </Comments>
-          <!-- </transition-group> -->
+          </transition-group>
+          <Comments
+            @formFocus="formFocus"
+            v-show="!showAllComments"
+            :comment="comment.replies[0]"
+            :key="comment.replies.id"
+            :parentItem="comment"
+          >
+          </Comments>
+
           <p
             class="check-comments"
             v-if="showAllComments == false && comment.replies.length > 1"
@@ -80,11 +82,11 @@ export default {
     commentText: "",
     postId: "",
     commentId: undefined,
-    showAllComments: false,
+    showAllComments: false
   }),
   methods: {
     firstComment(arr) {
-      return arr[0]
+      return arr[0];
     },
     // inArr(val, arr) {
     //   if (arr === null) return;
@@ -110,18 +112,21 @@ export default {
         locale: ru
       });
     },
+    formFocus(id) {
+      this.$emit("formFocus", id);
+    },
     requestComment(id) {
       this.$store.commit("setId", id);
       this.$emit("formFocus", id);
     },
     colorGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
-    },
+    }
     // getParent(id) {
     //   console.log(this.parentItem)
     //   return this.inArr(id, this.$store.getters.getComments);
     // }
-  },
+  }
 };
 </script>
 

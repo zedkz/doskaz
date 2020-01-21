@@ -196,7 +196,10 @@ export default {
       }
     },
     formFocus(id) {
-      this.$refs.comment.focus();
+      console.log(id)
+      this.$nextTick(() => {
+        this.$refs.comment.focus();
+      });
       this.commentId = id;
     },
     sendComment() {
