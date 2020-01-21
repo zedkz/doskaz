@@ -17,8 +17,10 @@
         <div class="person-info">
           <div>
             <span class="person-name">{{ comment.userName }}</span>
-            <small class="small" style="margin:0 10px;">ответил </small
-            ><small class="small">{{ getParent(comment.parentId) }}</small>
+            <span v-if="getParent(comment.parentId)">
+              <small class="small" style="margin:0 10px;">ответил </small>
+              <small class="small">{{ getParent(comment.parentId) }}</small>
+            </span>
             <p class="text-comment">{{ comment.text }}</p>
             <span class="date-comment small">{{
               formatDate(comment.createdAt)
@@ -81,7 +83,7 @@ export default {
         if (arr[i].id == val) return arr[i].userName;
         if ("object" == typeof arr[i])
           if (this.inArr(val, arr[i].replies)) return arr[i].userName;
-        return;
+        return false;
       }
     },
     flatten(arr) {
