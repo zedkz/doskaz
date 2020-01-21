@@ -17,7 +17,7 @@
         <div class="person-info">
           <div>
             <span class="person-name">{{ comment.userName }}</span>
-            <span v-if="getParent(comment.parentId)">
+            <span v-if="!!getParent(comment.parentId)">
               <small class="small" style="margin:0 10px;">ответил </small>
               <small class="small">{{ getParent(comment.parentId) }}</small>
             </span>
@@ -83,7 +83,7 @@ export default {
         if (arr[i].id == val) return arr[i].userName;
         if ("object" == typeof arr[i])
           if (this.inArr(val, arr[i].replies)) return arr[i].userName;
-        return false;
+        return;
       }
     },
     flatten(arr) {
