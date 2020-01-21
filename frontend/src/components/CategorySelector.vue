@@ -17,113 +17,69 @@
 
     <div class="category">
       <div class="category__scroll">
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
-        <div class="category__item category__item_food category__item_red">
-          <div class="category__icon"></div>
-          <div class="category__text">Аптеки, клиники</div>
-        </div>
+        <template v-if="category == ''">
+          <div
+            class="category__item category__item_food category__item_red"
+            v-for="cat in categories"
+            :key="cat.id"
+          >
+            <div class="category__icon"></div>
+            <div class="category__text" @click="selectCategory(cat.title)">
+              {{ cat.title }}
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <p class="subcategory-title" @click="category = ''">&#8592; {{ category }}</p>
+          <div
+            class="category__item category__item_food category__item_red"
+            v-for="subcat in subcategory.subCategories"
+            :key="subcat.id"
+          >
+            <div class="category__icon"></div>
+            <div class="category__text">{{ subcat.title }}</div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      category: ""
+    };
+  },
+  mounted() {
+    this.$store.dispatch("getCategories");
+  },
+  methods: {
+    selectCategory(cat) {
+      this.category = cat;
+      console.log(this.category);
+    }
+  },
+  computed: {
+    categories() {
+      return this.$store.getters.retCategories;
+    },
+    subcategory() {
+      let cat = this.$store.getters.retCategories;
+      return cat.find(subcat => subcat.title === this.category);
+    }
+  }
+};
 </script>
 
 <style lang="scss">
 @import "./../styles/mixins.scss";
+
+.category-selector .category .category__scroll .subcategory-title {
+  width: 100%;
+  cursor: pointer
+}
 .category-selector {
   height: calc(100% - 225px);
 
