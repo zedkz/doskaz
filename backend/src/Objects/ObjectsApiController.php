@@ -5,7 +5,6 @@ namespace App\Objects;
 
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use OpenApi\Annotations\ExternalDocumentation;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
@@ -27,7 +26,6 @@ final class ObjectsApiController extends AbstractController
      * @param Request $request
      * @param Connection $connection
      * @return JsonResponse
-     * @throws DBALException
      *
      * @Get(
      *     path="/api/objects/ymaps",
@@ -99,6 +97,11 @@ final class ObjectsApiController extends AbstractController
                 ->setParameter('categories', $categories, Connection::PARAM_STR_ARRAY);
         }
 
+        if($request->query->get('search', false)) {
+            $q1->andWhere('TO_TSVECTOR(title) @@ WEBSEARCH_TO_TSQUERY(:search)')
+                ->setParameter('search', $request->query->get('search'));
+        }
+
         $clusters = [];
 
         if ($zoom < 19) {
@@ -130,6 +133,10 @@ final class ObjectsApiController extends AbstractController
         if (count($categories)) {
             $q2->andWhere('category_id IN (:categories)')
                 ->setParameter('categories', $categories, Connection::PARAM_STR_ARRAY);
+        }
+        if($request->query->get('search', false)) {
+            $q2->andWhere('TO_TSVECTOR(title) @@ websearch_to_tsquery(:search)')
+                ->setParameter('search', $request->query->get('search'));
         }
 
 
@@ -182,7 +189,6 @@ final class ObjectsApiController extends AbstractController
             'features' => array_merge($clustersPrepared, $pointsPrepared)];
 
         $response = new JsonResponse($clusters);
-
         $response->setCallback($request->query->get('callback'));
         return $response;
     }
