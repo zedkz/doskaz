@@ -37,7 +37,7 @@ final class ImportMapObjects extends Command
             ->execute()->fetchAll();
 
         foreach ($objects as $object) {
-            $mapObject = new MapObject(Point::fromLatLong($object['lat'], $object['lng']), (int) $object['subcategory_id']);
+            $mapObject = new MapObject(Point::fromLatLong($object['lat'], $object['lng']), $object['title'], (int) $object['subcategory_id']);
             $this->mapObjectRepository->add($mapObject);
         }
 

@@ -28,9 +28,16 @@ class MapObject
      */
     private $point;
 
-    public function __construct(Point $point, ?int $categoryId)
+    /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $title;
+
+    public function __construct(Point $point, string $title, ?int $categoryId)
     {
         $this->point = $point;
         $this->categoryId = $categoryId;
+        $this->title = $title;
     }
 }
