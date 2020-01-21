@@ -53,6 +53,7 @@
             v-for="comment in comments.items"
             :key="comment.id"
             :comment="comment"
+            :comments="comments.items"
           />
           <form class="comment-form">
             <textarea

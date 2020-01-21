@@ -17,9 +17,9 @@
         <div class="person-info">
           <div>
             <span class="person-name">{{ comment.userName }}</span>
-            <span v-if="!!getParent(comment.parentId)">
+            <span v-if="parentItem">
               <small class="small" style="margin:0 10px;">ответил </small>
-              <small class="small">{{ getParent(comment.parentId) }}</small>
+              <small class="small">{{ parentItem.userName }}</small>
             </span>
             <p class="text-comment">{{ comment.text }}</p>
             <span class="date-comment small">{{
@@ -68,33 +68,32 @@ import { ru } from "date-fns/locale";
 export default {
   name: "Comments",
   components: { Comments },
-  props: ["comment"],
+  props: ["comment", "comments", "parentItem"],
   data: () => ({
     commentText: "",
     postId: "",
-    comments: [],
     commentId: undefined,
     showAllComments: false
   }),
   methods: {
-    inArr(val, arr) {
-      if (arr === null) return;
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].id == val) return arr[i].userName;
-        if ("object" == typeof arr[i])
-          if (this.inArr(val, arr[i].replies)) return arr[i].userName;
-        return;
-      }
-    },
-    flatten(arr) {
-      if (Array.isArray(arr)) {
-        return arr.reduce((done, curr) => {
-          return done.concat(this.flatten(curr));
-        }, []);
-      } else {
-        return arr;
-      }
-    },
+    // inArr(val, arr) {
+    //   if (arr === null) return;
+    //   for (let i = 0; i < arr.length; i++) {
+    //     if (arr[i].id == val) return arr[i].userName;
+    //     if ("object" == typeof arr[i])
+    //       if (this.inArr(val, arr[i].replies)) return arr[i].userName;
+    //     return;
+    //   }
+    // },
+    // flatten(arr) {
+    //   if (Array.isArray(arr)) {
+    //     return arr.reduce((done, curr) => {
+    //       return done.concat(this.flatten(curr));
+    //     }, []);
+    //   } else {
+    //     return arr;
+    //   }
+    // },
     formatDate(date) {
       return formatDistanceToNow(new Date(date), {
         addSuffix: true,
@@ -108,13 +107,10 @@ export default {
     colorGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
     },
-    getParent(id) {
-      // this.flatten(this.$store.getters.getComments).forEach(e => {
-      //   if (e.id == id) return e.userName;
-
-      // });
-      return this.inArr(id, this.$store.getters.getComments);
-    }
+    // getParent(id) {
+    //   console.log(this.parentItem)
+    //   return this.inArr(id, this.$store.getters.getComments);
+    // }
   }
 };
 </script>
