@@ -1,5 +1,12 @@
 <template>
-  <yandexMap class="ymap" :settings="settings" :coords="coords" :zoom="zoom" :controls="controls" @map-was-initialized="mapWasInitialized">
+  <yandexMap
+    class="ymap"
+    :settings="settings"
+    :coords="coords"
+    :zoom="zoom"
+    :controls="controls"
+    @map-was-initialized="mapWasInitialized"
+  >
     <!--<ymap-marker marker-id="123" :coords="markerCoords" :icon="markerIcon" />-->
   </yandexMap>
 </template>
@@ -10,6 +17,7 @@ import { yandexMap, ymapMarker } from "vue-yandex-maps";
 export default {
   data() {
     return {
+      mapInstance: Object,
       settings: {
         apiKey: "c1050142-1c08-440e-b357-f2743155c1ec",
         lang: "ru_RU",
@@ -37,13 +45,26 @@ export default {
       }
     };
   },
-  components: { yandexMap, ymapMarker },
+  components: { yandexMap, ymapMarker }, 
   methods: {
     mapWasInitialized(map) {
-      var remoteObjectManager = new ymaps.RemoteObjectManager('/api/objects/ymaps?bbox=%b&zoom=%z', {
-        splitRequests: false,
-      });
-      map.geoObjects.add(remoteObjectManager)
+      this.mapInstance = map;
+      map.geoObjects.add(this.map);
+      map.container.fitToViewport();
+      console.log(this.categoryId)
+    }
+  },
+  computed: {
+    map() {
+      return new ymaps.RemoteObjectManager(
+        `/api/objects/ymaps?bbox=%b&zoom=%z&categories[0]=${this.categoryId}`,
+        {
+          splitRequests: false
+        }
+      );
+    },
+    categoryId() {
+      return this.$store.getters.retCategoryId;
     }
   }
 };

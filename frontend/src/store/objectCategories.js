@@ -1,11 +1,15 @@
 import api from "@/api";
 export default {
   state: {
-    categories: []
+    categories: [],
+    categoryId: Number
   },
   mutations: {
     setCategories(state, payload) {
       state.categories = payload
+    },
+    setCategoryId(state, payload) {
+      state.categoryId = payload
     }
   },
   actions: {
@@ -18,6 +22,9 @@ export default {
   getters: {
     retCategories: state => {
       return state.categories
+    },
+    retCategoryId: state => {
+      return state.categoryId
     }
   }
 }

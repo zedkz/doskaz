@@ -37,7 +37,7 @@
             :key="subcat.id"
           >
             <div class="category__icon"></div>
-            <div class="category__text">{{ subcat.title }}</div>
+            <div class="category__text" @click="setCategoryId(subcat.id)">{{ subcat.title }}</div>
           </div>
         </template>
       </div>
@@ -58,7 +58,9 @@ export default {
   methods: {
     selectCategory(cat) {
       this.category = cat;
-      console.log(this.category);
+    },
+    setCategoryId(id) {
+      this.$store.commit('setCategoryId', id)
     }
   },
   computed: {
