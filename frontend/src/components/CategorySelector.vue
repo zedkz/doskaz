@@ -23,7 +23,6 @@
             v-for="cat in categories"
             :key="cat.id"
           >
-            <!-- <font-awesome-icon icon="user-secret" /> -->
             <i :class="'fa ' + cat.icon"></i>
             <div class="category__text" @click="selectCategory(cat.title)">
               {{ cat.title }}
@@ -37,7 +36,7 @@
             v-for="subcat in subcategory.subCategories"
             :key="subcat.id"
           >
-            <div class="category__icon"></div>
+            <i :class="'fa ' + subcat.icon"></i>
             <div class="category__text" @click="setCategoryId(subcat.id)">{{ subcat.title }}</div>
           </div>
         </template>
