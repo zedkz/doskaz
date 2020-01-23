@@ -36,12 +36,13 @@
           <div
             class="category__item category__item_food category__item_red"
             v-for="subcat in subcategory.subCategories"
+            :class="{ checked_subcategory: isIncludeSubcat(subcat.id) }"
             :key="subcat.id"
           >
             <i :class="'fa ' + subcat.icon"></i>
             <div
               class="category__text"
-              :class="{ checked_subcategory: isIncludeSubcat(subcat.id) }"
+              
               @click="setCategoryId(subcat.id)"
             >
               {{ subcat.title }}
@@ -103,8 +104,8 @@ export default {
 
 <style lang="scss">
 .checked_subcategory {
-  background: #f1f8fc;
-  font-weight: bold;
+  background: #f1f8fc !important;
+  font-weight: bold !important;
 }
 @import "./../styles/mixins.scss";
 
