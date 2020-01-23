@@ -46,17 +46,18 @@ export default {
     };
   },
   components: { yandexMap, ymapMarker },
-  // mounted() {
-  //   this.$root.$on("setCategoryId", function(id) {
-  //     console.log(this.mapInstance);
-  //     this.mapInstance.container.fitToViewport();
-  //   });
-  // },
   methods: {
     mapWasInitialized(map) {
       this.$root.$on("setCategoryId", function(id) {
+        let url = '/api/objects/ymaps?bbox=%b&zoom=%z'
+        let count = 0
+        id.forEach(e => {
+          url = url + `&categories[${count}]=${e}`
+          count++
+        });
+        console.log(url)
         let yamap = new ymaps.RemoteObjectManager(
-          `/api/objects/ymaps?bbox=%b&zoom=%z&categories[0]=${id}`,
+          url,
           {
             splitRequests: false
           }
@@ -65,23 +66,9 @@ export default {
         map.geoObjects.add(yamap);
         map.container.fitToViewport();
       });
-
       map.container.fitToViewport();
     }
-  },
-  // computed: {
-  //   map() {
-  //     return new ymaps.RemoteObjectManager(
-  //       `/api/objects/ymaps?bbox=%b&zoom=%z&categories[0]=${this.categoryId}`,
-  //       {
-  //         splitRequests: false
-  //       }
-  //     );
-  //   },
-  //   categoryId() {
-  //     return this.$store.getters.retCategoryId;
-  //   }
-  // }
+  }
 };
 </script>
 

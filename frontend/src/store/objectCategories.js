@@ -2,14 +2,14 @@ import api from "@/api";
 export default {
   state: {
     categories: [],
-    categoryId: Number
+    categoryId: []
   },
   mutations: {
     setCategories(state, payload) {
       state.categories = payload
     },
     setCategoryId(state, payload) {
-      state.categoryId = payload
+      state.categoryId.push(payload)
     }
   },
   actions: {

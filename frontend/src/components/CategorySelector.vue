@@ -30,14 +30,18 @@
           </div>
         </template>
         <template v-else>
-          <p class="subcategory-title" @click="category = ''">&#8592; {{ category }}</p>
+          <p class="subcategory-title" @click="category = ''">
+            &#8592; {{ category }}
+          </p>
           <div
             class="category__item category__item_food category__item_red"
             v-for="subcat in subcategory.subCategories"
             :key="subcat.id"
           >
             <i :class="'fa ' + subcat.icon"></i>
-            <div class="category__text" @click="setCategoryId(subcat.id)">{{ subcat.title }}</div>
+            <div class="category__text" @click="setCategoryId(subcat.id)">
+              {{ subcat.title }}
+            </div>
           </div>
         </template>
       </div>
@@ -49,7 +53,8 @@
 export default {
   data() {
     return {
-      category: ""
+      category: "",
+      categoryId: []
     };
   },
   mounted() {
@@ -60,8 +65,18 @@ export default {
       this.category = cat;
     },
     setCategoryId(id) {
-      this.$store.commit('setCategoryId', id)
-      this.$root.$emit('setCategoryId', id);
+      if (this.categoryId.length > 0) {
+        if (this.categoryId.includes(id)) {
+          let idx = this.categoryId.indexOf(id);
+          this.categoryId.splice(idx, 1);
+        } else {
+          this.categoryId.push(id);
+        }
+        this.$root.$emit("setCategoryId", this.categoryId);
+      } else {
+        this.categoryId.push(id);
+        this.$root.$emit("setCategoryId", this.categoryId);
+      }
     }
   },
   computed: {
@@ -81,7 +96,7 @@ export default {
 
 .category-selector .category .category__scroll .subcategory-title {
   width: 100%;
-  cursor: pointer
+  cursor: pointer;
 }
 .category-selector {
   height: calc(100% - 225px);
@@ -228,10 +243,9 @@ export default {
       align-items: center;
       background: $tr;
       transition: background 0.3s;
-      margin-left: 20px;
+      margin: 20px 0 0 20px;
       cursor: pointer;
-      width: 230px;
-      margin-bottom: 20px;
+      width: 270px;
 
       &:first-child {
         margin-left: 0;
