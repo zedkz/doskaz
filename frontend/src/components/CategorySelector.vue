@@ -39,7 +39,11 @@
             :key="subcat.id"
           >
             <i :class="'fa ' + subcat.icon"></i>
-            <div class="category__text" @click="setCategoryId(subcat.id)">
+            <div
+              class="category__text"
+              :class="{ checked_subcategory: isIncludeSubcat(subcat.id) }"
+              @click="setCategoryId(subcat.id)"
+            >
               {{ subcat.title }}
             </div>
           </div>
@@ -54,6 +58,7 @@ export default {
   data() {
     return {
       category: "",
+      isChecked: false,
       categoryId: []
     };
   },
@@ -61,6 +66,11 @@ export default {
     this.$store.dispatch("getCategories");
   },
   methods: {
+    isIncludeSubcat(id) {
+      if (this.categoryId.includes(id)) {
+        return true;
+      }
+    },
     selectCategory(cat) {
       this.category = cat;
     },
@@ -92,6 +102,10 @@ export default {
 </script>
 
 <style lang="scss">
+.checked_subcategory {
+  background: #f1f8fc;
+  font-weight: bold;
+}
 @import "./../styles/mixins.scss";
 
 .category-selector .category .category__scroll .subcategory-title {
