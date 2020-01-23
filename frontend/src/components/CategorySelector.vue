@@ -23,7 +23,8 @@
             v-for="cat in categories"
             :key="cat.id"
           >
-            <font-awesome-icon icon="user-secret" />
+            <!-- <font-awesome-icon icon="user-secret" /> -->
+            <i :class="'fa ' + cat.icon"></i>
             <div class="category__text" @click="selectCategory(cat.title)">
               {{ cat.title }}
             </div>
