@@ -45,28 +45,43 @@ export default {
       }
     };
   },
-  components: { yandexMap, ymapMarker }, 
+  components: { yandexMap, ymapMarker },
+  // mounted() {
+  //   this.$root.$on("setCategoryId", function(id) {
+  //     console.log(this.mapInstance);
+  //     this.mapInstance.container.fitToViewport();
+  //   });
+  // },
   methods: {
     mapWasInitialized(map) {
-      this.mapInstance = map;
-      map.geoObjects.add(this.map);
+      this.$root.$on("setCategoryId", function(id) {
+        let yamap = new ymaps.RemoteObjectManager(
+          `/api/objects/ymaps?bbox=%b&zoom=%z&categories[0]=${id}`,
+          {
+            splitRequests: false
+          }
+        );
+        map.geoObjects.removeAll();
+        map.geoObjects.add(yamap);
+        map.container.fitToViewport();
+      });
+
       map.container.fitToViewport();
-      console.log(this.categoryId)
     }
   },
-  computed: {
-    map() {
-      return new ymaps.RemoteObjectManager(
-        `/api/objects/ymaps?bbox=%b&zoom=%z&categories[0]=${this.categoryId}`,
-        {
-          splitRequests: false
-        }
-      );
-    },
-    categoryId() {
-      return this.$store.getters.retCategoryId;
-    }
-  }
+  // computed: {
+  //   map() {
+  //     return new ymaps.RemoteObjectManager(
+  //       `/api/objects/ymaps?bbox=%b&zoom=%z&categories[0]=${this.categoryId}`,
+  //       {
+  //         splitRequests: false
+  //       }
+  //     );
+  //   },
+  //   categoryId() {
+  //     return this.$store.getters.retCategoryId;
+  //   }
+  // }
 };
 </script>
 

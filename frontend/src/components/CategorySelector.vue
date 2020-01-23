@@ -23,7 +23,7 @@
             v-for="cat in categories"
             :key="cat.id"
           >
-            <div class="category__icon"></div>
+            <font-awesome-icon icon="user-secret" />
             <div class="category__text" @click="selectCategory(cat.title)">
               {{ cat.title }}
             </div>
@@ -61,6 +61,7 @@ export default {
     },
     setCategoryId(id) {
       this.$store.commit('setCategoryId', id)
+      this.$root.$emit('setCategoryId', id);
     }
   },
   computed: {
