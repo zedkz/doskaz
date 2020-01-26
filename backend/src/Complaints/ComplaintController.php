@@ -171,7 +171,7 @@ final class ComplaintController extends AbstractController
                 return [
                     'title' => $attr['title'],
                     'options' => array_filter($attr['options'], function ($option) use ($selectedOptions) {
-                        return array_key_exists($option['key'], $selectedOptions);
+                        return in_array($option['key'], $selectedOptions);
                     })
                 ];
             }, $this->complaintAttributes())

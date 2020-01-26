@@ -153,8 +153,7 @@ final class ObjectsApiController extends AbstractController
                     'coordinates' => [$item['lat'], $item['long']]
                 ],
                 'options' => [
-                    'iconLayout' => 'default#imageWithContent',
-
+                    'iconLayout' => 'default#imageWithContent'
                 ],
                 'properties' => [
                     'iconContent' => "

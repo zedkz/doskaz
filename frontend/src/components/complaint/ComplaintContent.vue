@@ -112,7 +112,6 @@
                     </div>
                 </div>
                 <div class="complaint__line complaint__row">
-
                     <div class="complaint__col">
                         <div class="complaint__line complaint__row">
                             <div
@@ -151,8 +150,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div
                             class="complaint__col required"
                             :class="{ error: violations['complainant.phone'] }"
@@ -384,7 +381,8 @@
                         <div class="complaint__row">
                             <div
                                     class="complaint__accordion-head complaint__col --text"
-                                    v-on:click="toggleClass"
+                                    :class="{isActive: openedGroups.includes(field.key)}"
+                                    v-on:click="toggleGroup(field.key)"
                             >
                                 {{ field.title }}
                             </div>
@@ -397,7 +395,7 @@
                                     <input
                                             type="checkbox"
                                             :id="`option-${field.key}-${option.key}`"
-                                            v-model="complaint.content.options[option.key]"
+                                            v-model="complaintType2Attributes[option.key]"
                                     />
                                     <label :for="`option-${field.key}-${option.key}`">{{
                                         option.label
@@ -414,13 +412,16 @@
                     <div class="complaint__col --text">
                         <label for="t1" class="label">Другое</label>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg" :class="{'error required': violations['content.comment']}">
             <textarea
                     placeholder="Текст сообщения"
                     class="textarea"
                     id="t1"
                     v-model="complaint.content.comment"
             />
+                        <span class="violations_error" v-if="violations['content.comment']"
+                        >{{violations['content.comment']}}</span
+                        >
                     </div>
                 </div>
                 <div
@@ -443,7 +444,7 @@
             <div class="complaint__item">
                 <div class="complaint__line complaint__row">
                     <div class="complaint__col --text">
-                        <label class="label" for="video0">Ссылка на видео</label>
+                        <label class="label">Ссылка на видео</label>
                         <span class="label-text">не обязательно</span>
                     </div>
                     <div class="complaint__col --lg">
@@ -522,6 +523,7 @@
 <script>
     import api from "@/api";
     import get from "lodash/get";
+    import transform from "lodash/transform";
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
     import VuejsDatepicker from 'vuejs-datepicker'
@@ -820,6 +822,8 @@
     export default {
         data() {
             return {
+                complaintType2Attributes: {},
+                openedGroups: [fields[0].key],
                 user_focus: {
                     street: false,
                     building: false,
@@ -862,11 +866,10 @@
                         type: types[0].type,
                         videos: [""],
                         photos: [""],
-                        options: {}
+                        options: []
                     }
                 },
                 violations: {},
-
                 form: {
                     name: "",
                     surname: "",
@@ -978,6 +981,11 @@
                         this.photosRaw.filter(photo => !!photo.file)
                             .map(photo => api.post("storage/upload", photo.file))
                     );
+                    this.complaint.content.options = transform(this.complaintType2Attributes, (r, v, k) => {
+                        if (v) {
+                            r.push(k)
+                        }
+                    }, []);
                     this.complaint.content.photos = uploads.map(upload => upload.data.path);
                     await api.post("complaints", this.complaint);
                     this.$router.push("/");
@@ -1039,13 +1047,11 @@
                     this.isLoading = false;
                 }
             },
-            toggleClass: function (event) {
-                //Чтобы закрывались остальные пункты при открытии текущего
-                //var matches = document.querySelectorAll('.complaint__accordion-head');
-                //for(var i = 0; i < matches.length; i++) {
-                //  matches[i].classList.remove('isActive');
-                //}
-                event.target.classList.toggle("isActive");
+            toggleGroup: function (key) {
+                if (this.openedGroups.includes(key)) {
+                    return this.openedGroups.splice(this.openedGroups.indexOf(key), 1)
+                }
+                this.openedGroups.push(key)
             },
             addVideoLink() {
                 this.complaint.content.videos.push("");
@@ -1107,6 +1113,7 @@
 
         &.error {
             .input,
+            textarea,
             .select select,
             &.photo-input {
                 border-color: #e0202e;

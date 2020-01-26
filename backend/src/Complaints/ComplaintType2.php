@@ -5,6 +5,8 @@ namespace App\Complaints;
 
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Schema;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @Schema(title="Жалоба на отсутствие доступа", schema="ComplaintContent2")
@@ -24,7 +26,21 @@ final class ComplaintType2 extends ComplaintContent
     public $comment;
 
     /**
-     * @var array
+     * @var string[]
      */
     public $options;
+
+    /**
+     * @Assert\Callback()
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (!count($this->options) && empty($this->comment)) {
+            $context->buildViolation('asd')
+                ->atPath('comment')
+                ->addViolation();
+        }
+    }
 }
