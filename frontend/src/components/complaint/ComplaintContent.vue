@@ -1094,6 +1094,11 @@
 </script>
 
 <style lang="scss" scoped>
+
+    select {
+        background-color: white;
+    }
+
     .input {
         margin-bottom: 10px;
     }
