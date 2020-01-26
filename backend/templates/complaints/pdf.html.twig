@@ -172,10 +172,10 @@
             <p>
                 <span class="table-span"><span>От:&nbsp;</span><span>{{ complainantLastName }} {{ complainantFirstName }} {{ complainantMiddleName }}</span></span><br>
                 ИИН&nbsp;<span>{{ complainantIin }}</span><br>
-                проживающий (-ая) по адресу: {{ complainantAddress }},<br>
-                улица&nbsp;<span></span><br>
-                дом&nbsp;<span></span><br>
-                квартира&nbsp;<span></span><br>
+                проживающий (-ая) по адресу: г.{{ complainantCity.name }},<br>
+                улица&nbsp;<span>{{ complainantStreet }}</span><br>
+                дом&nbsp;<span>{{ complainantBuilding }}</span><br>
+                квартира&nbsp;<span>{{ complainantApartment }}</span><br>
                 тел.:&nbsp;<span>{{ complainantPhone }}</span><br>
             </p>
         </div>

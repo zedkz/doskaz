@@ -134,11 +134,14 @@ final class ComplaintController extends AbstractController
         $data = $connection->createQueryBuilder()
             ->select('complaint_authorities.name as "authorityName"')
             ->addSelect('complaints.complainant->>\'iin\' as "complainantIin"')
-            ->addSelect('complaints.complainant->>\'address\' as "complainantAddress"')
+            ->addSelect('complaints.complainant->>\'cityId\' as "complainantCityId"')
             ->addSelect('complaints.complainant->>\'phone\' as "complainantPhone"')
             ->addSelect('complaints.complainant->>\'lastName\' as "complainantLastName"')
             ->addSelect('complaints.complainant->>\'firstName\' as "complainantFirstName"')
             ->addSelect('complaints.complainant->>\'middleName\' as "complainantMiddleName"')
+            ->addSelect('complaints.complainant->>\'street\' as "complainantStreet"')
+            ->addSelect('complaints.complainant->>\'building\' as "complainantBuilding"')
+            ->addSelect('complaints.complainant->>\'apartment\' as "complainantApartment"')
             ->addSelect('complaints.content->>\'visitedAt\' as "visitedAt"')
             ->addSelect('complaints.content->>\'cityId\' as "cityId"')
             ->addSelect('complaints.content->>\'street\' as "street"')
@@ -169,6 +172,7 @@ final class ComplaintController extends AbstractController
         $selectedOptions = json_decode($data['options'] ?? '[]', true);
         $client = new Client('http://gotenberg:3000');
         $index = DocumentFactory::makeFromString('complaint.html', $this->renderView('complaints/pdf.html.twig', array_merge($data, [
+            'complainantCity' => Cities::find((int)$data['complainantCityId']),
             'city' => Cities::find((int)$data['cityId']),
             'attributes' => $this->complaintAttributes(),
             'selectedAttributes' => array_map(function($attr) use($selectedOptions) {
