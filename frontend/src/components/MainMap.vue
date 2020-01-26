@@ -48,6 +48,15 @@ export default {
   components: { yandexMap, ymapMarker },
   methods: {
     mapWasInitialized(map) {
+      let url = '/api/objects/ymaps?bbox=%b&zoom=%z'
+      let yamap = new ymaps.RemoteObjectManager(
+              url,
+              {
+                splitRequests: false
+              }
+      );
+      map.geoObjects.add(yamap);
+
       this.$root.$on("setCategoryId", function(id) {
         let url = '/api/objects/ymaps?bbox=%b&zoom=%z'
         let count = 0
@@ -55,18 +64,14 @@ export default {
           url = url + `&categories[${count}]=${e}`
           count++
         });
-        console.log(url)
-        let yamap = new ymaps.RemoteObjectManager(
-          url,
-          {
-            splitRequests: false
-          }
-        );
-        map.geoObjects.removeAll();
-        map.geoObjects.add(yamap);
-        map.container.fitToViewport();
+        yamap.setUrlTemplate(url)
+        yamap.reloadData()
+
+       // map.geoObjects.removeAll();
+
+      //  map.container.fitToViewport();
       });
-      map.container.fitToViewport();
+    //  map.container.fitToViewport();
     }
   }
 };
