@@ -87,14 +87,6 @@ final class ComplaintController extends AbstractController
     }
 
     /**
-     * @Route(path="/cities", methods={"GET"})
-     */
-    public function complaintCities()
-    {
-        return Cities::list();
-    }
-
-    /**
      * @IsGranted("ROLE_ADMIN")
      * @Route(methods={"GET"})
      * @param Request $request

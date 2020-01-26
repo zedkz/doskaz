@@ -966,7 +966,7 @@
                 this.complaint.authorityId = authorities[0].id;
             },
             async loadCities() {
-                const {data: cities} = await api.get("complaints/cities");
+                const {data: cities} = await api.get("cities");
                 this.cities = cities;
                 this.complaint.content.cityId = cities[0].id;
                 this.complaint.complainant.cityId = cities[0].id;
