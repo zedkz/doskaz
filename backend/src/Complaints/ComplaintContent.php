@@ -99,6 +99,8 @@ class ComplaintContent
 
     /**
      * @var string[]
+     * @Assert\Count(min=1)
+     * @Assert\All(constraints={@Assert\NotBlank()})
      * @Property()
      */
     public $photos = [];

@@ -173,23 +173,23 @@
                     </div>
                 </div>
                 <div class="complaint__line complaint__row">
-                  <div
-                    class="complaint__col --lg-2 required"
-                    :class="{ error: violations['authorityId'] }"
-                  >
-                    <label for="41" class="label">Наименование органа обращения</label>
-                    <div class="select">
-                      <select v-model="complaint.authorityId" id="41">
-                        <option
-                          v-for="authority in authorities"
-                          :key="authority.id"
-                          :value="authority.id"
-                          >{{ authority.name }}
-                        </option>
-                      </select>
+                    <div
+                            class="complaint__col --lg-2 required"
+                            :class="{ error: violations['authorityId'] }"
+                    >
+                        <label for="41" class="label">Наименование органа обращения</label>
+                        <div class="select">
+                            <select v-model="complaint.authorityId" id="41">
+                                <option
+                                        v-for="authority in authorities"
+                                        :key="authority.id"
+                                        :value="authority.id"
+                                >{{ authority.name }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                  </div>
-                  <div class="complaint__col"></div>
+                    <div class="complaint__col"></div>
                 </div>
                 <div class="complaint__line complaint__row">
                     <div class="checkbox">
@@ -476,14 +476,14 @@
                         id="file_required_class"
                 >
                     <div class="complaint__col --text">
-                        <label for="v1" class="label">Загрузить фото</label>
+                        <label class="label">Загрузить фото</label>
                     </div>
                     <div class="complaint__col --lg">
                         <div class="photo-input__wrapper">
                             <div
-                                    class="photo-input"
-                                    v-for="(photo, index) in photosRaw"
-                                    :key="index"
+                                    class="photo-input required"
+                                    :class="{error: violations['content.photos'] && !photo.preview}"
+                                    v-for="(photo, index) in photosRaw" :key="index"
                             >
                                 <input
                                         type="file"
@@ -491,10 +491,8 @@
                                         @change="imageFileChanged($event, index)"
                                 />
                                 <span
-                                        v-if="photosPreview[index]"
-                                        v-bind:style="{
-                    'background-image': 'url(' + photosPreview[index] + ')'
-                  }"
+                                        v-if="photo.preview"
+                                        v-bind:style="{'background-image': `url(${photo.preview})`}"
                                 ></span>
                             </div>
                         </div>
@@ -844,7 +842,7 @@
                 isLoading: false,
                 authorities: [],
                 cities: [],
-                photosRaw: [{}],
+                photosRaw: [{preview: null}],
                 photosPreview: [],
                 complaint: {
                     complainant: {
@@ -977,9 +975,8 @@
                 this.violations = {};
                 try {
                     const uploads = await Promise.all(
-                        this.photosRaw
-                            .filter(photo => !!photo)
-                            .map(photo => api.post("storage/upload", photo))
+                        this.photosRaw.filter(photo => !!photo.file)
+                            .map(photo => api.post("storage/upload", photo.file))
                     );
                     this.complaint.content.photos = uploads.map(upload => upload.data.path);
                     await api.post("complaints", this.complaint);
@@ -1054,19 +1051,21 @@
                 this.complaint.content.videos.push("");
             },
             addPhotoInput() {
-                this.photosRaw.push({});
+                this.photosRaw.push({preview: null});
             },
             imageFileChanged(event, index) {
+                var p = this.photosRaw[index];
+
                 var input = event.target;
                 var file = input.files[0];
-                if (input.files && input.files[0]) {
+                if (file) {
                     var reader = new FileReader();
                     reader.onload = e => {
-                        this.photosPreview.push(e.target.result);
+                        p.preview = e.target.result;
                     };
                     reader.readAsDataURL(input.files[0]);
+                    p.file = file
                 }
-                this.photosRaw[index] = file;
             }
         },
         computed: {
@@ -1109,7 +1108,7 @@
         &.error {
             .input,
             .select select,
-            .photo-input {
+            &.photo-input {
                 border-color: #e0202e;
             }
         }
