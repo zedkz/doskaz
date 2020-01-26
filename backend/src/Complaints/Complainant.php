@@ -47,13 +47,6 @@ final class Complainant
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Property(nullable=false, description="Адрес")
-     */
-    public $address;
-
-    /**
-     * @var string
-     * @Assert\NotBlank()
      * @Property(nullable=false, description="Номер телефона")
      */
     public $phone;
@@ -78,4 +71,11 @@ final class Complainant
      * @Property(nullable=false, description="Номер дома")
      */
     public $building;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @Property(nullable=false, description="Квартира")
+     */
+    public $apartment;
 }

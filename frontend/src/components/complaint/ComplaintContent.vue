@@ -78,22 +78,81 @@
                 </div>
                 <div class="complaint__line complaint__row">
                     <div
-                            class="complaint__col --lg-2 required"
-                            :class="{ error: violations['complainant.address'] }"
+                            class="complaint__col required"
+                            :class="{ error: violations['complainant.user_cityId'] }"
                     >
-                        <label for="31" class="label">Адрес проживания</label>
-                        <div class="input">
-                            <input
-                                    id="31"
-                                    type="text"
-                                    v-model="complaint.complainant.address"
-                                    @input="checValue('address')"
-                            />
+                        <label for="u21" class="label">Город</label>
+                        <div class="select">
+                            <select id="u21" v-model="complaint.complainant.cityId">
+                                <option v-for="city in cities" :value="city.id" :key="city.id"
+                                >{{ city.name }}
+                                </option>
+                            </select>
                         </div>
-                        <span class="violations_error" v-if="focus.address"
+                        <span class="violations_error" v-if="user_focus.cityId"
                         >Поле не может быть пустым</span
                         >
                     </div>
+                    <div
+                            class="complaint__col required"
+                            :class="{ error: violations['complainant.street'] }"
+                    >
+                        <label for="u22" class="label">Улица</label>
+                        <div class="input">
+                            <input
+                                    type="text"
+                                    id="u22"
+                                    v-model="complaint.complainant.street"
+                                    @input="checValue('street', 'complainant', 'user')"
+                            />
+                        </div>
+                        <span class="violations_error" v-if="user_focus.street"
+                        >Поле не может быть пустым</span
+                        >
+                    </div>
+                </div>
+                <div class="complaint__line complaint__row">
+
+                    <div class="complaint__col">
+                        <div class="complaint__line complaint__row">
+                            <div
+                                    class="complaint__col required"
+                                    :class="{ error: violations['complainant.building'] }"
+                            >
+                                <label for="31" class="label">Дом</label>
+                                <div class="input">
+                                    <input
+                                            id="31"
+                                            type="text"
+                                            v-model="complaint.complainant.building"
+                                            @input="checValue('building')"
+                                    />
+                                </div>
+                                <span class="violations_error" v-if="focus.building"
+                                >Поле не может быть пустым</span
+                                >
+                            </div>
+                            <div
+                                    class="complaint__col required"
+                                    :class="{ error: violations['complainant.apartment'] }"
+                            >
+                                <label for="312" class="label">Квартира</label>
+                                <div class="input">
+                                    <input
+                                            id="312"
+                                            type="text"
+                                            v-model="complaint.complainant.apartment"
+                                            @input="checValue('apartment')"
+                                    />
+                                </div>
+                                <span class="violations_error" v-if="focus.apartment"
+                                >Поле не может быть пустым</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div
                             class="complaint__col required"
                             :class="{ error: violations['complainant.phone'] }"
@@ -113,78 +172,6 @@
                     </div>
                 </div>
                 <div class="complaint__line complaint__row">
-                    <div
-                            class="complaint__col required"
-                            :class="{ error: violations['complainant.user_cityId'] }"
-                    >
-                        <label for="u21" class="label">Город</label>
-                        <div class="select">
-                            <select id="u21" v-model="complaint.complainant.cityId">
-                                <option v-for="city in cities" :value="city.id" :key="city.id"
-                                >{{ city.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <span class="violations_error" v-if="user_focus.cityId"
-                        >Поле не может быть пустым</span
-                        >
-                    </div>
-                    <div
-                            class="complaint__col required"
-                            :class="{ error: violations['complainant.user_street'] }"
-                    >
-                        <label for="u22" class="label">Улица</label>
-                        <div class="input">
-                            <input
-                                    type="text"
-                                    id="u22"
-                                    v-model="complaint.complainant.street"
-                                    @input="checValue('street', 'complainant', 'user')"
-                            />
-                        </div>
-                        <span class="violations_error" v-if="user_focus.street"
-                        >Поле не может быть пустым</span
-                        >
-                    </div>
-                </div>
-
-                <div class="complaint__line complaint__row">
-                    <div
-                            class="complaint__col required"
-                            :class="{ error: violations['complainant.user_building'] }"
-                    >
-                        <label for="u23" class="label">Номер дома</label>
-                        <div class="input">
-                            <input
-                                    type="text"
-                                    id="u23"
-                                    v-model="complaint.complainant.building"
-                                    @input="checValue('building', 'complainant', 'user')"
-                            />
-                        </div>
-                        <span class="violations_error" v-if="user_focus.building"
-                        >Поле не может быть пустым</span
-                        >
-                    </div>
-                    <div
-                            class="complaint__col required"
-                            :class="{ error: violations['complainant.authorityId'] }"
-                    >
-                        <label for="41" class="label">Наименование органа обращения</label>
-                        <div class="select">
-                            <select v-model="complaint.authorityId" id="41">
-                                <option
-                                        v-for="authority in authorities"
-                                        :key="authority.id"
-                                        :value="authority.id"
-                                >{{ authority.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="complaint__line complaint__row">
                   <div
                     class="complaint__col --lg-2 required"
                     :class="{ error: violations['authorityId'] }"
@@ -202,7 +189,7 @@
                     </div>
                   </div>
                   <div class="complaint__col"></div>
-                </div> -->
+                </div>
                 <div class="complaint__line complaint__row">
                     <div class="checkbox">
                         <input
@@ -249,7 +236,7 @@
                             <vuejs-datepicker
                                     id="x3"
                                     :format="format"
-                                    :language="ru"
+                                    :language="locale"
                                     v-model="complaint.content.visitedAt"
                                     @change="checValue('visitedAt')"
                             />
@@ -538,6 +525,8 @@
     import get from "lodash/get";
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
+    import VuejsDatepicker from 'vuejs-datepicker'
+    import ru from 'vuejs-datepicker/dist/locale/translations/ru'
 
     const types = [
         {
@@ -898,15 +887,15 @@
                 imageFile: "",
                 format: "dd.MM.yyyy",
                 isOpen: true,
-                ru: vdp_translation_ru.js,
+                locale: ru,
                 inputs: [],
                 photos: [],
                 url: null
             };
         },
         components: {
-            vuejsDatepicker,
-            Loading
+            Loading,
+            'vuejs-datepicker': VuejsDatepicker
         },
         mounted() {
             this.initialize();
