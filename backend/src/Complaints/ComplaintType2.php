@@ -38,7 +38,7 @@ final class ComplaintType2 extends ComplaintContent
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if (!count($this->options) && empty($this->comment)) {
-            $context->buildViolation('asd')
+            $context->buildViolation('This value should not be blank.')
                 ->atPath('comment')
                 ->addViolation();
         }
