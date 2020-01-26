@@ -160,6 +160,7 @@
                         <label for="32" class="label">Телефон</label>
                         <div class="input">
                             <input
+                                    v-mask="'+7(###)###-##-##'"
                                     id="32"
                                     type="text"
                                     v-model="complaint.complainant.phone"
@@ -167,7 +168,7 @@
                             />
                         </div>
                         <span class="violations_error" v-if="focus.phone"
-                        >Поле не может быть пустым</span
+                        >{{ violations['complainant.phone'] }}</span
                         >
                     </div>
                 </div>
@@ -855,7 +856,7 @@
                         street: "",
                         building: "",
                         address: "",
-                        phone: ""
+                        phone: "+7"
                     },
                     authorityId: null,
                     rememberPersonalData: true,

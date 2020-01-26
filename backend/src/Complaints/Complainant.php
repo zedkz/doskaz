@@ -48,6 +48,7 @@ final class Complainant
      * @var string
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Номер телефона")
+     * @Assert\Regex(pattern="/\+7\(\d{3}\)\d{3}-\d{2}-\d{2}/")
      */
     public $phone;
 
