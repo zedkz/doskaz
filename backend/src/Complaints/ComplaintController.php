@@ -43,7 +43,8 @@ final class ComplaintController extends AbstractController
      *         @Response(response="400", description="Bad content")
      * })
      */
-    public function validate(ComplaintData $complaintData) {
+    public function validate(ComplaintData $complaintData)
+    {
 
     }
 
@@ -65,7 +66,13 @@ final class ComplaintController extends AbstractController
      */
     public function make(ComplaintData $complaintData, ComplaintRepository $complaintRepository, Flusher $flusher)
     {
-        $complaint = new Complaint($complaintData->complainant, $complaintData->content, $complaintData->authorityId, $this->getUser()->id());
+        $complaint = new Complaint(
+            $complaintData->complainant,
+            $complaintData->content,
+            $complaintData->authorityId,
+            $this->getUser()->id(),
+            $complaintData->rememberPersonalData
+        );
         $complaintRepository->add($complaint);
         $flusher->flush();
     }
@@ -167,7 +174,7 @@ final class ComplaintController extends AbstractController
             'complainantCity' => Cities::find((int)$data['complainantCityId']),
             'city' => Cities::find((int)$data['cityId']),
             'attributes' => $this->complaintAttributes(),
-            'selectedAttributes' => array_map(function($attr) use($selectedOptions) {
+            'selectedAttributes' => array_map(function ($attr) use ($selectedOptions) {
                 return [
                     'title' => $attr['title'],
                     'options' => array_filter($attr['options'], function ($option) use ($selectedOptions) {
@@ -179,13 +186,39 @@ final class ComplaintController extends AbstractController
         $request = new HTMLRequest($index);
         $request->setMargins([0.4, 0.4, 0.4, 0.4]);
         $request->setPaperSize(HTMLRequest::A4);
-        $request->setAssets(array_map(function($photo, $index) {
-            return DocumentFactory::makeFromPath('image'.$index, '/app'.$photo);
+        $request->setAssets(array_map(function ($photo, $index) {
+            return DocumentFactory::makeFromPath('image' . $index, '/app' . $photo);
         }, $data['photos'], array_keys($data['photos'])));
         $path = tempnam('/tmp', 'pdf');
         $client->store($request, $path);
 
         return (new BinaryFileResponse($path, 200, [], true))->deleteFileAfterSend();
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/initialData", methods={"GET"})
+     * @param Connection $connection
+     * @return \Symfony\Component\HttpFoundation\Response|array
+     */
+    public function initialData(Connection $connection)
+    {
+        $lastComplaint = $connection->createQueryBuilder()
+            ->select('complainant', 'remember_personal_data')
+            ->from('complaints')
+            ->andWhere('complainant_id = :userId')
+            ->setParameter('userId', $this->getUser()->id())
+            ->orderBy('id', 'desc')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetch();
+
+        if($lastComplaint && $lastComplaint['remember_personal_data']) {
+            return [
+                'complainant' => $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class)
+            ];
+        }
+        return new \Symfony\Component\HttpFoundation\Response('', 404);
     }
 
     public function complaintAttributes()

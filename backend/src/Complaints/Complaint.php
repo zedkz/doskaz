@@ -49,12 +49,19 @@ class Complaint
      */
     private $content;
 
-    public function __construct(Complainant $complainant, ComplaintContent $complaintContent, $authorityId, $complainantId)
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default" = false})
+     */
+    private $rememberPersonalData = false;
+
+    public function __construct(Complainant $complainant, ComplaintContent $complaintContent, $authorityId, $complainantId, bool $rememberPersonalData)
     {
         $this->complainant = $complainant;
         $this->content = $complaintContent;
         $this->authorityId = $authorityId;
         $this->complainantId = $complainantId;
+        $this->rememberPersonalData = $rememberPersonalData;
         $this->createdAt = new \DateTimeImmutable();
     }
 }

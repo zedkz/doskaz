@@ -959,8 +959,16 @@
             },
             async initialize() {
                 this.isLoading = true;
-                await Promise.all([this.loadAuthorities(), this.loadCities()]);
+                await Promise.all([this.loadAuthorities(), this.loadCities(), this.loadInitialData()]);
                 this.isLoading = false;
+            },
+            async loadInitialData() {
+                try {
+                    const {data: initialData} = await api.get("complaints/initialData");
+                    this.complaint.complainant = initialData.complainant
+                } catch (e) {
+
+                }
             },
             async loadAuthorities() {
                 const {data: authorities} = await api.get("complaints/authorities");
