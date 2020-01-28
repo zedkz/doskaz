@@ -859,7 +859,7 @@
                         street: "",
                         building: "",
                         address: "",
-                        phone: "+7"
+                        phone: ""
                     },
                     authorityId: null,
                     rememberPersonalData: true,
