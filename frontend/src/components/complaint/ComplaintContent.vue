@@ -132,7 +132,7 @@
                                 >
                             </div>
                             <div
-                                    class="complaint__col required"
+                                    class="complaint__col"
                                     :class="{ error: violations['complainant.apartment'] }"
                             >
                                 <label for="312" class="label">Квартира</label>
@@ -156,8 +156,8 @@
                     >
                         <label for="32" class="label">Телефон</label>
                         <div class="input">
-                            <input
-                                    v-mask="'+7(###)###-##-##'"
+                            <masked-input
+                                    mask="\+\7(111)111-11-11"
                                     id="32"
                                     type="text"
                                     v-model="complaint.complainant.phone"
@@ -528,6 +528,7 @@
     import "vue-loading-overlay/dist/vue-loading.css";
     import VuejsDatepicker from 'vuejs-datepicker'
     import ru from 'vuejs-datepicker/dist/locale/translations/ru'
+    import maskedInput from 'vue-masked-input'
 
     const types = [
         {
@@ -897,7 +898,8 @@
         },
         components: {
             Loading,
-            'vuejs-datepicker': VuejsDatepicker
+            'vuejs-datepicker': VuejsDatepicker,
+            maskedInput
         },
         mounted() {
             this.initialize();

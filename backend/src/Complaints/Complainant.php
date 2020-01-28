@@ -74,9 +74,8 @@ final class Complainant
     public $building;
 
     /**
-     * @var string
-     * @Assert\NotBlank()
-     * @Property(nullable=false, description="Квартира")
+     * @var string|null
+     * @Property(type="string", nullable=true, description="Квартира")
      */
     public $apartment;
 }
