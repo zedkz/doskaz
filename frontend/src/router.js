@@ -8,6 +8,7 @@ import BlogInside from "./views/BlogInside.vue";
 import Complaint from "./views/Complaint.vue";
 import Oauth from "./components/Oauth";
 import Objects from "./views/Objects.vue";
+import ObjectAdd from "./views/ObjectAdd.vue";
 
 Vue.use(Router);
 
@@ -64,6 +65,11 @@ export default new Router({
       path: "/objects",
       name: "Objects",
       component: Objects
+    },
+    {
+      path: "/object/add",
+      name: "ObjectAdd",
+      component: ObjectAdd
     }
   ]
 });
