@@ -2663,6 +2663,7 @@
                 </svg>
                 <span>Назад</span>
             </button>
+            <button type="button" class="add-object__button --dub" v-show="formStep == 3"><span>Дублировать шаг</span></button>
             <button type="button" class="add-object__button --next" v-show="formStep < formSteps.length" v-on:click="formStep += 1">
                 <span>Далее </span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="5" viewBox="0 0 20 5" fill="none">
@@ -2900,6 +2901,10 @@
                     margin: 0 22px 0 0;
                 }
             }
+            &.--dub {
+                width: 230px;
+                background: $blue;
+             }
             &.--submit {
                 background: $green;
             }
