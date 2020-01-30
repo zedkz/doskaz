@@ -63,10 +63,6 @@ export default {
       categoryId: []
     };
   },
-  mounted() {
-    console.log(this.$store.state.objectCategories)
-    //this.$store.dispatch("objectCategories/getCategories");
-  },
   methods: {
     isIncludeSubcat(id) {
       return this.$store.state.objectCategories.categoryId.includes(id)

@@ -110,22 +110,15 @@
             };
         },
         mounted() {
-
-            console.log(this.x)
             if (!firebase.apps.length) {
                 firebase.initializeApp({
-                    apiKey: this.x
+                    apiKey: process.env.NUXT_ENV_FIREBASE_API_KEY
+                });
+                firebase.auth().languageCode = 'ru';
+                this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+                    'size': 'invisible'
                 });
             }
-
-
-
-            firebase.auth().languageCode = 'ru';
-
-
-            this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
-                'size': 'invisible'
-            });
         },
         methods: {
             async sendSmsCode() {
@@ -147,16 +140,14 @@
                     const result = await this.confirmationResult.confirm(this.phoneAuth.code);
                     const idToken = await result.user.getIdToken();
                     await this.$axios.post('/api/token/phone', {idToken});
-                    await this.$store.dispatch('loadUser')
+                    await this.$store.dispatch('authentication/loadUser');
+                    await this.$router.push({name: 'index'})
                 } catch (e) {
                     this.errors.code = e.code
                 }
             }
         },
         computed: {
-            x() {
-                return process.env.NUXT_ENV_FIREBASE_API_KEY
-            },
             phoneError() {
                 return get(errorMessages, [this.errors.number], this.errors.number)
             },
