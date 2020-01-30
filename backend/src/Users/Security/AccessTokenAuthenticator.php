@@ -38,6 +38,8 @@ final class AccessTokenAuthenticator extends AbstractGuardAuthenticator
         if (!$this->accessTokenRepository->find($request->cookies->get(self::COOKIE_NAME))) {
             return false;
         }
+
+        return true;
         if (in_array($request->getMethod(), ['GET', 'HEAD', 'OPTIONS'])) {
             return true;
         }

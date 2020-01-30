@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "prod": "nuxt build --standalone",
+    "build": "nuxt build --standalone",
     "start": "nuxt-start"
   },
   "dependencies": {
