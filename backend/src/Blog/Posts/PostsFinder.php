@@ -119,12 +119,16 @@ final class PostsFinder
         ];
     }
 
-    public function findOneBySlug(string $slug): array
+    public function findOneBySlug(string $slug): ?array
     {
         $item = $this->initializeQuery()
             ->andWhere('blog_posts.slug_value = :slug')
             ->setParameter('slug', $slug)
             ->execute()->fetch();
+
+        if (!$item) {
+            return null;
+        }
 
         $similarPosts = $this->initializeQuery()
             ->andWhere('blog_posts.id != :id')

@@ -1,32 +1,32 @@
 <template>
     <div class="pagination" v-hotkey="keymap">
-        <router-link class="pagination__prev" v-if="currentPage > 1 && pages > 1"
+        <nuxt-link class="pagination__prev" v-if="currentPage > 1 && pages > 1"
                      :to="{...$route, query: {...$route.query, page: currentPage - 1}}">
             <span>← Ctrl</span>
-        </router-link>
-        <router-link class="pagination__btn" v-if="buttons[0] !== 1"
+        </nuxt-link>
+        <nuxt-link class="pagination__btn" v-if="buttons[0] !== 1"
                      :to="{...$route, query: {...$route.query, page: 1}}">
             <span>1</span>
-        </router-link>
+        </nuxt-link>
         <button class="pagination__btn" v-if="currentPage > 3">
             <span>...</span>
         </button>
-        <router-link class="pagination__btn" v-for="button in buttons" :key="button"
+        <nuxt-link class="pagination__btn" v-for="button in buttons" :key="button"
                      :class="{pagination__btn_active: button === currentPage}"
                      :to="{...$route, query: {...$route.query, page: button}}">
             <span>{{ button }}</span>
-        </router-link>
+        </nuxt-link>
         <button class="pagination__btn" v-if="lastButton < pages - 1 ">
             <span>...</span>
         </button>
-        <router-link class="pagination__btn" v-if="lastButton !== pages"
+        <nuxt-link class="pagination__btn" v-if="lastButton !== pages"
                      :to="{...$route, query: {...$route.query, page: pages}}">
             <span>{{ pages }}</span>
-        </router-link>
-        <router-link class="pagination__next" v-if="pages > 1 && currentPage !== pages"
+        </nuxt-link>
+        <nuxt-link class="pagination__next" v-if="pages > 1 && currentPage !== pages"
                      :to="{...$route, query: {...$route.query, page: currentPage + 1}}">
             <span>Ctrl →</span>
-        </router-link>
+        </nuxt-link>
     </div>
 </template>
 

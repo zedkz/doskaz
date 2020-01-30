@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Blog\Posts;
 
 
+use App\Blog\Categories\CategoryRepository;
 use App\Blog\Image;
 use App\Blog\Meta;
 use App\Blog\MetaData;
@@ -40,8 +41,11 @@ final class PostsController extends AbstractController
      * @param PostsFinder $postsFinder
      * @return array
      */
-    public function listPosts(Request $request, PostsFinder $postsFinder)
+    public function listPosts(Request $request, CategoryRepository $categoryRepository, PostsFinder $postsFinder)
     {
+        if($request->query->has('category') && !$categoryRepository->existsBySlug($request->query->get('category'))) {
+            throw new NotFoundHttpException();
+        }
         return $postsFinder->find($request->query->all(), $request->query->getInt('page', 1));
     }
 

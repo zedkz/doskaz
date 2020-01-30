@@ -1,5 +1,5 @@
 <template>
-  <div class="login-form" :class="{'isOpened': isOpened}">
+  <div class="login-form" :class="{'isOpened': true}">
     <div class="login-form__bg"></div>
     <div class="login-form__content">
       <div class="login-form__card">
@@ -144,7 +144,8 @@
     },
     methods: {
       loginFormClose() {
-        this.$store.dispatch('hideLoginForm')
+        this.$router.push({name: 'index'})
+        //this.$store.dispatch('hideLoginForm')
       },
       async authenticate(provider) {
           await openPopup(provider.url, provider.popupOptions);

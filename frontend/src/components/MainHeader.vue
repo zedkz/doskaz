@@ -15,9 +15,9 @@
         <a href="#">
           <span>Контакты</span>
         </a>
-        <router-link :to="'/blog'">
+        <nuxt-link :to="{name: 'blog-category'}">
           <span>Блог</span>
-        </router-link>
+        </nuxt-link>
       </div>
 
       <div class="main-header__visual">

@@ -11,7 +11,7 @@
 				</div>
 			</div>
 			<div class="complaint__wrapper">
-				<ComplaintContent />
+				<ComplaintContent/>
 			</div>
 		</div>
 	</authenticated>

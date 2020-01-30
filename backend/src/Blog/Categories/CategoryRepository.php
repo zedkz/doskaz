@@ -22,4 +22,8 @@ final class CategoryRepository
     {
         $this->entityManager->persist($category);
     }
+
+    public function existsBySlug(string $slug): bool {
+        return (bool)$this->repository->findOneBy(['slug.value' => $slug]);
+    }
 }

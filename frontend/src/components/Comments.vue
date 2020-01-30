@@ -25,7 +25,7 @@
             <span class="date-comment small">{{
               formatDate(comment.createdAt)
             }}</span>
-            <span class="small res" @click="requestComment(comment.id)"
+            <span class="small res" v-if="$store.state.authentication.user" @click="requestComment(comment.id)"
               >Ответить</span
             >
           </div>
@@ -41,6 +41,7 @@
             </Comments>
           </transition-group>
           <Comments
+                  v-if="comment.replies.length > 0"
             @formFocus="formFocus"
             v-show="!showAllComments"
             :comment="comment.replies[0]"

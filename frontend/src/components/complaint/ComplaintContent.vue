@@ -231,7 +231,7 @@
                     </div>
                     <div class="complaint__col --sm">
                         <div class="input --date">
-                            <vuejs-datepicker
+                            <vuejs-date-picker
                                     id="x3"
                                     :format="format"
                                     :language="locale"
@@ -521,14 +521,12 @@
 </template>
 
 <script>
-    import api from "@/api";
     import get from "lodash/get";
     import transform from "lodash/transform";
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
-    import VuejsDatepicker from 'vuejs-datepicker'
+   // import VuejsDatepicker from 'vuejs-datepicker/dist/vuejs-datepicker.common'
     import ru from 'vuejs-datepicker/dist/locale/translations/ru'
-    import maskedInput from 'vue-masked-input'
 
     const types = [
         {
@@ -821,6 +819,7 @@
     ];
 
     export default {
+        name: 'ComplaintContent',
         data() {
             return {
                 complaintType2Attributes: {},
@@ -897,10 +896,7 @@
             };
         },
         components: {
-            Loading,
-            'vuejs-datepicker': VuejsDatepicker,
-            maskedInput
-        },
+            Loading},
         mounted() {
             this.initialize();
         },
@@ -925,7 +921,7 @@
                         };
                         validate_param[param] = this.complaint.complainant[param];
                     }
-                    api.post("complaints/validate", url).catch(error => {
+                    this.$axios.post("/api/complaints/validate", url).catch(error => {
                         if (content == "content") {
                             if (
                                 error.response.data.errors.violations.find(
@@ -966,19 +962,19 @@
             },
             async loadInitialData() {
                 try {
-                    const {data: initialData} = await api.get("complaints/initialData");
+                    const {data: initialData} = await this.$axios.get("/api/complaints/initialData");
                     this.complaint.complainant = initialData.complainant
                 } catch (e) {
 
                 }
             },
             async loadAuthorities() {
-                const {data: authorities} = await api.get("complaints/authorities");
+                const {data: authorities} = await this.$axios.get("/api/complaints/authorities");
                 this.authorities = authorities;
                 this.complaint.authorityId = authorities[0].id;
             },
             async loadCities() {
-                const {data: cities} = await api.get("cities");
+                const {data: cities} = await this.$axios.get("/api/cities");
                 this.cities = cities;
                 this.complaint.content.cityId = cities[0].id;
                 this.complaint.complainant.cityId = cities[0].id;
@@ -989,7 +985,7 @@
                 try {
                     const uploads = await Promise.all(
                         this.photosRaw.filter(photo => !!photo.file)
-                            .map(photo => api.post("storage/upload", photo.file))
+                            .map(photo => this.$axios.post("/api/storage/upload", photo.file))
                     );
                     this.complaint.content.options = transform(this.complaintType2Attributes, (r, v, k) => {
                         if (v) {
@@ -997,7 +993,7 @@
                         }
                     }, []);
                     this.complaint.content.photos = uploads.map(upload => upload.data.path);
-                    await api.post("complaints", this.complaint);
+                    await this.$axios.post("/api/complaints", this.complaint);
                     this.$router.push("/");
                 } catch (e) {
                     this.violations = get(e, "response.data.errors.violations", []).reduce(

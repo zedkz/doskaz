@@ -64,13 +64,12 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("getCategories");
+    console.log(this.$store.state.objectCategories)
+    //this.$store.dispatch("objectCategories/getCategories");
   },
   methods: {
     isIncludeSubcat(id) {
-      if (this.categoryId.includes(id)) {
-        return true;
-      }
+      return this.$store.state.objectCategories.categoryId.includes(id)
     },
     selectCategory(cat) {
       this.category = cat;
@@ -92,10 +91,10 @@ export default {
   },
   computed: {
     categories() {
-      return this.$store.getters.retCategories;
+      return this.$store.state.objectCategories.categories;
     },
     subcategory() {
-      let cat = this.$store.getters.retCategories;
+      let cat = this.$store.state.objectCategories.categories;
       return cat.find(subcat => subcat.title === this.category);
     }
   }

@@ -87,9 +87,9 @@
                     </div>
                 </a>
                 <div class="item item_link">
-                    <router-link :to="{name: 'blog'}">
+                    <nuxt-link :to="{name: 'blog-category'}">
                         <span>Перейти в раздел</span>
-                    </router-link>
+                    </nuxt-link>
                 </div>
             </div>
             <div class="timeline__tab timeline__tab_events" :class="{'isActive': activeTab===1}">
@@ -191,7 +191,8 @@
                 this.activeTab = tab;
             },
             showLoginForm() {
-                this.$store.dispatch('showLoginForm')
+                this.$router.push({'name': 'index-login'})
+                //this.$store.dispatch('showLoginForm')
             }
         },
         computed: {

@@ -85,16 +85,9 @@
     import * as firebase from 'firebase/app'
     import 'firebase/auth'
     import get from 'lodash/get'
-    import api from '@/api'
     import VueMask from 'v-mask'
     import Vue from 'vue'
     Vue.use(VueMask);
-
-    firebase.initializeApp({
-        apiKey: process.env.VUE_APP_FIREBASE_API_KEY
-    });
-
-    firebase.auth().languageCode = 'ru';
 
     const errorMessages = {
         'auth/invalid-phone-number': 'Введен неверный формат номера',
@@ -117,6 +110,19 @@
             };
         },
         mounted() {
+
+            console.log(this.x)
+            if (!firebase.apps.length) {
+                firebase.initializeApp({
+                    apiKey: this.x
+                });
+            }
+
+
+
+            firebase.auth().languageCode = 'ru';
+
+
             this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
                 'size': 'invisible'
             });
@@ -140,7 +146,7 @@
                 try {
                     const result = await this.confirmationResult.confirm(this.phoneAuth.code);
                     const idToken = await result.user.getIdToken();
-                    await api.post('token/phone', {idToken});
+                    await this.$axios.post('/api/token/phone', {idToken});
                     await this.$store.dispatch('loadUser')
                 } catch (e) {
                     this.errors.code = e.code
@@ -148,6 +154,9 @@
             }
         },
         computed: {
+            x() {
+                return process.env.NUXT_ENV_FIREBASE_API_KEY
+            },
             phoneError() {
                 return get(errorMessages, [this.errors.number], this.errors.number)
             },

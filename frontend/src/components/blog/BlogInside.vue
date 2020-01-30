@@ -1,17 +1,15 @@
 <template>
   <div class="blog__inside">
     <div class="breadcrumbs">
-      <router-link :to="{ name: 'blog' }" class="breadcrumbs__link"
-        >Блог</router-link
-      >
-      <router-link
+      <nuxt-link :to="{ name: 'blog-category' }" class="breadcrumbs__link">Блог</nuxt-link>
+      <nuxt-link
         :to="{
-          name: 'blog',
-          params: { categorySlug: $route.params.categorySlug }
+          name: 'blog-category',
+          params: { category: $route.params.cat }
         }"
         class="breadcrumbs__link"
         >{{ post.categoryTitle }}
-      </router-link>
+      </nuxt-link>
     </div>
     <div class="blog__in">
       <div class="blog__content">
@@ -39,51 +37,9 @@
             </div>
           </div>
 
-          <!-- <vue-disqus shortname="pavlodarzedkz" :title="post.title" :key="post.id"/> -->
-          <h4>{{ declension }}</h4>
-          <span class="custom-dropdown">
-            <select v-model="comments_sort" @change="sortedComment()">
-              <option>сначала новые</option>
-              <option>сначала старые</option>
-              <option>популярные</option>
-            </select>
-          </span>
-          <Comments
-            @formFocus="formFocus"
-            v-for="comment in comments.items"
-            :key="comment.id"
-            :comment="comment"
-            :comments="comments.items"
-          />
-          <form class="comment-form" v-if="auth == true">
-            <textarea
-              ref="comment"
-              placeholder="Напишите комментарий"
-              name="comment"
-              rows="2"
-              v-model="commentText"
-              @input="resizeHeight"
-            />
-            <div class="form-actions">
-              <div>
-                <button
-                  type="button"
-                  class="send-button"
-                  @click="sendComment()"
-                >
-                  <img src="@/assets/icons/send.svg" alt="" />
-                </button>
-                <button
-                  type="button"
-                  @click="clearComment()"
-                  class="clear-button"
-                  v-if="commentText.length > 0"
-                >
-                  <img src="@/assets/icons/close.svg" alt="" />
-                </button>
-              </div>
-            </div>
-          </form>
+        <client-only>
+          <comments-block :id="post.id"/>
+        </client-only>
         </div>
       </div>
       <div class="blog__side">
@@ -95,19 +51,19 @@
               v-for="post in similarPosts"
               :key="post.id"
             >
-              <router-link
+              <nuxt-link
                 :to="{
-                  name: 'blogView',
+                  name: 'blog-cat-slug',
                   params: {
-                    categorySlug: post.categorySlug,
-                    postSlug: post.slug
+                    cat: post.categorySlug,
+                    slug: post.slug
                   }
                 }"
                 class="blog__material-link"
               >
                 <img :src="post.image" :alt="post.title" />
                 <span>{{ post.title }}</span>
-              </router-link>
+              </nuxt-link>
             </li>
           </ul>
         </div>
@@ -118,18 +74,17 @@
 
 <script>
 import Vue from "vue";
-import VueDisqus from "vue-disqus";
 import Comments from "@/components/Comments";
-import api from "@/api";
 import get from "lodash/get";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
+import CommentsBlock from "./CommentsBlock";
 
-Vue.use(VueDisqus);
 
 export default {
-  components: { Comments },
-  metaInfo() {
+  props: ['post', 'similarPosts'],
+  components: {CommentsBlock, Comments },
+  head() {
     return {
       title: get(this.post, "meta.title"),
       meta: [
@@ -147,8 +102,6 @@ export default {
   data() {
     return {
       comments_sort: "сначала новые",
-      post: {},
-      similarPosts: [],
       commentText: "",
       comments: [],
       commentId: Number
@@ -159,35 +112,26 @@ export default {
       return format(new Date(value), "d MMMM y", { locale: ru });
     }
   },
-  watch: {
-    $route: {
-      handler() {
-        this.loadPost();
-      },
-      immediate: true
-    }
-  },
   methods: {
     sortedComment() {
       if (this.comments_sort == "сначала старые") {
-        api
-          .get(`blogPosts/${this.post.id}/comments`, {
+        this.$axios
+          .get(`/api/blogPosts/${this.post.id}/comments`, {
             params: { sortOrder: "asc" }
           })
           .then(res => {
             this.comments = res.data;
           });
       } else if (this.comments_sort == "сначала новые") {
-        api
-          .get(`blogPosts/${this.post.id}/comments`, {
+        this.$axios
+          .get(`/api/blogPosts/${this.post.id}/comments`, {
             params: { sortOrder: "desc" }
           })
           .then(res => {
             this.comments = res.data;
           });
       } else if (this.comments_sort == "популярные") {
-        api
-          .get(`blogPosts/${this.post.id}/comments`, {
+        this.$axios.get(`/api/blogPosts/${this.post.id}/comments`, {
             params: { sortBy: "popularity" }
           })
           .then(res => {
@@ -196,21 +140,20 @@ export default {
       }
     },
     formFocus(id) {
-      console.log(id)
       this.$nextTick(() => {
         this.$refs.comment.focus();
       });
       this.commentId = id;
     },
     sendComment() {
-      api
-        .post(`blogPosts/${this.post.id}/comments`, {
+      this.$axios
+        .post(`/api/blogPosts/${this.post.id}/comments`, {
           text: this.commentText,
           parentId: this.$store.getters.getId
         })
         .then(res => {
           console.log(res);
-          api.get(`blogPosts/${this.post.id}/comments`).then(res => {
+          this.$axios.get(`/api/blogPosts/${this.post.id}/comments`).then(res => {
             this.comments = res.data;
           });
           this.commentText = "";
@@ -225,25 +168,11 @@ export default {
       e.target.style.height = "70px";
       e.target.style.height = e.target.scrollHeight + "px";
     },
-    async loadPost() {
-      await api
-        .get(`blogPosts/bySlug/${this.$route.params.postSlug}`)
-        .then(res => {
-          this.post = res.data.post;
-          this.similarPosts = res.data.similar;
-          api.get(`blogPosts/${res.data.post.id}/comments`).then(res => {
-            this.comments = res.data;
-          });
-        });
-    },
     share(network) {
       window.open(this.shareLinks[network]);
     }
   },
   computed: {
-    auth() {
-      return JSON.parse(localStorage.getItem("userIsAuth"));
-    },
     declension() {
       let number = this.comments.count;
       let txt = ["Комментарий", "Комментария", "Комментариев"];

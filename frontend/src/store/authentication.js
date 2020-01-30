@@ -1,15 +1,14 @@
-import api from "../api";
-
 export default {
-    state: {
-        authenticated: false,
-        showLoginForm: false,
-        user: null
+    state() {
+        return {
+            authenticated: false,
+            showLoginForm: false,
+            user: null
+        }
     },
     mutations: {
         setUser(state, user) {
             state.user = user;
-            localStorage.setItem('userIsAuth', true)
             return state;
         },
         showLoginForm(state) {
@@ -23,7 +22,7 @@ export default {
     },
     actions: {
         async loadUser({commit}) {
-            const {data: user} = await api.get('users/me');
+            const {data: user} = await this.$axios.get('/api/profile');
             commit('setUser', user);
             commit('hideLoginForm')
         },
@@ -31,7 +30,7 @@ export default {
             commit('setUser', null)
         },
         async oauthAuthenticate({dispatch}, {code, provider}) {
-            await api.post('token/oauth', {provider, code});
+            await this.$axios.post('/api/token/oauth', {provider, code});
             await dispatch('loadUser')
         },
         showLoginForm({commit}) {

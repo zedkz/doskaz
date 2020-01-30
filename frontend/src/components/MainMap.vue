@@ -1,5 +1,5 @@
 <template>
-  <yandexMap
+  <yandex-map
     class="ymap"
     :settings="settings"
     :coords="coords"
@@ -8,11 +8,11 @@
     @map-was-initialized="mapWasInitialized"
   >
     <!--<ymap-marker marker-id="123" :coords="markerCoords" :icon="markerIcon" />-->
-  </yandexMap>
+  </yandex-map>
 </template>
 
 <script>
-import { yandexMap, ymapMarker } from "vue-yandex-maps";
+//import { yandexMap, ymapMarker } from "vue-yandex-maps";
 
 export default {
   data() {
@@ -45,7 +45,7 @@ export default {
       }
     };
   },
-  components: { yandexMap, ymapMarker },
+  components: { /*yandexMap,*/ /*ymapMarker*/ },
   methods: {
     mapWasInitialized(map) {
       let url = '/api/objects/ymaps?bbox=%b&zoom=%z'

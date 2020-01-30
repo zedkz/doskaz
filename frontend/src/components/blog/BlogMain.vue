@@ -23,10 +23,10 @@
                                 <span class="blog__item-link">{{ post.categoryTitle }}</span>
                             </div>
                             <div>
-                                <router-link
-                                        :to="{name: 'blogView', params: {categorySlug: post.categorySlug, postSlug: post.slug}}"
+                                <nuxt-link
+                                        :to="{name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}}"
                                         class="blog__item-link">Подробнее
-                                </router-link>
+                                </nuxt-link>
                             </div>
                         </div>
                     </div>
@@ -40,27 +40,27 @@
         <div class="blog__side">
             <div class="blog__category">
                 <span class="blog__category-title">Категории</span>
-                <router-link
-                        :to="{name: 'blog', query: {period: $route.query.period}}"
+                <nuxt-link
+                        :to="{name: 'blog-category', query: {period: $route.query.period}}"
                         class="blog__category-link"
                         :class="{isActive: !activeCategory}">
                     <span>Все категории</span>
-                </router-link>
+                </nuxt-link>
 
-                <router-link
-                        :to="{name: 'blog', params: {categorySlug: category.slug }, query: {period: $route.query.period}}"
+                <nuxt-link
+                        :to="{name: 'blog-category', params: {category: category.slug }, query: {period: $route.query.period}}"
                         class="blog__category-link"
                         v-for="category in categories"
                         :class="{isActive: activeCategory === category.slug}"
                         :key="category.slug">
                     <span>{{ category.title }}</span>
-                </router-link>
+                </nuxt-link>
 
             </div>
             <div class="blog__category">
                 <span class="blog__category-title">Дата</span>
                 <router-link :to="{...$route, query: {}}" class="blog__category-link" :class="{isActive: !$route.query.period}"><span>За все время</span></router-link>
-                <router-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ period.title }}</span></router-link>
+                <nuxt-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ period.title }}</span></nuxt-link>
             </div>
             <div class="blog__category --share">
                 <span class="blog__category-title">Поделиться</span>
@@ -87,16 +87,16 @@
 </template>
 
 <script>
-    import Pagination from "./../Pagination";
-    import api from '@/api'
+    import Pagination from "@/components/Pagination";
     import {format} from 'date-fns'
     import {ru} from 'date-fns/locale'
 
     export default {
+        props: ['posts', 'categories', 'pages'],
         components: {
             Pagination
         },
-        metaInfo() {
+        head() {
             return {
                 title: 'Блог',
                 meta: [
@@ -104,51 +104,19 @@
                 ]
             }
         },
-        data() {
-            return {
-                categories: [],
-                pages: 0,
-                posts: [],
-            }
-        },
         filters: {
             date(value) {
                 return format(new Date(value), 'd MMMM y', {locale: ru})
             }
         },
-        mounted() {
-            this.loadCategories();
-            this.loadPosts();
-        },
         methods: {
-            async loadCategories() {
-                const {data: {items: categories}} = await api.get('blogCategories', {params: {limit: 100}});
-                this.categories = categories.reverse();
-            },
-            async loadPosts() {
-                const {data: {items: posts, pages}} = await api.get('blogPosts/list', {
-                    params: {
-                        page: this.$route.query.page || 1,
-                        category: this.activeCategory,
-                        period: this.$route.query.period,
-                        search: this.$route.query.search
-                    }
-                });
-                this.posts = posts;
-                this.pages = pages;
-            },
             search() {
                 this.$router.push({...this.$route, query: {...this.$route.query, page: undefined, search: this.$refs.search.value || undefined}})
             }
         },
-        watch: {
-            $route() {
-                this.loadPosts()
-            }
-        },
         computed: {
             activeCategory() {
-                return this.$route.params.categorySlug
+                return this.$route.params.category
             },
             periods() {
                 return [
