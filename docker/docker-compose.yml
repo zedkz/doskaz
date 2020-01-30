@@ -40,8 +40,12 @@ services:
       - traefik.http.routers.doskaz_frontend.rule=Host(`${APP_HOST}`)
       - traefik.http.middlewares.doskaz_compress_frontend.compress=true
       - traefik.http.routers.doskaz_frontend.middlewares=doskaz_compress_frontend
+      - traefik.port=3000
     networks:
       - web
+    environment:
+      - BACKEND_DOMAIN=http://backend
+      - NUXT_HOST=0.0.0.0
     depends_on:
       - backend
 
