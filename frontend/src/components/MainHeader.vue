@@ -15,6 +15,9 @@
         <a href="#">
           <span>Контакты</span>
         </a>
+        <router-link :to="'/blog'">
+          <span>Блог</span>
+        </router-link>
       </div>
 
       <div class="main-header__visual">
