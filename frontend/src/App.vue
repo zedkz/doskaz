@@ -254,6 +254,25 @@
         }
     }
 
+    input[type=radio] {
+        display: none;
+
+        & + label {
+            cursor: pointer;
+            display: block;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 0 0 0 26px;
+            position: relative;
+            background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjcuNSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzdCOTVBNyIvPgo8L3N2Zz4K") left top 2px no-repeat;
+            background-size: 16px;
+        }
+
+        &:checked + label {
+         background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjUuNSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzBGNkJGNSIgc3Ryb2tlLXdpZHRoPSI1Ii8+Cjwvc3ZnPgo=") left top 2px no-repeat;
+        }
+    }
+
     .add-link {
         font-size: 14px;
         line-height: 20px;

@@ -117,6 +117,15 @@ export default {
     justify-content: flex-start;
     align-items: flex-start;
 
+    .object-side__button {
+      margin: -15px 0 0;
+    }
+
+    &.--between {
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
     & > * {
       margin-left: 35px;
 
@@ -181,6 +190,13 @@ export default {
 
       &:first-child {
         margin-top: 0;
+      }
+    }
+    & > .--ticket {
+      margin-top: 35px;
+
+      &:first-child {
+         margin-top: 0;
       }
     }
   }

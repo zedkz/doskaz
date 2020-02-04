@@ -170,7 +170,9 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
-          color: #ffffff;
+          span {
+            color: #ffffff;
+          }
         }
 
         &.list__icon_achievment {
