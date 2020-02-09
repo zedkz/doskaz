@@ -9,6 +9,10 @@ import Complaint from "./views/Complaint.vue";
 import Oauth from "./components/Oauth";
 import Objects from "./views/Objects.vue";
 import ObjectAdd from "./views/ObjectAdd.vue";
+import UserProfileEdit from "./views/UserProfileEdit.vue";
+import UserTickets from "./views/UserTickets.vue";
+import UserTasks from "./views/UserTasks.vue";
+import UserComments from "./views/UserComments.vue";
 
 Vue.use(Router);
 
@@ -40,6 +44,26 @@ export default new Router({
       path: "/user/achievments",
       name: "userAchievments",
       component: UserAchievments
+    },
+    {
+      path: "/user/tickets",
+      name: "userTickets",
+      component: UserTickets
+    },
+    {
+      path: "/user/tasks",
+      name: "userTasks",
+      component: UserTasks
+    },
+    {
+      path: "/user/comments",
+      name: "userComments",
+      component: UserComments
+    },
+    {
+      path: "/user/profile/edit",
+      name: "userProfileEdit",
+      component: UserProfileEdit
     },
     {
       path: "/blog/:categorySlug?",
