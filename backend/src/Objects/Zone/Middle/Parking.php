@@ -104,7 +104,7 @@ class Parking extends Zone
         if ($this->isMatches([1, 2, 5, 6, 7, 8, 9], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else {
+        } elseif($this->isMatchesPartial([1, 2, 5, 6, 7, 8, 9], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
@@ -112,7 +112,7 @@ class Parking extends Zone
         if ($this->isMatches([1, 2, 5, 6, 7, 8], Attribute::no())) {
             $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else {
+        } elseif ($this->isMatchesPartial([1, 2, 5, 6, 7, 8], Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
