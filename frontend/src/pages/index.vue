@@ -64,7 +64,7 @@
             </button>
         </div>
         <div class="main-page__actions">
-            <button class="button button_green" type="button" name="add_object">
+            <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
                 <svg
                         width="20"
                         height="20"
@@ -79,7 +79,7 @@
                             fill="white"
                     />
                 </svg>
-            </button>
+            </nuxt-link>
             <nuxt-link :to="{name: 'complaint'}" class="button button_red">
                 <svg
                         width="19"
@@ -132,7 +132,7 @@
             ObjectModal,
             MainMap
         },
-        fetch({store}) {
+        async fetch({store}) {
             return store.dispatch('objectCategories/getCategories')
         }
     }
@@ -195,9 +195,11 @@
                 &_red {
                     background: $red;
                 }
+
                 &_green {
                     background: $green;
                 }
+
                 &_blue {
                     background: $blue;
                 }
@@ -238,9 +240,11 @@
                 &_red {
                     background: $red;
                 }
+
                 &_green {
                     background: $green;
                 }
+
                 &_blue {
                     background: $blue;
                 }

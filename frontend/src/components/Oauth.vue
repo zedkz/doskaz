@@ -12,7 +12,7 @@
             async authenticate() {
                 const {code} = this.$route.query;
                 const {provider} = this.$route.params;
-                await this.$store.dispatch('oauthAuthenticate', {code, provider});
+                await this.$store.dispatch('oauthAuthenticate/oauthAuthenticate', {code, provider});
                 window.close()
             }
         }

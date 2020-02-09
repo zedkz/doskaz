@@ -58,3 +58,7 @@ services:
         tags: ['controller.service_arguments']
         arguments:
             - '%kernel.project_dir%/src'
+
+    App\Infrastructure\AttributeNormalizer:
+        tags:
+            - { name: serializer.normalizer, priority: 1 }

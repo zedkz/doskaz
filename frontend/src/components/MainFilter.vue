@@ -35,9 +35,9 @@
     </div>
 
     <div class="main-filter__title">
-      <a href="#" class="main-filter__logo">
-        <img :src="require('./../assets/logo.svg')" alt />
-      </a>
+      <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
+        <img :src="require('@/assets/logo.svg')" alt />
+      </nuxt-link>
       <div class="main-filter__geo">
         <svg
           width="12"

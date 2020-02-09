@@ -1,9 +1,9 @@
 <template>
   <div class="main-header">
     <div class="main-header__content">
-      <router-link to="/" class="main-header__logo">
+      <nuxt-link :to="{name: 'index'}" class="main-header__logo">
         <img :src="require('@/assets/logo.svg')" alt />
-      </router-link>
+      </nuxt-link>
 
       <div class="main-header__menu">
         <a href="#">
