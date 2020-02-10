@@ -139,9 +139,7 @@
                 try {
                     const result = await this.confirmationResult.confirm(this.phoneAuth.code);
                     const idToken = await result.user.getIdToken();
-                    await this.$axios.post('/api/token/phone', {idToken});
-                    await this.$store.dispatch('authentication/loadUser');
-                    await this.$router.push({name: 'index'})
+                    await this.$store.dispatch('authentication/phoneAuthenticate', idToken);
                 } catch (e) {
                     this.errors.code = e.code
                 }

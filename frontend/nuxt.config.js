@@ -5,7 +5,8 @@ export default {
     loading: false,
     modules: [
         '@nuxtjs/axios',
-        '@nuxtjs/proxy'
+        '@nuxtjs/proxy',
+        'cookie-universal-nuxt'
     ],
     proxy: {
         '/pipeline': {
@@ -23,7 +24,9 @@ export default {
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
-        ['@nuxtjs/dotenv', {path: './'}]
+        [
+            '@nuxtjs/dotenv', {path: './'},
+        ]
     ],
     css: [
         '@fortawesome/fontawesome-free/css/all.css'
