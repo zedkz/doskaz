@@ -32,9 +32,6 @@ export default {
         async oauthAuthenticate({dispatch}, {code, provider}) {
             await this.$axios.post('/api/token/oauth', {provider, code});
             await dispatch('loadUser');
-            const redirect = this.app.$cookies.get('redirect') || '/';
-            this.app.$cookies.remove('redirect');
-            await this.$router.push(redirect)
         },
         async phoneAuthenticate({dispatch}, idToken) {
             await this.$axios.post('/api/token/phone', {idToken});

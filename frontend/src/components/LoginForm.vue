@@ -1,5 +1,5 @@
 <template>
-    <div class="login-form" :class="{'isOpened': true}">
+    <div class="login-form isOpened">
         <div class="login-form__bg"></div>
         <div class="login-form__content">
             <div class="login-form__card">
@@ -135,13 +135,6 @@
 
     export default {
         components: {PhoneAuthForm, PhoneAuthFormPoints},
-        watch: {
-            '$store.state.authentication.user'(value) {
-                if (value) {
-                    this.isOpened = false
-                }
-            }
-        },
         methods: {
             loginFormClose() {
                 this.$router.push({name: 'index'})
@@ -149,13 +142,12 @@
             async authenticate(provider) {
                 await openPopup(provider.url, provider.popupOptions);
                 await this.$store.dispatch('authentication/loadUser');
-                this.loginFormClose()
+                const redirect = this.$cookies.get('redirect') || '/';
+                this.$cookies.remove('redirect');
+                await this.$router.push(redirect)
             }
         },
         computed: {
-            isOpened() {
-                return this.$store.state.authentication.showLoginForm
-            },
             providers() {
                 return providers
             }
