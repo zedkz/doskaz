@@ -39,7 +39,7 @@ class FirstStep
 
     /**
      * @var string[]
-     * @Assert\Count(min=0)
+     * @Assert\Count(min=1, minMessage="Необходимо загрузить не менее 1 фото")
      */
     public $photos = [];
 }

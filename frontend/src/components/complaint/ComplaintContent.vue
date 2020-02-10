@@ -525,7 +525,6 @@
     import transform from "lodash/transform";
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
-   // import VuejsDatepicker from 'vuejs-datepicker/dist/vuejs-datepicker.common'
     import ru from 'vuejs-datepicker/dist/locale/translations/ru'
 
     const types = [

@@ -2,7 +2,6 @@ export default {
     state() {
         return {
             authenticated: false,
-            showLoginForm: false,
             user: null
         }
     },
@@ -10,21 +9,12 @@ export default {
         setUser(state, user) {
             state.user = user;
             return state;
-        },
-        showLoginForm(state) {
-            state.showLoginForm = true;
-            return state
-        },
-        hideLoginForm(state) {
-            state.showLoginForm = false;
-            return state
         }
     },
     actions: {
         async loadUser({commit}) {
             const {data: user} = await this.$axios.get('/api/profile');
             commit('setUser', user);
-            commit('hideLoginForm')
         },
         async deAuthenticate({commit}) {
             commit('setUser', null)
@@ -39,12 +29,6 @@ export default {
             const redirect = this.app.$cookies.get('redirect') || '/';
             this.app.$cookies.remove('redirect');
             await this.$router.push(redirect)
-        },
-        showLoginForm({commit}) {
-            commit('showLoginForm')
-        },
-        hideLoginForm({commit}) {
-            commit('hideLoginForm')
         }
     }
 }

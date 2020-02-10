@@ -4,9 +4,11 @@
 namespace App\Objects\Adding;
 
 use App\Objects\Zone;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route(path="/api/objects")
+ * @IsGranted("ROLE_USER")
  */
 class AddingController
 {

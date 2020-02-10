@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <loading is-full-page :active="isLoading"></loading>
         <div class="add-object__form">
             <div class="add-object__step-wrapper">
                 <div class="add-object__step">
@@ -25,12 +26,12 @@
             </div>
             <keep-alive>
                 <component
-                        v-if="stepNumber"
                         :is="activeStep.group"
                         :categories="categories"
                         :value="form[currentStepKey]"
                         :key="currentStepKey"
                         :errors="violations[currentStepKey]"
+                        @is-photos-uploading="photosUploading = $event"
                 />
             </keep-alive>
             <div class="add-object__button-b">
@@ -94,6 +95,8 @@
     import ServiceAccessibilityStep from "./ServiceAccessibilityStep";
     import set from 'lodash/set'
     import uniqBy from 'lodash/uniqBy'
+    import Loading from "vue-loading-overlay";
+    import "vue-loading-overlay/dist/vue-loading.css";
 
     export default {
         components: {
@@ -104,13 +107,16 @@
             service: ServiceAreaZoneStep,
             toilet: ToiletZoneStep,
             navigation: NavigationZoneStep,
-            serviceAccessibility: ServiceAccessibilityStep
+            serviceAccessibility: ServiceAccessibilityStep,
+            Loading
         },
         props: [
             'categories'
         ],
         data() {
             return {
+                isLoading: false,
+                photosUploading: false,
                 currentStepKey: 'first',
                 errors: [],
                 form: {
@@ -140,46 +146,7 @@
                     serviceAccessibility: {
                         attributes: {}
                     }
-                },
-                steps: [
-                    {
-                        type: 'first',
-                        name: '',
-                        address: '',
-                        point: null,
-                        categoryId: null
-                    },
-                    {
-                        type: 'parking',
-                        attributes: {},
-                        comment: ''
-                    },
-                    {
-                        type: 'entrance',
-                        attributes: {}
-                    },
-                    {
-                        type: 'pathsMovement',
-                        attributes: {}
-                    },
-                    {
-                        type: 'serviceArea',
-                        attributes: {}
-                    },
-                    {
-                        type: 'toilet',
-                        attributes: {}
-                    },
-                    {
-                        type: 'navigation',
-                        attributes: {}
-                    },
-                    {
-                        type: 'serviceAccessibility',
-                        attributes: {}
-                    },
-                ],
-                selectedStep: null,
+                }
             };
         },
         methods: {
@@ -196,15 +163,24 @@
                 }
             },
             async submit() {
-                try {
-                    await this.$axios.post('/api/objects/add', this.form);
-                    this.$router.push({name: 'index'})
-                } catch (e) {
-                    if (e.response && e.response.status === 400) {
-                        this.errors = e.response.data.errors.violations;
-                        this.currentStepKey = Object.keys(this.violations)[0];
+                this.isLoading = true;
+                const unwatch = this.$watch('photosUploading', async (v) => {
+                    if (v) {
+                        return;
                     }
-                }
+                    try {
+                        await this.$axios.post('/api/objects/add', this.form);
+                        await this.$router.push({name: 'index'})
+                    } catch (e) {
+                        if (e.response && e.response.status === 400) {
+                            this.errors = e.response.data.errors.violations;
+                            this.currentStepKey = Object.keys(this.violations)[0];
+                        }
+                    } finally {
+                        this.isLoading = false;
+                        unwatch();
+                    }
+                }, {immediate: true});
             },
             duplicateEntranceStep() {
                 if (!this.form.entrance2) {
@@ -220,9 +196,6 @@
                 }
             }
         },
-        mounted() {
-            this.selectedStep = this.steps[0]
-        },
         computed: {
             showDuplicateEntranceStepButton() {
                 if (this.activeStep.group === 'entrance') {
@@ -232,18 +205,8 @@
                         case 'entrance2':
                             return !this.form.entrance3
                     }
-
                 }
                 return false;
-            },
-            entranceSteps() {
-                return this.steps.filter(({type}) => type === 'entrance');
-            },
-            selectedStepType() {
-                return this.selectedStep ? this.selectedStep.type : null;
-            },
-            stepNumber() {
-                return this.steps.indexOf(this.selectedStep) + 1
             },
             activeStep() {
                 return this.steps2.find(step => step.key === this.currentStepKey);
@@ -293,7 +256,7 @@
             }
         },
         watch: {
-            currentStepKey(v) {
+            currentStepKey() {
                 window.scrollTo({top: 0})
             }
         }
