@@ -15,7 +15,11 @@ use App\Objects\Adding\Steps\ServiceStep;
 use App\Objects\Adding\Steps\ToiletStep;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class MiddleFormRequestData implements DataObject
+/**
+ * Class MiddleFormRequestData
+ * @package App\Objects\Adding
+ */
+class MiddleFormRequestData implements DataObject, Form
 {
     /**
      * @var FirstStep|null

@@ -80,10 +80,10 @@
                 <label class="add-object__label">Ссылка на видео</label>
             </div>
             <div class="col --long">
-                <div class="input">
-                    <input type="text" placeholder="http://">
+                <div class="input" v-for="(photo, index) in value.videos" :key="index">
+                    <input type="text" placeholder="http://" v-model="value.videos[index]"/>
                 </div>
-                <button type="button" class="add-link">Добавить еще фото</button>
+                <button type="button" class="add-link" @click="value.videos.push('')">Добавить еще видео</button>
             </div>
         </field>
 
@@ -138,6 +138,8 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+    .input:not(:first-of-type) {
+        margin-top: 20px;
+    }
 </style>

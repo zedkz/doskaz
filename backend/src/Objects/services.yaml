@@ -20,3 +20,8 @@ services:
 
     App\Objects\CategoriesController:
         tags: ['controller.service_arguments']
+
+    App\Objects\Adding\AddingRequestRepository:
+
+    App\Objects\Adding\AddingController:
+        tags: ['controller.service_arguments']

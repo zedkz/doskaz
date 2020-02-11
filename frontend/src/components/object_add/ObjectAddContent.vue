@@ -120,8 +120,11 @@
                 currentStepKey: 'first',
                 errors: [],
                 form: {
+                    form: 'middle',
                     first: {
-                        categoryId: null
+                        categoryId: null,
+                        videos: [''],
+                        photos: []
                     },
                     parking: {
                         attributes: {}

@@ -3,23 +3,30 @@
 
 namespace App\Objects\Adding;
 
+use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\Zone;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
 /**
  * @Route(path="/api/objects")
  * @IsGranted("ROLE_USER")
  */
-class AddingController
+class AddingController extends AbstractController
 {
     /**
      * @Route(path="/add")
-     * @param MiddleFormRequestData $addingRequestData
-     * @return MiddleFormRequestData
+     * @param Form $addingRequestData
+     * @param AddingRequestRepository $addingRequestRepository
+     * @param Flusher $flusher
+     * @return void
      */
-    public function add(MiddleFormRequestData $addingRequestData)
+    public function add(Form $addingRequestData, AddingRequestRepository $addingRequestRepository, Flusher $flusher)
     {
-        return $addingRequestData;
+        $request = new AddingRequest($this->getUser()->id(), $addingRequestData);
+        $addingRequestRepository->add($request);
+        $flusher->flush();
     }
 
     /**
