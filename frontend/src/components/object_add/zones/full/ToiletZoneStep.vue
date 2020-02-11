@@ -38,8 +38,8 @@
 </template>
 
 <script>
-    import AccessibilityScore from "./AccessibilityScore";
-    import AttributeField from "./AttributeField";
+    import AccessibilityScore from "@/components/object_add/AccessibilityScore";
+    import AttributeField from "@/components/object_add/AttributeField";
     export default {
         name: "ToiletZoneStep",
         components: {AttributeField, AccessibilityScore},

@@ -24,19 +24,24 @@
                 <span class="add-object__top-step">Шаг {{ currentStepNumber }} из {{ stepsShow.length }}</span> <h4
                     class="add-object__top-title">{{ activeStep.title }}</h4>
             </div>
+
             <keep-alive>
                 <component
-                        :is="activeStep.group"
+                        :is="stepComponent"
                         :categories="categories"
                         :value="form[currentStepKey]"
-                        :key="currentStepKey"
+                        :key="`${currentStepKey}${form.form}`"
                         :errors="violations[currentStepKey]"
                         @is-photos-uploading="photosUploading = $event"
                 />
             </keep-alive>
             <div class="add-object__button-b">
-                <nuxt-link :to="{name: 'index'}" type="button" class="add-object__button --cancel"
-                           v-show="activeStepIndex === 0">
+                <nuxt-link
+                        :to="{name: 'index'}"
+                        type="button"
+                        class="add-object__button --cancel"
+                        v-show="activeStepIndex === 0"
+                >
                     <span>Отмена</span>
                 </nuxt-link>
                 <button type="button" class="add-object__button --prev" v-show="activeStepIndex > 0" @click="prevStep">
@@ -85,33 +90,39 @@
 </template>
 
 <script>
-    import FirstStep from "./FirstStep";
-    import EntranceZoneStep from "./EntranceZoneStep";
-    import ParkingZoneStep from "./ParkingZoneStep";
-    import PathsMovementZoneStep from "./PathsMovementZoneStep";
-    import ServiceAreaZoneStep from "./ServiceAreaZoneStep";
-    import ToiletZoneStep from "./ToiletZoneStep";
-    import NavigationZoneStep from "./NavigationZoneStep";
-    import ServiceAccessibilityStep from "./ServiceAccessibilityStep";
+    import First from "./FirstStep";
+    import zonesMiddle from './zones/middle';
+    import zonesFull from './zones/full';
     import set from 'lodash/set'
     import uniqBy from 'lodash/uniqBy'
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
 
+    const zones = {
+        middle: zonesMiddle,
+        full: zonesFull
+    };
+
+    const steps = [
+        {key: 'first', title: 'Общая информация', group: 'first'},
+        {key: 'parking', title: 'Парковка', group: 'parking'},
+        {key: 'entrance1', title: 'Входная группа', group: 'entrance'},
+        {key: 'entrance2', title: 'Входная группа', group: 'entrance'},
+        {key: 'entrance3', title: 'Входная группа', group: 'entrance'},
+        {key: 'movement', title: 'Пути движения по объекту', group: 'movement'},
+        {key: 'service', title: 'Зона оказания услуги', group: 'service'},
+        {key: 'toilet', title: 'Туалет', group: 'toilet'},
+        {key: 'navigation', title: 'Навигация', group: 'navigation'},
+        {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
+    ];
+
     export default {
         components: {
-            first: FirstStep,
-            entrance: EntranceZoneStep,
-            parking: ParkingZoneStep,
-            movement: PathsMovementZoneStep,
-            service: ServiceAreaZoneStep,
-            toilet: ToiletZoneStep,
-            navigation: NavigationZoneStep,
-            serviceAccessibility: ServiceAccessibilityStep,
             Loading
         },
         props: [
-            'categories'
+            'categories',
+            'formVariant'
         ],
         data() {
             return {
@@ -120,7 +131,7 @@
                 currentStepKey: 'first',
                 errors: [],
                 form: {
-                    form: 'middle',
+                    form: this.formVariant,
                     first: {
                         categoryId: null,
                         videos: [''],
@@ -215,18 +226,7 @@
                 return this.steps2.find(step => step.key === this.currentStepKey);
             },
             steps2() {
-                return [
-                    {key: 'first', title: 'Общая информация', group: 'first'},
-                    {key: 'parking', title: 'Парковка', group: 'parking'},
-                    {key: 'entrance1', title: 'Входная группа', group: 'entrance'},
-                    {key: 'entrance2', title: 'Входная группа', group: 'entrance'},
-                    {key: 'entrance3', title: 'Входная группа', group: 'entrance'},
-                    {key: 'movement', title: 'Пути движения по объекту', group: 'movement'},
-                    {key: 'service', title: 'Зона оказания услуги', group: 'service'},
-                    {key: 'toilet', title: 'Туалет', group: 'toilet'},
-                    {key: 'navigation', title: 'Навигация', group: 'navigation'},
-                    {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
-                ]
+                return steps
             },
             activeStepIndex() {
                 return this.availableSteps.indexOf(this.activeStep)
@@ -256,11 +256,20 @@
                     set(violations, e.propertyPath, e.title)
                 });
                 return violations;
+            },
+            stepComponent() {
+                if(this.currentStepKey === 'first') {
+                    return First
+                }
+                return zones[this.form.form][this.activeStep.group]
             }
         },
         watch: {
             currentStepKey() {
                 window.scrollTo({top: 0})
+            },
+            formVariant(v) {
+                this.form.form = v
             }
         }
     }

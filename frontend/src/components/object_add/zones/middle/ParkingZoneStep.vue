@@ -27,8 +27,8 @@
 </template>
 
 <script>
-    import AttributeField from "./AttributeField";
-    import AccessibilityScore from "./AccessibilityScore";
+    import AccessibilityScore from "@/components/object_add/AccessibilityScore";
+    import AttributeField from "@/components/object_add/AttributeField";
     export default {
         name: "ParkingZoneStep",
         components: {AccessibilityScore, AttributeField},

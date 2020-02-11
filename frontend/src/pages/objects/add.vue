@@ -6,13 +6,14 @@
                 <h2 class="title">Добавить объект</h2>
                 <div class="add-object__link-b">
                     <span class="add-object__link">Простая форма</span>
-                    <span class="add-object__link active">Средняя форма</span>
-                    <span class="add-object__link">Сложная форма</span>
+                    <span class="add-object__link" v-for="form in forms" :key="form.key"
+                          @click="formVariant = form.key"
+                          :class="{active: form.key === formVariant}">{{ form.title }}</span>
                 </div>
             </div>
         </div>
         <div class="complaint__wrapper">
-            <ObjectAddContent :categories="categories"/>
+            <ObjectAddContent :categories="categories" :form-variant="formVariant"/>
         </div>
     </div>
 </template>
@@ -35,6 +36,19 @@
 
             return {
                 categories
+            }
+        },
+        data() {
+            return {
+                formVariant: 'middle'
+            }
+        },
+        computed: {
+            forms() {
+                return [
+                    {key: 'middle', title: 'Средняя форма'},
+                    {key: 'full', title: 'Сложная форма'},
+                ]
             }
         }
     };
