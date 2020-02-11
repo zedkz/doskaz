@@ -6,7 +6,10 @@ export default async function ({store, redirect, app, $axios}) {
 
     $axios.onError(function (error) {
         if (error.response.status === 401) {
-            return redirect({name: 'index-login', query: {next: app.context.route.fullPath}})
+            app.$cookies.set('redirect', app.context.route.fullPath, {
+                maxAge: 60 * 5
+            });
+            return redirect({name: 'index-login'})
         }
     });
 }
