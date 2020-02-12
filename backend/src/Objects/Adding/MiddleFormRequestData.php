@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class MiddleFormRequestData
  * @package App\Objects\Adding
  */
-class MiddleFormRequestData implements DataObject, Form
+final class MiddleFormRequestData implements DataObject, Form
 {
     /**
      * @var FirstStep|null

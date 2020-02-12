@@ -25,3 +25,6 @@ services:
 
     App\Objects\Adding\AddingController:
         tags: ['controller.service_arguments']
+
+    App\Objects\Adding\AdminController:
+        tags: ['controller.service_arguments']
