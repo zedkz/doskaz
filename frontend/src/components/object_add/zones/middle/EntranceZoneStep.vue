@@ -5,7 +5,7 @@
         <attribute-field title="Предупреждающая полоса" sub-title="Тактильная за 30-40 см до первой и последней ступени марша шириной не менее 56 см, контрастная шириной 30 см" v-model="value.attributes.attribute2"/>
         <attribute-field title="Ширина проступей лестниц не менее 40 см" v-model="value.attributes.attribute3"/>
         <attribute-field title="Высота подъема ступеней не более 12 см" v-model="value.attributes.attribute4"/>
-        <attribute-field title="Количество ступеней" sub-title="В одном марше от 3 до 12, одиночные ступени недопустимы " v-model="value.attributes.attribute5"/>
+        <attribute-field title="Количество ступеней" sub-title="В одном марше от 3 до 12, одиночные ступени недопустимы" v-model="value.attributes.attribute5"/>
         <attribute-field title="Ширина марша лестниц не менее 1,35 м" v-model="value.attributes.attribute6"/>
         <div class="add-object__line --lrg"><h5 class="add-object__title --label">Поручни перил при перепадах высот более 0,45 м</h5></div>
         <attribute-field sub-title="Вдоль обеих сторон" v-model="value.attributes.attribute7"/>
@@ -32,7 +32,7 @@
         <attribute-field sub-title="Параметры не менее 0,9 х 1,2 м" v-model="value.attributes.attribute23"/>
         <attribute-field sub-title="Жёсткое ограждение со всех сторон" v-model="value.attributes.attribute24"/>
         <attribute-field sub-title="Бортики" v-model="value.attributes.attribute25"/>
-        <div class="add-object__line --lrg"><h5 class="add-object__title">Подъёмник наружный электрический</h5></div>
+        <div class="add-object__line --lrg"><h5 class="add-object__title">Входная площадка, входная дверь, тамбур</h5></div>
         <attribute-field title="Входная площадка с пандусом" sub-title="Размеры не менее 2,2 х 2,2 м" v-model="value.attributes.attribute26"/>
         <div class="add-object__line"><h5 class="add-object__title --label">Глубина пространства перед дверью</h5></div>
         <attribute-field sub-title="При открывании «от себя» — не менее 1,2 м" v-model="value.attributes.attribute27"/>
@@ -72,9 +72,7 @@
     export default {
         name: "EntranceZoneStep",
         components: {AttributeField, AccessibilityScore},
-        props: [
-            'value'
-        ]
+        props: ['value']
     }
 </script>
 

@@ -21,7 +21,7 @@
         <attribute-field sub-title="Урна" v-model="value.attributes.attribute16"/>
         <attribute-field sub-title="Открывающиеся части предметов на высоте от 1,0 до 1,2 м" v-model="value.attributes.attribute17"/>
         <div class="add-object__line --lrg"><h5 class="add-object__title --label">Кнопка вызова SOS</h5></div>
-        <attribute-field sub-title="Открывающиеся части предметов на высоте от 1,0 до 1,2 м" v-model="value.attributes.attribute18"/>
+        <attribute-field sub-title="На высоте от 40 см до 60 см над уровнем пола" v-model="value.attributes.attribute18"/>
         <attribute-field sub-title="На расстоянии от края унитаза от 15 см до 30 см" v-model="value.attributes.attribute19"/>
         <attribute-field sub-title="Указатель «Кнопка экстренного вызова»" v-model="value.attributes.attribute20"/>
 

@@ -49,7 +49,7 @@ final class PostData implements DataObject
     public $isPublished;
 
     /**
-     * @var integer|null
+     * @var integer|null|string
      * @Assert\NotBlank()
      */
     public $categoryId;
@@ -61,6 +61,7 @@ final class PostData implements DataObject
 
     /**
      * @var Image|null
+     * @Assert\NotBlank()
      */
     public $image;
 }

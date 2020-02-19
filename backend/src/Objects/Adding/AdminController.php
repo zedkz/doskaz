@@ -6,6 +6,7 @@ namespace App\Objects\Adding;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -48,5 +49,31 @@ class AdminController
                 ]);
             }, $requestsData)
         ];
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"GET"})
+     */
+    public function show($id, Connection $connection)
+    {
+        $item = $connection->createQueryBuilder()
+            ->select(['id', 'data'])
+            ->from('adding_requests')
+            ->andWhere('id = :id')
+            ->setParameter('id', $id)
+            ->execute()
+            ->fetch();
+
+        if (!$item) {
+            throw new NotFoundHttpException();
+        }
+        return $connection->convertToPHPValue($item['data'], Form::class);
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"PUT"})
+     */
+    public function update($id, Form $form) {
+
     }
 }
