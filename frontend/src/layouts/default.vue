@@ -206,9 +206,6 @@
     .select-text {
         display: inline-block;
         position: relative;
-        font-size: 32px;
-        line-height: 40px;
-        font-weight: 700;
         padding: 0 20px 0 0;
         &:after {
             position: absolute;
@@ -227,6 +224,8 @@
             -ms-appearance: none;
             border: none;
             font-weight: 700;
+            font-size: 32px;
+            line-height: 40px;
             border-bottom: 1px dashed;
         }
     }
