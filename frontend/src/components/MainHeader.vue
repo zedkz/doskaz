@@ -61,6 +61,12 @@ export default {
 .main-header {
   position: relative;
   width: 100%;
+  &.--light {
+    .main-header__content {
+      justify-content: space-between;
+      border: none;
+    }
+  }
 
   &__content {
     padding: 17px 20px 14px;
