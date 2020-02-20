@@ -76,9 +76,11 @@
         <attribute-selection-field :path="`${path}.attributes.attribute39`" label="Навес от осадков"/>
         <attribute-selection-field :path="`${path}.attributes.attribute40`" label="Шрифт Брайля"/>
 
+        <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
+
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :attributes="item[path].attributes"/>
+        <accessibility-score :attributes="attributes"/>
     </div>
 </template>
 
@@ -87,14 +89,20 @@
     import AttributeSelectionField from "../crud/fields/AttributeSelectionField";
     import AccessibilityScore from "../AccessibilityScore";
     import {get} from "vuex-pathify";
+    import _ from 'lodash'
+    import TextareaField from "../crud/fields/TextareaField";
+
     export default {
         name: "Entrance",
-        components: {AccessibilityScore, AttributeSelectionField, Fields},
+        components: {TextareaField, AccessibilityScore, AttributeSelectionField, Fields},
         props: [
             'path'
         ],
         computed: {
-            item: get('crud/edit/item')
+            item: get('crud/edit/item'),
+            attributes() {
+                return _.get(this.item, `${this.path}.attributes`)
+            }
         },
     }
 </script>

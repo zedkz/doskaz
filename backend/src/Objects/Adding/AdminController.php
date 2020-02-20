@@ -67,13 +67,18 @@ class AdminController
         if (!$item) {
             throw new NotFoundHttpException();
         }
-        return $connection->convertToPHPValue($item['data'], Form::class);
+
+        return new AddingRequestReviewData(
+            $item['id'],
+            $connection->convertToPHPValue($item['data'], Form::class)
+        );
     }
 
     /**
      * @Route(path="/{id}", methods={"PUT"})
      */
-    public function update($id, Form $form) {
+    public function update($id, Form $form)
+    {
 
     }
 }

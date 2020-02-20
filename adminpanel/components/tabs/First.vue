@@ -1,12 +1,14 @@
 <template>
     <div>
-        <input-field path="first.name" label="Наименование" :required="true"/>
-        <input-field path="first.address" label="Адрес" :required="true"/>
-        <map-point-field path="first.point" label="Точка на карте" :required="true" @address="updateAddress"/>
+        <input-field :path="`${path}.name`" label="Наименование" :required="true"/>
+        <input-field :path="`${path}.address`" label="Адрес" :required="true"/>
+        <map-point-field :path="`${path}.point`" label="Точка на карте" :required="true" @address="updateAddress"/>
         <select2-field label="Категория" v-model="categoryId" :options="categoryOptions"/>
-        <select2-field label="Подкатегория" path="first.categoryId" :required="true" :options="subCategoryOptions"/>
+        <select2-field label="Подкатегория" :path="`${path}.categoryId`" :required="true" :options="subCategoryOptions"/>
         <field-wrapper label="Ссылки на видео">
-            <a v-for="(video, index) in videos" :key="index">{{video}}</a>
+            <div v-for="(video, index) in videos" :key="index">
+                <a :href="video" target="_blank">{{video}}</a>
+            </div>
         </field-wrapper>
 
         <field-wrapper label="Фото">
@@ -30,9 +32,12 @@
     export default {
         name: "First",
         components: {FieldWrapper, Select2Field, InputField, MapPointField},
+        props: [
+            'path'
+        ],
         methods: {
             updateAddress(newAddress) {
-                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: newAddress, path: 'first.address'})
+                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: newAddress, path: 'form.first.address'})
             },
             async loadCategories() {
                 const {data} = await this.$axios.get('/api/objectCategories')
@@ -70,9 +75,9 @@
                     this.category = this.categories.find(category => category.id === categoryId)
                 }
             },
-            subCategoryId: get('crud/edit/item.first.categoryId'),
-            videos: get('crud/edit/item.first.videos'),
-            photos: get('crud/edit/item.first.photos')
+            subCategoryId: get('crud/edit/item@form.first.categoryId'),
+            videos: get('crud/edit/item@form.first.videos'),
+            photos: get('crud/edit/item@form.first.photos')
         },
         data() {
             return {
@@ -87,7 +92,7 @@
             categoryId: {
                 handler(newVal, prevVal) {
                     if(prevVal !== null) {
-                        this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: null, path: 'first.categoryId'})
+                        this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: null, path: 'form.first.categoryId'})
                     }
                 }
             }

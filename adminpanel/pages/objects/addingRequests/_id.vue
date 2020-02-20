@@ -19,10 +19,7 @@
                         </template>
                         <component
                             :is="tab.component"
-                            :path="tab.key"
-                            :value="item[tab.key]"
-                            @input="updateItem({key: tab.key, value: $event})"
-                            :error="validationErrors[tab.key]"
+                            :path="`form.${tab.key}`"
                         ></component>
                     </b-tab>
                 </b-tabs>
@@ -50,6 +47,11 @@
 
     export default {
         components: {Fields, CrudEdit, Loading},
+        async fetch({store, params: {id}}) {
+            store.dispatch('crud/edit/reset');
+            store.set('crud/edit/apiPath', '/api/admin/addingRequests')
+            await store.dispatch('crud/edit/loadItem', id);
+        },
         data() {
             return {
                 tab: 0
@@ -67,16 +69,16 @@
             tabs() {
                 return [
                     {title: 'Общая информация', key: 'first', component: First},
-                    {title: 'Парковка', key: 'parking', component: Parking},
-                    {title: 'Входная группа #1', key: 'entrance1', component: Entrance},
-                    {title: 'Входная группа #2', key: 'entrance2', component: Entrance},
-                    {title: 'Входная группа #3', key: 'entrance3', component: Entrance},
-                    {title: 'Пути движения по объекту', key: 'movement', component: Movement},
-                    {title: 'Зона оказания услуги', key: 'service', component: Service},
-                    {title: 'Туалет', key: 'toilet', component: Toilet},
-                    {title: 'Навигация', key: 'navigation', component: Navigation},
-                    {title: 'Доступность услуги', key: 'serviceAccessibility', component: ServiceAccecssibility},
-                ].filter(tab => this.item[tab.key])
+                     {title: 'Парковка', key: 'parking', component: Parking},
+                     {title: 'Входная группа #1', key: 'entrance1', component: Entrance},
+                     {title: 'Входная группа #2', key: 'entrance2', component: Entrance},
+                     {title: 'Входная группа #3', key: 'entrance3', component: Entrance},
+                     {title: 'Пути движения по объекту', key: 'movement', component: Movement},
+                     {title: 'Зона оказания услуги', key: 'service', component: Service},
+                     {title: 'Туалет', key: 'toilet', component: Toilet},
+                     {title: 'Навигация', key: 'navigation', component: Navigation},
+                     {title: 'Доступность услуги', key: 'serviceAccessibility', component: ServiceAccecssibility},
+                ].filter(tab => (this.item || {form: {}}).form[tab.key])
             }
         },
         methods: {
@@ -96,11 +98,6 @@
                 }
             }
         },
-        async beforeMount() {
-            this.reset()
-            this.$store.set('crud/edit/apiPath', '/api/admin/addingRequests')
-            await this.loadItem(this.$route.params.id);
-        }
     }
 </script>
 

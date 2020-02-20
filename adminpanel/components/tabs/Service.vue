@@ -11,10 +11,11 @@
         <hr/>
         <attribute-selection-field :path="`${path}.attributes.attribute4`" label="При расположении сбоку от посетителя — не выше 1,4 м и не ниже 0,3 от уровня пола"/>
         <attribute-selection-field :path="`${path}.attributes.attribute5`" label="При фронтальном подходе — не выше 1,2 м и не ниже 0,4 м от уровня пола"/>
+        <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
 
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :attributes="item[path].attributes"/>
+        <accessibility-score :attributes="attributes"/>
     </div>
 </template>
 
@@ -23,12 +24,17 @@
     import AttributeSelectionField from "../crud/fields/AttributeSelectionField";
     import AccessibilityScore from "../AccessibilityScore";
     import {get} from "vuex-pathify";
+    import _ from "lodash";
+    import TextareaField from "../crud/fields/TextareaField";
     export default {
         name: "Service",
-        components: {AccessibilityScore, AttributeSelectionField, Fields},
+        components: {TextareaField, AccessibilityScore, AttributeSelectionField, Fields},
         props: ['path'],
         computed: {
-            item: get('crud/edit/item')
+            item: get('crud/edit/item'),
+            attributes() {
+                return _.get(this.item, `${this.path}.attributes`)
+            }
         },
     }
 </script>

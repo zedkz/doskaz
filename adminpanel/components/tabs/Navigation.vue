@@ -11,9 +11,11 @@
         <attribute-selection-field :path="`${path}.attributes.attribute6`" label="Непрерывные тактильные обозначения путей движения"/>
         <attribute-selection-field :path="`${path}.attributes.attribute7`" label="Мнемосхема - Размещение с правой стороны на расстоянии от 3 м до 5 м от входа в объект"/>
 
+        <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
+
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :attributes="item[path].attributes"/>
+        <accessibility-score :attributes="attributes"/>
     </div>
 </template>
 
@@ -21,12 +23,17 @@
     import AttributeSelectionField from "../crud/fields/AttributeSelectionField";
     import {get} from "vuex-pathify";
     import AccessibilityScore from "../AccessibilityScore";
+    import _ from "lodash";
+    import TextareaField from "../crud/fields/TextareaField";
     export default {
         name: "Navigation",
-        components: {AccessibilityScore, AttributeSelectionField},
+        components: {TextareaField, AccessibilityScore, AttributeSelectionField},
         props: ['path'],
         computed: {
-            item: get('crud/edit/item')
+            item: get('crud/edit/item'),
+            attributes() {
+                return _.get(this.item, `${this.path}.attributes`)
+            }
         },
     }
 </script>
