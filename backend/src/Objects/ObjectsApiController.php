@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Objects;
 
 
+use App\Objects\Adding\AccessibilityScore;
 use Doctrine\DBAL\Connection;
 use OpenApi\Annotations\ExternalDocumentation;
 use OpenApi\Annotations\Get;
@@ -24,7 +25,7 @@ final class ObjectsApiController extends AbstractController
     private $pointTemplate = <<<TEMPLATE
           <div style="border: none;  display: flex; width: 50px; height: 61px; padding-bottom: 11px; justify-content: center; align-items: center;">
               <svg width="50" height="61" viewBox="0 0 50 61" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 0;">
-                  <path d="M50 0H0V50H14.6667L25 60.3333L35.3333 50H50V0Z" fill="#F8AC1A"/>
+                  <path d="M50 0H0V50H14.6667L25 60.3333L35.3333 50H50V0Z" fill="%color"/>
               </svg>
               <i class='fa fa-2x %icon' style='z-index: 1; color: white'></i>
           </div>
@@ -123,6 +124,7 @@ TEMPLATE;
             ->select([
                 'objects.id',
                 'categories.icon',
+                'overall_score_movement',
                 'ST_X(ST_AsText(point_value)) as lat',
                 'ST_Y(ST_AsText(point_value)) as long',
             ])
@@ -153,6 +155,13 @@ TEMPLATE;
         $pointsPrepared = array_map(function ($item) {
             $itemIcon = $item['icon'];
 
+            $colors = [
+                AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE => '#F8AC1A',
+                AccessibilityScore::SCORE_NOT_ACCESSIBLE => '#DE1220',
+                AccessibilityScore::SCORE_NOT_PROVIDED => 'grey',
+                AccessibilityScore::SCORE_FULL_ACCESSIBLE => '#3DBA3B'
+            ];
+
             return [
                 'type' => 'Feature',
                 'id' => $item['id'],
@@ -166,7 +175,7 @@ TEMPLATE;
                     'iconImageOffset' => [-30, -25],
                 ],
                 'properties' => [
-                    'iconContent' => str_replace(['%icon'], [$itemIcon], $this->pointTemplate)
+                    'iconContent' => str_replace(['%icon', '%color'], [$itemIcon, $colors[$item['overall_score_movement']]], $this->pointTemplate)
                 ]
             ];
         }, $points);

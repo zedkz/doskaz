@@ -90,4 +90,8 @@ class AdminController
         $addingRequest->updateData($addingRequestReviewData->form);
         $flusher->flush();
     }
+
+    public function approve() {
+
+    }
 }

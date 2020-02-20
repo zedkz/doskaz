@@ -46,6 +46,13 @@ class Service extends Zone
      */
     public $attribute5;
 
+    public function __construct()
+    {
+        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
+            $property->setValue($this, Attribute::unknown());
+        }
+    }
+
     public function calculateScore(): AccessibilityScore
     {
         if ($this->isMatchesAll(Attribute::yes())) {

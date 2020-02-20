@@ -3,6 +3,7 @@
 
 namespace App\Objects;
 
+use App\Objects\Adding\AccessibilityScore;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,10 +35,36 @@ class MapObject
      */
     private $title;
 
-    public function __construct(Point $point, string $title, ?int $categoryId)
+    /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $address;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var Zones
+     * @ORM\Column(type=Zones::class, nullable=true, options={"jsonb" = true}, nullable=true)
+     */
+    private $zones;
+
+    /**
+     * @var AccessibilityScore
+     * @ORM\Embedded(class=AccessibilityScore::class)
+     */
+    private $overallScore;
+
+    public function __construct(Point $point, string $title, ?int $categoryId, Zones $zones)
     {
         $this->point = $point;
         $this->categoryId = $categoryId;
         $this->title = $title;
+        $this->zones = $zones;
+        $this->overallScore = $zones->overallScore();
     }
 }

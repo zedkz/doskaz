@@ -291,6 +291,13 @@ class Entrance extends Zone
      */
     public $attribute40;
 
+    public function __construct()
+    {
+        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
+            $property->setValue($this, Attribute::unknown());
+        }
+    }
+
     public function calculateScore(): AccessibilityScore
     {
         if ($this->isMatches([1], Attribute::yes())) {

@@ -151,6 +151,13 @@ class Toilet extends Zone
      */
     public $attribute20;
 
+    public function __construct()
+    {
+        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
+            $property->setValue($this, Attribute::unknown());
+        }
+    }
+
     public function calculateScore(): AccessibilityScore
     {
         $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;

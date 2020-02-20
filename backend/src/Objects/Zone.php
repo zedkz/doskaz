@@ -19,18 +19,12 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *         "service_middle" = "App\Objects\Zone\Middle\Service",
  *         "accessibility_middle" = "App\Objects\Zone\Middle\ServiceAccessibility",
  *         "movement_middle" = "App\Objects\Zone\Middle\Movement",
- *         "navigation_middle" = "App\Objects\Zone\Middle\Navigation"
+ *         "navigation_middle" = "App\Objects\Zone\Middle\Navigation",
+ *         "small" = "App\Objects\Zone\Small\Zone"
  * })
  */
 abstract class Zone implements DataObject
 {
-    public function __construct()
-    {
-        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
-            $property->setValue($this, Attribute::unknown());
-        }
-    }
-
     protected function isMatches(array $keys, Attribute $compare): bool
     {
         foreach ($keys as $key) {
