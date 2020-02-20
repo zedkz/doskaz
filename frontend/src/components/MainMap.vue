@@ -30,7 +30,7 @@
             mapWasInitialized(map) {
                 if(!ymaps.layout.storage.get('custom#objectIconLayout')) {
                     const CustomObjectIconLayout = ymaps.templateLayoutFactory.createClass(
-                        `<div style="border: none;  display: flex; width: 50px; height: 61px; padding-bottom: 11px; justify-content: center; align-items: center; top: -30px; left: -25px; position:absolute;">
+                        `<div style="border: none;  display: flex; width: 50px; height: 61px; padding-bottom: 11px; justify-content: center; align-items: center; top: -60px; left: -25px; position:absolute;">
                         <svg width="50" height="61" viewBox="0 0 50 61" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 0;">
                             <path d="M50 0H0V50H14.6667L25 60.3333L35.3333 50H50V0Z" fill="$[properties.color]"/>
                         </svg>
