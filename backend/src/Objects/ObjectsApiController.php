@@ -170,12 +170,17 @@ TEMPLATE;
                     'coordinates' => [$item['lat'], $item['long']]
                 ],
                 'options' => [
-                    'iconLayout' => 'default#imageWithContent',
-                    'iconImageSize' => [60, 50],
-                    'iconImageOffset' => [-30, -25],
+                    'iconLayout' => 'custom#objectIconLayout',
+                    'iconShape' => [
+                        'type' => 'Rectangle',
+                        'coordinates' => [
+                            [-25, -25], [25, 25]
+                        ]
+                    ]
                 ],
                 'properties' => [
-                    'iconContent' => str_replace(['%icon', '%color'], [$itemIcon, $colors[$item['overall_score_movement']]], $this->pointTemplate)
+                    'color' => $colors[$item['overall_score_movement']],
+                    'icon' => $itemIcon,
                 ]
             ];
         }, $points);
