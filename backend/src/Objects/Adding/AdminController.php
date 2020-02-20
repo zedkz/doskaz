@@ -3,6 +3,7 @@
 
 namespace App\Objects\Adding;
 
+use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class AdminController
     /**
      * @Route(methods={"GET"})
      * @param Connection $connection
+     * @param Request $request
      * @return array
      */
     public function list(Connection $connection, Request $request)
@@ -53,6 +55,9 @@ class AdminController
 
     /**
      * @Route(path="/{id}", methods={"GET"})
+     * @param $id
+     * @param Connection $connection
+     * @return AddingRequestReviewData
      */
     public function show($id, Connection $connection)
     {
@@ -76,9 +81,13 @@ class AdminController
 
     /**
      * @Route(path="/{id}", methods={"PUT"})
+     * @param AddingRequest $addingRequest
+     * @param AddingRequestReviewData $addingRequestReviewData
+     * @param Flusher $flusher
      */
-    public function update($id, Form $form)
+    public function update(AddingRequest $addingRequest, AddingRequestReviewData $addingRequestReviewData, Flusher $flusher)
     {
-
+        $addingRequest->updateData($addingRequestReviewData->form);
+        $flusher->flush();
     }
 }

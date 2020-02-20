@@ -44,4 +44,9 @@ class AddingRequest
         $this->data = $data;
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    public function updateData(Form $data)
+    {
+        $this->data = $data;
+    }
 }
