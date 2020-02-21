@@ -144,8 +144,6 @@ final class ObjectsApiController extends AbstractController
         }
         $points = $q2->execute()->fetchAll();
         $pointsPrepared = array_map(function ($item) {
-            $itemIcon = $item['icon'];
-
             $colors = [
                 AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE => '#F8AC1A',
                 AccessibilityScore::SCORE_NOT_ACCESSIBLE => '#DE1220',
@@ -171,7 +169,7 @@ final class ObjectsApiController extends AbstractController
                 ],
                 'properties' => [
                     'color' => $colors[$item['overall_score_movement']],
-                    'icon' => $itemIcon,
+                    'icon' => $item['icon'],
                 ]
             ];
         }, $points);
