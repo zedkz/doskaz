@@ -73,32 +73,14 @@
 </template>
 
 <script>
-import Vue from "vue";
 import Comments from "@/components/Comments";
-import get from "lodash/get";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import CommentsBlock from "./CommentsBlock";
 
-
 export default {
   props: ['post', 'similarPosts'],
   components: {CommentsBlock, Comments },
-  head() {
-    return {
-      title: get(this.post, "meta.title"),
-      meta: [
-        { name: "keywords", content: get(this.post, "meta.keywords") },
-        { name: "description", content: get(this.post, "meta.description") },
-        { property: "og:title", content: get(this.post, "meta.ogTitle") },
-        {
-          property: "og:description",
-          content: get(this.post, "meta.ogDescription")
-        },
-        { property: "og:image", content: get(this.post, "meta.ogImage") }
-      ].filter(({ content }) => !!content)
-    };
-  },
   data() {
     return {
       comments_sort: "сначала новые",

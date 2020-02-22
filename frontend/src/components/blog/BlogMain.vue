@@ -96,14 +96,6 @@
         components: {
             Pagination
         },
-        head() {
-            return {
-                title: 'Блог',
-                meta: [
-                    {property: 'og:title', content: 'Блог'}
-                ]
-            }
-        },
         filters: {
             date(value) {
                 return format(new Date(value), 'd MMMM y', {locale: ru})

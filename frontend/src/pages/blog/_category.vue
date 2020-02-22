@@ -12,6 +12,14 @@
             MainHeader,
             BlogMain
         },
+        head() {
+            return {
+                title: 'Блог',
+                meta: [
+                    {property: 'og:title', content: 'Блог'}
+                ]
+            }
+        },
         watchQuery: ['page', 'search', 'period'],
         async asyncData({$axios, params, query, error}) {
             try {
