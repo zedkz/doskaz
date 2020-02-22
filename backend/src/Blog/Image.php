@@ -58,7 +58,18 @@ final class Image
 
     public function fit(int $width, int $height)
     {
-        $pipeline = $this->initPipeline();
+        $opts = [
+            '%signature' => 'test',
+            '%processing_options' => "resize:fit:$width:$height:no:0",
+            '%source_url' => "local:///{$this->image}"
+        ];
+
+        return str_replace(
+            array_keys($opts),
+            array_values($opts),
+            '/img/%signature/%processing_options/plain/%source_url@jpg');
+
+        /*$pipeline = $this->initPipeline();
         $pipeline[] = [
             'operation' => 'fit',
             'params' => [
@@ -69,11 +80,28 @@ final class Image
         return "/pipeline?" . http_build_query([
                 'file' => $this->image,
                 'operations' => json_encode($pipeline),
-            ]);
+            ]);*/
     }
 
     public function resize(int $width, ?int $height = null)
     {
+        $h = $height ?? 0;
+
+        $opts = [
+            '%signature' => 'test',
+            '%processing_options' => "resize:fit:$width:$h:no:0",
+            '%source_url' => "local:///{$this->image}"
+        ];
+
+        if($this->cropData) {
+            $opts['%processing_options'] .= '/crop:'.round($this->cropData['width']).':'.round($this->cropData['height']).':nowe:'.$this->cropData['x'].':'.$this->cropData['y'];
+        }
+
+        return str_replace(
+            array_keys($opts),
+            array_values($opts),
+            '/img/%signature/%processing_options/plain/%source_url@jpg');
+
         $pipeline = $this->initPipeline();
 
         $operation = [

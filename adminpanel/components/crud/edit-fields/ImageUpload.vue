@@ -171,7 +171,7 @@
                     return null;
                 }
                 if (this.value.cropData && this.value.cropData.y) {
-                    return `/image/extract?file=${encodeURIComponent(this.uploadedImage)}&top=${this.value.cropData.y}&left=${this.value.cropData.x}&areawidth=${this.value.cropData.width}&areaheight=${this.value.cropData.height}`
+                    return `/api/storage/preview/${encodeURIComponent(this.uploadedImage)}?y=${this.value.cropData.y}&x=${this.value.cropData.x}&width=${this.value.cropData.width}&height=${this.value.cropData.height}`
                 }
                 return this.uploadedImage
             },

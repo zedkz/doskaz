@@ -80,6 +80,9 @@ export default {
         },
         '/api': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
+        },
+        '/img': {
+            target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
     },
     bootstrapVue: {

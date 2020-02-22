@@ -70,20 +70,24 @@ services:
     volumes:
       - doskaz_db:/var/lib/postgresql/data
 
-  imaginary:
-    image: h2non/imaginary
+  imgproxy:
+    image: darthsim/imgproxy:v2.10
+    environment:
+      - IMGPROXY_LOCAL_FILESYSTEM_ROOT=/mnt/data
+      - IMGPROXY_JPEG_PROGRESSIVE=true
+      - IMGPROXY_ENABLE_WEBP_DETECTION=true
+      - IMGPROXY_ENFORCE_WEBP=true
     volumes:
       - doskaz_storage:/mnt/data/storage
-    command: -mount /mnt/data -http-cache-ttl 31536000 -concurrency 20 -cpus 4
     networks:
       - web
     labels:
       - traefik.enable=true
-      - traefik.port=9000
+      - traefik.port=8080
       - traefik.docker.network=web
-      - traefik.http.routers.doskaz_imaginary.rule=Host(`${APP_HOST}`) && PathPrefix(`/image`, `/pipeline`)
-      - traefik.http.middlewares.doskaz_imaginary.stripprefix.prefixes=/image
-      - traefik.http.routers.doskaz_imaginary.middlewares=doskaz_imaginary
+      - traefik.http.routers.doskaz_imgproxy.rule=Host(`${APP_HOST}`) && PathPrefix(`/img`)
+      - traefik.http.middlewares.doskaz_imgproxy.stripprefix.prefixes=/img
+      - traefik.http.routers.doskaz_imgproxy.middlewares=doskaz_imgproxy
 
   gotenberg:
     image: thecodingmachine/gotenberg:6

@@ -6,6 +6,3 @@ services:
       target: base
     volumes:
       - ../backend:/app
-
-  imaginary:
-    command: -mount /mnt/data

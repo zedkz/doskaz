@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Storage;
 
+use App\Blog\Image;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -39,5 +40,27 @@ final class StorageController extends AbstractController
         return [
             'path' => "/storage/{$name}"
         ];
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route(path="/preview/{imagePath}", requirements={"imagePath" = ".+"})
+     * @param $imagePath
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function preview($imagePath, Request $request) {
+        $img = new Image();
+        $img->image = $imagePath;
+
+        if($request->query->has('x')) {
+            $img->cropData = [
+                'x' => $request->query->getInt('x'),
+                'y' => $request->query->getInt('y'),
+                'width' => $request->query->getInt('width'),
+                'height' => $request->query->getInt('height'),
+            ];
+        }
+        return $this->redirect($img->resize(200, 0));
     }
 }

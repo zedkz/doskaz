@@ -12,6 +12,9 @@ export default {
         '/pipeline': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
         },
+        '/img': {
+            target: process.env.BACKEND_DOMAIN || 'http://localhost',
+        },
         '/api': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
