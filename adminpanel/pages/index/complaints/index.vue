@@ -10,9 +10,9 @@
 </template>
 
 <script>
-    import CrudList from "../../components/crud/CrudList";
-    import FormattedDate from "../../components/crud/list-fields/FormattedDate";
-    import ExportComplaintAction from "../../components/ExportComplaintAction";
+    import CrudList from "@/components/crud/CrudList";
+    import FormattedDate from "@/components/crud/list-fields/FormattedDate";
+    import ExportComplaintAction from "@/components/ExportComplaintAction";
     export default {
         components: {CrudList},
         middleware: ['authenticated'],

@@ -5,7 +5,6 @@
 <script>
     export default {
         name: "login",
-        layout: 'unauthorized',
         mounted() {
             window.location.href = '/login'
         }

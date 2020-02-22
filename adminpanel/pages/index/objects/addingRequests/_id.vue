@@ -32,18 +32,18 @@
 
 <script>
     import {get, call, sync} from 'vuex-pathify'
-    import CrudEdit from "../../../components/crud/CrudEdit";
+    import CrudEdit from "@/components/crud/CrudEdit";
     import Loading from "vue-loading-overlay";
     import 'vue-loading-overlay/dist/vue-loading.css';
-    import Fields from "../../../components/crud/Fields";
-    import First from "../../../components/tabs/First";
-    import Parking from "../../../components/tabs/Parking";
-    import Entrance from "../../../components/tabs/Entrance";
-    import Movement from "../../../components/tabs/Movement";
-    import Service from "../../../components/tabs/Service";
-    import Toilet from "../../../components/tabs/Toilet";
-    import Navigation from "../../../components/tabs/Navigation";
-    import ServiceAccecssibility from "../../../components/tabs/ServiceAccecssibility";
+    import Fields from "@/components/crud/Fields";
+    import First from "@/components/tabs/First";
+    import Parking from "@/components/tabs/Parking";
+    import Entrance from "@/components/tabs/Entrance";
+    import Movement from "@/components/tabs/Movement";
+    import Service from "@/components/tabs/Service";
+    import Toilet from "@/components/tabs/Toilet";
+    import Navigation from "@/components/tabs/Navigation";
+    import ServiceAccecssibility from "@/components/tabs/ServiceAccecssibility";
 
     export default {
         components: {Fields, CrudEdit, Loading},

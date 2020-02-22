@@ -7,8 +7,8 @@
 </template>
 
 <script>
-    import CrudEdit from "../../components/crud/CrudEdit";
-    import Selection from "../../components/crud/edit-fields/Selection";
+    import CrudEdit from "@/components/crud/CrudEdit";
+    import Selection from "@/components/crud/edit-fields/Selection";
 
     export default {
         components: {CrudEdit},

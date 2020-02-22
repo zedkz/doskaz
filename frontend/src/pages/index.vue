@@ -147,7 +147,7 @@
     export default {
         data() {
             return {
-                confirmPopup: true
+                confirmPopup: false
             }
         },
         components: {

@@ -7,14 +7,14 @@
 </template>
 
 <script>
-    import CrudEdit from "../../../components/crud/CrudEdit";
-    import MetaData from "../../../components/crud/edit-fields/MetaData";
-    import TextareaInput from "../../../components/crud/edit-fields/TextareaInput";
-    import TinyMCE from "../../../components/crud/edit-fields/TinyMCE";
-    import DatePicker from '../../../components/crud/edit-fields/DatePicker'
-    import Checkbox from "../../../components/crud/edit-fields/Checkbox";
-    import Selection from "../../../components/crud/edit-fields/Selection";
-    import ImageUpload from "../../../components/crud/edit-fields/ImageUpload";
+    import CrudEdit from "@/components/crud/CrudEdit";
+    import MetaData from "@/components/crud/edit-fields/MetaData";
+    import TextareaInput from "@/components/crud/edit-fields/TextareaInput";
+    import TinyMCE from "@/components/crud/edit-fields/TinyMCE";
+    import DatePicker from '@/components/crud/edit-fields/DatePicker'
+    import Checkbox from "@/components/crud/edit-fields/Checkbox";
+    import Selection from "@/components/crud/edit-fields/Selection";
+    import ImageUpload from "@/components/crud/edit-fields/ImageUpload";
 
     export default {
         components: {CrudEdit},

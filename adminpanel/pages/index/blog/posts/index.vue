@@ -1,21 +1,21 @@
 <template>
     <crud-list
-        title="Категории блога"
-        api-path="/api/blogCategories"
+        title="Записи блога"
+        api-path="/api/blogPosts"
         :table-fields="fields"
     />
 </template>
 
 <script>
-    import CrudList from "../../../components/crud/CrudList";
+    import CrudList from "@/components/crud/CrudList";
     export default {
-        name: "index",
         components: {CrudList},
         middleware: ['authenticated'],
         computed: {
             fields() {
                 return [
-                    {key: 'title', label: 'Название'}
+                    {key: 'title', label: 'Заголовок'},
+                    {key: 'categoryTitle', label: 'Категория'}
                 ]
             }
         }

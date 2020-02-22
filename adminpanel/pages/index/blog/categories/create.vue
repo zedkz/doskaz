@@ -8,8 +8,8 @@
 </template>
 
 <script>
-    import CrudEdit from "../../../components/crud/CrudEdit";
-    import MetaData from "../../../components/crud/edit-fields/MetaData";
+    import CrudEdit from "@/components/crud/CrudEdit";
+    import MetaData from "@/components/crud/edit-fields/MetaData";
 
     export default {
         components: {CrudEdit},
