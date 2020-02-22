@@ -13,7 +13,7 @@ services:
   database:
     restart: unless-stopped
 
-  imaginary:
+  imgproxy:
     restart: unless-stopped
 
   adminpanel:

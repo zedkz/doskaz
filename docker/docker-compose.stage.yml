@@ -13,8 +13,11 @@ services:
   database:
     restart: unless-stopped
 
-  imaginary:
+  imgproxy:
     restart: unless-stopped
 
   adminpanel:
+    restart: unless-stopped
+
+  gotenberg:
     restart: unless-stopped
