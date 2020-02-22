@@ -58,8 +58,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.doskaz_adminpanel.rule=Host(`${APP_HOST}`) && PathPrefix(`/adminpanel`)
-      - traefik.http.middlewares.stripprefix.stripprefix.prefixes=/adminpanel
-      - traefik.http.routers.doskaz_adminpanel.middlewares=doskaz_compress_frontend,stripprefix
+      - traefik.http.routers.doskaz_adminpanel.middlewares=doskaz_compress_frontend
     depends_on:
       - backend
 

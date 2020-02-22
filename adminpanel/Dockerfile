@@ -14,6 +14,6 @@ RUN ["npm", "run", "build"]
 
 FROM webdevops/nginx:alpine
 
-COPY --from=build /frontend/dist /app
+COPY --from=build /frontend/dist /app/adminpanel
 
 ENV WEB_DOCUMENT_INDEX index.html
