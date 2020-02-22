@@ -8,7 +8,7 @@
                 <MainMap/>
             </client-only>
         </div>
-        <Sidebar></Sidebar>
+
         <div class="main-page__options">
             <button class="button button_blue" type="button" name="add_object">
                 <svg
@@ -111,7 +111,6 @@
                 </svg>
             </nuxt-link>
         </div>
-        <nuxt-child/>
         <div class="popup__wrapper" v-if="confirmPopup">
             <div class="popup__in --md">
                 <span class="popup__close" v-on:click="confirmPopup = false"></span>
@@ -133,13 +132,13 @@
                 </div>
             </div>
         </div>
+        <nuxt-child/>
     </div>
 </template>
 
 <script>
     import IntroForm from "./../components/IntroForm.vue";
     import StartCategoryForm from "./../components/StartCategoryForm.vue";
-    import Sidebar from "./../components/Sidebar.vue";
     import ObjectModal from "./../components/ObjectModal.vue";
     import MainMap from "./../components/MainMap.vue";
     import LoginForm from "../components/LoginForm";
@@ -154,7 +153,6 @@
             LoginForm,
             IntroForm,
             StartCategoryForm,
-            Sidebar,
             ObjectModal,
             MainMap
         },
