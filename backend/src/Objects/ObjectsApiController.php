@@ -15,6 +15,7 @@ use OpenApi\Annotations\Schema;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -196,5 +197,38 @@ final class ObjectsApiController extends AbstractController
         $response = new JsonResponse($clusters);
         $response->setCallback($request->query->get('callback'));
         return $response;
+    }
+
+    /**
+     * @Route(path="/{id}", requirements={"id" = "\d+"}, methods={"GET"})
+     */
+    public function object($id, Connection $connection) {
+
+       $object = $connection->createQueryBuilder()
+           ->select([
+               'title',
+               'address',
+               'description',
+               'ST_X(ST_AsText(point_value)) as lat',
+               'ST_Y(ST_AsText(point_value)) as long',
+           ])
+           ->from('objects')
+           ->andWhere('id = :id')
+           ->setParameter('id', $id)
+           ->execute()
+           ->fetch();
+
+       if(!$object) {
+           return new NotFoundHttpException();
+       }
+
+       return [
+           'title' => $object['title'],
+           'address' => $object['address'],
+           'description' => $object['description'],
+           'coordinates' => [
+               (float)$object['lat'], (float)$object['long']
+           ]
+       ];
     }
 }

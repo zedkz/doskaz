@@ -10,9 +10,9 @@
                         <a href="" class="object-side__breadcrumb">Бары</a>
                     </div>
                 </div>
-                <h2 class="object-side__title">Saya Sushi, суши-бар</h2>
+                <h2 class="object-side__title">{{ object.title }}</h2>
                 <div class="object-side__address">
-                    Локомотивная, 7 <a href="" class="object-side__address-link">Редактировать объект</a>
+                    {{ object.address }} <a href="" class="object-side__address-link">Редактировать объект</a>
                 </div>
             </div>
             <div class="availability">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="object-side__tab-content-b">
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-description') }" id="tab-description">
-                        <p class="text">Суши бар находится на первом этаже, входная группа выполнена на одном уровне с землёй, заезжать на коляске удобно и просторно. Есть парковка с двумя специально отведёнными местами для инвалидов. Пути движения по объекту достаточно просторны, можно проехать не мешая движению других. Возле кассовой стойки можно комфортно общаться с продавцом. Туалет с чашами генуя, не оборудован для людей, передвигающихся на колясках. Навигация представлена только в виде табличек на парковке, внутри помещения никаких специальных указателей нет.</p>
+                        <p class="text" v-html="object.description"></p>
                         <p class="text__verification">Объект частично верифицирован</p>
                         <div class="object-side__button-b">
                             <a href="" class="object-side__button --complaint">Подать жалобу</a>
@@ -142,6 +142,8 @@
 </template>
 
 <script>
+    import {sync} from "vuex-pathify";
+
     export default {
         data() {
             return {
@@ -150,6 +152,24 @@
                 isAvailable: true,
                 activeItem: 'tab-description'
             };
+        },
+        async asyncData({$axios, params}) {
+            const {data: object} = await $axios.get(`/api/objects/${params.id}`)
+            return {object}
+        },
+        computed: {
+            ...sync('map', [
+                'coordinates',
+                'zoom'
+            ])
+        },
+        watch: {
+            'object.coordinates': {
+                handler(coordinates) {
+                    this.coordinates = coordinates
+                },
+                immediate: true
+            }
         },
         methods: {
             isActive (tabItem) {

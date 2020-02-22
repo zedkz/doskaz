@@ -71,7 +71,9 @@ final class ImportMapObjects extends Command
                 Point::fromLatLong($object['lat'], $object['lng']),
                 $object['title'],
                 (int)$object['subcategory_id'],
-                $zones
+                $zones,
+                $object['address'],
+                $object['comment']
             );
             $this->mapObjectRepository->add($mapObject);
         }

@@ -2,14 +2,16 @@
     <yandex-map
             class="ymap"
             :settings="settings"
-            :coords="coords"
-            :zoom="zoom"
+            :coords.sync="coordinates"
+            :zoom.sync="zoom"
             :controls="controls"
             @map-was-initialized="mapWasInitialized"
     />
 </template>
 
 <script>
+    import {sync} from 'vuex-pathify'
+
     export default {
         data() {
             return {
@@ -20,10 +22,7 @@
                     coordorder: "latlong",
                     version: "2.1"
                 },
-                coords: [52.2944954, 76.970281],
-                zoom: 14,
-                controls: [],
-                markerCoords: [51.159807, 71.446774]
+                controls: []
             };
         },
         methods: {
@@ -60,6 +59,12 @@
                     yamap.reloadData()
                 });
             }
+        },
+        computed: {
+            ...sync('map', [
+                'coordinates',
+                'zoom'
+            ])
         },
         beforeDestroy() {
             this.$root.$off('setCategoryId')

@@ -59,12 +59,21 @@ class MapObject
      */
     private $overallScore;
 
-    public function __construct(Point $point, string $title, ?int $categoryId, Zones $zones)
+    public function __construct(
+        Point $point,
+        string $title,
+        ?int $categoryId,
+        Zones $zones,
+        string $address,
+        string $description
+    )
     {
         $this->point = $point;
         $this->categoryId = $categoryId;
         $this->title = $title;
         $this->zones = $zones;
+        $this->address = $address;
+        $this->description = $description;
         $this->overallScore = $zones->overallScore();
     }
 }
