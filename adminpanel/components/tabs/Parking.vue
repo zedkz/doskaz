@@ -1,18 +1,7 @@
 <template>
    <div>
-       <attribute-selection-field :path="`${path}.attributes.attribute1`" label="Количество парковочных мест - Не менее одного на 25 мест"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute2`" label="Размер парковки - Не менее 3,66 х 5,38 м"/>
 
-       <h4>Обозначение автостоянки для инвалидов</h4>
-       <hr/>
-       <attribute-selection-field :path="`${path}.attributes.attribute3`" label="Знак на плоскости стоянки"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute4`" label="Знак на вертикальной поверхности (стене, столбе, стойке)"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute5`" label="Знак 5.15 «Место стоянки»"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute6`" label="Знак 7.15 «Инвалиды»"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute7`" label="Стрелка и расстояние"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute8`" label="Разметка на плоскости"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute9`" label="Съезд с тротуара на парковку - Рекомендуется ширина 1,5 м"/>
-       <attribute-selection-field :path="`${path}.attributes.attribute10`" label="Расстояние до входа в здание - Для общественных зданий менее 50 м"/>
+       <attributes-list :form="form" zone="parking" :value="item.form.parking.attributes" @input="update"/>
        <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
 
        <h4>Оценка доступности</h4>
@@ -27,15 +16,20 @@
     import AccessibilityScore from "../AccessibilityScore";
     import {get} from 'vuex-pathify'
     import TextareaField from "../crud/fields/TextareaField";
+    import AttributesList from "../AttributesList";
 
     export default {
         name: "Parking",
-        components: {TextareaField, AccessibilityScore, AttributeSelectionField},
-        props: ['path'],
+        components: {AttributesList, TextareaField, AccessibilityScore, AttributeSelectionField},
+        props: ['path', 'form'],
         computed: {
             item: get('crud/edit/item')
         },
-        methods: {}
+        methods: {
+            update(val) {
+                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
+            }
+        }
     }
 </script>
 

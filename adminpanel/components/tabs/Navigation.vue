@@ -1,15 +1,6 @@
 <template>
     <div>
-        <attribute-selection-field :path="`${path}.attributes.attribute1`" label="Указатели и информационный материал - Контрастные крупные буквы, выделенные жирным шрифтом"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute2`" label="Форматы информации - Шрифт Брайля, аудио-версия, радиомаяки, радиометки, радиоинформаторы"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute3`" label="Знаки и символы - Международные знаки и символы на контрастном фоне"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute4`" label="Форматы информации - Визуальные, тактильные, звуковые, световые указатели, табло и пиктограммы, а также контрастное цветовое решение элементов интерьера, переводчик с жестового языка"/>
-
-        <h4>Тактильная информация</h4>
-        <hr/>
-        <attribute-selection-field :path="`${path}.attributes.attribute5`" label="Рельефные тактильные обозначения путей движения"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute6`" label="Непрерывные тактильные обозначения путей движения"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute7`" label="Мнемосхема - Размещение с правой стороны на расстоянии от 3 м до 5 м от входа в объект"/>
+        <attributes-list :form="form" zone="navigation" :value="attributes" @input="update"/>
 
         <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
 
@@ -25,16 +16,22 @@
     import AccessibilityScore from "../AccessibilityScore";
     import _ from "lodash";
     import TextareaField from "../crud/fields/TextareaField";
+    import AttributesList from "../AttributesList";
     export default {
         name: "Navigation",
-        components: {TextareaField, AccessibilityScore, AttributeSelectionField},
-        props: ['path'],
+        components: {AttributesList, TextareaField, AccessibilityScore, AttributeSelectionField},
+        props: ['path', 'form'],
         computed: {
             item: get('crud/edit/item'),
             attributes() {
                 return _.get(this.item, `${this.path}.attributes`)
             }
         },
+        methods: {
+            update(val) {
+                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
+            }
+        }
     }
 </script>
 

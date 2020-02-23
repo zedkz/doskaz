@@ -1,12 +1,6 @@
 <template>
     <div>
-        <attribute-selection-field :path="`${path}.attributes.attribute1`" label="Универсальный проект - Услуга оказывается во всем здании"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute2`" label="Разумное приспособление - Услуга оказывается на 1 этаже"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute3`" label="Есть доставка товаров или вызов специалиста на дом - Услуга оказывается дистанционно"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute4`" label="Кнопка вызова персонала"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute5`" label="Оказание ситуационной помощи со стороны персонала"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute6`" label="Протоколы/инструкции по коммуникации и оказанию помощи маломобильным гражданам - Был ли обучен персонал"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute7`" label="Льготы для людей с инвалидностью 1, 2, 3 групп, пожилых, детей"/>
+        <attributes-list :form="form" zone="serviceAccessibility" :value="attributes" @input="update"/>
         <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
         <h4>Оценка доступности</h4>
         <hr/>
@@ -20,14 +14,20 @@
     import AccessibilityScore from "../AccessibilityScore";
     import _ from "lodash";
     import TextareaField from "../crud/fields/TextareaField";
+    import AttributesList from "../AttributesList";
     export default {
         name: "ServiceAccessibility",
-        components: {TextareaField, AccessibilityScore, AttributeSelectionField},
-        props: ['path'],
+        components: {AttributesList, TextareaField, AccessibilityScore, AttributeSelectionField},
+        props: ['path', 'form'],
         computed: {
             item: get('crud/edit/item'),
             attributes() {
                 return _.get(this.item, `${this.path}.attributes`)
+            },
+            methods: {
+                update(val) {
+                    this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
+                }
             }
         },
     }

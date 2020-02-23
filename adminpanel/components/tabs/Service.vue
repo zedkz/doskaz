@@ -1,16 +1,6 @@
 <template>
     <div>
-        <h4>Размеры рабочей поверхности стола, стойки</h4>
-        <hr/>
-
-        <attribute-selection-field :path="`${path}.attributes.attribute1`" label="Высота не более 80 см от уровня пола"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute2`" label="Коленное пространство не менее 70 см"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute3`" label="Опознавательные таблички - Высота размещения от 1,4 м до 1,6 м"/>
-
-        <h4>Зона досягаемости для людей на кресло-колясках</h4>
-        <hr/>
-        <attribute-selection-field :path="`${path}.attributes.attribute4`" label="При расположении сбоку от посетителя — не выше 1,4 м и не ниже 0,3 от уровня пола"/>
-        <attribute-selection-field :path="`${path}.attributes.attribute5`" label="При фронтальном подходе — не выше 1,2 м и не ниже 0,4 м от уровня пола"/>
+        <attributes-list :form="form" zone="service" :value="attributes" @input="update"/>
         <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
 
         <h4>Оценка доступности</h4>
@@ -26,16 +16,22 @@
     import {get} from "vuex-pathify";
     import _ from "lodash";
     import TextareaField from "../crud/fields/TextareaField";
+    import AttributesList from "../AttributesList";
     export default {
         name: "Service",
-        components: {TextareaField, AccessibilityScore, AttributeSelectionField, Fields},
-        props: ['path'],
+        components: {AttributesList, TextareaField, AccessibilityScore, AttributeSelectionField, Fields},
+        props: ['path', 'form'],
         computed: {
             item: get('crud/edit/item'),
             attributes() {
                 return _.get(this.item, `${this.path}.attributes`)
             }
         },
+        methods: {
+            update(val) {
+                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
+            }
+        }
     }
 </script>
 

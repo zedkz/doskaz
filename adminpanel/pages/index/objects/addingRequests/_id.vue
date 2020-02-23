@@ -19,6 +19,7 @@
                         </template>
                         <component
                             :is="tab.component"
+                            :form="item.form.form"
                             :path="`form.${tab.key}`"
                         ></component>
                     </b-tab>
@@ -50,7 +51,10 @@
         async fetch({store, params: {id}}) {
             store.dispatch('crud/edit/reset');
             store.set('crud/edit/apiPath', '/api/admin/addingRequests')
-            await store.dispatch('crud/edit/loadItem', id);
+            await Promise.all([
+                store.dispatch('crud/edit/loadItem', id),
+                store.dispatch('objectAdding/init', id),
+            ])
         },
         data() {
             return {
@@ -69,15 +73,15 @@
             tabs() {
                 return [
                     {title: 'Общая информация', key: 'first', component: First},
-                     {title: 'Парковка', key: 'parking', component: Parking},
-                     {title: 'Входная группа #1', key: 'entrance1', component: Entrance},
-                     {title: 'Входная группа #2', key: 'entrance2', component: Entrance},
-                     {title: 'Входная группа #3', key: 'entrance3', component: Entrance},
-                     {title: 'Пути движения по объекту', key: 'movement', component: Movement},
-                     {title: 'Зона оказания услуги', key: 'service', component: Service},
-                     {title: 'Туалет', key: 'toilet', component: Toilet},
-                     {title: 'Навигация', key: 'navigation', component: Navigation},
-                     {title: 'Доступность услуги', key: 'serviceAccessibility', component: ServiceAccecssibility},
+                    {title: 'Парковка', key: 'parking', component: Parking},
+                    {title: 'Входная группа #1', key: 'entrance1', component: Entrance},
+                    {title: 'Входная группа #2', key: 'entrance2', component: Entrance},
+                    {title: 'Входная группа #3', key: 'entrance3', component: Entrance},
+                    {title: 'Пути движения по объекту', key: 'movement', component: Movement},
+                    {title: 'Зона оказания услуги', key: 'service', component: Service},
+                    {title: 'Туалет', key: 'toilet', component: Toilet},
+                    {title: 'Навигация', key: 'navigation', component: Navigation},
+                    {title: 'Доступность услуги', key: 'serviceAccessibility', component: ServiceAccecssibility},
                 ].filter(tab => (this.item || {form: {}}).form[tab.key])
             }
         },
