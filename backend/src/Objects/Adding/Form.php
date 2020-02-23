@@ -12,7 +12,8 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  * @DiscriminatorMap(
  *     typeProperty="form",
  *     mapping={
- *         "middle" = "App\Objects\Adding\MiddleFormRequestData"
+ *         "middle" = "App\Objects\Adding\MiddleFormRequestData",
+ *         "full" = "App\Objects\Adding\FullFormRequestData"
  *     }
  * )
  */

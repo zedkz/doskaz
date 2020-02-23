@@ -29,6 +29,9 @@
             MainHeader,
             ObjectAddContent
         },
+        async fetch({store}) {
+            await store.dispatch('objectAdding/init')
+        },
         async asyncData({$axios}) {
             const [{data: categories}] = await Promise.all([
                 $axios.get('/api/objectCategories')

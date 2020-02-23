@@ -1,15 +1,7 @@
 <template>
     <div class="add-object__content">
-        <div class="add-object__line --lrg"><h5 class="add-object__title --label">Размеры рабочей поверхности стола, стойки</h5></div>
-        <attribute-field sub-title="Высота не более 80 см от уровня пола" v-model="value.attributes.attribute1"/>
-        <attribute-field sub-title="Коленное пространство не менее 70 см" v-model="value.attributes.attribute2"/>
-        <attribute-field title="Опознавательные таблички" sub-title="Высота размещения от 1,4 м до 1,6 м" v-model="value.attributes.attribute3"/>
-        <div class="add-object__line --lrg"><h5 class="add-object__title --label">Зона досягаемости для людей на кресло-колясках</h5></div>
-        <attribute-field sub-title="При расположении сбоку от посетителя — не выше 1,4 м и не ниже 0,3 от уровня пола" v-model="value.attributes.attribute4"/>
-        <attribute-field sub-title="При фронтальном подходе — не выше 1,2 м и не ниже 0,4 м от уровня пола" v-model="value.attributes.attribute5"/>
-
-        <accessibility-score :attributes="value.attributes" type="service_middle"/>
-
+        <attributes-list form="full" zone="service" :value="value.attributes"/>
+        <accessibility-score :attributes="value.attributes" type="service_full"/>
         <div class="add-object__line --lrg">
             <h5 class="add-object__title">Комментарий к зоне оказания услуги</h5>
         </div>
@@ -23,9 +15,10 @@
 <script>
     import AccessibilityScore from "@/components/object_add/AccessibilityScore";
     import AttributeField from "@/components/object_add/AttributeField";
+    import AttributesList from "../../AttributesList";
     export default {
         name: "ServiceAreaZoneStep",
-        components: {AttributeField, AccessibilityScore},
+        components: {AttributesList, AttributeField, AccessibilityScore},
         props: [
             'value',
             'definition'

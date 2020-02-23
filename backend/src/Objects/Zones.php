@@ -12,7 +12,9 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  * @DiscriminatorMap(
  *     typeProperty="type",
  *     mapping={
- *         "small" = "App\Objects\Zone\Small\SmallFormZones"
+ *         "small" = "App\Objects\Zone\Small\SmallFormZones",
+ *         "middle" = "App\Objects\Zone\Middle\MiddleFormZones",
+ *         "full" = "App\Objects\Zone\Full\FullFormZones",
  *     }
  * )
  */

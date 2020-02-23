@@ -97,6 +97,7 @@
     import uniqBy from 'lodash/uniqBy'
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
+    import {call} from 'vuex-pathify'
 
     const zones = {
         middle: zonesMiddle,
@@ -164,6 +165,9 @@
             };
         },
         methods: {
+            ...call('objectAdding', [
+                'init'
+            ]),
             nextStep() {
                 const index = this.availableSteps.indexOf(this.activeStep);
                 if (this.availableSteps[index + 1]) {

@@ -1,12 +1,6 @@
 <template>
     <div class="add-object__content">
-        <attribute-field title="Универсальный проект" sub-title="Услуга оказывается во всем здании" v-model="value.attributes.attribute1"/>
-        <attribute-field title="Разумное приспособление" sub-title="Услуга оказывается на 1 этаже" v-model="value.attributes.attribute2"/>
-        <attribute-field title="Есть доставка товаров или вызов специалиста на дом" sub-title="Услуга оказывается дистанционно" v-model="value.attributes.attribute3"/>
-        <attribute-field title="Кнопка вызова персонала" v-model="value.attributes.attribute4"/>
-        <attribute-field title="Оказание ситуационной помощи со стороны персонала" v-model="value.attributes.attribute5"/>
-        <attribute-field title="Протоколы/инструкции по коммуникации и оказанию помощи маломобильным гражданам" sub-title="Был ли обучен персонал" v-model="value.attributes.attribute6"/>
-        <attribute-field title="Льготы для людей с инвалидностью 1, 2, 3 групп, пожилых, детей" v-model="value.attributes.attribute7"/>
+        <attributes-list form="middle" zone="serviceAccessibility" :value="value.attributes"/>
         <accessibility-score :attributes="value.attributes" type="accessibility_middle"/>
 
         <div class="add-object__line --lrg">
@@ -22,9 +16,10 @@
 <script>
     import AccessibilityScore from "@/components/object_add/AccessibilityScore";
     import AttributeField from "@/components/object_add/AttributeField";
+    import AttributesList from "../../AttributesList";
     export default {
         name: "ServiceAccessibilityStep",
-        components: {AccessibilityScore, AttributeField},
+        components: {AttributesList, AccessibilityScore, AttributeField},
         props: [
             'value'
         ],

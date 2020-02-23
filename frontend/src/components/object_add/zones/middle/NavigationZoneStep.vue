@@ -1,5 +1,6 @@
 <template>
     <div class="add-object__content">
+
         <attribute-field title="Указатели и информационный материал" sub-title="Контрастные крупные буквы, выделенные жирным шрифтом" v-model="value.attributes.attribute1"/>
         <attribute-field title="Форматы информации" sub-title="Шрифт Брайля, аудио-версия, радиомаяки, радиометки, радиоинформаторы" v-model="value.attributes.attribute2"/>
         <attribute-field title="Знаки и символы" sub-title="Международные знаки и символы на контрастном фоне" v-model="value.attributes.attribute3"/>

@@ -9,7 +9,7 @@ use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Parking extends Zone
+class Navigation extends Zone
 {
     /**
      * @var Attribute|null
@@ -143,43 +143,29 @@ class Parking extends Zone
      */
     public $attribute22;
 
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute23;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute24;
-
     private const INDEX_REMAP = [
         1 => 1,
         2 => 2,
-        5 => 3,
-        6 => 4,
-        7 => 5,
-        8 => 6,
-        9 => 7,
-        10 => 8,
-        12 => 9,
-        16 => 10,
-        3 => 11,
-        4 => 12,
-        11 => 13,
-        13 => 14,
-        14 => 15,
-        15 => 16,
-        17 => 17,
-        18 => 18,
-        19 => 19,
-        20 => 20,
-        21 => 21,
-        22 => 22,
-        23 => 23,
-        24 => 24,
+        3 => 3,
+        4 => 4,
+        5 => 8,
+        6 => 9,
+        7 => 10,
+        8 => 11,
+        9 => 12,
+        10 => 13,
+        11 => 14,
+        12 => 15,
+        13 => 5,
+        14 => 16,
+        15 => 6,
+        16 => 17,
+        17 => 18,
+        18 => 19,
+        19 => 20,
+        20 => 21,
+        21 => 22,
+        22 => 7,
     ];
 
     private function remap(array $original)
@@ -191,9 +177,6 @@ class Parking extends Zone
 
     function calculateScore(): AccessibilityScore
     {
-        if ($this->isMatchesAll(Attribute::yes())) {
-            return AccessibilityScore::fullAccessible();
-        }
         if ($this->isMatchesAll(Attribute::unknown())) {
             return AccessibilityScore::notAccessible();
         }
@@ -204,22 +187,18 @@ class Parking extends Zone
         $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        $hearing = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
 
-        if ($this->isMatches($this->remap([1, 2, 7, 8, 9, 11]), Attribute::no())) {
-            $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial($this->remap([1, 2, 7, 8, 9, 11]), Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+        if ($this->isMatches($this->remap([3, 4, 5, 6, 7]), Attribute::yes())) {
+            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+            $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+            $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+            $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
-        if ($this->isMatches($this->remap([1, 2, 7, 8, 9]), Attribute::no())) {
-            $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial($this->remap([1, 2, 7, 8, 9]), Attribute::yes())) {
-            $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+
+        if ($this->isMatchesAllExcept($this->remap([12]), Attribute::yes())) {
+            $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
