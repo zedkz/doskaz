@@ -8,6 +8,7 @@
         </div>
         <div class="add-object__line">
                     <textarea class="add-object__textarea"
+                              v-model="value.comment"
                               placeholder="Система оценила доступность услуги. Если вы не согласны с оценкой, вы можете оставить комментарий с пояснением"></textarea>
         </div>
     </div>
