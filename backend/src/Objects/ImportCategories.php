@@ -35,12 +35,32 @@ class ImportCategories extends Command
             ->select('*')->from('categories')
             ->execute()->fetchAll();
 
+        $iconsRemap = [
+            'fa-shield' => 'fa-shield-alt',
+            'fa-building-o' => 'fa-building',
+            'fa-money' => 'fa-money-bill-alt',
+            'fa-pencil-square-o' => 'fa-pen-square',
+            'fa-scissors' => 'fa-cut',
+            'fa-video-camera' => 'fa-video',
+            'fa-diamond' => 'fa-gem',
+            'fa-spoon' => 'fa-utensil-spoon',
+            'fa-cutlery' => 'fa-utensils',
+            'fa-ticket' => 'fa-ticket-alt',
+            'fa-product-hunt' => 'fa-product-hunt',
+            'fa-futbol-o' => 'fa-futbol',
+            'fa-bar-chart' => 'fa-chart-bar',
+            'fa-credit-card-alt' => 'fa-credit-card',
+            'fa-sun-o' => 'fa-sun',
+            'fa-moon-o' => 'fa-moon',
+        ];
+
+
         foreach ($data as $category) {
             $this->destinationConnection->insert('object_categories', [
                 'id' => $category['id'],
                 'title' => $category['title_ru'],
                 'parent_id' => $category['parent_id'],
-                'icon' => $category['icon']
+                'icon' => $iconsRemap[$category['icon']] ?? $category['icon']
             ]);
         }
 
