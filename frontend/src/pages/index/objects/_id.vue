@@ -33,14 +33,17 @@
                 <div class="object-side__tab-link-b">
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-description')" :class="{ active: isActive('tab-description') }" href="#tab-description">Описание</a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-photo')" :class="{ active: isActive('tab-photo') }" href="#tab-photo">Фото<span class="object-side__tab-num">7</span></a>
+                    <a class="object-side__tab-link" @click.prevent="setActive('tab-video')" :class="{ active: isActive('tab-video') }" href="#tab-video">Видео<span class="object-side__tab-num">11</span></a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-reviews')" :class="{ active: isActive('tab-reviews') }" href="#tab-reviews">Отзывы<span class="object-side__tab-num">12</span></a>
-                    <a class="object-side__tab-link" @click.prevent="setActive('tab-details')" :class="{ active: isActive('tab-details') }" href="#tab-details">Подробности</a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-history')" :class="{ active: isActive('tab-history') }" href="#tab-history">История</a>
                 </div>
                 <div class="object-side__tab-content-b">
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-description') }" id="tab-description">
                         <p class="text" v-html="object.description"></p>
-                        <p class="text__verification">Объект частично верифицирован</p>
+                        <div class="text__verification-b">
+                            <span class="text__verification-link" v-on:click="moreDetailsShow = true">Подробная информация</span>
+                            <p class="text__verification">Объект частично верифицирован</p>
+                        </div>
                         <div class="object-side__button-b">
                             <a href="" class="object-side__button --complaint">Подать жалобу</a>
                             <a href="" class="object-side__button --check">Подтвердить данные</a>
@@ -53,6 +56,9 @@
                         <div class="object-side__photo">
                             <div class="object-side__photo-year">2018</div>
                         </div>
+                    </div>
+                    <div class="object-side__tab-content" :class="{ active: isActive('tab-video') }" id="tab-video">
+                        На утверждении
                     </div>
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-reviews') }" id="tab-reviews">
                         <ul class="object-side__review-list">
@@ -100,9 +106,6 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="object-side__tab-content" :class="{ active: isActive('tab-details') }" id="tab-details">
-                        Подробности будут позже
-                    </div>
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-history') }" id="tab-history">
                         <ul class="object-side__history-list">
                             <li class="object-side__history-item">
@@ -137,11 +140,353 @@
                     </div>
                 </div>
             </div>
+            <div class="more-detail__wrapper" v-if="moreDetailsShow">
+                <span class="more-detail__close" v-on:click="moreDetailsShow = false"></span>
+                <div class="more-detail__top">
+                    <div class="more-detail__links">
+                        <a href="#detail_1" class="more-detail__link" :class="{ active: isVisibleDetail('detail_1') }" @click.prevent="setVisible('detail_1')">Общая информация</a>
+                        <a href="#detail_2" class="more-detail__link" :class="{ active: isVisibleDetail('detail_2') }" @click.prevent="setVisible('detail_2')">Парковка</a>
+                        <a href="#detail_3" class="more-detail__link" :class="{ active: isVisibleDetail('detail_3') }" @click.prevent="setVisible('detail_3')">Входная группа</a>
+                        <a href="#detail_4" class="more-detail__link" :class="{ active: isVisibleDetail('detail_4') }" @click.prevent="setVisible('detail_4')">Пути движения по объекту</a>
+                    </div>
+                    <div class="more-detail__links">
+                        <a href="#detail_5" class="more-detail__link" :class="{ active: isVisibleDetail('detail_5') }" @click.prevent="setVisible('detail_5')">Зона оказания услуги</a>
+                        <a href="#detail_6" class="more-detail__link" :class="{ active: isVisibleDetail('detail_6') }" @click.prevent="setVisible('detail_6')">Туалет</a>
+                        <a href="#detail_7" class="more-detail__link" :class="{ active: isVisibleDetail('detail_7') }" @click.prevent="setVisible('detail_7')">Навигация</a>
+                        <a href="#detail_8" class="more-detail__link" :class="{ active: isVisibleDetail('detail_8') }" @click.prevent="setVisible('detail_8')">Доступность услуги</a>
+                    </div>
+                    <a href="" download="" class="more-detail__download">Скачать</a>
+                </div>
+                <div class="more-detail__content">
+                    <div id="detail_1" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Общая информация</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_2" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Парковка</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_3" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Входная группа</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_4" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Пути движения по объекту</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_5" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Зона оказания услуги</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_6" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Туалет</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_7" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Навигация</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                    <div id="detail_8" class="more-detail__item">
+                        <h3 class="more-detail__item-title">Доступность услуги</h3>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                        <div class="more-detail__line empty">
+                            <span class="more-detail__line-text">Стрелка и расстояние</span>
+                            <span class="more-detail__line-status">&mdash;</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Разметка на плоскости</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line yes">
+                            <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
+                            <span class="more-detail__line-status">Да</span>
+                        </div>
+                        <div class="more-detail__line no">
+                            <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
+                            <span class="more-detail__line-status">Нет</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <a href="" class="object-side__review-add" v-if="isActive('tab-reviews')">Оставить отзыв</a>
     </div>
 </template>
 
 <script>
+
     import {sync} from "vuex-pathify";
 
     export default {
@@ -150,7 +495,9 @@
                 isPartially: false,
                 isNotAvailable: false,
                 isAvailable: true,
-                activeItem: 'tab-description'
+                activeItem: 'tab-description',
+                visibleDetail: 'detail_1',
+                moreDetailsShow: false
             };
         },
         async asyncData({$axios, params}) {
@@ -174,6 +521,13 @@
         methods: {
             isActive (tabItem) {
                 return this.activeItem === tabItem
+            },
+            isVisibleDetail (detail) {
+                return this.visibleDetail === detail
+            },
+            setVisible (detail) {
+                this.visibleDetail = detail;
+                document.getElementById('' + detail + '').scrollIntoView();
             },
             setActive (tabItem) {
                 this.activeItem = tabItem
@@ -212,6 +566,141 @@
 
         &::-webkit-scrollbar-thumb {
             background: transparentize(#c4c4c4, 0.5);
+        }
+
+        .more-detail {
+            &__wrapper {
+                position: fixed;
+                z-index: 10;
+                left: 120px;
+                top: 0;
+                bottom: 0;
+                width: 790px;
+                background: #FFFFFF;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+            }
+            &__content {
+                flex: 1 1 auto;
+                overflow-x: hidden;
+                overflow-y: auto;
+                padding: 2px 30px 34px 40px;
+                &::-webkit-scrollbar {
+                    width: 10px;
+                }
+                &::-webkit-scrollbar-track {
+                    background: rgba(123,149,167,0.1);
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: rgba(123,149,167,0.5);
+                }
+            }
+            &__close {
+                display: block;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                cursor: pointer;
+                right: 20px;
+                top: 20px;
+                background-size: 20px;
+                background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCAzLjMzMzM0TDEzLjMzMzMgMTBMMjAgMTYuNjY2N0wxNi42NjY3IDIwTDEwIDEzLjMzMzNMMy4zMzMzMyAyMEwwIDE2LjY2NjdMNi42NjY2NyAxMEwwIDMuMzMzMzNMMy4zMzMzMyAwTDEwIDYuNjY2NjdMMTYuNjY2NyAzLjk0NjI3ZS0wNkwyMCAzLjMzMzM0WiIgZmlsbD0iIzdCOTVBNyIvPgo8L3N2Zz4K) no-repeat;
+                z-index: 1;
+            }
+            &__top {
+                background: $light-gray;
+                padding: 32px 40px;
+                display: flex;
+                position: relative;
+            }
+            &__links {
+                width: 300px;
+                padding: 0 40px 0 0;
+            }
+            &__link {
+                font-size: 16px;
+                line-height: 20px;
+                color: $black;
+                margin: 20px 0 0;
+                display: block;
+                &.active, &:hover {
+                    font-weight: 700;
+                }
+                &:first-child {
+                    margin: 0;
+                }
+            }
+            &__download {
+                position: absolute;
+                bottom: 40px;
+                right: 40px;
+                color: #FFFFFF;
+                font-size: 16px;
+                line-height: 20px;
+                display: block;
+                padding: 9px 16px 11px 36px;
+                -webkit-transition: opacity 0.4s;
+                -moz-transition: opacity 0.4s;
+                -ms-transition: opacity 0.4s;
+                -o-transition: opacity 0.4s;
+                transition: opacity 0.4s;
+                background-color: $blue;
+                font-weight: 400;
+                background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0IDEwVjEyLjY2NjdDMTQgMTMuMDIwMyAxMy44NTk1IDEzLjM1OTQgMTMuNjA5NSAxMy42MDk1QzEzLjM1OTQgMTMuODU5NSAxMy4wMjAzIDE0IDEyLjY2NjcgMTRIMy4zMzMzM0MyLjk3OTcxIDE0IDIuNjQwNTcgMTMuODU5NSAyLjM5MDUyIDEzLjYwOTVDMi4xNDA0OCAxMy4zNTk0IDIgMTMuMDIwMyAyIDEyLjY2NjdWMTAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQuNjY2NSA2LjY2NjY5TDcuOTk5ODQgMTBMMTEuMzMzMiA2LjY2NjY5IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik04IDEwVjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==);
+                background-position: left 15px center;
+                background-repeat: no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+            &__item {
+                padding: 30px 0 0;
+                &-title {
+                    font-size: 34px;
+                    line-height: 40px;
+                    margin: 0 0 24px;
+                }
+            }
+            &__line {
+                padding: 15px 20px 15px 0;
+                border-bottom: 1px solid rgba(123,149,167,0.3);
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                &-title {
+                    font-size: 16px;
+                    line-height: 20px;
+                    margin: 24px 0 16px;
+                }
+                &-text {
+                    font-size: 16px;
+                    line-height: 20px;
+                    width: 540px;
+                    display: block;
+                }
+                &-status {
+                    width: 90px;
+                    font-size: 16px;
+                    line-height: 20px;
+                    padding: 0 0 0 30px;
+                }
+                &.yes {
+                    .more-detail__line-status {
+                        background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2LjY2NjggNUw3LjUwMDE2IDE0LjE2NjdMMy4zMzM1IDEwIiBzdHJva2U9IiMzREJBM0IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=) left center no-repeat;
+                    }
+                }
+                &.no {
+                    .more-detail__line-status {
+                        background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmUgeDE9IjQiIHkxPSIxMCIgeDI9IjE2IiB5Mj0iMTAiIHN0cm9rZT0iI0RFMTIyMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==) left center no-repeat;
+                    }
+                }
+                &.empty {
+                    .more-detail__line-status {
+                        color: $text;
+                    }
+                }
+            }
         }
 
         .availability {
@@ -372,6 +861,7 @@
             }
             &-content {
                 display: none;
+                position: relative;
                 &-b {
                     padding: 20px 0 0;
                 }
@@ -384,8 +874,37 @@
                     &__verification {
                         font-size: 14px;
                         line-height: 20px;
-                        margin: 20px 0 0;
                         color: #5B6067;
+                        &-b {
+                             margin: 14px 0 0;
+                             display: flex;
+                             justify-content: space-between;
+                         }
+                        &-link {
+                             display: inline-block;
+                             cursor: pointer;
+                             font-size: 16px;
+                             line-height: 20px;
+                             -webkit-transition: opacity 0.4s;
+                             -moz-transition: opacity 0.4s;
+                             -ms-transition: opacity 0.4s;
+                             -o-transition: opacity 0.4s;
+                             transition: opacity 0.4s;
+                             color: $black;
+                             position: relative;
+                        &:after {
+                             content: '';
+                             position: absolute;
+                             left: 0;
+                             bottom: 2px;
+                             width: 100%;
+                             height: 1px;
+                             background: $black;
+                         }
+                        &:hover {
+                             opacity: 0.7;
+                         }
+                        }
                     }
                 }
             }
@@ -446,7 +965,7 @@
         }
         &__review {
             &-list {
-                padding: 0;
+                padding: 0 0 20px;
                 list-style: none;
             }
             &-item {
@@ -478,6 +997,25 @@
                 font-size: 16px;
                 line-height: 30px;
                 margin: 9px 0 0;
+            }
+            &-add {
+                position: absolute;
+                bottom: 0;
+                left: 40px;
+                right: 30px;
+                line-height: 50px;
+                font-size: 16px;
+                color: #FFFFFF;
+                background: $blue;
+                text-align: center;
+                -webkit-transition: opacity 0.4s;
+                -moz-transition: opacity 0.4s;
+                -ms-transition: opacity 0.4s;
+                -o-transition: opacity 0.4s;
+                transition: opacity 0.4s;
+                &:hover {
+                    opacity: 0.9
+                }
             }
         }
         &__history {
