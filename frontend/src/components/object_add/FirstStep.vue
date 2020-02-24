@@ -27,11 +27,12 @@
             <div class="col --long">
                 <client-only>
                     <yandex-map
+                            @map-was-initialized="mapInitialized"
                             @click="click"
                             :style="{width: '100%', height: '300px'}"
                             :zoom="4"
                             :coords.sync="mapCoords"
-                            :controls="[]"
+                            :controls="['zoomControl']"
                             :settings="{
                     apiKey: 'c1050142-1c08-440e-b357-f2743155c1ec',
                     lang: 'ru_RU',
@@ -113,13 +114,22 @@
             return {
                 coords: null,
                 selectedCategory: null,
-                mapCoords: [47.74887674893552, 67.04712168264118]
+                mapCoords: [47.74887674893552, 67.04712168264118],
+                zoom: null
             }
         },
         methods: {
+            mapInitialized(map) {
+                this.map = map;
+            },
+
             click(e) {
                 this.value.point = e.get('coords');
                 this.mapCoords = this.value.point;
+                if(this.map && !this.zoom) {
+                    this.zoom = 12
+                    this.map.setCenter(this.value.point, 12)
+                }
                 ymaps.geocode(this.value.point).then(res => {
                     const result = res.geoObjects.get(0);
                     if(result.getThoroughfare()) {
