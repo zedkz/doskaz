@@ -52,7 +52,7 @@ services:
   adminpanel:
     build:
       context: ../adminpanel
-      dockerfile: Dockerfile
+      dockerfile: ./docker/Dockerfile
     networks:
       - web
     labels:
