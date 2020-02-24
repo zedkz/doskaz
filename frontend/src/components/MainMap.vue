@@ -27,6 +27,7 @@
         },
         methods: {
             mapWasInitialized(map) {
+                this.map = map;
                 if(!ymaps.layout.storage.get('custom#objectIconLayout')) {
                     const CustomObjectIconLayout = ymaps.templateLayoutFactory.createClass(
                         `<div style="border: none; font-size: 22px; display: flex; width: 50px; height: 60px; padding-bottom: 11px; justify-content: center; align-items: center; top: -60px; left: -25px; position:absolute;">

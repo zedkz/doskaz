@@ -13,6 +13,8 @@ use App\Objects\Adding\Steps\Full\Parking;
 use App\Objects\Adding\Steps\Full\Service;
 use App\Objects\Adding\Steps\Full\ServiceAccessibility;
 use App\Objects\Adding\Steps\Full\Toilet;
+use App\Objects\Zone\Full\FullFormZones;
+use App\Objects\Zones;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -85,4 +87,21 @@ final class FullFormRequestData implements DataObject, Form
      * @Assert\Valid()
      */
     public $serviceAccessibility;
+
+    public function toZones(): Zones
+    {
+        return new FullFormZones(
+            $this->parking->attributes,
+            $this->entrance1->attributes,
+            $this->entrance2 ? $this->entrance2->attributes : null,
+            $this->entrance3 ? $this->entrance3->attributes : null,
+            $this->movement->attributes,
+            $this->service->attributes,
+            $this->toilet->attributes,
+            $this->navigation->attributes,
+            $this->serviceAccessibility->attributes
+        );
+    }
+
+
 }

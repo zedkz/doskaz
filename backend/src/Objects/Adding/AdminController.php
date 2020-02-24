@@ -4,6 +4,7 @@
 namespace App\Objects\Adding;
 
 use App\Infrastructure\Doctrine\Flusher;
+use App\Objects\MapObjectRepository;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,8 @@ class AdminController
                 'adding_requests.created_at as "createdAt"'
             ])
             ->from('adding_requests')
-            ->leftJoin('adding_requests', 'object_categories', 'object_categories', "(adding_requests.data->'first'->'categoryId')::INTEGER = object_categories.id");
+            ->leftJoin('adding_requests', 'object_categories', 'object_categories', "(adding_requests.data->'first'->'categoryId')::INTEGER = object_categories.id")
+            ->andWhere('adding_requests.deleted_at is null');
 
 
         $requestsData = (clone $requestsQuery)
@@ -62,7 +64,7 @@ class AdminController
     public function show($id, Connection $connection)
     {
         $item = $connection->createQueryBuilder()
-            ->select(['id', 'data'])
+            ->select(['id', 'data', 'approved_at'])
             ->from('adding_requests')
             ->andWhere('id = :id')
             ->setParameter('id', $id)
@@ -75,7 +77,8 @@ class AdminController
 
         return new AddingRequestReviewData(
             $item['id'],
-            $connection->convertToPHPValue($item['data'], Form::class)
+            $connection->convertToPHPValue($item['data'], Form::class),
+            $connection->convertToPHPValue($item['approved_at'], 'datetimetz_immutable')
         );
     }
 
@@ -91,7 +94,27 @@ class AdminController
         $flusher->flush();
     }
 
-    public function approve() {
+    /**
+     * @Route(path="/{id}/approve", methods={"POST"})
+     * @param AddingRequest $request
+     * @param MapObjectRepository $mapObjectRepository
+     * @param Flusher $flusher
+     */
+    public function approve(AddingRequest $request, MapObjectRepository $mapObjectRepository, Flusher $flusher)
+    {
+        $mapObject = $request->approve();
+        $mapObjectRepository->add($mapObject);
+        $flusher->flush();
+    }
 
+    /**
+     * @Route(path="/{id}", methods={"DELETE"})
+     * @param AddingRequest $request
+     * @param Flusher $flusher
+     */
+    public function delete(AddingRequest $request, Flusher $flusher)
+    {
+        $request->markAsDeleted();
+        $flusher->flush();
     }
 }

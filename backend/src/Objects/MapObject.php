@@ -59,6 +59,12 @@ class MapObject
      */
     private $overallScore;
 
+    /**
+     * @var \DateTimeImmutable
+     * @ORM\Column(type="datetimetz_immutable", nullable=true)
+     */
+    private $createdAt;
+
     public function __construct(
         Point $point,
         string $title,
@@ -75,5 +81,6 @@ class MapObject
         $this->address = $address;
         $this->description = $description;
         $this->overallScore = $zones->overallScore();
+        $this->createdAt = new \DateTimeImmutable();
     }
 }

@@ -13,10 +13,10 @@
             <form>
                 <b-tabs content-class="mt-3" v-model="tab">
                     <b-tab v-for="tab in tabs" :key="tab.key" :title="tab.title">
-                       <!-- <template v-slot:title v-if="tab.key === 'entrance2' || tab.key === 'entrance3'">
-                            <span class="mr-2">{{tab.title}}</span>
-                            <b-btn-close title="Удалить"/>
-                        </template>-->
+                        <!-- <template v-slot:title v-if="tab.key === 'entrance2' || tab.key === 'entrance3'">
+                             <span class="mr-2">{{tab.title}}</span>
+                             <b-btn-close title="Удалить"/>
+                         </template>-->
                         <component
                             :is="tab.component"
                             :form="item.form.form"
@@ -25,7 +25,9 @@
                     </b-tab>
                 </b-tabs>
                 <button type="button" class="btn btn-primary" @click.prevent="submit">Сохранить</button>
-
+                <button type="button" class="btn btn-secondary" @click.prevent="approve" :disabled="item.approvedAt">
+                    Принять
+                </button>
             </form>
         </b-card>
     </div>
@@ -63,10 +65,10 @@
         },
         computed: {
             ...get('crud/edit', [
-                'isLoading',
                 'validationErrors'
             ]),
             ...sync('crud/edit', [
+                'isLoading',
                 'item',
                 'id'
             ]),
@@ -95,6 +97,18 @@
             async submit() {
                 try {
                     await this.submitForm();
+                } catch (e) {
+                    if (this.validationErrors['first']) {
+                        this.tab = 0
+                    }
+                }
+            },
+            async approve() {
+                try {
+                    await this.submitForm();
+                    this.isLoading = true;
+                    await this.$axios.post(`/api/admin/addingRequests/${this.$route.params.id}/approve`)
+                    await this.$store.dispatch('crud/edit/loadItem', this.$route.params.id);
                 } catch (e) {
                     if (this.validationErrors['first']) {
                         this.tab = 0

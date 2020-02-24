@@ -4,6 +4,7 @@
 namespace App\Objects\Adding;
 
 use App\Infrastructure\ObjectResolver\DataObject;
+use App\Objects\Zones;
 use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
@@ -19,5 +20,5 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  */
 interface Form extends DataObject
 {
-
+    public function toZones(): Zones;
 }
