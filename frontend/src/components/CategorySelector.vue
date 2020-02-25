@@ -1,15 +1,15 @@
 <template>
     <div class="category-selector">
         <div class="availability">
-            <div class="availability__item availability__item_green isActive">
+            <div class="availability__item availability__item_green" @click="accessibilityLevel = 'full_accessible'" :class="{isActive: accessibilityLevel === 'full_accessible'}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Доступно</span>
             </div>
-            <div class="availability__item availability__item_yellow">
+            <div class="availability__item availability__item_yellow" @click="accessibilityLevel = 'partial_accessible'" :class="{isActive: accessibilityLevel === 'partial_accessible'}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Частично доступно</span>
             </div>
-            <div class="availability__item availability__item_red">
+            <div class="availability__item availability__item_red" @click="accessibilityLevel = 'not_accessible'" :class="{isActive: accessibilityLevel === 'not_accessible'}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Недоступно</span>
             </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import {call, get} from 'vuex-pathify'
+    import {call, get, sync} from 'vuex-pathify'
 
     export default {
         data() {
@@ -86,6 +86,9 @@
             ...call('map', ['toggleCategory'])
         },
         computed: {
+            ...sync('map', [
+                'accessibilityLevel'
+            ]),
             selectedCategories: get('map/selectedCategories'),
             categories() {
                 return this.$store.state.objectCategories.categories;

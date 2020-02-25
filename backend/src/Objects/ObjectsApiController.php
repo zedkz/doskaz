@@ -38,6 +38,7 @@ final class ObjectsApiController extends AbstractController
      *     @Parameter(name="bbox", in="query", required=true, description="Массив географических координат углов", @Schema(type="string"), example="52.2523,76.8384,52.3332,77.1021"),
      *     @Parameter(name="categories", in="query", description="Категории", style="deepObject", @Schema(type="array", @Items(type="integer"))),
      *     @Parameter(name="search", in="query", description="Поисковой запрос", @Schema(type="string")),
+     *     @Parameter(name="accessibilityLevel", in="query", description="Уровень доступности", @Schema(type="string", enum={"full_accessiblie", "partial_accessible", "not_accessible"})),
      *     @Response(response="200", description="")
      * )
      */
@@ -46,6 +47,8 @@ final class ObjectsApiController extends AbstractController
         $boundary = explode(',', $request->query->get('bbox'));
 
         $zoom = $request->query->get('zoom');
+
+        $accessibilityLevel = $request->query->get('accessibilityLevel');
 
         $clusteringLevels = [
             0 => 1,
@@ -93,6 +96,16 @@ final class ObjectsApiController extends AbstractController
                 'precision' => $precision
             ]);
 
+
+        switch ($accessibilityLevel) {
+            case 'full_accessible':
+            case 'partial_accessible':
+            case 'not_accessible':
+                $q1->andWhere('overall_score_movement = :level')
+                ->setParameter('level', $accessibilityLevel);
+                break;
+        }
+
         $categories = $request->query->get('categories', []);
         if (count($categories)) {
             $q1->andWhere('category_id IN (:categories)')
@@ -134,6 +147,15 @@ final class ObjectsApiController extends AbstractController
             ], [
                 'ids' => Connection::PARAM_STR_ARRAY
             ]);
+
+        switch ($accessibilityLevel) {
+            case 'full_accessible':
+            case 'partial_accessible':
+            case 'not_accessible':
+            $q2->andWhere('overall_score_movement = :level')
+                ->setParameter('level', $accessibilityLevel);
+                break;
+        }
 
         if (count($categories)) {
             $q2->andWhere('category_id IN (:categories)')

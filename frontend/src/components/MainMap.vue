@@ -11,6 +11,8 @@
 
 <script>
     import {sync, get} from 'vuex-pathify'
+    import queryString from 'query-string'
+    import debounce from 'lodash/debounce'
 
     export default {
         data() {
@@ -40,29 +42,22 @@
                     );
                     ymaps.layout.storage.add('custom#objectIconLayout', CustomObjectIconLayout);
                 }
-
-                let url = '/api/objects/ymaps?bbox=%b&zoom=%z';
-                const filter = this.selectedCategories.map((cat, index) => `&categories[${index}]=${cat}`).join('')
-
-                let yamap = new ymaps.RemoteObjectManager(`${url}${filter}`, {splitRequests: false});
-
+                let yamap = new ymaps.RemoteObjectManager(this.url, {splitRequests: false});
                 this.objectManager = yamap
-
                 map.geoObjects.add(yamap);
                 yamap.objects.events.add(['click'], e => {
                     this.$router.push({name: 'index-objects-id', params: {id: e.get('objectId')}})
                 });
+            },
+            applyFilter: debounce(function (val) {
+                this.objectManager.setUrlTemplate(val)
+                this.objectManager.reloadData()
+            }, 800, {leading: true})
+        },
+        watch: {
+            url(val) {
+                this.applyFilter(val)
 
-                this.unwatch = this.$watch('selectedCategories', (categories) => {
-                    let url = '/api/objects/ymaps?bbox=%b&zoom=%z';
-                    let count = 0;
-                    categories.forEach(e => {
-                        url = url + `&categories[${count}]=${e}`;
-                        count++
-                    });
-                    yamap.setUrlTemplate(url);
-                    yamap.reloadData()
-                })
             }
         },
         computed: {
@@ -71,12 +66,18 @@
                 'zoom',
             ]),
             ...get('map', [
-                'selectedCategories'
-            ])
-        },
-        beforeDestroy() {
-            if (this.unwatch) {
-                this.unwatch()
+                'selectedCategories',
+                'accessibilityLevel',
+                'search'
+            ]),
+            url() {
+                const serializedParams = queryString.stringify({
+                    categories: this.selectedCategories,
+                    accessibilityLevel: this.accessibilityLevel,
+                    search: this.search
+                }, {arrayFormat: 'index'})
+
+                return '/api/objects/ymaps?bbox=%b&zoom=%z'.concat(serializedParams ? `&${serializedParams}` : '')
             }
         }
     };
