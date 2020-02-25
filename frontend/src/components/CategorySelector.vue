@@ -233,7 +233,7 @@
                 position: relative;
                 overflow-x: hidden;
                 overflow-y: auto;
-                height: 100%;
+                max-height: 100%;
                 padding-right: 30px;
                 display: flex;
                 flex-wrap: wrap;
