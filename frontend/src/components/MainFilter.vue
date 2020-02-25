@@ -46,106 +46,21 @@
                     <span>Усть-Каменогорск</span>
                 </div>
                 <div class="main-filter__geo-sub" v-if="selectCity">
-                    <div class="main-filter__geo-list --regions">
-                        <span class="main-filter__geo-item__title">Область</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_3' }" @click="selectedRegion = 'region_3'">Акмолинская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_4' }" @click="selectedRegion = 'region_4'">Актюбинская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_5' }" @click="selectedRegion = 'region_5'">Алматинская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_6' }" @click="selectedRegion = 'region_6'">Атырауская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_7' }" @click="selectedRegion = 'region_7'">Восточно-Казахстанская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_8' }" @click="selectedRegion = 'region_8'">Жамбылская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_9' }" @click="selectedRegion = 'region_9'">Западно-Казахстанская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_10' }" @click="selectedRegion = 'region_10'">Карагандинская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_11' }" @click="selectedRegion = 'region_11'">Костанайская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_12' }" @click="selectedRegion = 'region_12'">Кызылординская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_13' }" @click="selectedRegion = 'region_13'">Мангистауская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_14' }" @click="selectedRegion = 'region_14'">Павлодарская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_15' }" @click="selectedRegion = 'region_15'">Северо-Казахстанская</span>
-                        <span class="main-filter__geo-item" :class="{ selected: selectedRegion == 'region_16' }" @click="selectedRegion = 'region_16'">Туркестанская</span>
-                    </div>
-                    <div class="main-filter__geo-list --cities">
-                        <span class="main-filter__geo-item__title">Город</span>
-                        <div v-if="selectedRegion == 'region_3'">
-                            <span class="main-filter__geo-item">Астана</span>
-                            <span class="main-filter__geo-item">Кокшетау</span>
-                            <span class="main-filter__geo-item">Степногорск</span>
-                            <span class="main-filter__geo-item">Атбасар</span>
-                            <span class="main-filter__geo-item">Макинск</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_4'">
-                            <span class="main-filter__geo-item">Актобе</span>
-                            <span class="main-filter__geo-item">Шалкар</span>
-                            <span class="main-filter__geo-item">Эмба</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_5'">
-                            <span class="main-filter__geo-item">Талдыкорган</span>
-                            <span class="main-filter__geo-item">Талгар</span>
-                            <span class="main-filter__geo-item">Алматы</span>
-                            <span class="main-filter__geo-item">Отеген-батыр</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_6'">
-                            <span class="main-filter__geo-item">Атырау</span>
-                            <span class="main-filter__geo-item">Кульсары</span>
-                            <span class="main-filter__geo-item">Ганюшкино</span>
-                            <span class="main-filter__geo-item">Махамбет</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_7'">
-                            <span class="main-filter__geo-item">Зыряновск</span>
-                            <span class="main-filter__geo-item">Риддер</span>
-                            <span class="main-filter__geo-item">Семей</span>
-                            <span class="main-filter__geo-item">Усть-Каменогорск</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_8'">
-                            <span class="main-filter__geo-item">Тараз</span>
-                            <span class="main-filter__geo-item">Шу</span>
-                            <span class="main-filter__geo-item">Каскелен</span>
-                            <span class="main-filter__geo-item">Бауржан Момышулы</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_9'">
-                            <span class="main-filter__geo-item">уральск</span>
-                            <span class="main-filter__geo-item">Аксай</span>
-                            <span class="main-filter__geo-item">Федоровка</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_10'">
-                            <span class="main-filter__geo-item">Караганда</span>
-                            <span class="main-filter__geo-item">Темиртау</span>
-                            <span class="main-filter__geo-item">Жезказган</span>
-                            <span class="main-filter__geo-item">Балхаш</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_11'">
-                            <span class="main-filter__geo-item">Костаная</span>
-                            <span class="main-filter__geo-item">Рудный</span>
-                            <span class="main-filter__geo-item">Затобольск</span>
-                            <span class="main-filter__geo-item">Лисаковск</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_12'">
-                            <span class="main-filter__geo-item">Кызылорда</span>
-                            <span class="main-filter__geo-item">Байконур</span>
-                            <span class="main-filter__geo-item">Аральск</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_13'">
-                            <span class="main-filter__geo-item">Актау</span>
-                            <span class="main-filter__geo-item">Жанаозен</span>
-                            <span class="main-filter__geo-item">Форт-Шевченко</span>
-                            <span class="main-filter__geo-item">Мангистау</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_14'">
-                            <span class="main-filter__geo-item">Павлодар</span>
-                            <span class="main-filter__geo-item">Аксу</span>
-                            <span class="main-filter__geo-item">Экибастуз</span>
-                            <span class="main-filter__geo-item">Калкаман</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_15'">
-                            <span class="main-filter__geo-item">Петропавловск</span>
-                            <span class="main-filter__geo-item">Булаево</span>
-                            <span class="main-filter__geo-item">Сергеевка</span>
-                        </div>
-                        <div v-if="selectedRegion == 'region_16'">
-                            <span class="main-filter__geo-item">Туркестан</span>
-                            <span class="main-filter__geo-item">Арыс</span>
-                            <span class="main-filter__geo-item">Кентау</span>
-                            <span class="main-filter__geo-item">Сарыагаш</span>
-                        </div>
+                    <div class="main-filter__geo-list">
+                        <span class="main-filter__geo-item">Акмолинская</span>
+                        <span class="main-filter__geo-item">Актюбинская</span>
+                        <span class="main-filter__geo-item">Алматинская</span>
+                        <span class="main-filter__geo-item">Атырауская</span>
+                        <span class="main-filter__geo-item">Восточно-Казахстанская</span>
+                        <span class="main-filter__geo-item">Жамбылская</span>
+                        <span class="main-filter__geo-item">Западно-Казахстанская</span>
+                        <span class="main-filter__geo-item">Карагандинская</span>
+                        <span class="main-filter__geo-item">Костанайская</span>
+                        <span class="main-filter__geo-item">Кызылординская</span>
+                        <span class="main-filter__geo-item">Мангистауская</span>
+                        <span class="main-filter__geo-item">Павлодарская</span>
+                        <span class="main-filter__geo-item">Северо-Казахстанская</span>
+                        <span class="main-filter__geo-item">Туркестанская</span>
                     </div>
                 </div>
             </div>
@@ -223,8 +138,7 @@
     export default {
         data() {
             return {
-                selectCity: false,
-                selectedRegion: 'region_7'
+                selectCity: false
             };
         },
         components: {
@@ -328,32 +242,15 @@
                  display: flex;
             }
             &-list {
-                 padding: 15px 0 25px;
-                &.--regions {
-                     border-right: 1px solid rgba(123, 149, 167, 0.3);
-                    .main-filter__geo-item {
-                        padding: 0 23px 0 20px;
-                        min-width: 230px;
-                        &__title {
-                            padding: 0 23px 0 20px;
-                        }
-                    }
-                }
-                &.--cities {
-                    .main-filter__geo-item {
-                       padding: 0 23px 0 30px;
-                       min-width: 230px;
-                       &__title {
-                          padding: 0 23px 0 30px;
-                       }
-                    }
-                }
+                 padding: 15px 0;
             }
             &-item {
                 display: block;
                 cursor: pointer;
                 font-size: 16px;
                 line-height: 30px;
+                padding: 0 23px 0 20px;
+                min-width: 260px;
                 white-space: nowrap;
                 background: transparent;
                 transition: background 0.3s;

@@ -7,7 +7,7 @@
       </svg>
     </div>
     <div class="lang-select__list" v-if="selectLang">
-      <div class="lang-select__item">
+      <div class="lang-select__item selected">
         <span>Qaz</span>
       </div>
       <div class="lang-select__item">
@@ -74,7 +74,7 @@ export default {
     text-align: left;
     width: 98px;
 
-    &:hover {
+    &:hover, &.selected {
       background: $light-gray;
       font-weight: 700;
     }
