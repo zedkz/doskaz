@@ -1,7 +1,6 @@
 <template>
     <div class="main-page">
         <IntroForm/>
-        <StartCategoryForm/>
         <ObjectModal></ObjectModal>
         <div class="main-page__map">
             <client-only>

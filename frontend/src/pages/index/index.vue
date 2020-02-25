@@ -1,12 +1,17 @@
 <template>
-    <Sidebar></Sidebar>
+    <div>
+        <StartCategoryForm/>
+        <Sidebar></Sidebar>
+    </div>
 </template>
 
 <script>
     import Sidebar from "@/components/Sidebar.vue";
+    import StartCategoryForm from "@/components/StartCategoryForm.vue";
     export default {
         components: {
-            Sidebar
+            Sidebar,
+            StartCategoryForm
         }
     }
 </script>
