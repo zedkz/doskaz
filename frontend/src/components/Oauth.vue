@@ -13,7 +13,7 @@
                 const {code} = this.$route.query;
                 const {provider} = this.$route.params;
                 await this.$store.dispatch('authentication/oauthAuthenticate', {code, provider});
-                window.close()
+               /* window.close()*/
             }
         }
     }

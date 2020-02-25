@@ -52,6 +52,8 @@ class AuthController extends AbstractController
             'json' => ['idToken' => $authData->idToken]
         ]);
 
+        $created = false;
+
         $userData = json_decode($data->getBody()->getContents(), true);
         $phoneNumber = $userData['users'][0]['phoneNumber'];
         if ($phoneNumber) {
@@ -62,9 +64,10 @@ class AuthController extends AbstractController
                 $phoneCredentials = new Credentials($user->id(), $phoneNumber);
                 $credentialsRepository->add($phoneCredentials);
                 $flusher->flush();
+                $created = true;
             }
             $user = $userRepository->find($phoneCredentials->id());
-            return $authenticator->authenticate($request, $user);
+            return $authenticator->authenticate($request, $user)->setStatusCode($created ? Response::HTTP_CREATED : Response::HTTP_ACCEPTED);
         }
         return null;
     }

@@ -86,6 +86,6 @@ final class OauthController extends AbstractController
 
         $flusher->flush();
 
-        return $authenticator->authenticate($request, $user);
+        return $authenticator->authenticate($request, $user)->setStatusCode(Response::HTTP_CREATED);
     }
 }

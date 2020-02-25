@@ -8,7 +8,7 @@
 			<span class="phone-form__point-num">50</span>
 			<span class="phone-form__point-text">Заполните информацию о себе и получите ещё 50 баллов</span>
 		</div>
-		<button class="button">Перейти в мой профиль</button>
+		<nuxt-link to="/profile" class="profile-link-button">Перейти в мой профиль</nuxt-link>
 	</div>
 </template>
 
@@ -56,7 +56,7 @@
 		 }
 	}
 
-	.button {
+	.profile-link-button {
 			color: #ffffff;
 			display: flex;
 			align-items: center;
