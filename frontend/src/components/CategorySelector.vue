@@ -267,6 +267,10 @@ export default {
 
       &:hover {
         background: #f1f8fc;
+        i {
+          opacity: 0.7
+        }
+
 
         .category {
           &__text {
@@ -308,13 +312,14 @@ export default {
       }
     }
 
-    &__icon {
+    i {
       width: 30px;
       height: 30px;
-      background-color: #f1f8fc;
-      background-position: center;
-      background-repeat: no-repeat;
-      transition: background 0.3s;
+      background-color: $blue;
+      text-align: center;
+      line-height: 30px;
+      transition: opacity 0.3s;
+      color: #ffffff;
     }
 
     &__text {
