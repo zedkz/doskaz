@@ -8,7 +8,7 @@
             >
         <span>
           Блог
-          <span class="new">2</span>
+          <!--<span class="new">2</span>-->
         </span>
             </div>
             <div class="timeline__tab-link" :class="{'isActive': activeTab===1}" @click="setActiveTab(1)"
