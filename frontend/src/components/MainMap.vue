@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import {sync} from 'vuex-pathify'
+    import {sync, get} from 'vuex-pathify'
 
     export default {
         data() {
@@ -28,7 +28,7 @@
         methods: {
             mapWasInitialized(map) {
                 this.map = map;
-                if(!ymaps.layout.storage.get('custom#objectIconLayout')) {
+                if (!ymaps.layout.storage.get('custom#objectIconLayout')) {
                     const CustomObjectIconLayout = ymaps.templateLayoutFactory.createClass(
                         `<div style="border: none; font-size: 22px; display: flex; width: 50px; height: 60px; padding-bottom: 11px; justify-content: center; align-items: center; top: -60px; left: -25px; position:absolute;">
                         <svg width="50" height="60" viewBox="0 0 50 61" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 0;">
@@ -42,33 +42,42 @@
                 }
 
                 let url = '/api/objects/ymaps?bbox=%b&zoom=%z';
-                let yamap = new ymaps.RemoteObjectManager(url, {splitRequests: false});
+                const filter = this.selectedCategories.map((cat, index) => `&categories[${index}]=${cat}`).join('')
+
+                let yamap = new ymaps.RemoteObjectManager(`${url}${filter}`, {splitRequests: false});
+
+                this.objectManager = yamap
 
                 map.geoObjects.add(yamap);
                 yamap.objects.events.add(['click'], e => {
                     this.$router.push({name: 'index-objects-id', params: {id: e.get('objectId')}})
                 });
 
-                this.$root.$on("setCategoryId", function (id) {
+                this.unwatch = this.$watch('selectedCategories', (categories) => {
                     let url = '/api/objects/ymaps?bbox=%b&zoom=%z';
                     let count = 0;
-                    id.forEach(e => {
+                    categories.forEach(e => {
                         url = url + `&categories[${count}]=${e}`;
                         count++
                     });
                     yamap.setUrlTemplate(url);
                     yamap.reloadData()
-                });
+                })
             }
         },
         computed: {
             ...sync('map', [
                 'coordinates',
-                'zoom'
+                'zoom',
+            ]),
+            ...get('map', [
+                'selectedCategories'
             ])
         },
         beforeDestroy() {
-            this.$root.$off('setCategoryId')
+            if (this.unwatch) {
+                this.unwatch()
+            }
         }
     };
 </script>
