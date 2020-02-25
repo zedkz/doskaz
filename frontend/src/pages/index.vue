@@ -11,7 +11,8 @@
 
         <div class="main-page__options">
             <button class="button button_blue" type="button" @click="popupOpen = true">
-                <svg
+                <img :src="require(`~/assets/icons/categories/${category}.svg`)" v-if="category"/>
+               <!-- <svg
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
@@ -26,7 +27,7 @@
                             d="M12 2.8125C8.89838 2.8125 6.375 5.33588 6.375 8.4375V12.5156H7.07812C7.85353 12.5156 8.48438 13.1465 8.48438 13.9219C8.48438 14.6973 7.85353 15.3281 7.07812 15.3281H6.375V17.4375C6.375 19.5052 8.05725 21.1875 10.125 21.1875C12.1927 21.1875 13.875 19.5052 13.875 17.4375V16.1249L16.795 11.3797C17.338 10.4973 17.625 9.47995 17.625 8.4375C17.625 5.33588 15.1016 2.8125 12 2.8125ZM12.4688 17.4375C12.4688 18.7298 11.4173 19.7812 10.125 19.7812C8.83266 19.7812 7.78125 18.7298 7.78125 17.4375V16.6454C8.99297 16.3324 9.89062 15.23 9.89062 13.9219C9.89062 12.6137 8.99297 11.5113 7.78125 11.1983V9.18614C10.4226 9.52936 12.4688 11.7789 12.4688 14.4943V17.4375ZM15.5973 10.6427L13.8085 13.5497C13.6048 12.105 12.9354 10.7683 11.8725 9.71428C10.7663 8.61731 9.35344 7.94428 7.83314 7.77637C8.15147 5.76309 9.89869 4.21875 12 4.21875C14.3262 4.21875 16.2188 6.11128 16.2188 8.4375C16.2188 9.21956 16.0039 9.98208 15.5973 10.6427Z"
                             fill="white"
                     />
-                </svg>
+                </svg>-->
             </button>
             <button class="button button_blue" type="button" name="add_object">
                 <svg
@@ -158,7 +159,8 @@
             MainMap
         },
         computed: {
-            popupOpen: sync('disabilitiesCategorySettings/popupOpen')
+            popupOpen: sync('disabilitiesCategorySettings/popupOpen'),
+            category: sync('disabilitiesCategorySettings/category'),
         },
         async fetch({store}) {
             return store.dispatch('objectCategories/getCategories')
