@@ -5,7 +5,11 @@ export const state = () => ({
     zoom: 14,
     selectedCategories: [],
     search: '',
-    accessibilityLevel: 'full_accessible'
+    accessibilityLevels: [
+        'full_accessible',
+        'partial_accessible',
+        'not_accessible',
+    ]
 })
 
 export const mutations = make.mutations(state)
@@ -17,6 +21,13 @@ export const actions = {
             commit('SET_SELECTED_CATEGORIES', [...state.selectedCategories, category])
         } else {
             commit('SET_SELECTED_CATEGORIES', state.selectedCategories.filter(item => item !== category))
+        }
+    },
+    toggleAccessibilityLevel({state, commit}, accessibilityLevel) {
+        if (!state.accessibilityLevels.includes(accessibilityLevel)) {
+            commit('SET_ACCESSIBILITY_LEVELS', [...state.accessibilityLevels, accessibilityLevel])
+        } else {
+            commit('SET_ACCESSIBILITY_LEVELS', state.accessibilityLevels.filter(item => item !== accessibilityLevel))
         }
     }
 }

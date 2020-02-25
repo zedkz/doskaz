@@ -67,13 +67,13 @@
             ]),
             ...get('map', [
                 'selectedCategories',
-                'accessibilityLevel',
+                'accessibilityLevels',
                 'search'
             ]),
             url() {
                 const serializedParams = queryString.stringify({
                     categories: this.selectedCategories,
-                    accessibilityLevel: this.accessibilityLevel,
+                    accessibilityLevels: this.accessibilityLevels,
                     search: this.search
                 }, {arrayFormat: 'index'})
 

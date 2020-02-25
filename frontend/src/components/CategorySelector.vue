@@ -1,15 +1,15 @@
 <template>
     <div class="category-selector">
         <div class="availability">
-            <div class="availability__item availability__item_green" @click="accessibilityLevel = 'full_accessible'" :class="{isActive: accessibilityLevel === 'full_accessible'}">
+            <div class="availability__item availability__item_green" @click="toggleAccessibilityLevel('full_accessible')" :class="{isActive: accessibilityLevels.includes('full_accessible')}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Доступно</span>
             </div>
-            <div class="availability__item availability__item_yellow" @click="accessibilityLevel = 'partial_accessible'" :class="{isActive: accessibilityLevel === 'partial_accessible'}">
+            <div class="availability__item availability__item_yellow" @click="toggleAccessibilityLevel('partial_accessible')" :class="{isActive: accessibilityLevels.includes('partial_accessible')}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Частично доступно</span>
             </div>
-            <div class="availability__item availability__item_red" @click="accessibilityLevel = 'not_accessible'" :class="{isActive: accessibilityLevel === 'not_accessible'}">
+            <div class="availability__item availability__item_red" @click="toggleAccessibilityLevel('not_accessible')" :class="{isActive: accessibilityLevels.includes('not_accessible')}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Недоступно</span>
             </div>
@@ -83,11 +83,11 @@
                     this.$root.$emit("setCategoryId", this.categoryId);
                 }
             },
-            ...call('map', ['toggleCategory'])
+            ...call('map', ['toggleCategory', 'toggleAccessibilityLevel'])
         },
         computed: {
             ...sync('map', [
-                'accessibilityLevel'
+                'accessibilityLevels'
             ]),
             selectedCategories: get('map/selectedCategories'),
             categories() {

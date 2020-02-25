@@ -48,7 +48,7 @@ final class ObjectsApiController extends AbstractController
 
         $zoom = $request->query->get('zoom');
 
-        $accessibilityLevel = $request->query->get('accessibilityLevel');
+        $accessibilityLevels = $request->query->get('accessibilityLevels', []);
 
         $clusteringLevels = [
             0 => 1,
@@ -97,13 +97,9 @@ final class ObjectsApiController extends AbstractController
             ]);
 
 
-        switch ($accessibilityLevel) {
-            case 'full_accessible':
-            case 'partial_accessible':
-            case 'not_accessible':
-                $q1->andWhere('overall_score_movement = :level')
-                ->setParameter('level', $accessibilityLevel);
-                break;
+        if(count($accessibilityLevels)) {
+            $q1->andWhere('overall_score_movement IN (:levels)')
+                ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
         }
 
         $categories = $request->query->get('categories', []);
@@ -148,13 +144,9 @@ final class ObjectsApiController extends AbstractController
                 'ids' => Connection::PARAM_STR_ARRAY
             ]);
 
-        switch ($accessibilityLevel) {
-            case 'full_accessible':
-            case 'partial_accessible':
-            case 'not_accessible':
-            $q2->andWhere('overall_score_movement = :level')
-                ->setParameter('level', $accessibilityLevel);
-                break;
+        if(count($accessibilityLevels)) {
+            $q2->andWhere('overall_score_movement IN (:levels)')
+                ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
         }
 
         if (count($categories)) {
