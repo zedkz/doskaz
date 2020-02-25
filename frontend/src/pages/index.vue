@@ -10,7 +10,7 @@
         </div>
 
         <div class="main-page__options">
-            <button class="button button_blue" type="button" name="add_object">
+            <button class="button button_blue" type="button" @click="popupOpen = true">
                 <svg
                         width="24"
                         height="24"
@@ -142,6 +142,7 @@
     import ObjectModal from "./../components/ObjectModal.vue";
     import MainMap from "./../components/MainMap.vue";
     import LoginForm from "../components/LoginForm";
+    import {get, sync} from 'vuex-pathify'
 
     export default {
         data() {
@@ -155,6 +156,9 @@
             StartCategoryForm,
             ObjectModal,
             MainMap
+        },
+        computed: {
+            popupOpen: sync('disabilitiesCategorySettings/popupOpen')
         },
         async fetch({store}) {
             return store.dispatch('objectCategories/getCategories')
