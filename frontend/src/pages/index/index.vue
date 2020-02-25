@@ -1,7 +1,7 @@
 <template>
     <div>
         <StartCategoryForm/>
-        <Sidebar></Sidebar>
+        <Sidebar :posts="posts"></Sidebar>
     </div>
 </template>
 
@@ -12,6 +12,10 @@
         components: {
             Sidebar,
             StartCategoryForm
+        },
+        async asyncData({$axios}) {
+            const {data: {items}} = await $axios.get('/api/blogPosts/list')
+            return {posts: items}
         }
     }
 </script>

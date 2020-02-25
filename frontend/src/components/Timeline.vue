@@ -38,54 +38,22 @@
         </div>
         <div class="timeline__tabs">
             <div class="timeline__tab timeline__tab_blog" :class="{'isActive': activeTab===0}">
-                <a href="#" class="item">
+                <nuxt-link :to="`/blog/${post.categorySlug}/${post.slug}`" class="item" v-for="post in postsShow">
                     <div
                             class="item__img"
-                            v-bind:style="{'background-image': 'url(' + require('./../assets/img/files/blog1.png') + ')'}"
+                            v-bind:style="{'background-image': 'url(' +post.previewImage +')'}"
                     ></div>
                     <div class="item__info">
                         <p class="item__date">
-                            <span>Новости</span>
-                            <span>20 июля</span>
+                            <span>{{ post.categoryTitle }}</span>
+                            <span>{{ post.publishedAt | date }}</span>
                         </p>
-                        <h3 class="item__title">Жалоба на отделение банка</h3>
+                        <h3 class="item__title">{{ post.title }}</h3>
                         <p
                                 class="item__text"
-                        >Каждый гражданин может повлиять на то, чтобы его окружала городская безбарьерная среда</p>
+                         v-html="post.annotation"></p>
                     </div>
-                </a>
-                <a href="#" class="item">
-                    <div
-                            class="item__img"
-                            v-bind:style="{'background-image': 'url(' + require('./../assets/img/files/blog2.png') + ')'}"
-                    ></div>
-                    <div class="item__info">
-                        <p class="item__date">
-                            <span>Новости</span>
-                            <span>20 июля</span>
-                        </p>
-                        <h3 class="item__title">«Народный контроль» в Павлодаре: эпизоды 3 и 4</h3>
-                        <p
-                                class="item__text"
-                        >Сотрудничество между проектом «Доступный Казахстан» и телеканалом Хабар</p>
-                    </div>
-                </a>
-                <a href="#" class="item">
-                    <div
-                            class="item__img"
-                            v-bind:style="{'background-image': 'url(' + require('./../assets/img/files/blog2.png') + ')'}"
-                    ></div>
-                    <div class="item__info">
-                        <p class="item__date">
-                            <span>Новости</span>
-                            <span>20 июля</span>
-                        </p>
-                        <h3 class="item__title">«Народный контроль» в Павлодаре: эпизоды 3 и 4</h3>
-                        <p
-                                class="item__text"
-                        >Сотрудничество между проектом «Доступный Казахстан» и телеканалом Хабар</p>
-                    </div>
-                </a>
+                </nuxt-link>
                 <div class="item item_link">
                     <nuxt-link :to="{name: 'blog-category'}">
                         <span>Перейти в раздел</span>
@@ -176,12 +144,20 @@
 
 <script>
     import UserTabs from "./../components/UserTabs";
+    import {format} from 'date-fns'
+    import {ru} from 'date-fns/locale'
 
     export default {
+        props: ['posts'],
         data() {
             return {
                 activeTab: 0
             };
+        },
+        filters: {
+            date(value) {
+                return format(new Date(value), 'd MMMM', {locale: ru})
+            }
         },
         components: {
             UserTabs
@@ -192,7 +168,6 @@
             },
             showLoginForm() {
                 this.$router.push({'name': 'index-login'})
-                //this.$store.dispatch('showLoginForm')
             }
         },
         computed: {
@@ -201,6 +176,9 @@
             },
             user() {
                 return this.$store.state.authentication.user
+            },
+            postsShow() {
+                return this.posts.slice(0, 3)
             }
         }
     };
@@ -210,6 +188,19 @@
     @import "./../styles/mixins.scss";
 
     .timeline {
+        .item__title {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .item__text {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
         background: $white;
         width: 100%;
         flex: 1 0 auto;
