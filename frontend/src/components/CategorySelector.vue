@@ -19,12 +19,13 @@
             <div class="category__scroll">
                 <template v-if="category == ''">
                     <div
+                            @click="selectCategory(cat.title)"
                             class="category__item category__item_food category__item_red"
                             v-for="cat in categories"
                             :key="cat.id"
                     >
                         <i :class="'fa ' + cat.icon"></i>
-                        <div class="category__text" @click="selectCategory(cat.title)">
+                        <div class="category__text">
                             {{ cat.title }}
                         </div>
                     </div>
