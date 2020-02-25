@@ -28,7 +28,7 @@
                     />
                 </svg>-->
             </button>
-            <button class="button button_blue" type="button" name="add_object">
+            <!--<button class="button button_blue" type="button" name="add_object">
                 <svg
                         width="23"
                         height="27"
@@ -61,7 +61,7 @@
                             fill="white"
                     />
                 </svg>
-            </button>
+            </button>-->
         </div>
         <div class="main-page__actions">
             <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
