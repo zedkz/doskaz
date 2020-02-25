@@ -774,6 +774,15 @@
             width: 40px;
             height: 40px;
             top: 5px;
+            z-index: 1;
+
+            &-icon {
+                display: block;
+                cursor: pointer;
+                svg {
+                    display: block;
+                }
+            }
 
             &-text {
                 font-size: 14px;
@@ -785,7 +794,6 @@
                 top: 55px;
                 left: 0;
                 display: none;
-
                 &:before {
                     content: '';
                     position: absolute;
@@ -796,6 +804,12 @@
                     border-bottom: 10px solid $light-gray;
                     border-right: 10px solid transparent;
                     border-left: 10px solid transparent;
+                }
+            }
+            &.--selected {
+                z-index: 2;
+                .add-object__info-text {
+                    display: block;
                 }
             }
         }

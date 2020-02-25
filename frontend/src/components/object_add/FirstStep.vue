@@ -6,7 +6,18 @@
             </div>
             <div class="col --long">
                 <div class="input">
-                    <input id="input_name" v-model.trim="value.name" type="text" placeholder="Например, суши-бар Saya Sushi">
+                    <input id="input_name" v-model.trim="value.name" type="text" placeholder="Юбилейный">
+                </div>
+            </div>
+        </field>
+
+        <field>
+            <div class="col">
+                <label class="add-object__label">Другие наименования</label>
+            </div>
+            <div class="col --long">
+                <div class="input">
+                    <input type="text" placeholder="KAZKOM, КАЗКОМ">
                 </div>
             </div>
         </field>
@@ -17,7 +28,7 @@
             </div>
             <div class="col --long">
                 <div class="input">
-                    <input type="text" placeholder="Улица и номер дома" v-model.trim="value.address">
+                    <input type="text" placeholder="улица Айманова, 11" v-model.trim="value.address">
                 </div>
             </div>
         </field>
@@ -58,6 +69,17 @@
                     </select>
                 </div>
             </div>
+            <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoCategory'}">
+                <span class="add-object__info-icon" @click="toggleSelectInfo('infoCategory')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 40C31.0457 40 40 31.0457 40 20C40 8.9543 31.0457 0 20 0C8.9543 0 0 8.9543 0 20C0 31.0457 8.9543 40 20 40Z" fill="#F1F8FC"/>
+                        <path d="M19.3871 15.4286C18.2074 15.4286 17.6175 15.7972 16.9908 16.6452L15 14.3594C15.8111 13.0323 17.47 12 19.6083 12C22.7419 12 24.5852 13.8433 24.5852 16.0922C24.5852 20.5161 20.3825 20.6636 20.6774 22.9493H17.5806C17.0645 19.1521 20.9355 19.4101 20.9355 16.8664C20.8986 16.0922 20.235 15.4286 19.3871 15.4286ZM19.2396 24.2396C20.3088 24.2396 21.0461 25.1613 21.0461 26.0461C21.0461 27.0415 20.3088 28 19.2396 28C18.023 28 17.2857 27.0783 17.2857 26.0461C17.3226 25.1982 18.023 24.2396 19.2396 24.2396Z" fill="#7B95A7"/>
+                    </svg>
+                </span>
+                <div class="add-object__info-text">
+                    Выберите категорию объекта из списка.<br>Если категория в списке отсутствует, выберите категорию “Другое”.
+                </div>
+            </div>
         </div>
         <field :error="(errors || {}).categoryId">
             <div class="col">
@@ -73,6 +95,17 @@
                             </option>
                         </template>
                     </select>
+                </div>
+            </div>
+            <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoSubCategory'}">
+                <span class="add-object__info-icon" @click="toggleSelectInfo('infoSubCategory')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 40C31.0457 40 40 31.0457 40 20C40 8.9543 31.0457 0 20 0C8.9543 0 0 8.9543 0 20C0 31.0457 8.9543 40 20 40Z" fill="#F1F8FC"/>
+                        <path d="M19.3871 15.4286C18.2074 15.4286 17.6175 15.7972 16.9908 16.6452L15 14.3594C15.8111 13.0323 17.47 12 19.6083 12C22.7419 12 24.5852 13.8433 24.5852 16.0922C24.5852 20.5161 20.3825 20.6636 20.6774 22.9493H17.5806C17.0645 19.1521 20.9355 19.4101 20.9355 16.8664C20.8986 16.0922 20.235 15.4286 19.3871 15.4286ZM19.2396 24.2396C20.3088 24.2396 21.0461 25.1613 21.0461 26.0461C21.0461 27.0415 20.3088 28 19.2396 28C18.023 28 17.2857 27.0783 17.2857 26.0461C17.3226 25.1982 18.023 24.2396 19.2396 24.2396Z" fill="#7B95A7"/>
+                    </svg>
+                </span>
+                <div class="add-object__info-text">
+                    Выберите подкатегорию объекта из списка.<br>Если категория в списке отсутствует, выберите подкатегорию “Другое”.
                 </div>
             </div>
         </field>
@@ -95,6 +128,17 @@
             <div class="col --long">
                 <photo-uploader v-model="value.photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
             </div>
+            <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoPhoto'}">
+                <span class="add-object__info-icon" @click="toggleSelectInfo('infoPhoto')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 40C31.0457 40 40 31.0457 40 20C40 8.9543 31.0457 0 20 0C8.9543 0 0 8.9543 0 20C0 31.0457 8.9543 40 20 40Z" fill="#F1F8FC"/>
+                        <path d="M19.3871 15.4286C18.2074 15.4286 17.6175 15.7972 16.9908 16.6452L15 14.3594C15.8111 13.0323 17.47 12 19.6083 12C22.7419 12 24.5852 13.8433 24.5852 16.0922C24.5852 20.5161 20.3825 20.6636 20.6774 22.9493H17.5806C17.0645 19.1521 20.9355 19.4101 20.9355 16.8664C20.8986 16.0922 20.235 15.4286 19.3871 15.4286ZM19.2396 24.2396C20.3088 24.2396 21.0461 25.1613 21.0461 26.0461C21.0461 27.0415 20.3088 28 19.2396 28C18.023 28 17.2857 27.0783 17.2857 26.0461C17.3226 25.1982 18.023 24.2396 19.2396 24.2396Z" fill="#7B95A7"/>
+                    </svg>
+                </span>
+                <div class="add-object__info-text">
+                    Дополните информацию об объекте фотографиями, демонстрирующимидоступность или недоступность объекта.<br>Не более 2 Мб в форматах jpg, png, bmp, tif, gif.
+                </div>
+            </div>
         </field>
     </div>
 </template>
@@ -115,7 +159,8 @@
                 coords: null,
                 selectedCategory: null,
                 mapCoords: [47.74887674893552, 67.04712168264118],
-                zoom: null
+                zoom: null,
+                selectedInfo: false
             }
         },
         methods: {
@@ -138,6 +183,9 @@
                         this.value.address = ''
                     }
                 });
+            },
+            toggleSelectInfo(infoCat) {
+                this.selectedInfo = (this.selectedInfo ==  infoCat) ? false : infoCat;
             }
         },
         watch: {

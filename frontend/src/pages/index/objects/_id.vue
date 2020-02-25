@@ -157,7 +157,7 @@
                     </div>
                     <a href="" download="" class="more-detail__download">Скачать</a>
                 </div>
-                <div class="more-detail__content">
+                <div class="more-detail__content" id="more-detail__content">
                     <div id="detail_1" class="more-detail__item">
                         <h3 class="more-detail__item-title">Общая информация</h3>
                         <div class="more-detail__line yes">
@@ -486,7 +486,6 @@
 </template>
 
 <script>
-
     import {sync} from "vuex-pathify";
 
     export default {
