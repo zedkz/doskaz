@@ -38,7 +38,7 @@
         </div>
         <div class="timeline__tabs">
             <div class="timeline__tab timeline__tab_blog" :class="{'isActive': activeTab===0}">
-                <nuxt-link :to="`/blog/${post.categorySlug}/${post.slug}`" class="item" v-for="post in postsShow">
+                <nuxt-link :to="`/blog/${post.categorySlug}/${post.slug}`" class="item" v-for="post in postsShow" :key="post.id">
                     <div
                             class="item__img"
                             v-bind:style="{'background-image': 'url(' +post.previewImage +')'}"
