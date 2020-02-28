@@ -51,11 +51,11 @@ abstract class Zone implements DataObject
         $this->attributes = new AttributesMap();
         $this->overriddenScore = $overriddenScore;
 
-        if ($attributes) {
-            $defaultAttribute = Attribute::unknown();
-            foreach (static::attributesKeys() as $key) {
-                $this->attributes->offsetSet($key, $attributes->get($key, $defaultAttribute));
-            }
+        $inputAttributes = $attributes ?? new AttributesMap();
+
+        $defaultAttribute = Attribute::unknown();
+        foreach (static::attributesKeys() as $key) {
+            $this->attributes->offsetSet($key, $inputAttributes->get($key, $defaultAttribute));
         }
     }
 
