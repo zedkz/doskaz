@@ -2,7 +2,7 @@
     <field-wrapper :error="error" :label="label" :required="required">
         <div class="row justify-content-start">
             <div v-for="(photo, index) in value" :key="index" class="col-sm-4 col-md-3 col-xl-2 mb-4">
-                <a :href="photo" target="_blank"><img :src="photo" style="max-width: 100%"/></a>
+                <a :href="photo" target="_blank"><img :src="photo" alt="" style="max-width: 100%"/></a>
                 <b-btn variant="danger" title="Удалить" squared style="position: absolute; top: 0; right: 10px"
                        @click.prevent="deleteItem(index)"><i class="mdi mdi-close"/></b-btn>
             </div>
@@ -11,7 +11,7 @@
                  class="col-xs-4 col-sm-3 col-lg-2 mb-4">
                 <div style="display: block" class="vld-parent">
                     <loading :active="true" :is-full-page="false"/>
-                    <img :src="photo.preview" style="max-width: 100%"/>
+                    <img :src="photo.preview" style="max-width: 100%" alt=""/>
                 </div>
                 <!--<b-btn variant="danger" title="Отменить загрузку" squared @click="cancelItem(photo)"
                        style="position: absolute; top: 0; right: 10px; z-index: 12"><i class="mdi mdi-close"/></b-btn>-->
@@ -21,7 +21,7 @@
         <input type="file" class="hide" ref="fileInput" accept="image/*" multiple @change="filesSelected">
 
         <div class="form-group row no-gutters">
-            <button class="btn btn-secondary" @click.prevent="upload">Загрузить</button>
+            <button class="btn btn-secondary" @click.prevent="$refs.fileInput.click">Загрузить</button>
         </div>
     </field-wrapper>
 </template>
@@ -48,7 +48,11 @@
             }
         },
         created() {
-            this.queue = queue((task, cb) => this.$axios.post("/api/storage/upload", task.file)
+            this.queue = queue((task, cb) => this.$axios.post("/api/storage/upload", task.file,{
+                headers: {
+                    'Content-Type': task.file.type
+                }
+            })
                 .then(({data: {path}}) => cb(null, path))
                 .catch(cb), 2);
         },
@@ -68,15 +72,13 @@
                     reader.readAsDataURL(file);
                     this.uploading.push(uploadingFile)
 
+                    console.log(file)
+
                     this.queue.push(uploadingFile, (e, res) => {
                         uploadingFile.file = null;
                         this.addItem(res)
                     });
                 })
-            },
-
-            upload() {
-                this.$refs.fileInput.click()
             },
             changeValue(index, event) {
                 const val = [...this.value]

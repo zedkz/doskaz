@@ -8,6 +8,7 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -47,7 +48,7 @@ final class StorageController extends AbstractController
      * @Route(path="/preview/{imagePath}", requirements={"imagePath" = ".+"})
      * @param $imagePath
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function preview($imagePath, Request $request) {
         $img = new Image();

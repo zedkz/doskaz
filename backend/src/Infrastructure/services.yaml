@@ -62,3 +62,7 @@ services:
     App\Infrastructure\AttributeNormalizer:
         tags:
             - { name: serializer.normalizer, priority: 1 }
+
+    App\Infrastructure\FileNormalizer:
+        tags:
+            - { name: serializer.normalizer, priority: 1 }

@@ -165,9 +165,9 @@
                 try {
                     await this.submitForm();
                 } catch (e) {
-                      if (this.validationErrors['first']) {
+                      //if (this.validationErrors['first']) {
                           this.tab = 0
-                      }
+                     // }
                 }
             },
         }

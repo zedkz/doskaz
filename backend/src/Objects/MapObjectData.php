@@ -4,6 +4,7 @@
 namespace App\Objects;
 
 
+use App\Infrastructure\FileReferenceCollection;
 use App\Infrastructure\ObjectResolver\DataObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,7 +40,12 @@ class MapObjectData implements DataObject
     public $videos;
 
     /**
-     * @var string[]
+     * @var FileReferenceCollection
+     * @Assert\All(
+     *     constraints={
+     *         @Assert\Image(maxSize="1k")
+     *     }
+     * )
      */
     public $photos;
 
@@ -58,9 +64,10 @@ class MapObjectData implements DataObject
      * @param $categoryId
      * @param $point
      * @param array $videos
-     * @param array $photos
+     * @param FileReferenceCollection $photos
+     * @param Zones $zones
      */
-    public function __construct($id, $title, $address, $description, $categoryId, $point, array $videos, array $photos, Zones $zones)
+    public function __construct($id, $title, $address, $description, $categoryId, $point, array $videos, FileReferenceCollection $photos, Zones $zones)
     {
         $this->id = $id;
         $this->title = $title;

@@ -3,6 +3,7 @@
 
 namespace App\Objects;
 
+use App\Infrastructure\FileReferenceCollection;
 use App\Objects\Adding\AccessibilityScore;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -79,8 +80,8 @@ class MapObject
     private $videos;
 
     /**
-     * @var string[]
-     * @ORM\Column(type="json", options={"jsonb" = true, "default" = "[]"}, nullable=false)
+     * @var FileReferenceCollection
+     * @ORM\Column(type=App\Infrastructure\FileReferenceCollection::class, options={"jsonb" = true})
      */
     private $photos;
 
