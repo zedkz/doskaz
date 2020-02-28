@@ -19,6 +19,7 @@
         "php-http/guzzle6-adapter": "^2.0",
         "phpdocumentor/reflection-docblock": "^4.3",
         "ramsey/collection": "^1.0",
+        "ramsey/uuid-doctrine": "^1.6",
         "sensio/framework-extra-bundle": "^5.5",
         "sentry/sentry-symfony": "^3.0",
         "symfony/console": "4.3.*",

@@ -4,3 +4,4 @@ doctrine_json_odm:
             - '%kernel.project_dir%/src/Blog'
             - '%kernel.project_dir%/src/Complaints'
             - '%kernel.project_dir%/src/Objects'
+            - '%kernel.project_dir%/src/Infrastructure'

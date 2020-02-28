@@ -6,6 +6,7 @@ namespace App\Objects;
 use App\Infrastructure\FileReferenceCollection;
 use App\Objects\Adding\AccessibilityScore;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Webmozart\Assert\Assert;
 
 /**
@@ -20,6 +21,11 @@ class MapObject
      * @ORM\GeneratedValue()
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="uuid", unique=true, nullable=true)
+     */
+    private $uuid;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -108,6 +114,7 @@ class MapObject
         array $videos
     )
     {
+        $this->uuid = Uuid::uuid4();
         $this->point = $point;
         $this->categoryId = $categoryId;
         $this->title = $title;
