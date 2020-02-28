@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 
 final class MetaData implements DataObject

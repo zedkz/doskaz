@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class AddingRequestRepository

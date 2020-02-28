@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;

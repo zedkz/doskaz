@@ -10,5 +10,4 @@ use OpenApi\Annotations\Schema;
  */
 final class ComplaintType1 extends ComplaintContent
 {
-
 }

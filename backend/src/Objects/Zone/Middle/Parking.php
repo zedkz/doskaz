@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -41,7 +40,7 @@ class Parking extends Zone
         if ($this->isMatches([1, 2, 5, 6, 7, 8, 9], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif($this->isMatchesPartial([1, 2, 5, 6, 7, 8, 9], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([1, 2, 5, 6, 7, 8, 9], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }

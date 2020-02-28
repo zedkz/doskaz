@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Objects;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\FileReferenceCollection;
 use App\Objects\Adding\AccessibilityScore;
@@ -64,7 +63,6 @@ final class ImportMapObjects extends Command
         ];
 
         foreach ($objects as $object) {
-
             $zones = new FullFormZones(
                 new Parking(null, $accessibilityScoreMap[(int)$object['parking']]),
                 new Entrance(null, $accessibilityScoreMap[(int)$object['entry_group']]),

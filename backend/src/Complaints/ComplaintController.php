@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Complaints;
 
-
 use App\Cities\Cities;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
@@ -45,7 +44,6 @@ final class ComplaintController extends AbstractController
      */
     public function validate(ComplaintData $complaintData)
     {
-
     }
 
     /**
@@ -213,7 +211,7 @@ final class ComplaintController extends AbstractController
             ->execute()
             ->fetch();
 
-        if($lastComplaint && $lastComplaint['remember_personal_data']) {
+        if ($lastComplaint && $lastComplaint['remember_personal_data']) {
             return [
                 'complainant' => $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class)
             ];

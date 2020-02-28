@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure;
 
-
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class FileNormalizer extends AbstractNormalizer
@@ -15,9 +14,9 @@ class FileNormalizer extends AbstractNormalizer
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-     /*   if($type === FileReference::class) {
-            dd($data);
-        }*/
+        /*   if($type === FileReference::class) {
+               dd($data);
+           }*/
 
         return $type === FileReference::class;
     }

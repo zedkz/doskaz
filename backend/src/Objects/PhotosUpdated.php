@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use App\Infrastructure\FileReferenceCollection;
 use Ramsey\Uuid\UuidInterface;
 

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use App\Objects\Adding\Steps\FirstStep;
 use App\Objects\Adding\Steps\Full\Entrance;
@@ -16,7 +15,6 @@ use App\Objects\Adding\Steps\Full\Toilet;
 use App\Objects\Zone\Full\FullFormZones;
 use App\Objects\Zones;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 final class FullFormRequestData implements DataObject, Form
 {
@@ -102,6 +100,4 @@ final class FullFormRequestData implements DataObject, Form
             new \App\Objects\Zone\Full\ServiceAccessibility($this->serviceAccessibility->attributes)
         );
     }
-
-
 }

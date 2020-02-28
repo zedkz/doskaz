@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -38,8 +37,7 @@ class Service extends Zone
 
         if ($this->isMatches([4, 5], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        }
-        else if (($this->isMatches([4, 5], Attribute::yes())) || $this->isMatchesPartial([4, 5], Attribute::yes())) {
+        } elseif (($this->isMatches([4, 5], Attribute::yes())) || $this->isMatchesPartial([4, 5], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 

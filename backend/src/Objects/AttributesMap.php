@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use App\Objects\Adding\Attribute;
 use Ramsey\Collection\Map\AbstractTypedMap;
 

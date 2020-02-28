@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Complaints;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class ComplaintRepository
@@ -21,5 +20,4 @@ final class ComplaintRepository
     {
         $this->entityManager->persist($complaint);
     }
-
 }

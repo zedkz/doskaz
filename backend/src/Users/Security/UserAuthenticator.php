@@ -3,7 +3,6 @@
 
 namespace App\Users\Security;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Users\User;
 use Symfony\Component\HttpFoundation\Cookie;

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Blog\Posts;
 
-
 use App\Blog\Image;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;

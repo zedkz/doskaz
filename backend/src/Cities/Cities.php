@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-
 class Cities
 {
     public static function list()

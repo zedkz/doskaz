@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Full;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -91,7 +90,7 @@ class Movement extends Zone
         }, $original);
     }
 
-    function calculateScore(): AccessibilityScore
+    public function calculateScore(): AccessibilityScore
     {
         if ($this->isMatchesAll(Attribute::yes())) {
             return AccessibilityScore::fullAccessible();
@@ -113,7 +112,7 @@ class Movement extends Zone
         if ($this->isMatches($this->remap([5, 6, 7, 8, 9, 10, 12, 13, 16, 17, 18, 33, 34, 35, 36, 37, 38, 41, 47, 49, 54, 56, 57, 58, 59, 61, 62, 63]), Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial($this->remap([5, 6, 7, 8, 9, 10, 12, 13, 16, 17, 18, 33, 34, 35, 36, 37, 38, 41, 47, 49, 54, 56, 57, 58, 59, 61, 62, 63]), Attribute::yes())) {
+        } elseif ($this->isMatchesPartial($this->remap([5, 6, 7, 8, 9, 10, 12, 13, 16, 17, 18, 33, 34, 35, 36, 37, 38, 41, 47, 49, 54, 56, 57, 58, 59, 61, 62, 63]), Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }

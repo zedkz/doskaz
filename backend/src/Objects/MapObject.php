@@ -116,8 +116,7 @@ class MapObject implements EventProducer
         string $description,
         FileReferenceCollection $photos,
         array $videos
-    )
-    {
+    ) {
         $this->uuid = Uuid::uuid4();
         $this->point = $point;
         $this->categoryId = $categoryId;
@@ -144,8 +143,7 @@ class MapObject implements EventProducer
         string $description,
         FileReferenceCollection $photos,
         array $videos
-    ): self
-    {
+    ): self {
         $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos);
         $self->requestId = $requestId;
         return $self;

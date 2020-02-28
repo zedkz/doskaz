@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Objects;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use Doctrine\DBAL\Connection;
 use OpenApi\Annotations\ExternalDocumentation;
@@ -220,7 +219,6 @@ final class ObjectsApiController extends AbstractController
      */
     public function object($id, Connection $connection)
     {
-
         $object = $connection->createQueryBuilder()
             ->select([
                 'title',

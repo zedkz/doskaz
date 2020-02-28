@@ -3,7 +3,6 @@
 
 namespace App\Users\Security;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class AccessTokenRepository

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -39,18 +38,17 @@ class Movement extends Zone
         if ($this->isMatches([2, 3, 4, 5, 7, 8, 9, 10, 22, 23, 24, 25, 26, 27, 32], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial([2, 3, 4, 5, 7, 8, 9, 10, 22, 23, 24, 25, 26, 27, 32], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([2, 3, 4, 5, 7, 8, 9, 10, 22, 23, 24, 25, 26, 27, 32], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
         if ($this->isMatches([2, 3, 4, 5, 8, 9, 10, 36, 37], Attribute::no())) {
             $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial([], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([], Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
     }
-
 }

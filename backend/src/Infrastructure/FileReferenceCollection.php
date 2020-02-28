@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure;
 
-
 use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 use Ramsey\Collection\AbstractCollection;
 use Ramsey\Collection\CollectionInterface;
@@ -41,5 +40,4 @@ class FileReferenceCollection extends AbstractCollection
             return $fileReference->relativePath === $element->relativePath;
         })->isEmpty();
     }
-
 }

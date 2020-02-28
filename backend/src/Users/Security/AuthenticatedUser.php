@@ -3,7 +3,6 @@
 
 namespace App\Users\Security;
 
-
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class AuthenticatedUser implements UserInterface
@@ -50,5 +49,4 @@ final class AuthenticatedUser implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-
 }

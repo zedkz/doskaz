@@ -67,7 +67,8 @@ final class Image
         return str_replace(
             array_keys($opts),
             array_values($opts),
-            '/img/%signature/%processing_options/plain/%source_url@jpg');
+            '/img/%signature/%processing_options/plain/%source_url@jpg'
+        );
 
         /*$pipeline = $this->initPipeline();
         $pipeline[] = [
@@ -93,14 +94,15 @@ final class Image
             '%source_url' => "local:///{$this->image}"
         ];
 
-        if($this->cropData) {
+        if ($this->cropData) {
             $opts['%processing_options'] .= '/crop:'.round($this->cropData['width']).':'.round($this->cropData['height']).':nowe:'.$this->cropData['x'].':'.$this->cropData['y'];
         }
 
         return str_replace(
             array_keys($opts),
             array_values($opts),
-            '/img/%signature/%processing_options/plain/%source_url@jpg');
+            '/img/%signature/%processing_options/plain/%source_url@jpg'
+        );
 
         $pipeline = $this->initPipeline();
 

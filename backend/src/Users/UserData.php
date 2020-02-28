@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Users;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 
 final class UserData implements DataObject
@@ -19,5 +18,4 @@ final class UserData implements DataObject
      * @var array
      */
     public $roles = [];
-
 }

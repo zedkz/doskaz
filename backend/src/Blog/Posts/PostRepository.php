@@ -3,7 +3,6 @@
 
 namespace App\Blog\Posts;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class PostRepository

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding\Steps\Full;
 
-
 use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 

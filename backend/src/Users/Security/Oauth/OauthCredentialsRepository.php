@@ -3,7 +3,6 @@
 
 namespace App\Users\Security\Oauth;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class OauthCredentialsRepository

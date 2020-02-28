@@ -66,7 +66,8 @@ class CommentData implements DataObject
 
     ];
 
-    public static function fromArray(array $data, Connection $connection): self {
+    public static function fromArray(array $data, Connection $connection): self
+    {
         $self = new self();
         $self->id = $data['id'];
         $self->userId = $data['userId'];
@@ -75,7 +76,7 @@ class CommentData implements DataObject
         $self->text = $data['text'];
         $self->parentId = $data['parentId'];
         $self->createdAt = $connection->convertToPHPValue($data['createdAt'], 'datetimetz_immutable');
-        $self->replies = array_map(function($item) use ($connection) {
+        $self->replies = array_map(function ($item) use ($connection) {
             return self::fromArray($item, $connection);
         }, $data['replies'] ?? []);
         return $self;

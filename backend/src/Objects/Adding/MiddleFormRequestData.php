@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use App\Objects\Adding\Steps\EntranceStep;
 use App\Objects\Adding\Steps\FirstStep;
@@ -112,6 +111,4 @@ final class MiddleFormRequestData implements DataObject, Form
             new ServiceAccessibility($this->serviceAccessibility->attributes)
         );
     }
-
-
 }

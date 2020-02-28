@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -41,7 +40,7 @@ class Navigation extends Zone
             $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
             $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        } else if ($this->isMatches([3, 4], Attribute::no())) {
+        } elseif ($this->isMatches([3, 4], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $hearing = AccessibilityScore::SCORE_NOT_ACCESSIBLE;

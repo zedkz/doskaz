@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\DomainEvents;
 
-
 trait ProducesEvents
 {
     private $events = [];

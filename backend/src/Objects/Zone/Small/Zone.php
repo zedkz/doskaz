@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Small;
 
-
 use App\Objects\Adding\AccessibilityScore;
 
 class Zone extends \App\Objects\Zone
@@ -28,7 +27,7 @@ class Zone extends \App\Objects\Zone
         return [];
     }
 
-    function calculateScore(): AccessibilityScore
+    public function calculateScore(): AccessibilityScore
     {
         return $this->score;
     }

@@ -3,7 +3,6 @@
 
 namespace App\Users\Security\Oauth;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Users\Security\UserAuthenticator;
 use App\Users\User;
@@ -17,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 final class OauthController extends AbstractController
 {

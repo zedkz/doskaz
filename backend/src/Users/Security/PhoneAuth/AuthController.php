@@ -3,7 +3,6 @@
 
 namespace App\Users\Security\PhoneAuth;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Users\Security\UserAuthenticator;
 use App\Users\User;
@@ -71,5 +70,4 @@ class AuthController extends AbstractController
         }
         return null;
     }
-
 }

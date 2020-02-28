@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding;
 
-
 use Webmozart\Assert\Assert;
 
 class Attribute

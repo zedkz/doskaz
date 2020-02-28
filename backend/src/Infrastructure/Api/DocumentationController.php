@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Api;
 
-
 use OpenApi\Annotations\Info;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,8 +36,9 @@ class DocumentationController extends AbstractController
      * @Template(template="api_docs.html.twig")
      * @param Profiler|null $profiler
      */
-    public function docs(?Profiler $profiler) {
-        if($profiler) {
+    public function docs(?Profiler $profiler)
+    {
+        if ($profiler) {
             $profiler->disable();
         }
     }

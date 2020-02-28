@@ -3,7 +3,6 @@
 
 namespace App\Complaints;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Zones;
 
@@ -75,8 +74,8 @@ class MiddleFormZones implements Zones
         Service $service,
         Toilet $toilet,
         Navigation $navigation,
-        ServiceAccessibility $serviceAccessibility)
-    {
+        ServiceAccessibility $serviceAccessibility
+    ) {
         $this->parking = $parking;
         $this->entrance1 = $entrance1;
         $this->entrance2 = $entrance2;

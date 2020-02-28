@@ -50,11 +50,12 @@ final class StorageController extends AbstractController
      * @param Request $request
      * @return RedirectResponse
      */
-    public function preview($imagePath, Request $request) {
+    public function preview($imagePath, Request $request)
+    {
         $img = new Image();
         $img->image = $imagePath;
 
-        if($request->query->has('x')) {
+        if ($request->query->has('x')) {
             $img->cropData = [
                 'x' => $request->query->getInt('x'),
                 'y' => $request->query->getInt('y'),

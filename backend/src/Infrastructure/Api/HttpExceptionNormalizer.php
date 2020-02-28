@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Api;
 
-
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 

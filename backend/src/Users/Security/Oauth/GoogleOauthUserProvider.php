@@ -3,7 +3,6 @@
 
 namespace App\Users\Security\Oauth;
 
-
 use App\Users\User;
 use App\Users\UserRepository;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -55,7 +54,5 @@ final class GoogleOauthUserProvider
         $this->credentialsRepository->add($credentials);
 
         $user = new User($resourceOwner->getName(), $resourceOwner->getEmail());
-
-
     }
 }

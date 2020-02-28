@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Full;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -52,7 +51,7 @@ class Parking extends Zone
         }, $original);
     }
 
-    function calculateScore(): AccessibilityScore
+    public function calculateScore(): AccessibilityScore
     {
         if ($this->isMatchesAll(Attribute::yes())) {
             return AccessibilityScore::fullAccessible();
@@ -80,7 +79,7 @@ class Parking extends Zone
         if ($this->isMatches($this->remap([1, 2, 7, 8, 9]), Attribute::no())) {
             $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial($this->remap([1, 2, 7, 8, 9]), Attribute::yes())) {
+        } elseif ($this->isMatchesPartial($this->remap([1, 2, 7, 8, 9]), Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding\Steps;
 
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 class FirstStep

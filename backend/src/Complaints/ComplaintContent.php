@@ -104,5 +104,4 @@ class ComplaintContent
      * @Property()
      */
     public $photos = [];
-
 }

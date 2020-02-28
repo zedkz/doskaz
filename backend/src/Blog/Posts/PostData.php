@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Blog\Posts;
 
-
 use App\Blog\Image;
 use App\Blog\MetaData;
 use App\Infrastructure\ObjectResolver\DataObject;

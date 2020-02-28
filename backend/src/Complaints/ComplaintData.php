@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Complaints;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Schema;

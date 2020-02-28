@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\AttributesMap;
@@ -48,10 +47,10 @@ class Entrance extends Zone
         if ($this->isMatches([2, 3, 4, 5, 6, 7, 8, 9], Attribute::yes())) {
             $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        } else if ($this->isMatches([7], Attribute::no())) {
+        } elseif ($this->isMatches([7], Attribute::no())) {
             $hearing = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial([2, 3, 4, 5, 6, 7, 8, 9], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([2, 3, 4, 5, 6, 7, 8, 9], Attribute::yes())) {
             $hearing = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
@@ -59,14 +58,14 @@ class Entrance extends Zone
         if ($this->isMatches([7, 11, 12, 13, 14, 18, 20, 23, 24, 25, 27, 28, 31, 33, 34, 38, 40], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial([7, 11, 12, 13, 14, 18, 20, 23, 24, 25, 27, 28, 31, 33, 34, 38, 40], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([7, 11, 12, 13, 14, 18, 20, 23, 24, 25, 27, 28, 31, 33, 34, 38, 40], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
         if ($this->isMatches([7, 33, 34, 39, 40], Attribute::no())) {
             $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } else if ($this->isMatchesPartial([7, 33, 34, 39, 40], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([7, 33, 34, 39, 40], Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 

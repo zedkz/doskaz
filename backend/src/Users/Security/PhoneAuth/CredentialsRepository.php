@@ -3,7 +3,6 @@
 
 namespace App\Users\Security\PhoneAuth;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CredentialsRepository
@@ -29,5 +28,4 @@ final class CredentialsRepository
             'number' => $phoneNumber
         ]);
     }
-
 }

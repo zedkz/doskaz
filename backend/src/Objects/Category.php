@@ -33,5 +33,4 @@ class Category
      * @ORM\Column(type="integer", nullable=true)
      */
     private $parentId;
-
 }

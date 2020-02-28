@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class UserRepository

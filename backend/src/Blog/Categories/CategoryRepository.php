@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Blog\Categories;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CategoryRepository
@@ -23,7 +22,8 @@ final class CategoryRepository
         $this->entityManager->persist($category);
     }
 
-    public function existsBySlug(string $slug): bool {
+    public function existsBySlug(string $slug): bool
+    {
         return (bool)$this->repository->findOneBy(['slug.value' => $slug]);
     }
 }

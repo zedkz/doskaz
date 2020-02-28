@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Doctrine;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 final class Flusher

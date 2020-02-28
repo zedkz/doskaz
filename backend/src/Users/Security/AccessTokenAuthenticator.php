@@ -3,7 +3,6 @@
 
 namespace App\Users\Security;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,7 +81,6 @@ final class AccessTokenAuthenticator extends AbstractGuardAuthenticator
     {
         if (!$credentials->isExpired()) {
             return true;
-
         }
 
         $this->accessTokenRepository->remove($credentials);

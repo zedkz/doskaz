@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Api;
 
-
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ExceptionNormalizer implements NormalizerInterface
@@ -27,5 +26,4 @@ class ExceptionNormalizer implements NormalizerInterface
     {
         return $data instanceof \Exception;
     }
-
 }

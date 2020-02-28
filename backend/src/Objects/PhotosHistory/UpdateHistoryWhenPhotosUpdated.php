@@ -3,7 +3,6 @@
 
 namespace App\Objects\PhotosHistory;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Objects\MapObjectRepository;
@@ -66,5 +65,4 @@ class UpdateHistoryWhenPhotosUpdated implements EventListener
     {
         return $event instanceof PhotosUpdated && (!$event->newPhotos->isEmpty() || !$event->oldPhotos->isEmpty());
     }
-
 }

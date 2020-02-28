@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use Doctrine\DBAL\Connection;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\JsonContent;
@@ -60,7 +59,8 @@ class CategoriesController extends AbstractController
                     );
                 }, array_values(array_filter($categories, function ($subCategory) use ($category) {
                     return $subCategory['parent_id'] === $category['id'];
-                }))));
+                })))
+            );
         }, array_filter($categories, function ($category) {
             return is_null($category['parent_id']);
         }));

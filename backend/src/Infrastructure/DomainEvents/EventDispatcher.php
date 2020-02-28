@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\DomainEvents;
 
-
 class EventDispatcher
 {
     private $listeners;
@@ -31,5 +30,4 @@ class EventDispatcher
             }
         }
     }
-
 }

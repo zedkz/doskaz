@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Small;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Zones;
 

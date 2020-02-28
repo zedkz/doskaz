@@ -49,6 +49,4 @@ class CategoryData
         $this->icon = $icon;
         $this->subCategories = $subCategories;
     }
-
-
 }

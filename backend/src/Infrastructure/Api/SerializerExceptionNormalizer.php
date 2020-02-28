@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Api;
 
-
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -27,5 +26,4 @@ final class SerializerExceptionNormalizer implements NormalizerInterface
     {
         return $data instanceof NotNormalizableValueException;
     }
-
 }

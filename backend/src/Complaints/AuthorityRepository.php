@@ -3,7 +3,6 @@
 
 namespace App\Complaints;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -22,11 +21,13 @@ class AuthorityRepository
         $this->entityManager = $entityManager;
     }
 
-    public function add(ComplaintAuthority $authority) {
+    public function add(ComplaintAuthority $authority)
+    {
         $this->entityManager->persist($authority);
     }
 
-    public function count(array $criteria) {
+    public function count(array $criteria)
+    {
         return $this->repository->count($criteria);
     }
 }

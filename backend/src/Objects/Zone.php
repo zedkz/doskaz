@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
@@ -59,9 +58,9 @@ abstract class Zone implements DataObject
         }
     }
 
-    abstract function calculateScore(): AccessibilityScore;
+    abstract public function calculateScore(): AccessibilityScore;
 
-    public final function accessibilityScore(): AccessibilityScore
+    final public function accessibilityScore(): AccessibilityScore
     {
         return $this->overriddenScore ?? $this->calculateScore();
     }

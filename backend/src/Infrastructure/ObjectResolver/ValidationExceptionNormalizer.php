@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ObjectResolver;
 
-
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class ValidationExceptionNormalizer implements NormalizerInterface

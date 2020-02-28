@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
-
 use Cocur\Slugify\Slugify;
 
 final class SlugFactory

@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\DomainEvents;
 
-
 interface EventProducer
 {
     /**

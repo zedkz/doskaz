@@ -3,7 +3,6 @@
 
 namespace App\Objects\PhotosHistory;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class PhotosHistoryRepository

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Adding;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Collection\Collection;
 use Webmozart\Assert\Assert;

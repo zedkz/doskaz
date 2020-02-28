@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Objects;
 
-
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;

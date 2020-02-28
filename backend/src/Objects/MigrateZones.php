@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Objects;
 
-
 use App\Objects\Adding\Attribute;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Command\Command;
@@ -35,13 +34,13 @@ final class MigrateZones extends Command
             $zones = json_decode($object['zones'], true);
 
             $newZones = array_map(function ($zone) {
-                if(!is_array($zone)) {
+                if (!is_array($zone)) {
                     return $zone;
                 }
 
                 return $zone ? [
                     'type' => $zone['type'],
-                    'attributes' => array_filter($zone, function($attr) {
+                    'attributes' => array_filter($zone, function ($attr) {
                         return in_array($attr, Attribute::ATTRIBUTES);
                     })
                 ] : null;

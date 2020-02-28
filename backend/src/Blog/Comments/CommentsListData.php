@@ -3,7 +3,6 @@
 
 namespace App\Blog\Comments;
 
-
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Schema;
