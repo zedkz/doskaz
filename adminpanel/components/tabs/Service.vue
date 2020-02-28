@@ -5,7 +5,7 @@
 
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :attributes="attributes"/>
+        <accessibility-score :value="{attributes}" :type="`service_${form}`"/>
     </div>
 </template>
 

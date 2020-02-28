@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route(path="/api/objects")
- * @IsGranted("ROLE_USER")
  */
 class AddingController extends AbstractController
 {
@@ -36,6 +35,6 @@ class AddingController extends AbstractController
      */
     public function calculateZoneScore(Zone $zone): AccessibilityScore
     {
-        return $zone->calculateScore();
+        return $zone->accessibilityScore();
     }
 }

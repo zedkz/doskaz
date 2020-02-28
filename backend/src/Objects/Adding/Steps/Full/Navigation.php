@@ -3,12 +3,13 @@
 
 namespace App\Objects\Adding\Steps\Full;
 
+use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 class Navigation
 {
     /**
      * @Assert\NotBlank()
-     * @var \App\Objects\Zone\Full\Navigation|null
+     * @var AttributesMap
      */
     public $attributes;
 

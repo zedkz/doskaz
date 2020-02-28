@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "create"
+        name: "ObjectForm"
     }
 </script>
 

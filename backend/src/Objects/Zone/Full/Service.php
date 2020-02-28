@@ -11,83 +11,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Service extends Zone
 {
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute1;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute2;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute3;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute4;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute5;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute6;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute7;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute8;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute9;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute10;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute11;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute12;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute13;
+    protected static function attributesKeys(): array
+    {
+        return array_map(function ($key) {
+            return 'attribute'.$key;
+        }, range(1, 13));
+    }
 
     private const INDEX_REMAP = [
         1 => 1,

@@ -91,15 +91,15 @@ final class FullFormRequestData implements DataObject, Form
     public function toZones(): Zones
     {
         return new FullFormZones(
-            $this->parking->attributes,
-            $this->entrance1->attributes,
-            $this->entrance2 ? $this->entrance2->attributes : null,
-            $this->entrance3 ? $this->entrance3->attributes : null,
-            $this->movement->attributes,
-            $this->service->attributes,
-            $this->toilet->attributes,
-            $this->navigation->attributes,
-            $this->serviceAccessibility->attributes
+            new \App\Objects\Zone\Full\Parking($this->parking->attributes),
+            new \App\Objects\Zone\Full\Entrance($this->entrance1->attributes),
+            $this->entrance2 ? new \App\Objects\Zone\Full\Entrance($this->entrance2->attributes) : null,
+            $this->entrance3 ? new \App\Objects\Zone\Full\Entrance($this->entrance3->attributes) : null,
+            new \App\Objects\Zone\Full\Movement($this->movement->attributes),
+            new \App\Objects\Zone\Full\Service($this->service->attributes),
+            new \App\Objects\Zone\Full\Toilet($this->toilet->attributes),
+            new \App\Objects\Zone\Full\Navigation($this->navigation->attributes),
+            new \App\Objects\Zone\Full\ServiceAccessibility($this->serviceAccessibility->attributes)
         );
     }
 

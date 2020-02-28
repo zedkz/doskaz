@@ -4,7 +4,7 @@
         <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :attributes="attributes"/>
+        <accessibility-score :value="{attributes}" :type="`accessibility_${form}`"/>
     </div>
 </template>
 
@@ -24,12 +24,12 @@
             attributes() {
                 return _.get(this.item, `${this.path}.attributes`)
             },
-            methods: {
-                update(val) {
-                    this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
-                }
-            }
         },
+        methods: {
+            update(val) {
+                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
+            }
+        }
     }
 </script>
 

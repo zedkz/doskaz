@@ -5,6 +5,7 @@ namespace App\Objects\Adding;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Collection\Collection;
 use Webmozart\Assert\Assert;
 
 /**
@@ -19,10 +20,18 @@ class AccessibilityScore
     public const SCORE_PARTIAL_ACCESSIBLE = 'partial_accessible';
 
     private const SCORE_VARIANTS = [
-        self::SCORE_FULL_ACCESSIBLE,
         self::SCORE_NOT_ACCESSIBLE,
         self::SCORE_PARTIAL_ACCESSIBLE,
+        self::SCORE_FULL_ACCESSIBLE,
         self::SCORE_NOT_PROVIDED
+    ];
+
+    private const SCORE_CATEGORIES = [
+        'movement',
+        'limb',
+        'vision',
+        'hearing',
+        'intellectual',
     ];
 
     public const SCORE_NOT_PROVIDED = 'not_provided';
@@ -127,34 +136,29 @@ class AccessibilityScore
 
     public static function average(self ...$scores): self
     {
-        $movement = 0;
-        $limb = 0;
-        $vision = 0;
-        $hearing = 0;
-        $intellectual = 0;
+        $collection = new Collection(AccessibilityScore::class, $scores);
+        $results = array_map(function ($key) use ($collection) {
+            $items = $collection->filter(function (AccessibilityScore $score) use ($key) {
+                return $score->{$key} !== self::SCORE_NOT_PROVIDED;
+            });
+            if ($items->count() === 0) {
+                return self::SCORE_NOT_PROVIDED;
+            }
+            $notAccessible = $items->filter(function (AccessibilityScore $score) use ($key) {
+                return $score->{$key} === self::SCORE_NOT_ACCESSIBLE;
+            });
+            if ($notAccessible->count() === $items->count()) {
+                return self::SCORE_NOT_ACCESSIBLE;
+            }
+            $fullAccessible = $items->filter(function (AccessibilityScore $score) use ($key) {
+                return $score->{$key} === self::SCORE_FULL_ACCESSIBLE;
+            });
+            if ($fullAccessible->count() === $items->count()) {
+                return self::SCORE_FULL_ACCESSIBLE;
+            }
+            return self::SCORE_PARTIAL_ACCESSIBLE;
+        }, self::SCORE_CATEGORIES);
 
-        $filtered = array_filter($scores, function (AccessibilityScore $score) {
-            return !$score->equalsTo(AccessibilityScore::notProvided());
-        });
-
-        if(count($filtered) === 0) {
-            return AccessibilityScore::notProvided();
-        }
-
-        foreach ($filtered as $score) {
-            $movement += array_search($score->movement, self::SCORE_VARIANTS);
-            $limb += array_search($score->limb, self::SCORE_VARIANTS);
-            $vision += array_search($score->vision, self::SCORE_VARIANTS);
-            $hearing += array_search($score->hearing, self::SCORE_VARIANTS);
-            $intellectual += array_search($score->intellectual, self::SCORE_VARIANTS);
-        }
-
-        return self::new(
-            self::SCORE_VARIANTS[(int)round($movement / count($filtered))],
-            self::SCORE_VARIANTS[(int)round($limb / count($filtered))],
-            self::SCORE_VARIANTS[(int)round($vision / count($filtered))],
-            self::SCORE_VARIANTS[(int)round($hearing / count($filtered))],
-            self::SCORE_VARIANTS[(int)round($intellectual / count($filtered))]
-        );
+        return self::new(...$results);
     }
 }

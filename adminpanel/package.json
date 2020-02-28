@@ -27,5 +27,7 @@
     "vue2-datepicker": "^3.3.0",
     "vuex-pathify": "^1.4.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "async": "^3.2.0"
+  }
 }

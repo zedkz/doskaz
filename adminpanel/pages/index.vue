@@ -9,10 +9,8 @@
                         <sidebar-link path="/blog/categories"><i class="fa fa-list"></i> Категории блога</sidebar-link>
                         <sidebar-link path="/blog/posts"><i class="fa fa-rss"></i> Записи блога</sidebar-link>
                         <sidebar-link path="/complaints"><i class="fa fa-exclamation-circle"></i> Жалобы</sidebar-link>
-                        <sidebar-link path="/objects/addingRequests"><i class="fa fa-file"></i> Заявки на добавление
-                            объектов
-                        </sidebar-link>
-                        <!--<sidebar-link path="/objects/items"><i class="fa fa-map-marker-alt"></i> Объекты</sidebar-link>-->
+                        <sidebar-link path="/addingRequests"><i class="fa fa-file"></i> Заявки на добавление объектов</sidebar-link>
+                        <sidebar-link path="/objects"><i class="fa fa-map-marker-alt"></i> Объекты</sidebar-link>
                     </ul>
                 </nav>
             </div>

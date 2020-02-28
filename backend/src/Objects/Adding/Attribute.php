@@ -13,7 +13,7 @@ class Attribute
     private const NO = 'no';
     private const UNKNOWN = 'unknown';
 
-    private const ATTRIBUTES = [
+    public const ATTRIBUTES = [
         self::NOT_PROVIDED,
         self::YES,
         self::NO,

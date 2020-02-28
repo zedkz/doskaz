@@ -46,7 +46,7 @@
             async calculateScore() {
                 const {data} = await this.$axios.post('/api/objects/calculateZoneScore', {
                     type: this.type,
-                    ...this.attributes
+                    attributes: this.attributes
                 });
                 this.score = data;
             }

@@ -2,13 +2,14 @@
 
 
 namespace App\Objects\Adding\Steps\Full;
+use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Movement
 {
     /**
      * @Assert\NotBlank()
-     * @var \App\Objects\Zone\Full\Movement|null
+     * @var AttributesMap
      */
     public $attributes;
 

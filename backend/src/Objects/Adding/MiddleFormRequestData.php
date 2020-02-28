@@ -13,7 +13,14 @@ use App\Objects\Adding\Steps\ParkingStep;
 use App\Objects\Adding\Steps\ServiceAccessibilityStep;
 use App\Objects\Adding\Steps\ServiceStep;
 use App\Objects\Adding\Steps\ToiletStep;
+use App\Objects\Zone\Middle\Entrance;
 use App\Objects\Zone\Middle\MiddleFormZones;
+use App\Objects\Zone\Middle\Movement;
+use App\Objects\Zone\Middle\Navigation;
+use App\Objects\Zone\Middle\Parking;
+use App\Objects\Zone\Middle\Service;
+use App\Objects\Zone\Middle\ServiceAccessibility;
+use App\Objects\Zone\Middle\Toilet;
 use App\Objects\Zones;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -94,15 +101,15 @@ final class MiddleFormRequestData implements DataObject, Form
     public function toZones(): Zones
     {
         return new MiddleFormZones(
-            $this->parking->attributes,
-            $this->entrance1->attributes,
-            $this->entrance2 ? $this->entrance2->attributes : null,
-            $this->entrance3 ? $this->entrance3->attributes : null,
-            $this->movement->attributes,
-            $this->service->attributes,
-            $this->toilet->attributes,
-            $this->navigation->attributes,
-            $this->serviceAccessibility->attributes
+            new Parking($this->parking->attributes),
+            new Entrance($this->entrance1->attributes),
+            $this->entrance2 ? new Entrance($this->entrance2->attributes) : null,
+            $this->entrance3 ? new Entrance($this->entrance3->attributes) : null,
+            new Movement($this->movement->attributes),
+            new Service($this->service->attributes),
+            new Toilet($this->toilet->attributes),
+            new Navigation($this->navigation->attributes),
+            new ServiceAccessibility($this->serviceAccessibility->attributes)
         );
     }
 

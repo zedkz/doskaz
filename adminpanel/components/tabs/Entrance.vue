@@ -4,7 +4,7 @@
         <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :attributes="attributes"/>
+        <accessibility-score :value="{attributes}" :type="`entrance_${form}`"/>
     </div>
 </template>
 

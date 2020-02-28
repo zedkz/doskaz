@@ -4,13 +4,14 @@
 namespace App\Objects\Adding\Steps\Full;
 
 
+use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Parking
 {
     /**
      * @Assert\NotBlank()
-     * @var \App\Objects\Zone\Full\Parking|null
+     * @var AttributesMap
      */
     public $attributes;
 

@@ -18,6 +18,9 @@ services:
         arguments:
             $sourceConnection: '@doctrine.dbal.dospav_connection'
 
+    App\Objects\MigrateZones:
+        tags: ['console.command']
+
     App\Objects\CategoriesController:
         tags: ['controller.service_arguments']
 
@@ -27,4 +30,7 @@ services:
         tags: ['controller.service_arguments']
 
     App\Objects\Adding\AdminController:
+        tags: ['controller.service_arguments']
+
+    App\Objects\AdminController:
         tags: ['controller.service_arguments']

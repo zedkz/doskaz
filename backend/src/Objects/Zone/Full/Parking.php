@@ -7,154 +7,9 @@ namespace App\Objects\Zone\Full;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class Parking extends Zone
 {
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute1;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute2;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute3;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute4;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute5;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute6;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute7;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute8;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute9;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute10;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute11;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute12;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute13;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute14;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute15;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute16;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute17;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute18;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute19;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute20;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute21;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute22;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute23;
-
-    /**
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute24;
-
     private const INDEX_REMAP = [
         1 => 1,
         2 => 2,
@@ -181,6 +36,14 @@ class Parking extends Zone
         23 => 23,
         24 => 24,
     ];
+
+    protected static function attributesKeys(): array
+    {
+        return array_map(function ($key) {
+            return 'attribute'.$key;
+        }, range(1, 24));
+    }
+
 
     private function remap(array $original)
     {

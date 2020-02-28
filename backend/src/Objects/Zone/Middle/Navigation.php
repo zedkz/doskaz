@@ -11,60 +11,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Navigation extends Zone
 {
-    /**
-     * Указатели и информационный материал
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute1;
-
-    /**
-     * Форматы информации
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute2;
-
-    /**
-     * Знаки и символы
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute3;
-
-    /**
-     * Форматы информации
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute4;
-
-    /**
-     * Рельефные тактильные обозначения путей движения
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute5;
-
-    /**
-     * Непрерывные тактильные обозначения путей движения
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute6;
-
-    /**
-     * Мнемосхема
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute7;
-
-    public function __construct()
+    protected static function attributesKeys(): array
     {
-        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
-            $property->setValue($this, Attribute::unknown());
-        }
+        return array_map(function ($key) {
+            return 'attribute'.$key;
+        }, range(1, 7));
     }
 
     public function calculateScore(): AccessibilityScore

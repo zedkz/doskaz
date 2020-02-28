@@ -2,13 +2,14 @@
 
 
 namespace App\Objects\Adding\Steps\Full;
+use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ServiceAccessibility
 {
     /**
      * @Assert\NotBlank()
-     * @var \App\Objects\Zone\Full\ServiceAccessibility|null
+     * @var AttributesMap
      */
     public $attributes;
 

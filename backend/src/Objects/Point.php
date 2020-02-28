@@ -21,4 +21,11 @@ final class Point
         $point->value = sprintf('POINT(%s %s)', $lat, $long);
         return $point;
     }
+
+    public function toLatLong(): array
+    {
+        $matches = [];
+        preg_match('/POINT\((.*)\s(.*)\)$/', $this->value, $matches);
+        return [$matches[1], $matches[2]];
+    }
 }

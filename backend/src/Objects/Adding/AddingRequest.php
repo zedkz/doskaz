@@ -84,6 +84,8 @@ class AddingRequest
             $data->toZones(),
             $data->first->address,
             '',
+            $data->first->photos,
+            $data->first->videos
         );
     }
 

@@ -27,6 +27,7 @@
 
     import {get} from 'vuex-pathify'
     import FieldWrapper from "./crud/FieldWrapper";
+    import flatMapDeep from 'lodash/flatMapDeep'
 
     export default {
         name: "AttributesList",
@@ -50,6 +51,20 @@
                     {value: 'no', title: 'Нет'},
                     {value: 'yes', title: 'Да'},
                 ]
+            }
+        },
+        mounted() {
+            const emptyAttributes = flatMapDeep(this.formGroups, group => {
+               return group.subGroups.map(s => s.attributes)
+            })
+                .filter(attribute => !this.value[`attribute${attribute.key}`])
+
+            if(emptyAttributes.length) {
+                const initialValues = {};
+                emptyAttributes.map(({key}) => {
+                    initialValues[`attribute${key}`] = 'unknown'
+                })
+                this.$emit('input', {...this.value, ...initialValues})
             }
         },
         methods: {

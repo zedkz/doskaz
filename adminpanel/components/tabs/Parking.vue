@@ -6,7 +6,7 @@
 
        <h4>Оценка доступности</h4>
        <hr/>
-       <accessibility-score :attributes="item.form.parking.attributes"/>
+       <accessibility-score :value="{attributes: item.form.parking.attributes}" :type="`parking_${form}`"/>
 
    </div>
 </template>

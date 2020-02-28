@@ -11,46 +11,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Service extends Zone
 {
-    /**
-     * Высота не более 80 см от уровня пола
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute1;
-
-    /**
-     * Коленное пространство не менее 70 см
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute2;
-
-    /**
-     * Опознавательные таблички
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute3;
-
-    /**
-     * При расположении сбоку от посетителя — не выше 1,4 м и не ниже 0,3 от уровня пола
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute4;
-
-    /**
-     * При фронтальном подходе — не выше 1,2 м и не ниже 0,4 м от уровня пола
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute5;
-
-    public function __construct()
+    protected static function attributesKeys(): array
     {
-        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
-            $property->setValue($this, Attribute::unknown());
-        }
+        return array_map(function ($key) {
+            return 'attribute'.$key;
+        }, range(1, 5));
     }
 
     public function calculateScore(): AccessibilityScore

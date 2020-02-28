@@ -91,13 +91,13 @@ class MiddleFormZones implements Zones
     public function overallScore(): AccessibilityScore
     {
         return AccessibilityScore::average(
-            $this->parking->calculateScore(),
-            $this->entrance1->calculateScore(),
-            $this->movement->calculateScore(),
-            $this->service->calculateScore(),
-            $this->toilet->calculateScore(),
-            $this->navigation->calculateScore(),
-            $this->serviceAccessibility->calculateScore()
+            $this->parking->accessibilityScore(),
+            $this->entrance1->accessibilityScore(),
+            $this->movement->accessibilityScore(),
+            $this->service->accessibilityScore(),
+            $this->toilet->accessibilityScore(),
+            $this->navigation->accessibilityScore(),
+            $this->serviceAccessibility->accessibilityScore()
         );
     }
 }

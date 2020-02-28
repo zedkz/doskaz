@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *         "toilet_middle" = "App\Objects\Zone\Middle\Toilet",
  *         "service_middle" = "App\Objects\Zone\Middle\Service",
  *         "accessibility_middle" = "App\Objects\Zone\Middle\ServiceAccessibility",
+ *         "serviceAccessibility_middle" = "App\Objects\Zone\Middle\ServiceAccessibility",
  *         "movement_middle" = "App\Objects\Zone\Middle\Movement",
  *         "navigation_middle" = "App\Objects\Zone\Middle\Navigation",
  *         "small" = "App\Objects\Zone\Small\Zone",
@@ -27,26 +28,60 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *         "service_full" = "App\Objects\Zone\Full\Service",
  *         "toilet_full" = "App\Objects\Zone\Full\Toilet",
  *         "navigation_full" = "App\Objects\Zone\Full\Navigation",
+ *         "serviceAccessibility_full" = "App\Objects\Zone\Full\ServiceAccessibility",
  *         "accessibility_full" = "App\Objects\Zone\Full\ServiceAccessibility",
  * })
  */
 abstract class Zone implements DataObject
 {
+    /**
+     * @var AttributesMap
+     */
+    public $attributes;
+
+    /**
+     * @var AccessibilityScore|null
+     */
+    public $overriddenScore;
+
+    abstract protected static function attributesKeys(): array;
+
+    public function __construct(?AttributesMap $attributes, ?AccessibilityScore $overriddenScore = null)
+    {
+        $this->attributes = new AttributesMap();
+        $this->overriddenScore = $overriddenScore;
+
+        if ($attributes) {
+            $defaultAttribute = Attribute::unknown();
+            foreach (static::attributesKeys() as $key) {
+                $this->attributes->offsetSet($key, $attributes->get($key, $defaultAttribute));
+            }
+        }
+    }
+
+    abstract function calculateScore(): AccessibilityScore;
+
+    public final function accessibilityScore(): AccessibilityScore
+    {
+        return $this->overriddenScore ?? $this->calculateScore();
+    }
+
     protected function isMatches(array $keys, Attribute $compare): bool
     {
         foreach ($keys as $key) {
-            if (!$this->{'attribute' . $key}->isEqualsTo($compare)) {
+            if (!$this->attributes->get('attribute' . $key)->isEqualsTo($compare)) {
                 return false;
             }
         }
         return true;
     }
 
+
     protected function isMatchesPartial(array $keys, Attribute $compare): bool
     {
         $matches = 0;
         foreach ($keys as $key) {
-            if ($this->{'attribute' . $key}->isEqualsTo($compare)) {
+            if ($this->attributes->get('attribute' . $key)->isEqualsTo($compare)) {
                 $matches++;
             }
         }
@@ -55,7 +90,7 @@ abstract class Zone implements DataObject
 
     protected function isMatchesAllExcept(array $except, Attribute $compare): bool
     {
-        foreach (get_object_vars($this) as $key => $val) {
+        foreach ($this->attributes as $key => $val) {
             if (in_array((int)str_replace('attribute', '', $key), $except)) {
                 continue;
             }
@@ -68,13 +103,11 @@ abstract class Zone implements DataObject
 
     protected function isMatchesAll(Attribute $compare): bool
     {
-        foreach (get_object_vars($this) as $val) {
+        foreach ($this->attributes as $val) {
             if (!$val->isEqualsTo($compare)) {
                 return false;
             }
         }
         return true;
     }
-
-    abstract function calculateScore(): AccessibilityScore;
 }

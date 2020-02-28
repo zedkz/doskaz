@@ -9,7 +9,6 @@
 <script>
     import CrudList from "@/components/crud/CrudList";
     export default {
-        name: "index",
         components: {CrudList},
         middleware: ['authenticated'],
         computed: {

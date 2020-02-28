@@ -2,7 +2,7 @@
     <yandex-map
         @click="click"
         :style="{width: '100%', height: '400px'}"
-        :zoom="5"
+        :zoom="17"
         :coords="coords"
         :controls="[]"
         :use-object-manager="true"

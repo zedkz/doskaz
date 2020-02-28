@@ -2,13 +2,14 @@
 
 
 namespace App\Objects\Adding\Steps\Full;
+use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Toilet
 {
     /**
      * @Assert\NotBlank()
-     * @var \App\Objects\Zone\Full\Toilet|null
+     * @var AttributesMap
      */
     public $attributes;
 

@@ -11,60 +11,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ServiceAccessibility extends Zone
 {
-    /**
-     * Универсальный проект
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute1;
-
-    /**
-     * Разумное приспособление
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute2;
-
-    /**
-     * Есть доставка товаров или вызов специалиста на дом
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute3;
-
-    /**
-     * Кнопка вызова персонала
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute4;
-
-    /**
-     * Оказание ситуационной помощи со стороны персонала
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute5;
-
-    /**
-     * Протоколы/инструкции по коммуникации и оказанию помощи маломобильным гражданам
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute6;
-
-    /**
-     * Льготы для людей с инвалидностью 1, 2, 3 групп, пожилых, детей
-     * @var Attribute|null
-     * @Assert\NotBlank()
-     */
-    public $attribute7;
-
-    public function __construct()
+    protected static function attributesKeys(): array
     {
-        foreach ($properties = (new \ReflectionClass($this))->getProperties() as $property) {
-            $property->setValue($this, Attribute::unknown());
-        }
+        return array_map(function ($key) {
+            return 'attribute'.$key;
+        }, range(1, 7));
     }
 
     public function calculateScore(): AccessibilityScore

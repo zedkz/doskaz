@@ -86,6 +86,7 @@ final class ObjectsApiController extends AbstractController
             ])
             ->from('objects')
             ->andWhere('ST_CONTAINS(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326), point_value::GEOMETRY)')
+            ->andWhere('objects.deleted_at IS NULL')
             ->groupBy('hash')
             ->having('COUNT(*) > 1')
             ->setParameters([
@@ -97,7 +98,7 @@ final class ObjectsApiController extends AbstractController
             ]);
 
 
-        if(count($accessibilityLevels)) {
+        if (count($accessibilityLevels)) {
             $q1->andWhere('overall_score_movement IN (:levels)')
                 ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
         }
@@ -132,6 +133,7 @@ final class ObjectsApiController extends AbstractController
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'categories', 'categories.id = objects.category_id')
             ->andWhere('ST_CONTAINS(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326), point_value::GEOMETRY)')
+            ->andWhere('objects.deleted_at IS NULL')
             ->andWhere('ST_GEOHASH(point_value, :precision) NOT IN (:ids)')
             ->setParameters([
                 'x1' => $boundary[0],
@@ -144,7 +146,7 @@ final class ObjectsApiController extends AbstractController
                 'ids' => Connection::PARAM_STR_ARRAY
             ]);
 
-        if(count($accessibilityLevels)) {
+        if (count($accessibilityLevels)) {
             $q2->andWhere('overall_score_movement IN (:levels)')
                 ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
         }
@@ -229,6 +231,7 @@ final class ObjectsApiController extends AbstractController
             ])
             ->from('objects')
             ->andWhere('id = :id')
+            ->andWhere('objects.deleted_at IS NULL')
             ->setParameter('id', $id)
             ->execute()
             ->fetch();
@@ -406,9 +409,9 @@ final class ObjectsApiController extends AbstractController
                             [
                                 'title' => 'Кнопка вызова персонала',
                                 'attributes' => [
-                                     ['key' => 38, 'subTitle' => 'Доступность, высота 85 см  – 1 м'],
-                                     ['key' => 39, 'subTitle' => 'Навес от осадков'],
-                                     ['key' => 40, 'subTitle' => 'Шрифт Брайля'],
+                                    ['key' => 38, 'subTitle' => 'Доступность, высота 85 см  – 1 м'],
+                                    ['key' => 39, 'subTitle' => 'Навес от осадков'],
+                                    ['key' => 40, 'subTitle' => 'Шрифт Брайля'],
                                 ]
                             ]
                         ]
@@ -744,7 +747,7 @@ final class ObjectsApiController extends AbstractController
                             ],
                             [
                                 'title' => 'Разворотные горизонтальные площадки',
-                                'attributes' =>[
+                                'attributes' => [
                                     ['key' => 44, 'subTitle' => 'В начале каждого уровня'],
                                     ['key' => 45, 'subTitle' => 'В конце каждого уровня'],
                                     ['key' => 16, 'subTitle' => 'Размеры 1,2 х 1,5 м'],
