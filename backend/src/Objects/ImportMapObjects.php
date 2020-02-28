@@ -5,7 +5,16 @@ namespace App\Objects;
 
 
 use App\Infrastructure\Doctrine\Flusher;
+use App\Infrastructure\FileReferenceCollection;
 use App\Objects\Adding\AccessibilityScore;
+use App\Objects\Zone\Full\Entrance;
+use App\Objects\Zone\Full\FullFormZones;
+use App\Objects\Zone\Full\Movement;
+use App\Objects\Zone\Full\Navigation;
+use App\Objects\Zone\Full\Parking;
+use App\Objects\Zone\Full\Service;
+use App\Objects\Zone\Full\ServiceAccessibility;
+use App\Objects\Zone\Full\Toilet;
 use App\Objects\Zone\Small\SmallFormZones;
 use Doctrine\Common\Persistence\ConnectionRegistry;
 use Doctrine\DBAL\Connection;
@@ -56,16 +65,17 @@ final class ImportMapObjects extends Command
 
         foreach ($objects as $object) {
 
-            $zones = new SmallFormZones(
-                new \App\Objects\Zone\Small\Zone($accessibilityScoreMap[(int)$object['parking']]),
-                new \App\Objects\Zone\Small\Zone($accessibilityScoreMap[(int)$object['entry_group']]),
-                new \App\Objects\Zone\Small\Zone($accessibilityScoreMap[(int)$object['motion_path']]),
-                new \App\Objects\Zone\Small\Zone($accessibilityScoreMap[(int)$object['service_delivery_area']]),
-                new \App\Objects\Zone\Small\Zone($accessibilityScoreMap[(int)$object['wc']]),
-                new \App\Objects\Zone\Small\Zone($accessibilityScoreMap[(int)$object['navigation']]),
-                new \App\Objects\Zone\Small\Zone(AccessibilityScore::notProvided()),
+            $zones = new FullFormZones(
+                new Parking(null, $accessibilityScoreMap[(int)$object['parking']]),
+                new Entrance(null, $accessibilityScoreMap[(int)$object['entry_group']]),
+                null,
+                null,
+                new Movement(null, $accessibilityScoreMap[(int)$object['motion_path']]),
+                new Service(null, $accessibilityScoreMap[(int)$object['service_delivery_area']]),
+                new Toilet(null, $accessibilityScoreMap[(int)$object['wc']]),
+                new Navigation(null, $accessibilityScoreMap[(int)$object['navigation']]),
+                new ServiceAccessibility(null, AccessibilityScore::notProvided())
             );
-
 
             $mapObject = new MapObject(
                 Point::fromLatLong($object['lat'], $object['lng']),
@@ -73,7 +83,9 @@ final class ImportMapObjects extends Command
                 (int)$object['subcategory_id'],
                 $zones,
                 $object['address'],
-                $object['comment']
+                strip_tags($object['comment']),
+                new FileReferenceCollection(),
+                []
             );
             $this->mapObjectRepository->add($mapObject);
         }

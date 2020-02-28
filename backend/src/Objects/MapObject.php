@@ -110,7 +110,7 @@ class MapObject
         Zones $zones,
         string $address,
         string $description,
-        array $photos,
+        FileReferenceCollection $photos,
         array $videos
     )
     {
@@ -135,7 +135,7 @@ class MapObject
         Zones $zones,
         string $address,
         string $description,
-        array $photos,
+        FileReferenceCollection $photos,
         array $videos
     ): self
     {
