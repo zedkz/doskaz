@@ -80,12 +80,14 @@ class AdminController extends AbstractController
      * @Route(path="/{id}", methods={"PUT"}, requirements={"id" = "\d+"})
      * @param MapObject $mapObject
      * @param MapObjectData $mapObjectData
-     * @param Flusher $flusher
+     * @param MapObjectRepository $mapObjectRepository
      * @return void
      */
-    public function update(MapObject $mapObject, MapObjectData $mapObjectData, Flusher $flusher) {
+    public function update(MapObject $mapObject, MapObjectData $mapObjectData, MapObjectRepository $mapObjectRepository)
+    {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $mapObject->update($mapObjectData);
-        $flusher->flush();
+        $mapObjectRepository->forAggregate($mapObject->id(), function (MapObject $mapObject) use ($mapObjectData) {
+            $mapObject->update($mapObjectData);
+        });
     }
 }

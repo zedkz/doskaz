@@ -35,4 +35,11 @@ class FileReferenceCollection extends AbstractCollection
         return new static(array_merge($diffAtoB, $diffBtoA));
     }
 
+    public function contains($element, bool $strict = true): bool
+    {
+        return !$this->filter(function (FileReference $fileReference) use ($element) {
+            return $fileReference->relativePath === $element->relativePath;
+        })->isEmpty();
+    }
+
 }

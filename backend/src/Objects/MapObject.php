@@ -3,6 +3,8 @@
 
 namespace App\Objects;
 
+use App\Infrastructure\DomainEvents\EventProducer;
+use App\Infrastructure\DomainEvents\ProducesEvents;
 use App\Infrastructure\FileReferenceCollection;
 use App\Objects\Adding\AccessibilityScore;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,8 +15,10 @@ use Webmozart\Assert\Assert;
  * @ORM\Entity()
  * @ORM\Table(name="objects")
  */
-class MapObject
+class MapObject implements EventProducer
 {
+    use ProducesEvents;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id()
@@ -125,6 +129,9 @@ class MapObject
         $this->updatedAt = $this->createdAt = new \DateTimeImmutable();
         $this->videos = $videos;
         $this->photos = $photos;
+        if (!$this->photos->isEmpty()) {
+            $this->remember(new PhotosUpdated($this->uuid, $this->photos, $photos));
+        }
     }
 
     public static function createFromRequest(
@@ -172,6 +179,7 @@ class MapObject
     public function update(MapObjectData $mapObjectData)
     {
         Assert::null($this->deletedAt, 'Update a deleted object is not allowed!');
+        $this->remember(new PhotosUpdated($this->uuid, $this->photos, $mapObjectData->photos));
         $this->title = $mapObjectData->title;
         $this->address = $mapObjectData->address;
         $this->description = $mapObjectData->description;
@@ -182,5 +190,10 @@ class MapObject
         $this->zones = $mapObjectData->zones;
         $this->overallScore = $this->zones->overallScore();
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function id()
+    {
+        return $this->id;
     }
 }

@@ -3,7 +3,11 @@
 
 namespace App\Infrastructure;
 
+use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 
+/**
+ * @ODM()
+ */
 class FileReference
 {
     /**

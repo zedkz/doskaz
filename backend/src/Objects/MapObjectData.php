@@ -43,7 +43,7 @@ class MapObjectData implements DataObject
      * @var FileReferenceCollection
      * @Assert\All(
      *     constraints={
-     *         @Assert\Image(maxSize="1k")
+     *         @Assert\Image()
      *     }
      * )
      */

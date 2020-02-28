@@ -34,3 +34,9 @@ services:
 
     App\Objects\AdminController:
         tags: ['controller.service_arguments']
+
+    App\Objects\PhotosHistory\UpdateHistoryWhenPhotosUpdated:
+        tags:
+            - { name: domain_events.listener }
+
+    App\Objects\PhotosHistory\PhotosHistoryRepository:
