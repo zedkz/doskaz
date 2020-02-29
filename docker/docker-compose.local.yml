@@ -3,6 +3,8 @@ version: "3.4"
 services:
   backend:
     build:
-      target: base
+      target: dev
+      args:
+        - user_id=1000
     volumes:
-      - ../backend:/app
+      - ../backend:/var/www/html

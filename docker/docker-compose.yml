@@ -1,33 +1,45 @@
 version: "3.4"
 
 services:
+
   backend:
-    build:
-      context: ../backend
-      dockerfile: docker/Dockerfile
     environment:
       - FIREBASE_API_KEY
       - DATABASE_URL=pgsql://postgres:${DB_PASSWORD}@database:5432/${DB_NAME}
       - OAUTH_GOOGLE_CLIENT_ID
       - OAUTH_GOOGLE_CLIENT_SECRET
       - OAUTH_GOOGLE_REDIRECT_URI
-      - PHP_DATE_TIMEZONE=Asia/Almaty
+    build:
+      context: ../backend
+      dockerfile: ./docker/fpm.Dockerfile
+      target: prod
+      args:
+        - app_env=prod
     volumes:
-      - doskaz_storage:/app/public/storage
-      - doskaz_storage:/app/storage
-    networks:
-      - default
-      - web
+      - doskaz_storage:/var/www/html/storage
+      - doskaz_storage:/var/www/html/public/storage
+    depends_on:
+      - database
+
+  backend_nginx:
+    build:
+      context: ../backend
+      dockerfile: ./docker/nginx.Dockerfile
     labels:
-      - traefik.enable=true
       - traefik.http.routers.doskaz_app.rule=Host(`${APP_HOST}`) && PathPrefix(`/api`, `/storage`, `/static`)
+      - traefik.enable=true
       - traefik.http.middlewares.doskaz_compress_app.compress=true
       - traefik.http.routers.doskaz_app.middlewares=doskaz_compress_app
       - traefik.http.routers.app_rss.rule=Host(`${APP_HOST}`) && Path(`/blog/rss`)
       - traefik.http.middlewares.rss_replace.replacepath.path=/api/blogPosts/rss
       - traefik.http.routers.app_rss.middlewares=rss_replace
+    networks:
+      - default
+      - web
+    volumes:
+      - doskaz_storage:/var/www/html/storage
     depends_on:
-      - database
+      - backend
 
   frontend:
     build:
@@ -44,7 +56,7 @@ services:
     networks:
       - web
     environment:
-      - BACKEND_DOMAIN=http://backend
+      - BACKEND_DOMAIN=http://backend_nginx
       - NUXT_HOST=0.0.0.0
     depends_on:
       - backend

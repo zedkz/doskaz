@@ -7,6 +7,9 @@ services:
     environment:
       - SENTRY_DSN
 
+  backend_nginx:
+    restart: unless-stopped
+
   frontend:
     restart: unless-stopped
 
