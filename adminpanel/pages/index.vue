@@ -53,7 +53,6 @@
                 console.log(v)
                 if(v) {
                     this.$bvToast.toast(v.message, {
-                        title: `Toaster`,
                         toaster: 'b-toaster-top-center',
                         variant: v.status === 'error' ? 'danger' : 'success',
                         noAutoHide: false,
