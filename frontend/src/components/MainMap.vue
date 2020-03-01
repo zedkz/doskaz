@@ -46,7 +46,7 @@
                 this.objectManager = yamap
                 map.geoObjects.add(yamap);
                 yamap.objects.events.add(['click'], e => {
-                    this.$router.push({name: 'index-objects-id', params: {id: e.get('objectId')}})
+                    this.$router.push({name: 'objects-id', params: {id: e.get('objectId')}})
                 });
             },
             applyFilter: debounce(function (val) {

@@ -167,7 +167,7 @@
                 this.activeTab = tab;
             },
             showLoginForm() {
-                this.$router.push({'name': 'index-login'})
+                this.$router.push({'name': 'login'})
             }
         },
         computed: {

@@ -9,7 +9,7 @@ export default async function ({store, redirect, app, $axios}) {
             app.$cookies.set('redirect', app.context.route.fullPath, {
                 maxAge: 60 * 5
             });
-            return redirect({name: 'index-login'})
+            return redirect({name: 'login'})
         }
     });
 }

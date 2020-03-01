@@ -26,7 +26,7 @@ export const actions = {
         } else {
             const redirect = this.app.$cookies.get('redirect') || '/';
             this.app.$cookies.remove('redirect');
-            await this.$router.push(redirect)
+            window.location.href = redirect
         }
     },
     async phoneAuthenticate({dispatch}, idToken) {
@@ -39,7 +39,7 @@ export const actions = {
         } else {
             const redirect = this.app.$cookies.get('redirect') || '/';
             this.app.$cookies.remove('redirect');
-            await this.$router.push(redirect)
+            window.location.href = redirect
         }
     }
 }

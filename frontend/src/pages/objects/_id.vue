@@ -489,6 +489,7 @@
     import {sync} from "vuex-pathify";
 
     export default {
+        layout: 'main',
         data() {
             return {
                 isPartially: false,
