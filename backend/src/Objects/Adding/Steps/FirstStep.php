@@ -3,6 +3,7 @@
 
 namespace App\Objects\Adding\Steps;
 
+use App\Infrastructure\FileReferenceCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class FirstStep
@@ -37,7 +38,7 @@ class FirstStep
     public $videos = [];
 
     /**
-     * @var string[]
+     * @var FileReferenceCollection
      * @Assert\Count(min=1, minMessage="Необходимо загрузить не менее 1 фото")
      */
     public $photos = [];
