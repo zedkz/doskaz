@@ -18,8 +18,6 @@ RUN composer install --no-scripts --no-autoloader --no-suggest && composer clear
 COPY . .
 ARG app_env
 RUN composer dump-autoload --optimize && php bin/console c:c --env=$app_env --no-debug
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
 
 
 FROM base AS dev
@@ -28,11 +26,15 @@ RUN usermod -u $user_id www-data && groupmod -g $user_id www-data
 RUN mkdir /var/www/html/storage
 RUN chown -R www-data:www-data /var/www/html/storage
 VOLUME /var/www/html/storage
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
 
 
 FROM base as prod
 ENV APP_ENV prod
 COPY --from=build /var/www/html /var/www/html
 RUN mkdir /var/www/html/storage
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/storage
 VOLUME /var/www/html/storage
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
