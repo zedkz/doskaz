@@ -66,7 +66,7 @@ class MapObjectData implements DataObject
      * @param FileReferenceCollection $photos
      * @param Zones $zones
      */
-    public function __construct($id, $title, $address, $description, $categoryId, $point, array $videos, FileReferenceCollection $photos, Zones $zones)
+    public function __construct($title, $address, $description, $categoryId, $point, array $videos, FileReferenceCollection $photos, Zones $zones, $id = null)
     {
         $this->id = $id;
         $this->title = $title;

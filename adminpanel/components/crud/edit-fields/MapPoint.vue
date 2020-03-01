@@ -2,10 +2,11 @@
     <yandex-map
         @click="click"
         :style="{width: '100%', height: '400px'}"
-        :zoom="17"
+        :zoom="5"
         :coords="coords"
         :controls="[]"
         :use-object-manager="true"
+        @map-was-initialized="mapWasInitialized"
         :settings="{
                     apiKey: 'c1050142-1c08-440e-b357-f2743155c1ec',
                     lang: 'ru_RU',
@@ -30,6 +31,12 @@
             }
         },
         methods: {
+            mapWasInitialized(map) {
+                this.map = map;
+                if(this.value) {
+                    map.setCenter(this.value, 17)
+                }
+            },
             click(e) {
                 const point = e.get('coords');
                 this.$emit('input', point)
@@ -43,6 +50,13 @@
                         this.$emit('address', '')
                     }
                 });
+            }
+        },
+        watch: {
+            mapCoords: {
+                handler(val) {
+                    this.map.setCenter(val, 17)
+                },
             }
         },
         computed: {

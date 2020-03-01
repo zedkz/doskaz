@@ -113,10 +113,11 @@ class MapObject implements EventProducer
         ?int $categoryId,
         Zones $zones,
         string $address,
-        string $description,
+        ?string $description,
         FileReferenceCollection $photos,
         array $videos
-    ) {
+    )
+    {
         $this->uuid = Uuid::uuid4();
         $this->point = $point;
         $this->categoryId = $categoryId;
@@ -143,7 +144,8 @@ class MapObject implements EventProducer
         string $description,
         FileReferenceCollection $photos,
         array $videos
-    ): self {
+    ): self
+    {
         $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos);
         $self->requestId = $requestId;
         return $self;
@@ -162,7 +164,6 @@ class MapObject implements EventProducer
     public function toMapObjectData(): MapObjectData
     {
         return new MapObjectData(
-            $this->id,
             $this->title,
             $this->address,
             $this->description,
@@ -170,7 +171,8 @@ class MapObject implements EventProducer
             $this->point->toLatLong(),
             $this->videos,
             $this->photos,
-            $this->zones
+            $this->zones,
+            $this->id
         );
     }
 
@@ -188,6 +190,21 @@ class MapObject implements EventProducer
         $this->zones = $mapObjectData->zones;
         $this->overallScore = $this->zones->overallScore();
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public static function fromMapObjectRequestData(MapObjectData $mapObjectData, int $userId): self
+    {
+        $self = new self(
+            Point::fromLatLong($mapObjectData->point[0], $mapObjectData->point[1]),
+            $mapObjectData->title,
+            $mapObjectData->categoryId,
+            $mapObjectData->zones,
+            $mapObjectData->address,
+            $mapObjectData->description,
+            $mapObjectData->photos,
+            $mapObjectData->videos
+        );
+        return $self;
     }
 
     public function id()

@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @Route(path="/api/admin/objects")
@@ -89,5 +90,22 @@ class AdminController extends AbstractController
         $mapObjectRepository->forAggregate($mapObject->id(), function (MapObject $mapObject) use ($mapObjectData) {
             $mapObject->update($mapObjectData);
         });
+    }
+
+    /**
+     * @Route(methods={"POST"}, requirements={"id" = "\d+"})
+     * @param MapObjectData $mapObjectData
+     * @param TokenStorageInterface $tokenStorage
+     * @param MapObjectRepository $mapObjectRepository
+     * @param Flusher $flusher
+     * @return MapObjectData
+     */
+    public function create(MapObjectData $mapObjectData, TokenStorageInterface $tokenStorage, MapObjectRepository $mapObjectRepository, Flusher $flusher)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $mapObject = MapObject::fromMapObjectRequestData($mapObjectData, $tokenStorage->getToken()->getUser()->id());
+        $mapObjectRepository->add($mapObject);
+        $flusher->flush();
+        return $mapObject->toMapObjectData();
     }
 }
