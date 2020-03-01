@@ -17,6 +17,7 @@
         </aside>
         <div class="page-wrapper">
             <div class="container-fluid">
+                <b-toast></b-toast>
                 <nuxt-child/>
             </div>
         </div>
@@ -26,6 +27,7 @@
 <script>
     import NavHeader from "../components/NavHeader";
     import SidebarLink from "../components/SidebarLink";
+    import {get} from 'vuex-pathify'
 
     export default {
         components: {SidebarLink, NavHeader},
@@ -41,6 +43,24 @@
         mounted() {
             if (this.$route.name === 'index') {
                 this.$router.push('/users')
+            }
+        },
+        computed: {
+            operationResult: get('crud/edit/operationResult')
+        },
+        watch: {
+            operationResult(v) {
+                console.log(v)
+                if(v) {
+                    this.$bvToast.toast(v.message, {
+                        title: `Toaster`,
+                        toaster: 'b-toaster-top-center',
+                        variant: v.status === 'error' ? 'danger' : 'success',
+                        noAutoHide: false,
+                        solid: true,
+                        appendToast: false
+                    })
+                }
             }
         }
     }

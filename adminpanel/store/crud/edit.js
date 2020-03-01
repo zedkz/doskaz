@@ -41,19 +41,22 @@ export const actions = {
             if (state.item.id || state.id) {
                 const {data: updatedItem, status} = await this.$axios.put(`${state.apiPath}/${state.item.id || state.id}`, state.item)
                 commit('SET_OPERATION_RESULT', {
-                    statusCode: status,
+                    status: 'success',
+                    message: 'Данные сохранены!'
                 })
             } else {
                 const {data: createdItem, status} = await this.$axios.post(state.apiPath, state.item)
                 commit('SET_ITEM', createdItem)
                 commit('SET_OPERATION_RESULT', {
-                    statusCode: status,
+                    status: 'success',
+                    message: 'Запись создана!'
                 })
             }
         } catch (e) {
             if (e.response && e.response.status) {
                 commit('SET_OPERATION_RESULT', {
-                    statusCode: e.response.status,
+                    status: 'error',
+                    message: 'Ошибка сохранения! Проверьте правильность заполнения полей и попробуйте снова'
                 })
                 switch (e.response.status) {
                     case 400:
@@ -71,6 +74,12 @@ export const actions = {
             commit('SET_IS_LOADING', false)
             window.scrollTo({top: 0})
         }
+       /* this.app.$bvToast.toast(`2123 body content`, {
+            title: `Toaster`,
+            toaster: 'b-toaster-top-center',
+            solid: true,
+            appendToast: true
+        })*/
     },
     updateItem({commit, state}, {key, value}) {
         console.log(state)

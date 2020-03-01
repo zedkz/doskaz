@@ -27,7 +27,6 @@
                 <zone :form="form" :zone="tab.group" :zone-property="tab.key"/>
             </b-tab>
         </b-tabs>
-
         <slot></slot>
     </form>
 </template>
