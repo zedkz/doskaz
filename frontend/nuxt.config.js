@@ -18,16 +18,15 @@ export default {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
     },
-   /* axios: {
+    axios: {
         proxy: true
-    },*/
+    },
     plugins: [
         {src: '~plugins/no-ssr.js', ssr: false},
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
-        ['@nuxtjs/dotenv', {path: './'}],
-        '@nuxtjs/proxy',
+        ['@nuxtjs/dotenv', {path: './'}]
     ],
     css: [
         '~/static/normalize.css',

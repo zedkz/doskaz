@@ -56,7 +56,7 @@ services:
     networks:
       - web
     environment:
-      - BACKEND_DOMAIN=http://backend_nginx
+      - BACKEND_DOMAIN
       - NUXT_HOST=0.0.0.0
     depends_on:
       - backend
