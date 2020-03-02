@@ -5,7 +5,6 @@ export default {
     loading: false,
     modules: [
         '@nuxtjs/axios',
-        '@nuxtjs/proxy',
         'cookie-universal-nuxt'
     ],
     proxy: {
@@ -19,15 +18,16 @@ export default {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
     },
-    axios: {
+   /* axios: {
         proxy: true
-    },
+    },*/
     plugins: [
         {src: '~plugins/no-ssr.js', ssr: false},
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
-        ['@nuxtjs/dotenv', {path: './'}]
+        ['@nuxtjs/dotenv', {path: './'}],
+        '@nuxtjs/proxy',
     ],
     css: [
         '~/static/normalize.css',
