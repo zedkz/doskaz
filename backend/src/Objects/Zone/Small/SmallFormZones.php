@@ -6,7 +6,7 @@ namespace App\Objects\Zone\Small;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Zones;
 
-class SmallFormZones implements Zones
+class SmallFormZones extends Zones
 {
     /**
      * @var Zone

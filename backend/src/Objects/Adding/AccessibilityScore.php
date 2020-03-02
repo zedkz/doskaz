@@ -133,9 +133,11 @@ class AccessibilityScore
         return false;
     }
 
-    public static function average(self ...$scores): self
+    public static function average(?self ...$scores): self
     {
-        $collection = new Collection(AccessibilityScore::class, $scores);
+        $collection = new Collection(AccessibilityScore::class, array_filter($scores, function ($score) {
+            return !is_null($score);
+        }));
         $results = array_map(function ($key) use ($collection) {
             $items = $collection->filter(function (AccessibilityScore $score) use ($key) {
                 return $score->{$key} !== self::SCORE_NOT_PROVIDED;

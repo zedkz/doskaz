@@ -6,7 +6,7 @@ namespace App\Objects\Zone\Full;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Zones;
 
-class FullFormZones implements Zones
+class FullFormZones extends Zones
 {
     /**
      * @var Parking
@@ -85,18 +85,5 @@ class FullFormZones implements Zones
         $this->toilet = $toilet;
         $this->navigation = $navigation;
         $this->serviceAccessibility = $serviceAccessibility;
-    }
-
-    public function overallScore(): AccessibilityScore
-    {
-        return AccessibilityScore::average(
-            $this->parking->accessibilityScore(),
-            $this->entrance1->accessibilityScore(),
-            $this->movement->accessibilityScore(),
-            $this->service->accessibilityScore(),
-            $this->toilet->accessibilityScore(),
-            $this->navigation->accessibilityScore(),
-            $this->serviceAccessibility->accessibilityScore()
-        );
     }
 }

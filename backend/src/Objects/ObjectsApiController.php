@@ -163,7 +163,7 @@ final class ObjectsApiController extends AbstractController
             $colors = [
                 AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE => '#F8AC1A',
                 AccessibilityScore::SCORE_NOT_ACCESSIBLE => '#DE1220',
-                AccessibilityScore::SCORE_NOT_PROVIDED => 'grey',
+                AccessibilityScore::SCORE_NOT_PROVIDED => '#7B95A7',
                 AccessibilityScore::SCORE_FULL_ACCESSIBLE => '#3DBA3B'
             ];
 
@@ -216,19 +216,34 @@ final class ObjectsApiController extends AbstractController
 
     /**
      * @Route(path="/{id}", requirements={"id" = "\d+"}, methods={"GET"})
+     * @param $id
+     * @param Connection $connection
+     * @return array|NotFoundHttpException
      */
     public function object($id, Connection $connection)
     {
         $object = $connection->createQueryBuilder()
             ->select([
-                'title',
-                'address',
-                'description',
-                'ST_X(ST_AsText(point_value)) as lat',
-                'ST_Y(ST_AsText(point_value)) as long',
+                'objects.title',
+                'objects.address',
+                'objects.description',
+                'objects.overall_score_movement',
+                'objects.overall_score_limb',
+                'objects.overall_score_vision',
+                'objects.overall_score_hearing',
+                'objects.overall_score_intellectual',
+                'objects.zones',
+                'ST_X(ST_AsText(objects.point_value)) as lat',
+                'ST_Y(ST_AsText(objects.point_value)) as long',
+                'sub_categories.title as sub_category',
+                'sub_categories.icon as sub_category_icon',
+                'object_categories.title as category',
+                'object_categories.icon as category_icon',
             ])
             ->from('objects')
-            ->andWhere('id = :id')
+            ->leftJoin('objects', 'object_categories', 'sub_categories', 'sub_categories.id = objects.category_id')
+            ->leftJoin('sub_categories', 'object_categories', 'object_categories', 'sub_categories.parent_id = object_categories.id')
+            ->andWhere('objects.id = :id')
             ->andWhere('objects.deleted_at IS NULL')
             ->setParameter('id', $id)
             ->execute()
@@ -238,13 +253,40 @@ final class ObjectsApiController extends AbstractController
             return new NotFoundHttpException();
         }
 
+        /**
+         * @var Zones
+         */
+        $zones = $connection->convertToPHPValue($object['zones'], Zones::class);
+
+        $scoresByZone = [
+            'parking' => $zones->parking->accessibilityScore(),
+            'entrance' => AccessibilityScore::average(...[
+                $zones->entrance1->accessibilityScore(),
+                $zones->entrance2 ? $zones->entrance2->accessibilityScore() : null,
+                $zones->entrance3 ? $zones->entrance3->accessibilityScore() : null,
+            ]),
+            'movement' => $zones->movement->accessibilityScore(),
+            'service' => $zones->service->accessibilityScore(),
+            'toilet' => $zones->toilet->accessibilityScore(),
+            'navigation' => $zones->navigation->accessibilityScore(),
+            'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore(),
+        ];
+
+
         return [
             'title' => $object['title'],
             'address' => $object['address'],
-            'description' => $object['description'],
+            'description' => strip_tags($object['description']),
+            'subCategory' => $object['sub_category'],
+            'category' => $object['category'],
             'coordinates' => [
                 (float)$object['lat'], (float)$object['long']
-            ]
+            ],
+            'overallScore' => $object['overall_score_movement'],
+            'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) {
+                return $accessibilityScore->movement;
+            }, $scoresByZone),
+            'icon' => $object['sub_category_icon'] ? $object['sub_category_icon'] : $object['category_icon'],
         ];
     }
 

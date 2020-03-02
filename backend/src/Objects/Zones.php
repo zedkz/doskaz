@@ -18,7 +18,20 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *     }
  * )
  */
-interface Zones
+abstract class Zones
 {
-    public function overallScore(): AccessibilityScore;
+    public function overallScore(): AccessibilityScore
+    {
+        return AccessibilityScore::average(
+            $this->parking->accessibilityScore(),
+            $this->entrance1->accessibilityScore(),
+            $this->entrance2 ? $this->entrance2->accessibilityScore() : null,
+            $this->entrance3 ? $this->entrance3->accessibilityScore() : null,
+            $this->movement->accessibilityScore(),
+            $this->service->accessibilityScore(),
+            $this->toilet->accessibilityScore(),
+            $this->navigation->accessibilityScore(),
+            $this->serviceAccessibility->accessibilityScore()
+        );
+    }
 }
