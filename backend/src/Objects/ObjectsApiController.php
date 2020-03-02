@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Objects;
 
+use App\Infrastructure\FileReference;
 use App\Objects\Adding\AccessibilityScore;
 use Doctrine\DBAL\Connection;
+use Imgproxy\UrlBuilder;
 use OpenApi\Annotations\ExternalDocumentation;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
@@ -220,7 +222,7 @@ final class ObjectsApiController extends AbstractController
      * @param Connection $connection
      * @return array|NotFoundHttpException
      */
-    public function object($id, Connection $connection)
+    public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request)
     {
         $object = $connection->createQueryBuilder()
             ->select([
@@ -258,6 +260,14 @@ final class ObjectsApiController extends AbstractController
          */
         $zones = $connection->convertToPHPValue($object['zones'], Zones::class);
 
+        $photos = $connection->createQueryBuilder()
+            ->select('*')->from('objects_photos_history')
+            ->andWhere('object_id = :objectId')
+            ->setParameter('objectId', $id)
+            ->orderBy('date', 'desc')
+            ->execute()
+            ->fetchAll();
+
         $scoresByZone = [
             'parking' => $zones->parking->accessibilityScore(),
             'entrance' => AccessibilityScore::average(...[
@@ -269,9 +279,11 @@ final class ObjectsApiController extends AbstractController
             'service' => $zones->service->accessibilityScore(),
             'toilet' => $zones->toilet->accessibilityScore(),
             'navigation' => $zones->navigation->accessibilityScore(),
-            'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore(),
+            'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore()
         ];
 
+
+        $baseUrl = $request->getSchemeAndHttpHost();
 
         return [
             'title' => $object['title'],
@@ -287,6 +299,17 @@ final class ObjectsApiController extends AbstractController
                 return $accessibilityScore->movement;
             }, $scoresByZone),
             'icon' => $object['sub_category_icon'] ? $object['sub_category_icon'] : $object['category_icon'],
+            'photos' => array_map(function ($photo) use ($connection, $urlBuilder, $baseUrl) {
+                /**
+                 * @var FileReference $file
+                 */
+                $file = $connection->convertToPHPValue($photo['file'], FileReference::class);
+                return [
+                    'date' => $connection->convertToPHPValue($photo['date'], 'datetimetz_immutable'),
+                    'previewUrl' => $baseUrl . $urlBuilder->build('local:///storage/' . $file->relativePath, 600, 400)->toString(),
+                    'viewUrl' => $baseUrl . $urlBuilder->build('local:///storage/' . $file->relativePath, 2560, 1440)->toString()
+                ];
+            }, $photos)
         ];
     }
 

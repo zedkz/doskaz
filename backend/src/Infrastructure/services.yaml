@@ -69,3 +69,7 @@ services:
     App\Infrastructure\FileNormalizer:
         tags:
             - { name: serializer.normalizer, priority: 1 }
+
+    Imgproxy\UrlBuilder:
+        arguments:
+            - '/img'

@@ -55,11 +55,13 @@
                         </div>
                     </div>
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-photo') }" id="tab-photo">
-                        <div class="object-side__photo">
-                            <div class="object-side__photo-year">2019</div>
-                        </div>
-                        <div class="object-side__photo">
-                            <div class="object-side__photo-year">2018</div>
+                        <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
+                            <div class="object-side__photo-year">{{ group.year }}</div>
+                            <div>
+                                <a :href="photo.viewUrl" v-for="(photo, index) in group.photos" :key="index" target="_blank" style="display: inline-block; max-width: 200px">
+                                    <img :src="photo.previewUrl" style="max-width: 100%" alt="">
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-video') }" id="tab-video">
@@ -513,6 +515,8 @@
 
 <script>
     import {sync} from "vuex-pathify";
+    import groupBy from 'lodash/groupBy'
+    import map from 'lodash/map'
 
     const accessibilityValues = {
         full_accessible: {
@@ -536,7 +540,6 @@
             backgroundColor: 'rgba(123,149,167,0.15)'
         }
     };
-
 
     const zones = [
         {key: 'parking', label: 'Парковка'},
@@ -577,6 +580,12 @@
                     ...zone,
                     class: accessibilityValues[this.object.scoreByZones[zone.key]].class
                 }));
+            },
+            photosByYear() {
+                return map(groupBy(this.object.photos, photo => (new Date(photo.date).getFullYear())), (v, k) => ({
+                    year: Number(k),
+                    photos: v
+                })).sort((a, b) => b.year - a.year)
             }
         },
         watch: {
@@ -585,7 +594,7 @@
                     this.coordinates = coordinates
                 },
                 immediate: true
-            }
+            },
         },
         methods: {
             isActive(tabItem) {
