@@ -309,7 +309,9 @@ final class ObjectsApiController extends AbstractController
                     'previewUrl' => $baseUrl . $urlBuilder->build('local:///storage/' . $file->relativePath, 600, 400)->toString(),
                     'viewUrl' => $baseUrl . $urlBuilder->build('local:///storage/' . $file->relativePath, 2560, 1440)->toString()
                 ];
-            }, $photos)
+            }, $photos),
+            'videos' => [],
+            'reviews' => []
         ];
     }
 

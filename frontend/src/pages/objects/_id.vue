@@ -31,13 +31,13 @@
                        :class="{ active: isActive('tab-description') }" href="#tab-description">Описание</a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-photo')"
                        :class="{ active: isActive('tab-photo') }" href="#tab-photo">Фото<span
-                            class="object-side__tab-num">7</span></a>
+                            class="object-side__tab-num">{{ object.photos.length }}</span></a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-video')"
                        :class="{ active: isActive('tab-video') }" href="#tab-video">Видео<span
-                            class="object-side__tab-num">11</span></a>
+                            class="object-side__tab-num">{{ object.videos.length }}</span></a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-reviews')"
                        :class="{ active: isActive('tab-reviews') }" href="#tab-reviews">Отзывы<span
-                            class="object-side__tab-num">12</span></a>
+                            class="object-side__tab-num">{{ object.reviews.length }}</span></a>
                     <a class="object-side__tab-link" @click.prevent="setActive('tab-history')"
                        :class="{ active: isActive('tab-history') }" href="#tab-history">История</a>
                 </div>
