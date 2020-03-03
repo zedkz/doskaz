@@ -159,18 +159,34 @@ export default {
   .replie-comment {
     margin-top: 29px;
   }
+
   .person-comment,
   .replie-comment {
     display: flex;
-    margin-top: 35px;
 
     .person-info {
-      padding-top: 6px;
       margin-left: 10px;
 
       .person-name {
         font-weight: bold;
         font-size: 16px;
+        line-height: 20px;
+        @media all and (max-width: 1023px) {
+          font-size: 14px;
+        }
+        @media all and (max-width: 768px) {
+          font-size: 12px;
+        }
+      }
+      .text-comment {
+        font-size: 16px;
+        line-height: 20px;
+        @media all and (max-width: 1023px) {
+          font-size: 14px;
+        }
+        @media all and (max-width: 768px) {
+          font-size: 12px;
+        }
       }
 
       .date-comment {
@@ -180,6 +196,10 @@ export default {
       .small {
         color: #5b6067;
         font-size: 14px;
+      }
+
+      .comments-block {
+        padding: 18px 0 0;
       }
     }
     .avatar {

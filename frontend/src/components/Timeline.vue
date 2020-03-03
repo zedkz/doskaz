@@ -211,6 +211,10 @@
         justify-content: flex-start;
         align-items: flex-start;
 
+        @media all and (max-width: 1023px) {
+            max-height: 330px;
+        }
+
         &__tab-links {
             width: calc(100% - 40px);
             margin-right: 40px;

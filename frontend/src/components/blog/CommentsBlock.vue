@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="blog__inside-comments">
         <h4>{{ declension }}</h4>
         <span class="custom-dropdown">
             <select v-model="comments_sort" @change="sortedComment()">

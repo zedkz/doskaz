@@ -260,7 +260,7 @@
                 align-items: center;
                 background: $tr;
                 transition: background 0.3s;
-                margin: 20px 0 0 20px;
+                margin: 0 0 20px 20px;
                 cursor: pointer;
                 width: 270px;
 

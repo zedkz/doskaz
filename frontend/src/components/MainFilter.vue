@@ -160,6 +160,10 @@
         padding: 15px 0 15px 40px;
         max-height: calc(100% - 400px);
 
+        @media all and (max-width: 1023px) {
+            max-height: calc(100% - 330px);
+        }
+
         &__header {
             display: flex;
             align-items: center;

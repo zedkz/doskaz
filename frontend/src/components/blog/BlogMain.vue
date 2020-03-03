@@ -1,6 +1,6 @@
 <template>
     <div class="blog__in">
-        <div class="blog__content">
+        <div class="blog__content --main">
             <h2 class="title">Блог</h2>
             <form class="input" @submit.prevent="search">
                 <input type="text" placeholder="Поиск по блогу" :value="$route.query.search" ref="search"/>
@@ -11,6 +11,52 @@
                     </svg>
                 </button>
             </form>
+            <div class="blog__side --main">
+                <div class="blog__category">
+                    <span class="blog__category-title">Категории</span>
+                    <nuxt-link
+                            :to="{name: 'blog-category', query: {period: $route.query.period}}"
+                            class="blog__category-link"
+                            :class="{isActive: !activeCategory}">
+                        <span>Все категории</span>
+                    </nuxt-link>
+
+                    <nuxt-link
+                            :to="{name: 'blog-category', params: {category: category.slug }, query: {period: $route.query.period}}"
+                            class="blog__category-link"
+                            v-for="category in categories"
+                            :class="{isActive: activeCategory === category.slug}"
+                            :key="category.slug">
+                        <span>{{ category.title }}</span>
+                    </nuxt-link>
+
+                </div>
+                <div class="blog__category">
+                    <span class="blog__category-title">Дата</span>
+                    <router-link :to="{...$route, query: {}}" class="blog__category-link" :class="{isActive: !$route.query.period}"><span>За все время</span></router-link>
+                    <nuxt-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ period.title }}</span></nuxt-link>
+                </div>
+                <div class="blog__category --share">
+                    <span class="blog__category-title">Поделиться</span>
+                    <div class="social">
+                        <a href="" class="social__link --fcb">
+                            <img src="./../../assets/img/social/fcb.svg"/>
+                        </a>
+                        <a href="" class="social__link --vk">
+                            <img src="./../../assets/img/social/vk.svg"/>
+                        </a>
+                        <a href="" class="social__link --ok">
+                            <img src="./../../assets/img/social/ok.svg"/>
+                        </a>
+                        <a href="" class="social__link --my">
+                            <img src="./../../assets/img/social/my.svg"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="blog__category">
+                    <a href="/blog/rss" class="subscribe-link">Подписаться на рассылку</a>
+                </div>
+            </div>
             <ul class="blog__list">
                 <li class="blog__list-item" v-for="post in posts" :key="post.id">
                     <div class="blog__item">
@@ -35,52 +81,6 @@
             </ul>
             <div class="blog__pagination">
                 <Pagination :pages="pages" v-if="pages > 1"/>
-            </div>
-        </div>
-        <div class="blog__side">
-            <div class="blog__category">
-                <span class="blog__category-title">Категории</span>
-                <nuxt-link
-                        :to="{name: 'blog-category', query: {period: $route.query.period}}"
-                        class="blog__category-link"
-                        :class="{isActive: !activeCategory}">
-                    <span>Все категории</span>
-                </nuxt-link>
-
-                <nuxt-link
-                        :to="{name: 'blog-category', params: {category: category.slug }, query: {period: $route.query.period}}"
-                        class="blog__category-link"
-                        v-for="category in categories"
-                        :class="{isActive: activeCategory === category.slug}"
-                        :key="category.slug">
-                    <span>{{ category.title }}</span>
-                </nuxt-link>
-
-            </div>
-            <div class="blog__category">
-                <span class="blog__category-title">Дата</span>
-                <router-link :to="{...$route, query: {}}" class="blog__category-link" :class="{isActive: !$route.query.period}"><span>За все время</span></router-link>
-                <nuxt-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ period.title }}</span></nuxt-link>
-            </div>
-            <div class="blog__category --share">
-                <span class="blog__category-title">Поделиться</span>
-                <div class="social">
-                    <a href="" class="social__link --fcb">
-                        <img src="./../../assets/img/social/fcb.svg"/>
-                    </a>
-                    <a href="" class="social__link --vk">
-                        <img src="./../../assets/img/social/vk.svg"/>
-                    </a>
-                    <a href="" class="social__link --ok">
-                        <img src="./../../assets/img/social/ok.svg"/>
-                    </a>
-                    <a href="" class="social__link --my">
-                        <img src="./../../assets/img/social/my.svg"/>
-                    </a>
-                </div>
-            </div>
-            <div class="blog__category">
-                <a href="/blog/rss" class="subscribe-link">Подписаться на рассылку</a>
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@
         transition: opacity 0.3s;
         background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.00322759 10.6289C2.50061 10.6289 4.8483 11.6006 6.6126 13.3679C8.38013 15.1352 9.35326 17.4893 9.35326 19.9952H13.2018C13.2018 12.7165 7.28072 6.79526 0.00322759 6.79526V10.6289ZM0.00927943 3.83323C8.90987 3.83323 16.1515 11.0854 16.1515 20H20C20 8.97127 11.0316 0 0.00927943 0V3.83323ZM5.33124 17.3221C5.33124 18.788 4.13742 19.9771 2.66562 19.9771C1.19382 19.9771 0 18.7884 0 17.3221C0 15.8553 1.19342 14.6671 2.66521 14.6671C4.13701 14.6671 5.33124 15.8553 5.33124 17.3221Z' fill='%23E67C2B'/%3E%3C/svg%3E%0A") left top no-repeat;
         background-size: 20px;
-
+        white-space: nowrap;
         &:hover {
             opacity: 0.7;
         }
@@ -146,35 +146,126 @@
             display: flex;
             justify-content: space-between;
             padding: 45px 0 30px;
-
+            position: relative;
+            @media all and (max-width: 1023px) {
+                flex-direction: column;
+                padding: 28px 0 0;
+            }
             .input {
                 margin: 34px 0;
+                @media all and (max-width: 1023px) {
+                    margin: 22px 0 26px;
+                }
+                @media all and (max-width: 768px) {
+                    margin: 16px 0;
+                    height: 34px;
+                    padding: 0 10px;
+                }
                 input {
                     width: calc(100% - 40px);
+                    font-size: 16px;
+                    @media all and (max-width: 768px) {
+                        width: calc(100% - 30px);
+                    }
+                }
+                button {
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    svg {
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                    }
                 }
             }
         }
 
         &__content {
             width: 710px;
+            @media all and (max-width: 1023px) {
+                width: 100%;
+            }
+            @media all and (max-width: 768px) {
+                .title {
+                    font-size: 18px;
+                    line-height: 20px;
+                }
+            }
+            &.--main {
+                @media all and (max-width: 1023px) {
+                    width: calc(100% - 230px);
+                }
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                }
+            }
         }
 
         &__side {
             width: 260px;
+            @media all and (max-width: 1023px) {
+                width: 100%;
+                border-bottom: 1px solid #7B95A7;
+            }
+            &.--main {
+                position: absolute;
+                top: 45px;
+                right: 0;
+                @media all and (max-width: 1023px) {
+                    width: 200px;
+                    border: none;
+                }
+                @media all and (max-width: 768px) {
+                    position: relative;
+                    width: 100%;
+                    overflow-x: auto;
+                    top: auto;
+                    display: flex;
+                    align-items: center;
+                    .blog__category {
+                        display: flex;
+                        padding: 0;
+                        margin: 0 20px 0 0;
+                        .social {
+                            margin: 0;
+                        }
+                        &-title {
+                            display: none;
+                        }
+                    }
+                }
+            }
         }
 
         &__list {
             list-style: none;
             padding: 0;
             margin: 48px 0 0;
+            @media all and (max-width: 1023px) {
+                margin: 28px 0 0;
+            }
+            @media all and (max-width: 768px) {
+                margin: 20px 0 0;
+            }
 
             &-item {
                 padding: 48px 0 35px;
-                border-top: 1px solid #7B95A7;
-
+                border-bottom: 1px solid #7B95A7;
                 &:first-child {
-                    border: none;
                     padding: 0 0 35px;
+                }
+                @media all and (max-width: 1023px) {
+                    padding: 26px 0;
+                    &:first-child {
+                        padding: 0 0 26px;
+                    }
+                }
+                @media all and (max-width: 1023px) {
+                    padding: 24px 0 18px;
+                    &:first-child {
+                        padding: 0 0 18px;
+                    }
                 }
             }
         }
@@ -185,18 +276,42 @@
                 font-size: 32px;
                 margin: 0 0 32px;
                 line-height: 40px;
+                @media all and (max-width: 1023px)  {
+                    font-size: 22px;
+                    line-height: 30px;
+                    margin: 0 0 24px;
+                }
+                @media all and (max-width: 768px) {
+                    font-size: 16px;
+                    line-height: 20px;
+                    margin: 0 0 8px;
+                }
             }
 
             &-img, & > img {
                 display: block;
                 max-width: 100%;
                 margin: 32px 0 29px;
+                @media all and (max-width: 1023px) {
+                    margin: 24px 0;
+                }
+                @media all and (max-width: 768px) {
+                    margin: 8px 0 16px;
+                }
             }
 
             &-text, & > p {
                 font-size: 16px;
                 line-height: 30px;
                 margin: 24px 0;
+                @media all and (max-width: 1023px) {
+                    line-height: 20px;
+                    font-size: 14px;
+                }
+                @media all and (max-width: 768px) {
+                    font-size: 12px;
+                    margin: 16px 0;
+                }
             }
 
             &-bottom {
@@ -210,7 +325,9 @@
                 font-size: 14px;
                 line-height: 20px;
                 color: #5B6067;
-
+                @media all and (max-width: 768px) {
+                    font-size: 12px;
+                }
                 & + .blog__item-link {
                     margin: 0 0 0 50px;
                 }
@@ -219,13 +336,23 @@
 
         &__pagination {
             padding: 40px 0 30px;
+            @media all and (max-width: 768px) {
+                overflow-x: auto;
+            }
         }
 
         &__category {
             margin: 24px 0;
+            @media all and (max-width: 768px) {
+                margin: 0;
+                padding: 20px 0;
+            }
 
             &.--share {
                 margin: 35px 0 54px;
+                @media all and (max-width: 768px) {
+                    margin: 0;
+                }
             }
 
             &-link {
@@ -235,14 +362,23 @@
                 position: relative;
                 margin: 2px 0;
 
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                    line-height: 20px;
+                    margin: 0 12px 0 0;
+                }
+
                 span {
                     border-bottom: 3px solid transparent;
                     line-height: 20px;
+                    @media all and (max-width: 768px) {
+                        white-space: nowrap;
+                        border: none;
+                    }
                 }
 
                 &:hover {
                     background: #F1F8FC;
-
                     &:before {
                         position: absolute;
                         content: '';
@@ -256,7 +392,6 @@
 
                 &.isActive {
                     font-weight: 600;
-
                     span {
                         border-color: #0F6BF5;
                     }
@@ -265,13 +400,17 @@
 
             &-title {
                 font-size: 14px;
-                margin: 0 0 6px;
+                margin: 0 0 10px;
                 display: block;
                 color: #5B6067;
             }
 
             .social {
                 margin: 15px 0 0;
+                @media all and (max-width: 768px) {
+                    display: flex;
+                    margin: 0 20px 0 0;
+                }
             }
         }
     }
@@ -287,6 +426,12 @@
             line-height: 50px;
             text-align: center;
             transition: opacity 0.3s;
+            @media all and (max-width: 1023px) {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                margin: 0 0 0 10px;
+            }
 
             &:hover {
                 opacity: 0.7;

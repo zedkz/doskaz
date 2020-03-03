@@ -172,6 +172,9 @@
         align-items: center;
         padding: 0 10px 0 20px;
         background: #FFFFFF;
+        @media all and (max-width: 1200px) {
+            height: 40px;
+        }
 
         &.--date {
             input {
@@ -227,6 +230,7 @@
             font-size: 32px;
             line-height: 40px;
             border-bottom: 1px dashed;
+            background: transparent;
         }
     }
 
@@ -288,7 +292,14 @@
         line-height: 50px;
         margin: 0;
         color: $black;
-
+        @media all and (max-width: 1023px) {
+            font-size: 32px;
+            line-height: 40px;
+        }
+        @media all and (max-width: 768px) {
+            font-size: 18px;
+            line-height: 20px;
+        }
         &.--md {
             font-size: 32px;
             line-height: 40px;
@@ -479,9 +490,10 @@
         }
     }
 
-
     .container {
-        width: 1160px;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 20px;
         margin: 0 auto;
     }
 </style>

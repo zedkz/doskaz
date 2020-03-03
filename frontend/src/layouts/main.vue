@@ -12,6 +12,9 @@
             <button class="button button_blue" type="button" @click="popupOpen = true">
                 <img :src="require(`~/assets/icons/categories/${category}.svg`)" v-if="category"/>
             </button>
+            <button class="button button_blue" type="button">
+                <img :src="require(`~/assets/icons/site-map.svg`)"/>
+            </button>
         </div>
         <div class="main-page__actions">
             <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
@@ -148,6 +151,11 @@
             padding: 20px;
             z-index: 10;
 
+            @media all and (max-width: 1023px) {
+                right: 0;
+                flex-direction: column;
+            }
+
             .button {
                 border: none;
                 width: 40px;
@@ -160,8 +168,16 @@
                 transition: opacity 0.3s;
                 margin-right: 20px;
 
+                @media all and (max-width: 1023px) {
+                    margin: 0 0 10px;
+
+                }
+
                 &:last-child {
                     margin-right: 0;
+                    @media all and (max-width: 1023px) {
+                        margin: 0;
+                    }
                 }
 
                 &:hover {
@@ -192,6 +208,10 @@
             right: 20px;
             z-index: 10;
 
+            @media all and (max-width: 1023px) {
+                flex-direction: column;
+            }
+
             .button {
                 border: none;
                 width: 50px;
@@ -205,8 +225,15 @@
                 transition: opacity 0.3s;
                 margin-right: 10px;
 
+                @media all and (max-width: 1023px) {
+                    margin: 0 0 10px;
+                }
+
                 &:last-child {
                     margin-right: 0;
+                    @media all and (max-width: 1023px) {
+                       margin: 0;
+                    }
                 }
 
                 &:hover {
