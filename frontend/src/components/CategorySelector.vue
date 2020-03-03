@@ -17,9 +17,9 @@
 
         <div class="category">
             <div class="category__scroll">
-                <template v-if="category == ''">
+                <template v-if="selectedCategory === null">
                     <div
-                            @click="selectCategory(cat.title)"
+                            @click="selectCategory(cat)"
                             class="category__item category__item_food category__item_red"
                             v-for="cat in categories"
                             :key="cat.id"
@@ -31,13 +31,13 @@
                     </div>
                 </template>
                 <template v-else>
-                    <p class="subcategory-title" @click="category = ''">
-                        &#8592; {{ category }}
+                    <p class="subcategory-title" @click="selectedCategory = null">
+                        &#8592; {{ selectedCategory.title }}
                     </p>
                     <div
                             @click="toggleCategory(subcat.id)"
                             class="category__item category__item_food category__item_red"
-                            v-for="subcat in subcategory.subCategories"
+                            v-for="subcat in selectedCategory.subCategories"
                             :class="{ checked_subcategory: selectedCategories.includes(subcat.id) }"
                             :key="subcat.id"
                     >
@@ -58,31 +58,12 @@
     export default {
         data() {
             return {
-                category: "",
-                isChecked: false,
-                categoryId: []
+                selectedCategory: null,
             };
         },
         methods: {
-            isIncludeSubcat(id) {
-                return this.$store.state.objectCategories.categoryId.includes(id)
-            },
             selectCategory(cat) {
-                this.category = cat;
-            },
-            setCategoryId(id) {
-                if (this.categoryId.length > 0) {
-                    if (this.categoryId.includes(id)) {
-                        let idx = this.categoryId.indexOf(id);
-                        this.categoryId.splice(idx, 1);
-                    } else {
-                        this.categoryId.push(id);
-                    }
-                    this.$root.$emit("setCategoryId", this.categoryId);
-                } else {
-                    this.categoryId.push(id);
-                    this.$root.$emit("setCategoryId", this.categoryId);
-                }
+                this.selectedCategory = cat;
             },
             ...call('map', ['toggleCategory', 'toggleAccessibilityLevel'])
         },
@@ -93,10 +74,6 @@
             selectedCategories: get('map/selectedCategories'),
             categories() {
                 return this.$store.state.objectCategories.categories;
-            },
-            subcategory() {
-                let cat = this.$store.state.objectCategories.categories;
-                return cat.find(subcat => subcat.title === this.category);
             }
         }
     };
