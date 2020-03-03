@@ -38,3 +38,4 @@ RUN chown -R www-data:www-data /var/www/html/var /var/www/html/storage
 VOLUME /var/www/html/storage
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
+COPY ./docker/opcache.ini $PHP_INI_DIR/conf.d/
