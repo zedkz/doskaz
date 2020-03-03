@@ -220,6 +220,8 @@ final class ObjectsApiController extends AbstractController
      * @Route(path="/{id}", requirements={"id" = "\d+"}, methods={"GET"})
      * @param $id
      * @param Connection $connection
+     * @param UrlBuilder $urlBuilder
+     * @param Request $request
      * @return array|NotFoundHttpException
      */
     public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request)
@@ -284,6 +286,20 @@ final class ObjectsApiController extends AbstractController
 
 
         $baseUrl = $request->getSchemeAndHttpHost();
+        $reviews = $connection->createQueryBuilder()
+            ->select([
+                'object_reviews.created_at as "createdAt"',
+                'object_reviews.text',
+                'authors.name as author'
+            ])
+            ->from('object_reviews')
+            ->leftJoin('object_reviews', 'users', 'authors', 'authors.id = object_reviews.author_id')
+            ->andWhere('object_reviews.deleted_at IS NULL')
+            ->orderBy('object_reviews.created_at', 'desc')
+            ->andWhere('object_reviews.object_id = :objectId')
+            ->setParameter('objectId', $id)
+            ->execute()
+            ->fetchAll();
 
         return [
             'title' => $object['title'],
@@ -311,7 +327,11 @@ final class ObjectsApiController extends AbstractController
                 ];
             }, $photos),
             'videos' => [],
-            'reviews' => []
+            'reviews' => array_map(function ($review) use ($connection) {
+                return array_replace($review, [
+                    'createdAt' => $connection->convertToPHPValue($review['createdAt'], 'datetimetz_immutable')
+                ]);
+            }, $reviews)
         ];
     }
 

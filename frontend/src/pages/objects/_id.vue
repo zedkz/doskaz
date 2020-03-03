@@ -69,57 +69,12 @@
                     </div>
                     <div class="object-side__tab-content" :class="{ active: isActive('tab-reviews') }" id="tab-reviews">
                         <ul class="object-side__review-list">
-                            <li class="object-side__review-item">
+                            <li class="object-side__review-item" v-for="(review, index) in object.reviews">
                                 <div class="object-side__review-top">
-                                    <span class="object-side__review-title">Елена Малышева</span>
-                                    <span class="object-side__review-date">10 июля, 15:32</span>
+                                    <span class="object-side__review-title">{{ review.author }}</span>
+                                    <span class="object-side__review-date">{{ review.createdAt | date }}</span>
                                 </div>
-                                <p class="object-side__review-text">Была там на днях, очень понравилось. Без туалета,
-                                    конечно, не очень удобно, но руки помыть можно без проблем. Персонал очень вежливый,
-                                    помогали мне. Суши просто огонь и пицца прям что надо, рекомендую!</p>
-                            </li>
-                            <li class="object-side__review-item">
-                                <div class="object-side__review-top">
-                                    <span class="object-side__review-title">Аружан Толеухан</span>
-                                    <span class="object-side__review-date">24 июня, 22:01</span>
-                                </div>
-                                <p class="object-side__review-text">Что могу сказать — в нашем городе не так уж много
-                                    заведений, где нам можно комфортно покушать и отдохнуть. Так что Сая суши даже с
-                                    имеющимися недостатками можно смело записывать в избранное.</p>
-                            </li>
-                            <li class="object-side__review-item">
-                                <div class="object-side__review-top">
-                                    <span class="object-side__review-title">Марат</span>
-                                    <span class="object-side__review-date">12 июня, 18:40</span>
-                                </div>
-                                <p class="object-side__review-text">Мне там понравилось. Удобно, чисто и вкусно! У них
-                                    ещё и доставка есть, кстати!</p>
-                            </li>
-                            <li class="object-side__review-item">
-                                <div class="object-side__review-top">
-                                    <span class="object-side__review-title">Елена Малышева</span>
-                                    <span class="object-side__review-date">24 июня, 22:01</span>
-                                </div>
-                                <p class="object-side__review-text">Была там на днях, очень понравилось. Без туалета,
-                                    конечно, не очень удобно, но руки помыть можно без проблем. Персонал очень вежливый,
-                                    помогали мне. Суши просто огонь и пицца прям что надо, рекомендую!</p>
-                            </li>
-                            <li class="object-side__review-item">
-                                <div class="object-side__review-top">
-                                    <span class="object-side__review-title">Аружан Толеухан</span>
-                                    <span class="object-side__review-date">10 июля, 15:32</span>
-                                </div>
-                                <p class="object-side__review-text">Что могу сказать — в нашем городе не так уж много
-                                    заведений, где нам можно комфортно покушать и отдохнуть. Так что Сая суши даже с
-                                    имеющимися недостатками можно смело записывать в избранное.</p>
-                            </li>
-                            <li class="object-side__review-item">
-                                <div class="object-side__review-top">
-                                    <span class="object-side__review-title">Марат</span>
-                                    <span class="object-side__review-date">10 июля, 15:32</span>
-                                </div>
-                                <p class="object-side__review-text">Мне там понравилось. удобно, чисто и вкусно! У них
-                                    ещё и доставка есть, кстати!</p>
+                                <p class="object-side__review-text">{{ review.text }}</p>
                             </li>
                         </ul>
                     </div>
@@ -517,6 +472,8 @@
     import {sync} from "vuex-pathify";
     import groupBy from 'lodash/groupBy'
     import map from 'lodash/map'
+    import {format} from 'date-fns'
+    import ru from 'date-fns/locale/ru'
 
     const accessibilityValues = {
         full_accessible: {
@@ -609,6 +566,13 @@
             },
             setActive(tabItem) {
                 this.activeItem = tabItem
+            }
+        },
+        filters: {
+            date(value) {
+                return format(new Date(value), 'd MMMM, HH:mm', {
+                    locale: ru
+                })
             }
         }
     };
