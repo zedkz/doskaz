@@ -29,4 +29,9 @@ class FileReference
     {
         $this->relativePath = str_replace('/storage/', '', $path);
     }
+
+    public function equalsTo($other): bool
+    {
+        return $other instanceof self && $other->relativePath === $this->relativePath;
+    }
 }

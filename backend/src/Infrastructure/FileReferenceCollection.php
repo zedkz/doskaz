@@ -25,7 +25,7 @@ class FileReferenceCollection extends AbstractCollection
         }
 
         $comparator = function (FileReference $a, FileReference $b) {
-            return $a->relativePath === $b->relativePath ? 0 : -1;
+            return $a->equalsTo($b) ? 0 : -1;
         };
 
         $diffAtoB = array_udiff($this->data, $other->data, $comparator);
@@ -39,5 +39,16 @@ class FileReferenceCollection extends AbstractCollection
         return !$this->filter(function (FileReference $fileReference) use ($element) {
             return $fileReference->relativePath === $element->relativePath;
         })->isEmpty();
+    }
+
+    public function remove($element): bool
+    {
+        foreach ($this->data as $key => $item) {
+            if($element->equalsTo($item)) {
+                unset ($this->data[$key]);
+                return true;
+            }
+        }
+        return false;
     }
 }

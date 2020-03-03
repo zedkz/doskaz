@@ -32,7 +32,7 @@ class PhotosUpdated
     public function __construct(UuidInterface $uuid, FileReferenceCollection $oldPhotos, FileReferenceCollection $newPhotos)
     {
         $this->uuid = $uuid;
-        $this->oldPhotos = $oldPhotos;
-        $this->newPhotos = $newPhotos;
+        $this->oldPhotos = clone $oldPhotos;
+        $this->newPhotos = clone $newPhotos;
     }
 }

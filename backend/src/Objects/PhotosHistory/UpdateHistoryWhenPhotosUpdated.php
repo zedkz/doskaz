@@ -44,18 +44,20 @@ class UpdateHistoryWhenPhotosUpdated implements EventListener
             'objectId' => $mapObject->id()
         ]);
 
+        $newPhotos = $event->newPhotos;
+
         foreach ($photos as $photo) {
             if (!$event->newPhotos->contains($photo->file())) {
                 $this->photosHistoryRepository->remove($photo);
+            } else {
+                $newPhotos->remove($photo->file());
             }
         }
 
         foreach ($event->newPhotos as $photo) {
-            if (!$event->oldPhotos->contains($photo)) {
-                $this->photosHistoryRepository->add(
-                    new PhotosHistory($mapObject->id(), $photo, $who)
-                );
-            }
+            $this->photosHistoryRepository->add(
+                new PhotosHistory($mapObject->id(), $photo, $who)
+            );
         }
 
         $this->flusher->flush();
@@ -63,6 +65,6 @@ class UpdateHistoryWhenPhotosUpdated implements EventListener
 
     public function supports($event): bool
     {
-        return $event instanceof PhotosUpdated && (!$event->newPhotos->isEmpty() || !$event->oldPhotos->isEmpty());
+        return $event instanceof PhotosUpdated;
     }
 }
