@@ -380,6 +380,9 @@
             &.--md {
                 width: 580px;
             }
+            &.--sm {
+                padding: 46px 40px 40px;
+            }
         }
         &__title {
             font-size: 22px;
@@ -486,6 +489,18 @@
             }
             &:first-child {
                 margin: 0;
+            }
+        }
+        &__textarea {
+            min-height: 200px;
+            display: block;
+            &-text {
+                text-align: left;
+                color: #7B95A7;
+                margin: 15px 0 35px;
+                display: block;
+                font-size: 14px;
+                line-height: 20px;
             }
         }
     }
