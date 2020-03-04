@@ -89,11 +89,13 @@
                         <div class="object-side__tab-content" :class="{ active: isActive('tab-history') }"
                              id="tab-history">
                             <ul class="object-side__history-list">
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">12 августа</span>
-                                    <p class="object-side__history-text"><b>Алдияр Тулебаев</b> добавил 2 фотографии</p>
+                                <li class="object-side__history-item" v-for="(item, index) in object.history" :key="index">
+                                    <span class="object-side__history-date">{{ item.date | date('d MMMM') }}</span>
+                                    <p class="object-side__history-text"><b>{{ item.name }}</b>
+                                        <template v-if="item.data.type === 'review_created'">прокомментировал(а) объект</template>
+                                    </p>
                                 </li>
-                                <li class="object-side__history-item">
+                                <!--<li class="object-side__history-item">
                                     <span class="object-side__history-date">11 августа</span>
                                     <p class="object-side__history-text"><b>Алдияр Тулебаев</b> изменил описание объекта
                                     </p>
@@ -123,7 +125,7 @@
                                     <span class="object-side__history-date">6 августа</span>
                                     <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал зоны
                                         доступности объекта</p>
-                                </li>
+                                </li>-->
                             </ul>
                         </div>
                     </div>
@@ -621,12 +623,11 @@
                 this.reviewPopup = false;
                 this.reviewText = '';
                 this.reviewSubmitting = false;
-
             }
         },
         filters: {
-            date(value) {
-                return format(new Date(value), 'd MMMM, HH:mm', {
+            date(value, pattern = 'd MMMM, HH:mm') {
+                return format(new Date(value), pattern, {
                     locale: ru
                 })
             }

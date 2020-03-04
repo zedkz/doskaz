@@ -5,6 +5,7 @@ namespace App\Objects;
 
 use App\Infrastructure\FileReference;
 use App\Objects\Adding\AccessibilityScore;
+use App\Objects\EventsHistory\EventData;
 use Doctrine\DBAL\Connection;
 use Imgproxy\UrlBuilder;
 use OpenApi\Annotations\ExternalDocumentation;
@@ -301,6 +302,19 @@ final class ObjectsApiController extends AbstractController
             ->execute()
             ->fetchAll();
 
+        $events = $connection->createQueryBuilder()->select([
+            'data',
+            'date',
+            'users.name'
+        ])
+            ->from('objects_events_history')
+            ->leftJoin('objects_events_history', 'users', 'users', 'users.id = objects_events_history.user_id')
+            ->andWhere('objects_events_history.object_id = :objectId')
+            ->setParameter('objectId', $id)
+            ->orderBy('date', 'desc')
+            ->execute()
+            ->fetchAll();
+
         return [
             'title' => $object['title'],
             'address' => $object['address'],
@@ -331,7 +345,14 @@ final class ObjectsApiController extends AbstractController
                 return array_replace($review, [
                     'createdAt' => $connection->convertToPHPValue($review['createdAt'], 'datetimetz_immutable')
                 ]);
-            }, $reviews)
+            }, $reviews),
+            'history' => array_map(function($event) use($connection) {
+                return [
+                    'name' => $event['name'],
+                    'date' => $connection->convertToPHPValue($event['date'], 'datetimetz_immutable'),
+                    'data' => $connection->convertToPHPValue($event['data'], EventData::class)
+                ];
+            }, $events)
         ];
     }
 

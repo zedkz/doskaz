@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  App\Objects\EventsHistory\EventRepository:
+
+  App\Objects\EventsHistory\Listener\ReviewCreatedListener:
+    tags:
+      - { name: domain_events.listener }
