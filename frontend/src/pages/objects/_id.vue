@@ -32,22 +32,13 @@
                 </div>
                 <div class="object-side__content">
                     <div class="object-side__tab-link-b">
-                        <a class="object-side__tab-link" @click.prevent="setActive('tab-description')"
-                           :class="{ active: isActive('tab-description') }" href="#tab-description">Описание</a>
-                        <a class="object-side__tab-link" @click.prevent="setActive('tab-photo')"
-                           :class="{ active: isActive('tab-photo') }" href="#tab-photo">Фото<span
-                                class="object-side__tab-num">{{ object.photos.length }}</span></a>
-                        <a class="object-side__tab-link" @click.prevent="setActive('tab-video')"
-                           :class="{ active: isActive('tab-video') }" href="#tab-video">Видео<span
-                                class="object-side__tab-num">{{ object.videos.length }}</span></a>
-                        <a class="object-side__tab-link" @click.prevent="setActive('tab-reviews')"
-                           :class="{ active: isActive('tab-reviews') }" href="#tab-reviews">Отзывы<span
-                                class="object-side__tab-num">{{ object.reviews.length }}</span></a>
-                        <a class="object-side__tab-link" @click.prevent="setActive('tab-history')"
-                           :class="{ active: isActive('tab-history') }" href="#tab-history">История</a>
+                        <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index" class="object-side__tab-link" :class="{active: $route.query.tab === tab.link.query.tab}">
+                            {{ tab.title }}
+                            <span class="object-side__tab-num" v-if="tab.counter >= 0">{{ tab.counter }}</span>
+                        </nuxt-link>
                     </div>
                     <div class="object-side__tab-content-b">
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-description') }"
+                        <div class="object-side__tab-content" :class="{active: !$route.query.tab}"
                              id="tab-description">
                             <p class="text" v-html="object.description"></p>
                             <div class="text__verification-b">
@@ -59,7 +50,7 @@
                                 <a href="" class="object-side__button --check">Подтвердить данные</a>
                             </div>
                         </div>
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-photo') }" id="tab-photo">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}" id="tab-photo">
                             <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
                                 <div class="object-side__photo-year">{{ group.year }}</div>
                                 <div>
@@ -70,10 +61,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-video') }" id="tab-video">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'videos'}" id="tab-video">
                             На утверждении
                         </div>
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-reviews') }"
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'reviews'}"
                              id="tab-reviews">
                             <ul class="object-side__review-list">
                                 <li class="object-side__review-item" v-for="(review, index) in object.reviews"
@@ -86,13 +77,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-history') }"
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'history'}"
                              id="tab-history">
                             <ul class="object-side__history-list">
-                                <li class="object-side__history-item" v-for="(item, index) in object.history" :key="index">
+                                <li class="object-side__history-item" v-for="(item, index) in object.history"
+                                    :key="index">
                                     <span class="object-side__history-date">{{ item.date | date('d MMMM') }}</span>
                                     <p class="object-side__history-text"><b>{{ item.name }}</b>
-                                        <template v-if="item.data.type === 'review_created'">прокомментировал(а) объект</template>
+                                        <template v-if="item.data.type === 'review_created'">прокомментировал(а)
+                                            объект
+                                        </template>
                                     </p>
                                 </li>
                                 <!--<li class="object-side__history-item">
@@ -487,26 +481,14 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="object-side__review-add" v-if="isActive('tab-reviews') && user"
-               @click="reviewPopup = true">Оставить отзыв</a>
+            <nuxt-link
+                    v-if="$route.query.tab === 'reviews'"
+                    :to="reviewsLink"
+                    class="object-side__review-add">Оставить отзыв
+            </nuxt-link>
         </div>
-        <div class="popup__wrapper" v-if="reviewPopup">
-            <div class="popup__in --sm">
-                <span class="popup__close" v-on:click="reviewPopup = false"></span>
-                <h5 class="popup__title">Написать отзыв</h5>
-                <textarea class="popup__textarea textarea" placeholder="Расскажите о ваших впечатлениях"
-                          v-model.trim="reviewText" :disabled="reviewSubmitting"></textarea>
-                <span class="popup__textarea-text">Введите минимум 20 символов</span>
-                <div class="popup__buttons">
-                    <div class="timeline__tab-link timeline__tab-link_user"><span class="avatar"
-                                                                                  :style="`background-image:url(${user.avatar})`"></span>
-                        <span class="name">{{ user.name }}</span></div>
-                    <button type="button" class="button" @click="createReview"
-                            :disabled="reviewText.length < 20 || reviewSubmitting">Отправить
-                    </button>
-                </div>
-            </div>
-        </div>
+
+        <nuxt-child @review-submitted="reviewSubmitted"/>
     </div>
 </template>
 
@@ -560,9 +542,6 @@
                 activeItem: 'tab-description',
                 visibleDetail: 'detail_1',
                 moreDetailsShow: false,
-                reviewPopup: false,
-                reviewText: '',
-                reviewSubmitting: false
             };
         },
         async asyncData({$axios, params}) {
@@ -583,13 +562,29 @@
                     class: accessibilityValues[this.object.scoreByZones[zone.key]].class
                 }));
             },
+            reviewsLink() {
+                return {
+                    name: 'objects-id-review',
+                    params: {
+                        id: this.$route.params.id
+                    }
+                }
+            },
             photosByYear() {
                 return map(groupBy(this.object.photos, photo => (new Date(photo.date).getFullYear())), (v, k) => ({
                     year: Number(k),
                     photos: v
                 })).sort((a, b) => b.year - a.year)
             },
-            user: get('authentication/user')
+            tabs() {
+                return [
+                    {title: 'Описание', link: {...this.$route, query: {tab: undefined}}},
+                    {title: 'Фото', link: {...this.$route, query: {tab: 'photos'}}, counter: this.object.photos.length},
+                    {title: 'Видео', link: {...this.$route, query: {tab: 'videos'}}, counter: this.object.videos.length},
+                    {title: 'Отзывы', link: {...this.$route, query: {tab: 'reviews'}}, counter: this.object.reviews.length},
+                    {title: 'История', link: {...this.$route, query: {tab: 'history'}}},
+                ]
+            }
         },
         watch: {
             'object.coordinates': {
@@ -597,7 +592,7 @@
                     this.coordinates = coordinates
                 },
                 immediate: true
-            },
+            }
         },
         methods: {
             isActive(tabItem) {
@@ -613,16 +608,9 @@
             setActive(tabItem) {
                 this.activeItem = tabItem
             },
-            async createReview() {
-                this.reviewSubmitting = true;
-                await this.$axios.post(`/api/objects/${this.$route.params.id}/reviews`, {
-                    text: this.reviewText
-                })
+            async reviewSubmitted() {
                 const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`)
                 this.object = object;
-                this.reviewPopup = false;
-                this.reviewText = '';
-                this.reviewSubmitting = false;
             }
         },
         filters: {
