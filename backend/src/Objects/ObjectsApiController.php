@@ -244,7 +244,8 @@ final class ObjectsApiController extends AbstractController
                 'sub_categories.icon as sub_category_icon',
                 'object_categories.title as category',
                 'object_categories.icon as category_icon',
-                'object_verifications.verified'
+                'object_verifications.verified',
+                'objects.zones->>\'type\' as form_type'
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'sub_categories', 'sub_categories.id = objects.category_id')
@@ -286,7 +287,6 @@ final class ObjectsApiController extends AbstractController
             'navigation' => $zones->navigation->accessibilityScore(),
             'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore()
         ];
-
 
         $baseUrl = $request->getSchemeAndHttpHost();
         $reviews = $connection->createQueryBuilder()
@@ -354,7 +354,15 @@ final class ObjectsApiController extends AbstractController
                     'date' => $connection->convertToPHPValue($event['date'], 'datetimetz_immutable'),
                     'data' => $connection->convertToPHPValue($event['data'], EventData::class)
                 ];
-            }, $events)
+            }, $events),
+            'attributes' => [
+                'form' => $object['form_type'],
+                'zones' => array_map(function (?Zone $zone) {
+                    return $zone->attributes;
+                }, array_filter((array) $zones, function ($zone) {
+                    return !is_null($zone);
+                }))
+            ]
         ];
     }
 

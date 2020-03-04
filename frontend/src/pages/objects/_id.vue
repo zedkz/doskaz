@@ -128,356 +128,29 @@
                 <div class="more-detail__wrapper" v-if="moreDetailsShow">
                     <span class="more-detail__close" v-on:click="moreDetailsShow = false"></span>
                     <div class="more-detail__top">
-                        <div class="more-detail__links">
-                            <a href="#detail_1" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_1') }"
-                               @click.prevent="setVisible('detail_1')">Общая информация</a>
-                            <a href="#detail_2" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_2') }"
-                               @click.prevent="setVisible('detail_2')">Парковка</a>
-                            <a href="#detail_3" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_3') }"
-                               @click.prevent="setVisible('detail_3')">Входная группа</a>
-                            <a href="#detail_4" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_4') }"
-                               @click.prevent="setVisible('detail_4')">Пути движения по объекту</a>
+                        <div class="more-detail__links" v-for="(chunk, index) in zonesMenu" :key="index">
+                            <a href="#detail_1" class="more-detail__link" v-for="item in chunk" :key="item.key"
+                               :class="{ active: isVisibleDetail(item.key) }"
+                               @click.prevent="setVisible(item.key)">{{ item.title }}</a>
                         </div>
-                        <div class="more-detail__links">
-                            <a href="#detail_5" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_5') }"
-                               @click.prevent="setVisible('detail_5')">Зона оказания услуги</a>
-                            <a href="#detail_6" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_6') }"
-                               @click.prevent="setVisible('detail_6')">Туалет</a>
-                            <a href="#detail_7" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_7') }"
-                               @click.prevent="setVisible('detail_7')">Навигация</a>
-                            <a href="#detail_8" class="more-detail__link"
-                               :class="{ active: isVisibleDetail('detail_8') }"
-                               @click.prevent="setVisible('detail_8')">Доступность услуги</a>
-                        </div>
+
                         <a href="" download="" class="more-detail__download">Скачать</a>
                     </div>
                     <div class="more-detail__content" id="more-detail__content">
-                        <div id="detail_1" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Общая информация</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_2" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Парковка</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_3" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Входная группа</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_4" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Пути движения по объекту</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_5" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Зона оказания услуги</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_6" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Туалет</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_7" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Навигация</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                        </div>
-                        <div id="detail_8" class="more-detail__item">
-                            <h3 class="more-detail__item-title">Доступность услуги</h3>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Количество парковочных мест (Не менее одного на 25 мест)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Размер парковки (Не менее 3,66 х 5,38 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <h4 class="more-detail__line-title">Обозначение автостоянки для инвалидов</h4>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак на вертикальной поверхности (стене, столбе, стойке)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Знак 5.15 «Место стоянки»</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Знак 7.15 «Инвалиды»</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
-                            <div class="more-detail__line empty">
-                                <span class="more-detail__line-text">Стрелка и расстояние</span>
-                                <span class="more-detail__line-status">&mdash;</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Разметка на плоскости</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line yes">
-                                <span class="more-detail__line-text">Съезд с тротуара на парковку (рекомендуется ширина 1,5 м)</span>
-                                <span class="more-detail__line-status">Да</span>
-                            </div>
-                            <div class="more-detail__line no">
-                                <span class="more-detail__line-text">Расстояние до входа в здание (для общественных зданий менее 50 м)</span>
-                                <span class="more-detail__line-status">Нет</span>
-                            </div>
+                        <div :id="zone.key" class="more-detail__item" v-for="zone in detailsZones" :key="zone.key">
+                            <h3 class="more-detail__item-title">{{ zone.title }}</h3>
+                            <template v-for="(group, index) in attributesList[zone.group]">
+                                <h4 class="more-detail__line-title" v-if="group.title">{{ group.title }}</h4>
+                                <template v-for="(sub, index2) in group.subGroups">
+                                    <h4 class="more-detail__line-title" v-if="sub.title">{{ sub.title }}</h4>
+                                    <div class="more-detail__line" v-for="attribute in sub.attributes" :class="{yes: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes', no: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no', empty: !['yes', 'no'].includes(object.attributes.zones[zone.key][`attribute${attribute.key}`])}">
+                                        <span class="more-detail__line-text">{{ attribute.title }} {{ attribute.subTitle }}</span>
+                                        <span class="more-detail__line-status" v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">Да</span>
+                                        <span class="more-detail__line-status" v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">Нет</span>
+                                        <span class="more-detail__line-status" v-else>&mdash;</span>
+                                    </div>
+                                </template>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -497,6 +170,7 @@
     import {sync, get} from "vuex-pathify";
     import groupBy from 'lodash/groupBy'
     import map from 'lodash/map'
+    import chunk from 'lodash/chunk'
     import {format} from 'date-fns'
     import ru from 'date-fns/locale/ru'
 
@@ -545,9 +219,15 @@
                 moreDetailsShow: false,
             };
         },
-        async asyncData({$axios, params}) {
-            const {data: object} = await $axios.get(`/api/objects/${params.id}`)
+        async asyncData({$axios, store, params}) {
+            const [{data: object}] = await Promise.all([
+                $axios.get(`/api/objects/${params.id}`),
+                store.dispatch('objectAdding/init')
+            ])
             return {object}
+        },
+        mounted() {
+            this.visibleDetail = this.detailsZones[0].key
         },
         computed: {
             ...sync('map', [
@@ -585,6 +265,28 @@
                     {title: 'Отзывы', link: {...this.$route, query: {tab: 'reviews'}}, counter: this.object.reviews.length},
                     {title: 'История', link: {...this.$route, query: {tab: 'history'}}},
                 ]
+            },
+            attributesList: get('objectAdding/attributesList[:form]'),
+            form() {
+                return this.object.attributes.form
+            },
+            detailsZones() {
+                const zones =  [
+                    {key: 'parking', title: 'Парковка', group: 'parking'},
+                    {key: 'entrance1', title: 'Входная группа 1', group: 'entrance'},
+                    {key: 'entrance2', title: 'Входная группа 2', group: 'entrance'},
+                    {key: 'entrance3', title: 'Входная группа 3', group: 'entrance'},
+                    {key: 'movement', title: 'Пути движения по объекту', group: 'movement'},
+                    {key: 'service', title: 'Зона оказания услуги', group: 'service'},
+                    {key: 'toilet', title: 'Туалет', group: 'toilet'},
+                    {key: 'navigation', title: 'Навигация', group: 'navigation'},
+                    {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
+                ]
+
+                return zones.filter(z => this.object.attributes.zones[z.key])
+            },
+            zonesMenu() {
+                return chunk(this.detailsZones, Math.round(this.detailsZones.length/2))
             }
         },
         watch: {
