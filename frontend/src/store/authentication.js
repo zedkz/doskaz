@@ -11,7 +11,11 @@ export const mutations = make.mutations(state);
 
 export const actions = {
     async loadUser({commit}) {
-        const {data: user} = await this.$axios.get('/api/profile');
+        const {data: user} = await this.$axios.get('/api/profile', {
+            validateStatus(status) {
+                return status < 500
+            }
+        });
         commit('SET_USER', user);
     },
     async deAuthenticate({commit}) {

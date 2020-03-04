@@ -4,6 +4,7 @@ export const plugins = [pathify.plugin];
 
 export const actions = {
     async nuxtServerInit({dispatch}) {
+        await dispatch('authentication/loadUser')
         dispatch('disabilitiesCategorySettings/init')
     }
 }
