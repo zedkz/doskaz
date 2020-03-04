@@ -43,7 +43,8 @@
                             <p class="text" v-html="object.description"></p>
                             <div class="text__verification-b">
                                 <span class="text__verification-link" v-on:click="moreDetailsShow = true">Подробная информация</span>
-                                <p class="text__verification">Объект частично верифицирован</p>
+                                <p class="text__verification" v-if="object.verified">Объект верифицирован</p>
+                                <p class="text__verification" v-else>Объект не верифицирован</p>
                             </div>
                             <div class="object-side__button-b">
                                 <a href="" class="object-side__button --complaint">Подать жалобу</a>

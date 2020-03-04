@@ -73,3 +73,5 @@ services:
     Imgproxy\UrlBuilder:
         arguments:
             - '/img'
+
+    App\Infrastructure\Doctrine\Transactional:

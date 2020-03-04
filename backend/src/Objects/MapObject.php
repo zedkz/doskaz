@@ -129,6 +129,8 @@ class MapObject implements EventProducer
         $this->updatedAt = $this->createdAt = new \DateTimeImmutable();
         $this->videos = $videos;
         $this->photos = $photos;
+
+        $this->remember(new MapObjectCreated($this->uuid));
         if (!$this->photos->isEmpty()) {
             $this->remember(new PhotosUpdated($this->uuid, $this->photos, $photos));
         }

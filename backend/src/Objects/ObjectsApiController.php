@@ -244,10 +244,12 @@ final class ObjectsApiController extends AbstractController
                 'sub_categories.icon as sub_category_icon',
                 'object_categories.title as category',
                 'object_categories.icon as category_icon',
+                'object_verifications.verified'
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'sub_categories', 'sub_categories.id = objects.category_id')
             ->leftJoin('sub_categories', 'object_categories', 'object_categories', 'sub_categories.parent_id = object_categories.id')
+            ->leftJoin('objects', 'object_verifications', 'object_verifications', 'object_verifications.id = objects.uuid')
             ->andWhere('objects.id = :id')
             ->andWhere('objects.deleted_at IS NULL')
             ->setParameter('id', $id)
