@@ -141,6 +141,13 @@
         &:hover {
             opacity: 0.7;
         }
+        &[disabled] {
+            background: $text;
+            cursor: default;
+            &:hover {
+                opacity: 1;
+            }
+        }
     }
 
     .select {
