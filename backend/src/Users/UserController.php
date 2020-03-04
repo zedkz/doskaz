@@ -117,7 +117,7 @@ final class UserController extends AbstractController
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
      */
-    public function profile(TokenStorageInterface $tokenStorage, Connection $connection)
+    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request)
     {
         $user = $connection->createQueryBuilder()
             ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
@@ -131,7 +131,8 @@ final class UserController extends AbstractController
 
         return array_replace($user, [
             'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
+            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable'),
+            'avatar' => $request->getSchemeAndHttpHost().'/static/ava.png'
         ]);
     }
 }

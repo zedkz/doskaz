@@ -4,3 +4,6 @@ services:
     autoconfigure: false
 
   App\Objects\Reviews\ReviewRepository:
+
+  App\Objects\Reviews\ReviewController:
+    tags: ['controller.service_arguments']

@@ -15,15 +15,19 @@
                     </div>
                     <h2 class="object-side__title">{{ object.title }}</h2>
                     <div class="object-side__address">
-                        {{ object.address }} <!--<a href="" class="object-side__address-link">Редактировать объект</a>-->
+                        {{ object.address }}
+                        <!--<a href="" class="object-side__address-link">Редактировать объект</a>-->
                     </div>
                 </div>
                 <div class="availability"
                      :style="{backgroundColor: overallAccessibility.backgroundColor}">
-                    <div class="availability__title" :class="overallAccessibility.class">{{ overallAccessibility.label }}
+                    <div class="availability__title" :class="overallAccessibility.class">{{ overallAccessibility.label
+                        }}
                     </div>
                     <div class="availability__list">
-                        <div class="availability__item" :class="zone.class" v-for="zone in zones" :ke="zone.key">{{ zone.label }}</div>
+                        <div class="availability__item" :class="zone.class" v-for="zone in zones" :ke="zone.key">{{
+                            zone.label }}
+                        </div>
                     </div>
                 </div>
                 <div class="object-side__content">
@@ -59,7 +63,8 @@
                             <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
                                 <div class="object-side__photo-year">{{ group.year }}</div>
                                 <div>
-                                    <a :href="photo.viewUrl" v-for="(photo, index) in group.photos" :key="index" target="_blank" style="display: inline-block; max-width: 200px">
+                                    <a :href="photo.viewUrl" v-for="(photo, index) in group.photos" :key="index"
+                                       target="_blank" style="display: inline-block; max-width: 200px">
                                         <img :src="photo.previewUrl" style="max-width: 100%" alt="">
                                     </a>
                                 </div>
@@ -68,9 +73,11 @@
                         <div class="object-side__tab-content" :class="{ active: isActive('tab-video') }" id="tab-video">
                             На утверждении
                         </div>
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-reviews') }" id="tab-reviews">
+                        <div class="object-side__tab-content" :class="{ active: isActive('tab-reviews') }"
+                             id="tab-reviews">
                             <ul class="object-side__review-list">
-                                <li class="object-side__review-item" v-for="(review, index) in object.reviews" :key="index">
+                                <li class="object-side__review-item" v-for="(review, index) in object.reviews"
+                                    :key="index">
                                     <div class="object-side__review-top">
                                         <span class="object-side__review-title">{{ review.author }}</span>
                                         <span class="object-side__review-date">{{ review.createdAt | date }}</span>
@@ -79,7 +86,8 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="object-side__tab-content" :class="{ active: isActive('tab-history') }" id="tab-history">
+                        <div class="object-side__tab-content" :class="{ active: isActive('tab-history') }"
+                             id="tab-history">
                             <ul class="object-side__history-list">
                                 <li class="object-side__history-item">
                                     <span class="object-side__history-date">12 августа</span>
@@ -87,19 +95,23 @@
                                 </li>
                                 <li class="object-side__history-item">
                                     <span class="object-side__history-date">11 августа</span>
-                                    <p class="object-side__history-text"><b>Алдияр Тулебаев</b> изменил описание объекта</p>
+                                    <p class="object-side__history-text"><b>Алдияр Тулебаев</b> изменил описание объекта
+                                    </p>
                                 </li>
                                 <li class="object-side__history-item">
                                     <span class="object-side__history-date">10 августа</span>
-                                    <p class="object-side__history-text"><b>Елена Михеева</b> прокомментировала объект</p>
+                                    <p class="object-side__history-text"><b>Елена Михеева</b> прокомментировала объект
+                                    </p>
                                 </li>
                                 <li class="object-side__history-item">
                                     <span class="object-side__history-date">9 августа</span>
-                                    <p class="object-side__history-text"><b>Алия Серикпаева</b> прокомментировала объект</p>
+                                    <p class="object-side__history-text"><b>Алия Серикпаева</b> прокомментировала объект
+                                    </p>
                                 </li>
                                 <li class="object-side__history-item">
                                     <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал фотографии
+                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал
+                                        фотографии
                                         объекта</p>
                                 </li>
                                 <li class="object-side__history-item">
@@ -120,23 +132,31 @@
                     <span class="more-detail__close" v-on:click="moreDetailsShow = false"></span>
                     <div class="more-detail__top">
                         <div class="more-detail__links">
-                            <a href="#detail_1" class="more-detail__link" :class="{ active: isVisibleDetail('detail_1') }"
+                            <a href="#detail_1" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_1') }"
                                @click.prevent="setVisible('detail_1')">Общая информация</a>
-                            <a href="#detail_2" class="more-detail__link" :class="{ active: isVisibleDetail('detail_2') }"
+                            <a href="#detail_2" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_2') }"
                                @click.prevent="setVisible('detail_2')">Парковка</a>
-                            <a href="#detail_3" class="more-detail__link" :class="{ active: isVisibleDetail('detail_3') }"
+                            <a href="#detail_3" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_3') }"
                                @click.prevent="setVisible('detail_3')">Входная группа</a>
-                            <a href="#detail_4" class="more-detail__link" :class="{ active: isVisibleDetail('detail_4') }"
+                            <a href="#detail_4" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_4') }"
                                @click.prevent="setVisible('detail_4')">Пути движения по объекту</a>
                         </div>
                         <div class="more-detail__links">
-                            <a href="#detail_5" class="more-detail__link" :class="{ active: isVisibleDetail('detail_5') }"
+                            <a href="#detail_5" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_5') }"
                                @click.prevent="setVisible('detail_5')">Зона оказания услуги</a>
-                            <a href="#detail_6" class="more-detail__link" :class="{ active: isVisibleDetail('detail_6') }"
+                            <a href="#detail_6" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_6') }"
                                @click.prevent="setVisible('detail_6')">Туалет</a>
-                            <a href="#detail_7" class="more-detail__link" :class="{ active: isVisibleDetail('detail_7') }"
+                            <a href="#detail_7" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_7') }"
                                @click.prevent="setVisible('detail_7')">Навигация</a>
-                            <a href="#detail_8" class="more-detail__link" :class="{ active: isVisibleDetail('detail_8') }"
+                            <a href="#detail_8" class="more-detail__link"
+                               :class="{ active: isVisibleDetail('detail_8') }"
                                @click.prevent="setVisible('detail_8')">Доступность услуги</a>
                         </div>
                         <a href="" download="" class="more-detail__download">Скачать</a>
@@ -465,17 +485,23 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="object-side__review-add" v-if="isActive('tab-reviews')" @click="reviewPopup = true">Оставить отзыв</a>
+            <a href="#" class="object-side__review-add" v-if="isActive('tab-reviews') && user"
+               @click="reviewPopup = true">Оставить отзыв</a>
         </div>
         <div class="popup__wrapper" v-if="reviewPopup">
             <div class="popup__in --sm">
                 <span class="popup__close" v-on:click="reviewPopup = false"></span>
                 <h5 class="popup__title">Написать отзыв</h5>
-                <textarea class="popup__textarea textarea" placeholder="Расскажите о ваших впечатлениях"></textarea>
+                <textarea class="popup__textarea textarea" placeholder="Расскажите о ваших впечатлениях"
+                          v-model.trim="reviewText" :disabled="reviewSubmitting"></textarea>
                 <span class="popup__textarea-text">Введите минимум 20 символов</span>
                 <div class="popup__buttons">
-                    <div class="timeline__tab-link timeline__tab-link_user"><span class="avatar" style="background-image:url()"></span> <span class="name">Mirzagaly Adilshin</span></div>
-                    <button type="button" class="user-page__button">Отправить</button>
+                    <div class="timeline__tab-link timeline__tab-link_user"><span class="avatar"
+                                                                                  :style="`background-image:url(${user.avatar})`"></span>
+                        <span class="name">{{ user.name }}</span></div>
+                    <button type="button" class="user-page__button" @click="createReview"
+                            :disabled="reviewText.length < 20 || reviewSubmitting">Отправить
+                    </button>
                 </div>
             </div>
         </div>
@@ -483,7 +509,7 @@
 </template>
 
 <script>
-    import {sync} from "vuex-pathify";
+    import {sync, get} from "vuex-pathify";
     import groupBy from 'lodash/groupBy'
     import map from 'lodash/map'
     import {format} from 'date-fns'
@@ -532,7 +558,9 @@
                 activeItem: 'tab-description',
                 visibleDetail: 'detail_1',
                 moreDetailsShow: false,
-                reviewPopup: false
+                reviewPopup: false,
+                reviewText: '',
+                reviewSubmitting: false
             };
         },
         async asyncData({$axios, params}) {
@@ -558,7 +586,8 @@
                     year: Number(k),
                     photos: v
                 })).sort((a, b) => b.year - a.year)
-            }
+            },
+            user: get('authentication/user')
         },
         watch: {
             'object.coordinates': {
@@ -581,6 +610,18 @@
             },
             setActive(tabItem) {
                 this.activeItem = tabItem
+            },
+            async createReview() {
+                this.reviewSubmitting = true;
+                await this.$axios.post(`/api/objects/${this.$route.params.id}/reviews`, {
+                    text: this.reviewText
+                })
+                const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`)
+                this.object = object;
+                this.reviewPopup = false;
+                this.reviewText = '';
+                this.reviewSubmitting = false;
+
             }
         },
         filters: {
@@ -1104,6 +1145,7 @@
                 background-color: #FF5F5F;
                 background-position: center;
                 background-repeat: no-repeat;
+
                 .fa {
                     color: #FFFFFF;
                 }

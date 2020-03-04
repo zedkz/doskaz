@@ -3,6 +3,8 @@
 
 namespace App\Objects\Reviews;
 
+use App\Infrastructure\DomainEvents\EventProducer;
+use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -10,8 +12,10 @@ use Ramsey\Uuid\Uuid;
  * @ORM\Entity()
  * @ORM\Table(name="object_reviews")
  */
-class Review
+class Review implements EventProducer
 {
+    use ProducesEvents;
+
     /**
      * @ORM\Column(type="uuid")
      * @ORM\Id()
@@ -60,5 +64,6 @@ class Review
         $this->text = $text;
         $this->authorId = $authorId;
         $this->createdAt = new \DateTimeImmutable();
+        $this->remember(new Event\ReviewCreated($this->id, $this->objectId, $this->authorId));
     }
 }
