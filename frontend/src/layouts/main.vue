@@ -85,6 +85,8 @@
                 </div>
             </div>
         </div>
+
+        <StartCategoryForm/>
         <nuxt/>
     </div>
 </template>
@@ -95,7 +97,7 @@
     import ObjectModal from "./../components/ObjectModal.vue";
     import MainMap from "./../components/MainMap.vue";
     import LoginForm from "../components/LoginForm";
-    import {get, sync} from 'vuex-pathify'
+    import {sync} from 'vuex-pathify'
 
     export default {
         data() {

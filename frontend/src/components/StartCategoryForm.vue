@@ -31,7 +31,7 @@
             return {}
         },
         mounted() {
-            this.init()
+          //  this.init()
         },
         computed: {
             ...get('disabilitiesCategorySettings', {
