@@ -124,6 +124,25 @@
         flex: 1 0 auto;
     }
 
+    .button {
+        width: 170px;
+        line-height: 50px;
+        color: #fff;
+        font-size: 14px;
+        border: none;
+        outline: none;
+        background: $blue;
+        cursor: pointer;
+        -webkit-transition: opacity 0.4s;
+        -moz-transition: opacity 0.4s;
+        -ms-transition: opacity 0.4s;
+        -o-transition: opacity 0.4s;
+        transition: opacity 0.4s;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
     .select {
         height: 50px;
         position: relative;

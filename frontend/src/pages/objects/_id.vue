@@ -499,7 +499,7 @@
                     <div class="timeline__tab-link timeline__tab-link_user"><span class="avatar"
                                                                                   :style="`background-image:url(${user.avatar})`"></span>
                         <span class="name">{{ user.name }}</span></div>
-                    <button type="button" class="user-page__button" @click="createReview"
+                    <button type="button" class="button" @click="createReview"
                             :disabled="reviewText.length < 20 || reviewSubmitting">Отправить
                     </button>
                 </div>
