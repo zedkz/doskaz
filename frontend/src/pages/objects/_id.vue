@@ -54,16 +54,36 @@
                         <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}" id="tab-photo">
                             <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
                                 <div class="object-side__photo-year">{{ group.year }}</div>
-                                <div>
+
                                     <a :href="photo.viewUrl" v-for="(photo, index) in group.photos" :key="index"
                                        target="_blank" style="display: inline-block; max-width: 200px">
                                         <img :src="photo.previewUrl" style="max-width: 100%" alt="">
+                                    </a>
+
+                            </div>
+                            <div class="object-side__photo">
+                                <div class="object-side__photo-year">2018</div>
+                                <div class="object-side__photo-list">
+                                    <a href="#" class="object-side__photo-link"
+                                            v-for="(image, imageIndex) in images"
+                                            :key="imageIndex"
+                                            @click="videosIndex = null; imagesIndex = imageIndex">
+                                        <img :src=" image "/>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="object-side__tab-content" :class="{active: $route.query.tab === 'videos'}" id="tab-video">
-                            На утверждении
+                            <div class="object-side__photo">
+                                <div class="object-side__photo-list --video">
+                                    <a href="#" class="object-side__photo-link"
+                                       v-for="(video, videoIndex) in videos"
+                                       :key="videoIndex"
+                                       @click="imagesIndex = null; videosIndex = videoIndex">
+                                        <img :src=" video.poster "/>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="object-side__tab-content" :class="{active: $route.query.tab === 'reviews'}"
                              id="tab-reviews">
@@ -163,10 +183,13 @@
         </div>
 
         <nuxt-child @review-submitted="reviewSubmitted"/>
+        <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
+        <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
     </div>
 </template>
 
 <script>
+    import VueGallery from 'vue-gallery'
     import {sync, get} from "vuex-pathify";
     import groupBy from 'lodash/groupBy'
     import map from 'lodash/map'
@@ -217,7 +240,59 @@
                 activeItem: 'tab-description',
                 visibleDetail: 'detail_1',
                 moreDetailsShow: false,
-            };
+                videos: [
+                    {
+                        title: 'КВН 2016 Спецпроект',
+                        href: 'https://www.youtube.com/watch?v=2C32jWXQnQk',
+                        type: 'text/html',
+                        youtube: '2C32jWXQnQk',
+                        poster: 'https://img.youtube.com/vi/2C32jWXQnQk/maxresdefault.jpg'
+                    },
+                    {
+                        title: 'Встреча выпускников 2019',
+                        href: 'https://www.youtube.com/watch?v=P-nCfhgL_rA',
+                        type: 'text/html',
+                        youtube: 'P-nCfhgL_rA',
+                        poster: 'https://img.youtube.com/vi/P-nCfhgL_rA/maxresdefault.jpg'
+                    },
+                    {
+                        title: 'Кивин 2013',
+                        href: 'https://www.youtube.com/watch?v=THJc0p1i6-s',
+                        type: 'text/html',
+                        youtube: 'THJc0p1i6-s',
+                        poster: 'https://img.youtube.com/vi/THJc0p1i6-s/maxresdefault.jpg'
+                    }
+                ],
+                videosIndex: null,
+                videosOptions: {
+                    container: '#blueimp-video',
+                    continuous: false,
+                    youTubeVideoIdProperty: 'youtube',
+                    youTubePlayerVars: undefined,
+                    youTubeClickToPlay: true
+                },
+                images: [
+                    'http://crosti.ru/patterns/00/0d/e0/21f3e30d42/picture.jpg',
+                    'https://media-cdn.tripadvisor.com/media/photo-o/16/39/88/c4/20190125-154137-largejpg.jpg',
+                    'https://media-cdn.tripadvisor.com/media/photo-o/16/39/88/c2/20190125-144828-largejpg.jpg',
+                    'https://media-cdn.tripadvisor.com/media/photo-w/15/3a/7e/d7/photo0jpg.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-4.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-2.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-1.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe.jpg'
+                ],
+                imagesIndex: null,
+                imagesOptions: {
+                    continuous: false,
+                    onslide: function(index, slide) {
+                        var indicator = document.getElementsByClassName('indicator');
+                        indicator[0].innerHTML = (index + 1) + ' / ' + document.getElementsByClassName('slide').length;
+                    }
+                }
+            }
+        },
+        components: {
+            'gallery': VueGallery
         },
         async asyncData({$axios, store, params}) {
             const [{data: object}] = await Promise.all([
@@ -328,6 +403,122 @@
 
 <style lang="scss">
     @import "@/styles/mixins.scss";
+
+    #blueimp-gallery {
+        left: 680px;
+        width: auto;
+        > {
+            .close {
+                width: 24px;
+                height: 24px;
+                right: 14px;
+                top: 14px;
+                margin: 0;
+                font-size: 0;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi42NjY3IDQuMDA4ZS0wNkwyMCAzLjMzMzM0TDEzLjMzMzMgMTBMMjAgMTYuNjY2N0wxNi42NjY3IDIwTDEwIDEzLjMzMzNMMy4zMzMzMyAyMEwwIDE2LjY2NjdMNi42NjY2NyAxMEwwIDMuMzMzMzNMMy4zMzMzMyAwTDEwIDYuNjY2NjdMMTYuNjY2NyA0LjAwOGUtMDZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K') center no-repeat;
+            }
+            .slides {
+                > .slide {
+                    > .slide-content {
+                        max-width: 800px;
+                        max-height: 600px;
+                    }
+                }
+            }
+            .next, .prev {
+                width: 60px;
+                height: 100px;
+                font-size: 0;
+                border: none;
+                border-radius: 0;
+                opacity: 0.8;
+                margin: -50px 0 0;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .prev {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMxIDFMMSAzMUwzMSA2MSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+            }
+            .next {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNjFMMzEgMzFMMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K') center no-repeat;
+            }
+            .indicator {
+                color: #FFFFFF;
+                bottom: 60px;
+                font-size: 14px;
+                line-height: 20px;
+            }
+        }
+    }
+
+    #blueimp-video {
+        left: 680px;
+        width: auto;
+        > {
+            .close {
+                display: block;
+                width: 24px;
+                height: 24px;
+                right: 14px;
+                top: 14px;
+                margin: 0;
+                font-size: 0;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi42NjY3IDQuMDA4ZS0wNkwyMCAzLjMzMzM0TDEzLjMzMzMgMTBMMjAgMTYuNjY2N0wxNi42NjY3IDIwTDEwIDEzLjMzMzNMMy4zMzMzMyAyMEwwIDE2LjY2NjdMNi42NjY2NyAxMEwwIDMuMzMzMzNMMy4zMzMzMyAwTDEwIDYuNjY2NjdMMTYuNjY2NyA0LjAwOGUtMDZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K') center no-repeat;
+            }
+            .slides > .slide > .slide-content {
+                max-height: 508px;
+                max-width: 900px;
+            }
+            .next, .prev {
+                width: 60px;
+                height: 100px;
+                font-size: 0;
+                border: none;
+                border-radius: 0;
+                opacity: 0.8;
+                display: block;
+                margin: -50px 0 0;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .prev {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMxIDFMMSAzMUwzMSA2MSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+            }
+            .next {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNjFMMzEgMzFMMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K') center no-repeat;
+            }
+
+            .slides > .slide > .video-content > iframe {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .slides > .slide > .video-content > a {
+                  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                  background-size: 128px;
+            }
+            .slides > .slide > .video-content:not(.video-loading) > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
+            }
+            .title {
+                position: absolute;
+                left: 40px;
+                right: 40px;
+                bottom: 40px;
+                top: auto;
+                font-weight: 400;
+                font-size: 16px;
+                text-align: center;
+                opacity: 1;
+            }
+        }
+        &.blueimp-gallery-left > .prev, &.blueimp-gallery-right > .next {
+            display: none;
+        }
+    }
 
     .sidebar {
         position: fixed;
@@ -948,14 +1139,52 @@
         &__photo {
             margin: 17px 0 0;
 
+
             &:first-child {
                 margin: 4px 0 0;
             }
 
-            &-title {
+            &-year {
                 font-size: 16px;
                 line-height: 20px;
                 margin: 0 0 16px;
+            }
+            &-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: top;
+                &.--video {
+                    justify-content: space-between;
+                    .object-side__photo-link {
+                        width: calc(50% - 5px);
+                        margin: 0 0 10px;
+                        position: relative;
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            width: 50px;
+                            height: 50px;
+                            left: 50%;
+                            top: 50%;
+                            margin: -25px 0 0 -25px;
+                            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                        }
+                    }
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+            &-link {
+                display: block;
+                margin: 0 10px 10px 0;
+                img {
+                    display: block;
+                    height: 150px;
+                    width: auto;
+                }
             }
         }
     }
