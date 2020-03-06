@@ -54,21 +54,12 @@
                         <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}" id="tab-photo">
                             <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
                                 <div class="object-side__photo-year">{{ group.year }}</div>
-
-                                    <a :href="photo.viewUrl" v-for="(photo, index) in group.photos" :key="index"
-                                       target="_blank" style="display: inline-block; max-width: 200px">
-                                        <img :src="photo.previewUrl" style="max-width: 100%" alt="">
-                                    </a>
-
-                            </div>
-                            <div class="object-side__photo">
-                                <div class="object-side__photo-year">2018</div>
                                 <div class="object-side__photo-list">
-                                    <a href="#" class="object-side__photo-link"
-                                            v-for="(image, imageIndex) in images"
-                                            :key="imageIndex"
-                                            @click="videosIndex = null; imagesIndex = imageIndex">
-                                        <img :src=" image "/>
+                                    <a :href="photo.viewUrl" class="object-side__photo-link"
+                                       v-for="(photo, imageIndex) in group.photos"
+                                       :key="`${group.year}${imageIndex}`"
+                                       @click.prevent="viewPhoto(photo)">
+                                        <img :src="photo.previewUrl" alt=""/>
                                     </a>
                                 </div>
                             </div>
@@ -183,13 +174,14 @@
         </div>
 
         <nuxt-child @review-submitted="reviewSubmitted"/>
-        <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
-        <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+        <client-only>
+            <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
+            <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+        </client-only>
     </div>
 </template>
 
 <script>
-    import VueGallery from 'vue-gallery'
     import {sync, get} from "vuex-pathify";
     import groupBy from 'lodash/groupBy'
     import map from 'lodash/map'
@@ -271,16 +263,6 @@
                     youTubePlayerVars: undefined,
                     youTubeClickToPlay: true
                 },
-                images: [
-                    'http://crosti.ru/patterns/00/0d/e0/21f3e30d42/picture.jpg',
-                    'https://media-cdn.tripadvisor.com/media/photo-o/16/39/88/c4/20190125-154137-largejpg.jpg',
-                    'https://media-cdn.tripadvisor.com/media/photo-o/16/39/88/c2/20190125-144828-largejpg.jpg',
-                    'https://media-cdn.tripadvisor.com/media/photo-w/15/3a/7e/d7/photo0jpg.jpg',
-                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-4.jpg',
-                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-2.jpg',
-                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-1.jpg',
-                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe.jpg'
-                ],
                 imagesIndex: null,
                 imagesOptions: {
                     continuous: false,
@@ -290,9 +272,6 @@
                     }
                 }
             }
-        },
-        components: {
-            'gallery': VueGallery
         },
         async asyncData({$axios, store, params}) {
             const [{data: object}] = await Promise.all([
@@ -362,6 +341,9 @@
             },
             zonesMenu() {
                 return chunk(this.detailsZones, Math.round(this.detailsZones.length/2))
+            },
+            images() {
+                return this.object.photos.map(p => p.viewUrl)
             }
         },
         watch: {
@@ -389,6 +371,10 @@
             async reviewSubmitted() {
                 const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`)
                 this.object = object;
+            },
+            viewPhoto(photo) {
+                this.videosIndex = null;
+                this.imagesIndex = this.object.photos.indexOf(photo)
             }
         },
         filters: {
