@@ -216,6 +216,7 @@ export const actions = {
     },
     async submit({state: {data}, commit}) {
         commit('SET_IS_LOADING', true)
+        commit('SET_ERRORS', [])
         const resp = await this.$axios.post('/api/objects/requests', data, {
             validateStatus: status => status <= 400
         })

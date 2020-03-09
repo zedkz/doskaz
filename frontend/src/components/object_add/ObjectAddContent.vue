@@ -139,7 +139,9 @@
             },
             async submit() {
                 await this.submitForm()
-                this.currentStepKey = "first"
+                if(this.errors.length) {
+                    this.currentStepKey = "first"
+                }
             }
         },
         computed: {
