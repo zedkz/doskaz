@@ -1,30 +1,38 @@
 <template>
     <div class="container">
         <loading is-full-page :active="isLoading"></loading>
-        <small-form v-if="formVariant === 'small'"/>
-        <div class="add-object__form" v-else-if="['middle', 'full'].includes(formVariant)">
-            <div class="add-object__step-wrapper">
-                <div class="add-object__step">
-                    <div class="step" v-for="(step, index) in stepsShow"
-                         :class="{ checked: step.checked, current: step.isCurrent}"
-                         :key="index">
-                        <div class="step-progress"></div>
+        <div class="add-object__form" >
+            <template v-if="['middle', 'full'].includes(formVariant)">
+                <div class="add-object__step-wrapper">
+                    <div class="add-object__step">
+                        <div class="step" v-for="(step, index) in stepsShow"
+                             :class="{ checked: step.checked, current: step.isCurrent}"
+                             :key="index">
+                            <div class="step-progress"></div>
+                        </div>
+                    </div>
+                    <div class="add-object__step-info">
+                        <div
+                                class="step"
+                                v-for="(step, index) in stepsShow"
+                                :class="{ active: false }"
+                                :key="index">
+                            {{ step.title }}
+                        </div>
                     </div>
                 </div>
-                <div class="add-object__step-info">
-                    <div
-                            class="step"
-                            v-for="(step, index) in stepsShow"
-                            :class="{ active: false }"
-                            :key="index">
-                        {{ step.title }}
-                    </div>
+                <div class="add-object__top">
+                    <span class="add-object__top-step">Шаг {{ currentStepNumber }} из {{ stepsShow.length }}</span> <h4
+                        class="add-object__top-title">{{ activeStep.title }}</h4>
                 </div>
-            </div>
-            <div class="add-object__top">
-                <span class="add-object__top-step">Шаг {{ currentStepNumber }} из {{ stepsShow.length }}</span> <h4
-                    class="add-object__top-title">{{ activeStep.title }}</h4>
-            </div>
+            </template>
+            <template v-else>
+                <div class="add-object__line --lrg">
+                    <h5 class="add-object__title">
+                        Общая информация
+                    </h5>
+                </div>
+            </template>
             <first-step v-show="currentStepKey === 'first'"/>
             <zone-step
                     v-for="zone in zonesTabsAvailable"
@@ -36,7 +44,7 @@
                     :zone="zone.group"
                     :zone-key="zone.key"
             />
-            <div class="add-object__button-b">
+            <div class="add-object__button-b" v-if="['middle', 'full'].includes(formVariant)">
                 <nuxt-link
                         :to="{name: 'index'}"
                         type="button"
@@ -87,6 +95,27 @@
                 </button>
             </div>
         </div>
+        <div class="add-object__form" style="margin-top: 20px" v-if="formVariant === 'small'">
+            <div v-for="tab in zonesTabsAvailable" :key="tab.key" style="margin-bottom: 36px">
+                <div class="add-object__line --lrg">
+                    <h5 class="add-object__title">
+                        {{tab.title}}
+                    </h5>
+                </div>
+                <div class="add-object__content">
+                    <attributes-list
+                            :zone="tab.group" form="small" :value="form[tab.key].attributes"
+                            @change="updateData({path: `${tab.key}.attributes.${$event.path}`, value: $event.value})"
+                    />
+                </div>
+            </div>
+
+            <div class="add-object__button-b" style="justify-content: right">
+                <button type="button" class="add-object__button --submit" @click.prevent="submit">
+                    <span>Отправить</span>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -95,15 +124,15 @@
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
     import {call, get} from 'vuex-pathify'
-    import SmallForm from "./SmallForm";
     import FirstStep from "./FirstStep";
     import ZoneStep from "./ZoneStep";
+    import AttributesList from "./AttributesList";
 
     export default {
         components: {
+            AttributesList,
             ZoneStep,
             FirstStep,
-            SmallForm,
             Loading
         },
         data() {
