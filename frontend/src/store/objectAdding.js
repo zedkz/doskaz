@@ -94,27 +94,34 @@ export const state = () => ({
             photos: []
         },
         parking: {
-            attributes: {}
+            attributes: {},
+            comment: null
         },
         entrance1: {
-            attributes: {}
+            attributes: {},
+            comment: null
         },
         entrance2: null,
         entrance3: null,
         movement: {
-            attributes: {}
+            attributes: {},
+            comment: null
         },
         service: {
-            attributes: {}
+            attributes: {},
+            comment: null
         },
         toilet: {
-            attributes: {}
+            attributes: {},
+            comment: null
         },
         navigation: {
-            attributes: {}
+            attributes: {},
+            comment: null
         },
         serviceAccessibility: {
-            attributes: {}
+            attributes: {},
+            comment: null
         }
     }
 })
@@ -157,9 +164,13 @@ export const actions = {
     },
     initializeForm({state: {data}, getters: {formAttributesByZone, zonesTabsAvailable}, commit}) {
         zonesTabsAvailable.forEach(({key, group}) => {
+            const defaults = {}
+
             formAttributesByZone[group].forEach(attribute => {
                 if (!data[key].attributes[attribute.key]) {
-                    commit('SET_DATA', new Payload('', `${key}.attributes.${attribute.key}`, 'unknown'))
+                    defaults[attribute.key] = 'unknown'
+
+                    commit('SET_DATA', new Payload('', `${key}.attributes`, {...defaults, ...(data[key].attributes)}))
                 }
             })
         })
@@ -190,13 +201,22 @@ export const actions = {
     updateData({commit}, {path, value}) {
         commit('SET_DATA', new Payload('', path, value))
     },
-    async validateFirstStep({commit, state: {data}}) {
+    async validate({commit, state: {data}}) {
         commit('SET_IS_LOADING', true);
-        //await this.$axios('/api/objects/add')
+        const resp = await this.$axios.post('/api/objects/requests/validate', data, {
+            validateStatus: status => status <= 400
+        })
+        if (resp.status === 400) {
+            commit('SET_ERRORS', resp.data.errors.violations)
+        }
+        else {
+            commit('SET_ERRORS', [])
+        }
+        commit('SET_IS_LOADING', false);
     },
     async submit({state: {data}, commit}) {
         commit('SET_IS_LOADING', true)
-        const resp = await this.$axios.post('/api/objects/add', data, {
+        const resp = await this.$axios.post('/api/objects/requests', data, {
             validateStatus: status => status <= 400
         })
         if (resp.status === 400) {

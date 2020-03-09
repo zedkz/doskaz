@@ -115,11 +115,18 @@
         methods: {
             ...call('objectAdding', [
                 'init',
-                'duplicateEntranceStep'
+                'duplicateEntranceStep',
+                'validate'
             ]),
             submitForm: call('objectAdding/submit'),
-            nextStep() {
+            async nextStep() {
                 const index = this.availableSteps.indexOf(this.activeStep);
+                if(index === 0) {
+                    await this.validate()
+                    if(this.errors.length) {
+                        return false;
+                    }
+                }
                 if (this.availableSteps[index + 1]) {
                     this.currentStepKey = this.availableSteps[index + 1].key
                 }
@@ -177,7 +184,8 @@
             formVariant: get('objectAdding/data@form'),
             isLoading: get('objectAdding/isLoading'),
             zonesTabsAvailable: get('objectAdding/zonesTabsAvailable'),
-            form: get('objectAdding/data')
+            form: get('objectAdding/data'),
+            errors: get('objectAdding/errors')
         },
         watch: {
             currentStepKey() {

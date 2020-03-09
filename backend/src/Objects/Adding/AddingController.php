@@ -11,11 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route(path="/api/objects")
+ * @IsGranted("ROLE_USER")
  */
 class AddingController extends AbstractController
 {
     /**
-     * @Route(path="/add")
+     * @Route(path="/requests", methods={"POST"})
      * @param Form $addingRequestData
      * @param AddingRequestRepository $addingRequestRepository
      * @param Flusher $flusher
@@ -26,6 +27,14 @@ class AddingController extends AbstractController
         $request = new AddingRequest($this->getUser()->id(), $addingRequestData);
         $addingRequestRepository->add($request);
         $flusher->flush();
+    }
+
+    /**
+     * @Route(path="/requests/validate", methods={"POST"})
+     * @param Form $addingRequestData
+     */
+    public function validate(Form $addingRequestData) {
+
     }
 
     /**

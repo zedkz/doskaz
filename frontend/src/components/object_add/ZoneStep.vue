@@ -6,7 +6,7 @@
                 :value="attributes"
                 @change="updateData({path: `${zoneKey}.attributes.${$event.path}`, value: $event.value})"
         />
-        <accessibility-score :attributes="{...attributes}" :type="zoneType" :key="zoneKey"/>
+        <accessibility-score :attributes="attributes" :type="zoneType" :key="zoneType"/>
         <div class="add-object__line --lrg">
             <h5 class="add-object__title">{{ commentLabel }}</h5>
         </div>
@@ -37,7 +37,7 @@
             updateData: call('objectAdding/updateData')
         },
         computed: {
-            comment: sync('objectAdding/data[:zoneKey].comment'),
+            comment: sync('objectAdding/data@[:zoneKey].comment'),
             attributes: get('objectAdding/data[:zoneKey].attributes'),
             zoneType() {
                 return `${this.zone}_${this.form}`
