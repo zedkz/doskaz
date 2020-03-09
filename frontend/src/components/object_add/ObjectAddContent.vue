@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <loading is-full-page :active="isLoading"></loading>
-        <div class="add-object__form">
+        <small-form v-if="formVariant === 'small'"/>
+        <div class="add-object__form" v-else-if="['middle', 'full'].includes(formVariant)">
             <div class="add-object__step-wrapper">
                 <div class="add-object__step">
                     <div class="step" v-for="(step, index) in stepsShow"
@@ -24,17 +25,17 @@
                 <span class="add-object__top-step">Шаг {{ currentStepNumber }} из {{ stepsShow.length }}</span> <h4
                     class="add-object__top-title">{{ activeStep.title }}</h4>
             </div>
-
-            <keep-alive>
-                <component
-                        :is="stepComponent"
-                        :categories="categories"
-                        :value="form[currentStepKey]"
-                        :key="`${currentStepKey}${form.form}`"
-                        :errors="violations[currentStepKey]"
-                        @is-photos-uploading="photosUploading = $event"
-                />
-            </keep-alive>
+            <first-step v-show="currentStepKey === 'first'"/>
+            <zone-step
+                    v-for="zone in zonesTabsAvailable"
+                    :key="zone.key"
+                    v-show="currentStepKey !== 'first' && currentStepKey === zone.key"
+                    :comment-label="zone.commentLabel"
+                    :comment-placeholder="zone.commentPlaceholder"
+                    :form="formVariant"
+                    :zone="zone.group"
+                    :zone-key="zone.key"
+            />
             <div class="add-object__button-b">
                 <nuxt-link
                         :to="{name: 'index'}"
@@ -90,84 +91,33 @@
 </template>
 
 <script>
-    import First from "./FirstStep";
-    import zonesMiddle from './zones/middle';
-    import zonesFull from './zones/full';
-    import set from 'lodash/set'
     import uniqBy from 'lodash/uniqBy'
     import Loading from "vue-loading-overlay";
     import "vue-loading-overlay/dist/vue-loading.css";
-    import {call} from 'vuex-pathify'
-
-    const zones = {
-        middle: zonesMiddle,
-        full: zonesFull
-    };
-
-    const steps = [
-        {key: 'first', title: 'Общая информация', group: 'first'},
-        {key: 'parking', title: 'Парковка', group: 'parking'},
-        {key: 'entrance1', title: 'Входная группа', group: 'entrance'},
-        {key: 'entrance2', title: 'Входная группа', group: 'entrance'},
-        {key: 'entrance3', title: 'Входная группа', group: 'entrance'},
-        {key: 'movement', title: 'Пути движения по объекту', group: 'movement'},
-        {key: 'service', title: 'Зона оказания услуги', group: 'service'},
-        {key: 'toilet', title: 'Туалет', group: 'toilet'},
-        {key: 'navigation', title: 'Навигация', group: 'navigation'},
-        {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
-    ];
+    import {call, get} from 'vuex-pathify'
+    import SmallForm from "./SmallForm";
+    import FirstStep from "./FirstStep";
+    import ZoneStep from "./ZoneStep";
 
     export default {
         components: {
+            ZoneStep,
+            FirstStep,
+            SmallForm,
             Loading
         },
-        props: [
-            'categories',
-            'formVariant'
-        ],
         data() {
             return {
-                isLoading: false,
                 photosUploading: false,
-                currentStepKey: 'first',
-                errors: [],
-                form: {
-                    form: this.formVariant,
-                    first: {
-                        categoryId: null,
-                        videos: [''],
-                        photos: []
-                    },
-                    parking: {
-                        attributes: {}
-                    },
-                    entrance1: {
-                        attributes: {}
-                    },
-                    entrance2: null,
-                    entrance3: null,
-                    movement: {
-                        attributes: {}
-                    },
-                    service: {
-                        attributes: {}
-                    },
-                    toilet: {
-                        attributes: {}
-                    },
-                    navigation: {
-                        attributes: {}
-                    },
-                    serviceAccessibility: {
-                        attributes: {}
-                    }
-                }
+                currentStepKey: 'first'
             };
         },
         methods: {
             ...call('objectAdding', [
-                'init'
+                'init',
+                'duplicateEntranceStep'
             ]),
+            submitForm: call('objectAdding/submit'),
             nextStep() {
                 const index = this.availableSteps.indexOf(this.activeStep);
                 if (this.availableSteps[index + 1]) {
@@ -181,37 +131,8 @@
                 }
             },
             async submit() {
-                this.isLoading = true;
-                const unwatch = this.$watch('photosUploading', async (v) => {
-                    if (v) {
-                        return;
-                    }
-                    try {
-                        await this.$axios.post('/api/objects/add', this.form);
-                        await this.$router.push({name: 'index'})
-                    } catch (e) {
-                        if (e.response && e.response.status === 400) {
-                            this.errors = e.response.data.errors.violations;
-                            this.currentStepKey = Object.keys(this.violations)[0];
-                        }
-                    } finally {
-                        this.isLoading = false;
-                        unwatch();
-                    }
-                }, {immediate: true});
-            },
-            duplicateEntranceStep() {
-                if (!this.form.entrance2) {
-                    this.form.entrance2 = {
-                        attributes: {}
-                    };
-                    return;
-                }
-                if (!this.form.entrance3) {
-                    this.form.entrance3 = {
-                        attributes: {}
-                    };
-                }
+                await this.submitForm()
+                this.currentStepKey = "first"
             }
         },
         computed: {
@@ -230,7 +151,7 @@
                 return this.steps2.find(step => step.key === this.currentStepKey);
             },
             steps2() {
-                return steps
+                return [{key: 'first', title: 'Общая информация', group: 'first'}].concat(this.zonesTabsAvailable)
             },
             activeStepIndex() {
                 return this.availableSteps.indexOf(this.activeStep)
@@ -253,29 +174,16 @@
                 const current = this.stepsShow.find(step => step.isCurrent);
                 return this.stepsShow.indexOf(current) + 1;
             },
-            violations() {
-                const violations = {};
-
-                this.errors.forEach(e => {
-                    set(violations, e.propertyPath, e.title)
-                });
-                return violations;
-            },
-            stepComponent() {
-                if(this.currentStepKey === 'first') {
-                    return First
-                }
-                return zones[this.form.form][this.activeStep.group]
-            }
+            formVariant: get('objectAdding/data@form'),
+            isLoading: get('objectAdding/isLoading'),
+            zonesTabsAvailable: get('objectAdding/zonesTabsAvailable'),
+            form: get('objectAdding/data')
         },
         watch: {
             currentStepKey() {
                 window.scrollTo({top: 0})
-            },
-            formVariant(v) {
-                this.form.form = v
             }
-        }
+        },
     }
 </script>
 
@@ -779,6 +687,7 @@
             &-icon {
                 display: block;
                 cursor: pointer;
+
                 svg {
                     display: block;
                 }
@@ -794,6 +703,7 @@
                 top: 55px;
                 left: 0;
                 display: none;
+
                 &:before {
                     content: '';
                     position: absolute;
@@ -806,8 +716,10 @@
                     border-left: 10px solid transparent;
                 }
             }
+
             &.--selected {
                 z-index: 2;
+
                 .add-object__info-text {
                     display: block;
                 }

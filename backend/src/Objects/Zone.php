@@ -11,28 +11,38 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 /**
  * @DiscriminatorMap(
  *     typeProperty="type",
- *     mapping={
- *         "parking_middle" = "App\Objects\Zone\Middle\Parking",
- *         "entrance_middle" = "App\Objects\Zone\Middle\Entrance",
- *         "toilet_middle" = "App\Objects\Zone\Middle\Toilet",
- *         "service_middle" = "App\Objects\Zone\Middle\Service",
- *         "accessibility_middle" = "App\Objects\Zone\Middle\ServiceAccessibility",
- *         "serviceAccessibility_middle" = "App\Objects\Zone\Middle\ServiceAccessibility",
- *         "movement_middle" = "App\Objects\Zone\Middle\Movement",
- *         "navigation_middle" = "App\Objects\Zone\Middle\Navigation",
- *         "small" = "App\Objects\Zone\Small\Zone",
- *         "parking_full" = "App\Objects\Zone\Full\Parking",
- *         "entrance_full" = "App\Objects\Zone\Full\Entrance",
- *         "movement_full" = "App\Objects\Zone\Full\Movement",
- *         "service_full" = "App\Objects\Zone\Full\Service",
- *         "toilet_full" = "App\Objects\Zone\Full\Toilet",
- *         "navigation_full" = "App\Objects\Zone\Full\Navigation",
- *         "serviceAccessibility_full" = "App\Objects\Zone\Full\ServiceAccessibility",
- *         "accessibility_full" = "App\Objects\Zone\Full\ServiceAccessibility",
- * })
+ *     mapping=Zone::DISCRIMINATOR_MAP
+ * )
  */
 abstract class Zone implements DataObject
 {
+    public const DISCRIMINATOR_MAP = [
+        'parking_small' => \App\Objects\Zone\Small\Parking::class,
+        'entrance_small' => \App\Objects\Zone\Small\Entrance::class,
+        'movement_small' => \App\Objects\Zone\Small\Movement::class,
+        'service_small' => \App\Objects\Zone\Small\Service::class,
+        'toilet_small' => \App\Objects\Zone\Small\Toilet::class,
+        'navigation_small' => \App\Objects\Zone\Small\Navigation::class,
+        "accessibility_small" => \App\Objects\Zone\Small\ServiceAccessibility::class,
+        "serviceAccessibility_small" => \App\Objects\Zone\Small\ServiceAccessibility::class,
+        'parking_middle' => \App\Objects\Zone\Middle\Parking::class,
+        "entrance_middle" => \App\Objects\Zone\Middle\Entrance::class,
+        "toilet_middle" => \App\Objects\Zone\Middle\Toilet::class,
+        "service_middle" => \App\Objects\Zone\Middle\Service::class,
+        "accessibility_middle" => \App\Objects\Zone\Middle\ServiceAccessibility::class,
+        "serviceAccessibility_middle" => \App\Objects\Zone\Middle\ServiceAccessibility::class,
+        "movement_middle" => \App\Objects\Zone\Middle\Movement::class,
+        "navigation_middle" => \App\Objects\Zone\Middle\Navigation::class,
+        "parking_full" => \App\Objects\Zone\Full\Parking::class,
+        "entrance_full" => \App\Objects\Zone\Full\Entrance::class,
+        "movement_full" => \App\Objects\Zone\Full\Movement::class,
+        "service_full" => \App\Objects\Zone\Full\Service::class,
+        "toilet_full" => \App\Objects\Zone\Full\Toilet::class,
+        "navigation_full" => \App\Objects\Zone\Full\Navigation::class,
+        "serviceAccessibility_full" => \App\Objects\Zone\Full\ServiceAccessibility::class,
+        "accessibility_full" => \App\Objects\Zone\Full\ServiceAccessibility::class,
+    ];
+
     /**
      * @var AttributesMap
      */

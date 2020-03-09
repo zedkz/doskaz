@@ -1,7 +1,7 @@
 import {make} from "vuex-pathify";
 
 export const state = () => ({
-    attributesList: null
+    attributesList: {}
 })
 
 export const mutations = make.mutations(state)

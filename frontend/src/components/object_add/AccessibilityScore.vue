@@ -29,17 +29,16 @@
         props: ['type', 'attributes'],
         data() {
             return {
-                score: {
-                }
+                score: {}
             }
         },
         watch: {
             attributes: {
-                handler(v) {
-                    console.log(this.type, this.attributes);
+                handler() {
                     this.calculateScore()
                 },
-                deep: true
+                deep: true,
+                immediate: true
             }
         },
         methods: {

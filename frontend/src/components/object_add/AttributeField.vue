@@ -24,9 +24,6 @@
             'subTitle',
             'value'
         ],
-        mounted() {
-            this.val = 'unknown'
-        },
         computed: {
             val: {
                 get() {

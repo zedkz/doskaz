@@ -9,51 +9,61 @@ use App\Objects\Zones;
 class SmallFormZones extends Zones
 {
     /**
-     * @var Zone
+     * @var Parking
      */
     public $parking;
 
     /**
-     * @var Zone
+     * @var Entrance
      */
     public $entrance1;
 
     /**
-     * @var Zone
+     * @var null
+     */
+    public $entrance2 = null;
+
+    /**
+     * @var null
+     */
+    public $entrance3 = null;
+
+    /**
+     * @var Movement
      */
     public $movement;
 
     /**
-     * @var Zone
+     * @var Service
      */
     public $service;
 
     /**
-     * @var Zone
+     * @var Toilet
      */
     public $toilet;
 
     /**
-     * @var Zone
+     * @var Navigation
      */
     public $navigation;
 
     /**
-     * @var Zone
+     * @var ServiceAccessibility
      */
     public $serviceAccessibility;
 
     /**
      * SmallFormZones constructor.
-     * @param Zone $parking
-     * @param Zone $entrance1
-     * @param Zone $movement
-     * @param Zone $service
-     * @param Zone $toilet
-     * @param Zone $navigation
-     * @param Zone $serviceAccessibility
+     * @param Parking $parking
+     * @param Entrance $entrance1
+     * @param Movement $movement
+     * @param Service $service
+     * @param Toilet $toilet
+     * @param Navigation $navigation
+     * @param ServiceAccessibility $serviceAccessibility
      */
-    public function __construct(Zone $parking, Zone $entrance1, Zone $movement, Zone $service, Zone $toilet, Zone $navigation, Zone $serviceAccessibility)
+    public function __construct(Parking $parking, Entrance $entrance1, Movement $movement, Service $service, Toilet $toilet, Navigation $navigation, ServiceAccessibility $serviceAccessibility)
     {
         $this->parking = $parking;
         $this->entrance1 = $entrance1;

@@ -10,7 +10,9 @@
                         :key="`${index1}-${index2}-${index3}`"
                         :title="attribute.title"
                         :sub-title="attribute.subTitle"
-                        v-model="value[`attribute${attribute.key}`]"/>
+                        :value="value[`attribute${attribute.key}`]"
+                        @input="$emit('change', {path: `attribute${attribute.key}`, value: $event})"
+                />
             </template>
         </template>
     </div>

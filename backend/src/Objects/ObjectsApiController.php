@@ -348,7 +348,7 @@ final class ObjectsApiController extends AbstractController
                     'createdAt' => $connection->convertToPHPValue($review['createdAt'], 'datetimetz_immutable')
                 ]);
             }, $reviews),
-            'history' => array_map(function($event) use($connection) {
+            'history' => array_map(function ($event) use ($connection) {
                 return [
                     'name' => $event['name'],
                     'date' => $connection->convertToPHPValue($event['date'], 'datetimetz_immutable'),
@@ -359,7 +359,7 @@ final class ObjectsApiController extends AbstractController
                 'form' => $object['form_type'],
                 'zones' => array_map(function (?Zone $zone) {
                     return $zone->attributes;
-                }, array_filter((array) $zones, function ($zone) {
+                }, array_filter((array)$zones, function ($zone) {
                     return !is_null($zone);
                 }))
             ]
@@ -373,6 +373,84 @@ final class ObjectsApiController extends AbstractController
     public function attributes()
     {
         return [
+            'small' => [
+                'parking' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 1, 'title' => 'Наличие оборудованных парковочных мест', 'subTitle' => 'Не менее 1 места на парковке']
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'entrance' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 1, 'title' => 'Вход на уровне земли'],
+                                    ['key' => 1000, 'title' => 'Пандус наружный'],
+                                    ['key' => 1001, 'title' => 'Электрический подъемник'],
+                                    ['key' => 30, 'title' => 'Ширина входной двери не менее 90 см'],
+                                    ['key' => 31, 'title' => 'Высота порога входной двери не выше 1,4 см'],
+                                    ['key' => 1002, 'title' => 'Кнопка вызова персонала'],
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'movement' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 1, 'title' => 'Ширина коридора более 1,5 м'],
+                                    ['key' => 6, 'title' => 'Ширина дверей не менее 90 см'],
+                                    ['key' => 7, 'title' => 'Высота порогов не более 1,4 см'],
+                                    ['key' => 1000, 'title' => 'Пандус'],
+                                    ['key' => 1001, 'title' => 'Лифт или внутренний электрический подъемник '],
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                'service' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 1000, 'title' => 'Возможность получения услуг на объекте']
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'toilet' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 1000, 'title' => 'Оборудованный туалет', 'subTitle' => 'Наличие поручней и кнопки вызова персонала']
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'navigation' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 1000, 'title' => 'Визуальные, тактильные, звуковые, световые указатели, табло и пиктограммы, а также контрастное цветовое решение элементов интерьера, переводчик с жестового языка'],
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'serviceAccessibility' => []
+            ],
             'middle' => [
                 'parking' => [
                     [

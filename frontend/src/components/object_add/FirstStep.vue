@@ -1,16 +1,15 @@
 <template>
     <div class="add-object__content">
-        <field :error="(errors || {}).name">
+        <field :error="validationErrors.name">
             <div class="col">
                 <label class="add-object__label" for="input_name">Наименование</label>
             </div>
             <div class="col --long">
                 <div class="input">
-                    <input id="input_name" v-model.trim="value.name" type="text" placeholder="Юбилейный">
+                    <input id="input_name" v-model.trim="name" type="text" placeholder="Юбилейный">
                 </div>
             </div>
         </field>
-
         <field>
             <div class="col">
                 <label class="add-object__label">Другие наименования</label>
@@ -21,19 +20,17 @@
                 </div>
             </div>
         </field>
-
-        <field :error="(errors || {}).address">
+        <field :error="validationErrors.address">
             <div class="col">
                 <label class="add-object__label">Адрес</label>
             </div>
             <div class="col --long">
                 <div class="input">
-                    <input type="text" placeholder="улица Айманова, 11" v-model.trim="value.address">
+                    <input type="text" placeholder="улица Айманова, 11" v-model.trim="address"/>
                 </div>
             </div>
         </field>
-
-        <field :error="(errors || {}).point">
+        <field :error="validationErrors.point">
             <div class="col"><label class="add-object__label --title">Точка на карте</label></div>
             <div class="col --long">
                 <client-only>
@@ -50,7 +47,7 @@
                     coordorder: 'latlong',
                     version: '2.1'
                 }">
-                        <ymap-marker :coords="value.point" v-if="value.point" marker-id="point"></ymap-marker>
+                        <ymap-marker :coords="point" v-if="point" marker-id="point"></ymap-marker>
                     </yandex-map>
                 </client-only>
             </div>
@@ -69,7 +66,7 @@
                     </select>
                 </div>
             </div>
-            <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoCategory'}">
+            <div class="add-object__info" :class="{ '--selected': selectedInfo === 'infoCategory'}">
                 <span class="add-object__info-icon" @click="toggleSelectInfo('infoCategory')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
                         <path d="M20 40C31.0457 40 40 31.0457 40 20C40 8.9543 31.0457 0 20 0C8.9543 0 0 8.9543 0 20C0 31.0457 8.9543 40 20 40Z" fill="#F1F8FC"/>
@@ -81,13 +78,13 @@
                 </div>
             </div>
         </div>
-        <field :error="(errors || {}).categoryId">
+        <field :error="validationErrors.categoryId">
             <div class="col">
                 <label class="add-object__label">Подкатегория</label>
             </div>
             <div class="col --long">
                 <div class="select">
-                    <select :disabled="!selectedCategory" v-model="value.categoryId">
+                    <select :disabled="!selectedCategory" v-model="categoryId">
                         <option disabled :value="null">Выберите подкатегорию</option>
                         <template v-if="selectedCategory">
                             <option :value="category.id" v-for="category in selectedCategory.subCategories"
@@ -97,7 +94,7 @@
                     </select>
                 </div>
             </div>
-            <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoSubCategory'}">
+            <div class="add-object__info" :class="{ '--selected': selectedInfo === 'infoSubCategory'}">
                 <span class="add-object__info-icon" @click="toggleSelectInfo('infoSubCategory')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
                         <path d="M20 40C31.0457 40 40 31.0457 40 20C40 8.9543 31.0457 0 20 0C8.9543 0 0 8.9543 0 20C0 31.0457 8.9543 40 20 40Z" fill="#F1F8FC"/>
@@ -114,19 +111,19 @@
                 <label class="add-object__label">Ссылка на видео</label>
             </div>
             <div class="col --long">
-                <div class="input" v-for="(photo, index) in value.videos" :key="index">
-                    <input type="text" placeholder="http://" v-model="value.videos[index]"/>
+                <div class="input" v-for="(photo, index) in videos" :key="index">
+                    <input type="text" placeholder="http://" :value="videos[index]" @input="updateData({path: `first.videos.${index}`, value: $event.target.value})"/>
                 </div>
-                <button type="button" class="add-link" @click="value.videos.push('')">Добавить еще видео</button>
+                <button type="button" class="add-link" @click="videos = [...videos, '']">Добавить еще видео</button>
             </div>
         </field>
 
-        <field :error="(errors || {}).photos">
+        <field :error="validationErrors.photos">
             <div class="col">
                 <label class="add-object__label">Загрузить фото</label>
             </div>
             <div class="col --long">
-                <photo-uploader v-model="value.photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
+                <photo-uploader v-model="photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
             </div>
             <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoPhoto'}">
                 <span class="add-object__info-icon" @click="toggleSelectInfo('infoPhoto')">
@@ -146,13 +143,13 @@
 <script>
     import Field from "./Field";
     import PhotoUploader from "./PhotoUploader";
+    import {sync, get, call} from 'vuex-pathify'
+
     export default {
         name: "FirstStep",
         components: {PhotoUploader, Field},
         props: [
-            'value',
-            'categories',
-            'errors'
+            'value'
         ],
         data() {
             return {
@@ -167,30 +164,49 @@
             mapInitialized(map) {
                 this.map = map;
             },
-
             click(e) {
-                this.value.point = e.get('coords');
-                this.mapCoords = this.value.point;
+                this.point = e.get('coords');
+                this.mapCoords = this.point;
                 if(this.map && !this.zoom) {
                     this.zoom = 12
-                    this.map.setCenter(this.value.point, 12)
+                    this.map.setCenter(this.point, 12)
                 }
-                ymaps.geocode(this.value.point).then(res => {
+                ymaps.geocode(this.point).then(res => {
                     const result = res.geoObjects.get(0);
                     if(result.getThoroughfare()) {
-                        this.value.address = [result.getThoroughfare(), result.getPremiseNumber()].filter(item => !!item).join(', ')
+                        this.address = [result.getThoroughfare(), result.getPremiseNumber()].filter(item => !!item).join(', ')
                     } else {
-                        this.value.address = ''
+                        this.address = ''
                     }
                 });
             },
             toggleSelectInfo(infoCat) {
-                this.selectedInfo = (this.selectedInfo ==  infoCat) ? false : infoCat;
-            }
+                this.selectedInfo = (this.selectedInfo ===  infoCat) ? false : infoCat;
+            },
+            ...call('objectAdding', [
+                'updateData'
+            ])
         },
         watch: {
             selectedCategory() {
-                this.value.categoryId = null
+                this.categoryId = null
+            }
+        },
+        computed: {
+            ...sync('objectAdding/data@first', [
+                'name',
+                'address',
+                'point',
+                'categoryId',
+                'videos',
+                'photos'
+            ]),
+            ...get('objectAdding', [
+                'categories'
+            ]),
+            errors: get('objectAdding/validationErrors'),
+            validationErrors() {
+                return this.errors.first || {}
             }
         }
     }

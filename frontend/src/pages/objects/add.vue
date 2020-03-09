@@ -5,15 +5,19 @@
             <div class="complaint__top">
                 <h2 class="title">Добавить объект</h2>
                 <div class="add-object__link-b">
-                    <span class="add-object__link">Простая форма</span>
-                    <span class="add-object__link" v-for="form in forms" :key="form.key"
-                          @click="formVariant = form.key"
-                          :class="{active: form.key === formVariant}">{{ form.title }}</span>
+                    <span class="add-object__link"
+                          v-for="form in forms"
+                          :key="form.key"
+                          @click="changeForm(form.key)"
+                          :class="{active: form.key === selectedForm}"
+                    >
+                        {{ form.title }}
+                    </span>
                 </div>
             </div>
         </div>
         <div class="complaint__wrapper">
-            <ObjectAddContent :categories="categories" :form-variant="formVariant"/>
+            <ObjectAddContent/>
         </div>
     </div>
 </template>
@@ -21,6 +25,7 @@
 <script>
     import MainHeader from "@/components/MainHeader";
     import ObjectAddContent from "@/components/object_add/ObjectAddContent.vue";
+    import {get, call} from 'vuex-pathify'
 
     export default {
         middleware: ['authenticated'],
@@ -30,29 +35,16 @@
             ObjectAddContent
         },
         async fetch({store}) {
-            await store.dispatch('objectAdding/init')
+            return store.dispatch('objectAdding/init')
         },
-        async asyncData({$axios}) {
-            const [{data: categories}] = await Promise.all([
-                $axios.get('/api/objectCategories')
-            ]);
-
-            return {
-                categories
-            }
-        },
-        data() {
-            return {
-                formVariant: 'middle'
-            }
+        methods: {
+            ...call('objectAdding', [
+                'changeForm'
+            ])
         },
         computed: {
-            forms() {
-                return [
-                    {key: 'middle', title: 'Средняя форма'},
-                    {key: 'full', title: 'Сложная форма'},
-                ]
-            }
+            forms: get('objectAdding/forms'),
+            selectedForm: get('objectAdding/data@form')
         }
     };
 

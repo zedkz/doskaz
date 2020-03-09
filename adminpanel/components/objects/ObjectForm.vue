@@ -105,7 +105,7 @@
             },
             formOptions() {
                 return [
-                    /* {value: 'small', title: 'Простая'},*/
+                     {value: 'small', title: 'Простая'},
                     {value: 'middle', title: 'Средняя'},
                     {value: 'full', title: 'Сложная'}
                 ]
@@ -113,9 +113,9 @@
             tabs() {
                 return [
                     {title: 'Парковка', key: 'parking', group: 'parking'},
-                    {title: 'Входная группа #1', key: 'entrance1', group: 'parking'},
-                    {title: 'Входная группа #2', key: 'entrance2', group: 'parking'},
-                    {title: 'Входная группа #3', key: 'entrance3', group: 'parking'},
+                    {title: 'Входная группа #1', key: 'entrance1', group: 'entrance'},
+                    {title: 'Входная группа #2', key: 'entrance2', group: 'entrance'},
+                    {title: 'Входная группа #3', key: 'entrance3', group: 'entrance'},
                     {title: 'Пути движения по объекту', key: 'movement', group: 'movement'},
                     {title: 'Зона оказания услуги', key: 'service', group: 'service'},
                     {title: 'Туалет', key: 'toilet', group: 'toilet'},
