@@ -229,6 +229,10 @@
 <style lang="scss">
     @import "@/styles/mixins.scss";
 
+    select{
+        background-color: white;
+    }
+
     .--av-green {
         .add-object__rating {
             &:before {
@@ -664,6 +668,10 @@
             &.error {
                 .add-object__error {
                     display: block;
+                }
+
+                .input, select,  {
+                    border-color: $red;
                 }
             }
 
