@@ -5,8 +5,10 @@ namespace App\Objects\Zone\Small;
 
 
 use App\Objects\Adding\AccessibilityScore;
+use App\Objects\Adding\Attribute;
+use App\Objects\Zone;
 
-class Navigation extends \App\Objects\Zone
+class Navigation extends Zone
 {
     protected static function attributesKeys(): array
     {
@@ -15,7 +17,18 @@ class Navigation extends \App\Objects\Zone
 
     public function calculateScore(): AccessibilityScore
     {
-        return AccessibilityScore::notProvided();
+        /**
+         * @var $attribute Attribute
+         */
+        $attribute = $this->attributes->get('attribute1000');
+
+        if ($attribute->isEqualsTo(Attribute::notProvided())) {
+            return AccessibilityScore::notProvided();
+        }
+        if ($attribute->isEqualsTo(Attribute::yes())) {
+            return AccessibilityScore::fullAccessible();
+        }
+        return AccessibilityScore::notAccessible();
     }
 
 }

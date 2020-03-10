@@ -17,38 +17,40 @@ class Entrance extends Zone
 
     public function calculateScore(): AccessibilityScore
     {
-        if($this->isMatchesAll(Attribute::notProvided())) {
+        if ($this->isMatchesAll(Attribute::notProvided())) {
             return AccessibilityScore::notProvided();
         }
 
         $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
 
-        if($this->isMatches([1], Attribute::yes())) {
+        if ($this->isMatches([1], Attribute::yes())) {
             $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
             $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 
-        if($this->isMatches([1, 31, 1002], Attribute::yes())) {
+        if ($this->isMatches([1, 31, 1002], Attribute::yes()) || $this->isMatches([1000, 1001, 30, 31, 1002], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        } else if ($this->isMatchesPartial([1, 31, 1002], Attribute::yes()) || $this->isMatchesPartial([1000, 1001, 30, 31, 1002], Attribute::yes())) {
+            $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
-        if($this->isMatches([1000, 1001, 30, 31, 10002], Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        }
-
-        if($this->isMatches([1000, 1001, 31, 10002], Attribute::yes())) {
+        if ($this->isMatches([1000, 1001, 31, 1002], Attribute::yes())) {
             $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        } else if ($this->isMatchesPartial([1000, 1001, 31, 1002], Attribute::yes())) {
+            $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
-        if($this->isMatches([31, 10002], Attribute::yes())) {
+        if ($this->isMatches([31, 1002], Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        } else if ($this->isMatchesPartial([31, 1002], Attribute::yes())) {
+            $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
-        return AccessibilityScore::notProvided();
+        return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
     }
 
 }
