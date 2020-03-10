@@ -75,3 +75,7 @@ services:
             - '/img'
 
     App\Infrastructure\Doctrine\Transactional:
+
+    TheCodingMachine\Gotenberg\Client:
+        arguments:
+            - 'http://gotenberg:3000'

@@ -8,3 +8,6 @@ services:
   App\Objects\Verification\CreateVerificationOnObjectCreated:
     tags:
       - { name: domain_events.listener }
+
+  App\Objects\Verification\VerificationController:
+    tags: ['controller.service_arguments']

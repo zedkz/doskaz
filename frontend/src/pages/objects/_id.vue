@@ -43,12 +43,13 @@
                             <p class="text" v-html="object.description"></p>
                             <div class="text__verification-b">
                                 <span class="text__verification-link" v-on:click="moreDetailsShow = true">Подробная информация</span>
-                                <p class="text__verification" v-if="object.verified">Объект верифицирован</p>
-                                <p class="text__verification" v-else>Объект не верифицирован</p>
+                                <p class="text__verification" v-if="object.verificationStatus === 'full_verified'">Объект верифицирован</p>
+                                <p class="text__verification" v-if="object.verificationStatus === 'not_verified'">Объект не верифицирован</p>
+                                <p class="text__verification" v-if="object.verificationStatus === 'partial_verified'">Объект частично верифицирован</p>
                             </div>
                             <div class="object-side__button-b">
                                 <a href="" class="object-side__button --complaint">Подать жалобу</a>
-                                <a href="" class="object-side__button --check">Подтвердить данные</a>
+                                <nuxt-link :to="{name: 'objects-id-verify', params: {id: $route.params.id}}" class="object-side__button --check">Подтвердить данные</nuxt-link>
                             </div>
                         </div>
                         <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}" id="tab-photo">
@@ -145,7 +146,7 @@
                                @click.prevent="setVisible(item.key)">{{ item.title }}</a>
                         </div>
 
-                        <a href="" download="" class="more-detail__download">Скачать</a>
+                        <a :href="`/api/objects/${$route.params.id}/pdf`" target="_blank" class="more-detail__download">Скачать</a>
                     </div>
                     <div class="more-detail__content" id="more-detail__content">
                         <div :id="zone.key" class="more-detail__item" v-for="zone in detailsZones" :key="zone.key">
@@ -173,7 +174,7 @@
             </nuxt-link>
         </div>
 
-        <nuxt-child @review-submitted="reviewSubmitted"/>
+        <nuxt-child @review-submitted="reviewSubmitted" :objectName="object.title"/>
         <client-only>
             <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
             <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>

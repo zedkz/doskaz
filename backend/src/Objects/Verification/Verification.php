@@ -13,6 +13,10 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Verification
 {
+    private const STATUS_NOT_VERIFIED = 'not_verified';
+    private const STATUS_FULL_VERIFIED = 'full_verified';
+    private const STATUS_PARTIAL_VERIFIED = 'partial_verified';
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid")
@@ -30,9 +34,10 @@ class Verification
     private $userId;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var string
+     * @ORM\Column(type="string", options={"default" = "not_verified"})
      */
-    private $verified;
+    private $status;
 
     /**
      * Verification constructor.
@@ -41,22 +46,21 @@ class Verification
     public function __construct(UuidInterface $id)
     {
         $this->id = $id;
-        $this->verified = false;
+        $this->status = self::STATUS_NOT_VERIFIED;
     }
 
     public function confirm(int $userId)
     {
-        $this->verified = true;
+        $this->status = self::STATUS_FULL_VERIFIED;
         $this->userId = $userId;
         $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function reject(int $userId)
     {
-        $this->verified = false;
+        $this->status = self::STATUS_PARTIAL_VERIFIED;
         $this->userId = $userId;
         $this->updatedAt = new \DateTimeImmutable();
     }
-
 
 }

@@ -15,10 +15,16 @@ use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use TheCodingMachine\Gotenberg\Client;
+use TheCodingMachine\Gotenberg\Document;
+use TheCodingMachine\Gotenberg\DocumentFactory;
+use TheCodingMachine\Gotenberg\HTMLRequest;
+use TheCodingMachine\Gotenberg\URLRequest;
 
 /**
  * @Route(path="/api/objects")
@@ -244,7 +250,7 @@ final class ObjectsApiController extends AbstractController
                 'sub_categories.icon as sub_category_icon',
                 'object_categories.title as category',
                 'object_categories.icon as category_icon',
-                'object_verifications.verified',
+                'object_verifications.status as verification_status',
                 'objects.zones->>\'type\' as form_type'
             ])
             ->from('objects')
@@ -362,10 +368,10 @@ final class ObjectsApiController extends AbstractController
                 }, array_filter((array)$zones, function ($zone) {
                     return !is_null($zone);
                 }))
-            ]
+            ],
+            'verificationStatus' => $object['verification_status']
         ];
     }
-
 
     /**
      * @Route(path="/attributes", methods={"GET"})
@@ -1368,5 +1374,25 @@ final class ObjectsApiController extends AbstractController
                 ]
             ]
         ];
+    }
+
+    /**
+     * @Route(path="/{id}/pdf", requirements={"id" = "\d+"}, methods={"GET"})
+     * @param Request $request
+     * @param Client $client
+     * @return BinaryFileResponse
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \TheCodingMachine\Gotenberg\ClientException
+     * @throws \TheCodingMachine\Gotenberg\RequestException
+     */
+    public function pdf(Request $request, MapObject $mapObject, Client $client)
+    {
+      //  $request = new URLRequest('http://frontend:3000/objects/pdf?id='.$mapObject->id());
+        $request = new URLRequest($request->getSchemeAndHttpHost().'/objects/pdf?id='.$mapObject->id());
+        $request->setMargins([0, 0, 0, 0]);
+        $request->setPaperSize(URLRequest::A4);
+        $path = tempnam('/tmp', 'pdf');
+        $client->store($request, $path);
+        return (new BinaryFileResponse($path, 200, [], true))->deleteFileAfterSend();
     }
 }

@@ -55,6 +55,7 @@ services:
       - traefik.port=3000
     networks:
       - web
+      - default
     environment:
       - BACKEND_DOMAIN
       - NUXT_HOST=0.0.0.0

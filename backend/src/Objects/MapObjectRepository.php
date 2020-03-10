@@ -43,4 +43,9 @@ final class MapObjectRepository
             $this->entityManager->flush();
         });
     }
+
+    public function find(int $id): ?MapObject
+    {
+        return $this->repository->find($id);
+    }
 }

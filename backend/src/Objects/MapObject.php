@@ -9,6 +9,7 @@ use App\Infrastructure\FileReferenceCollection;
 use App\Objects\Adding\AccessibilityScore;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -212,5 +213,10 @@ class MapObject implements EventProducer
     public function id()
     {
         return $this->id;
+    }
+
+    public function uuid(): UuidInterface
+    {
+        return $this->uuid;
     }
 }

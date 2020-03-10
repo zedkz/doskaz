@@ -5,6 +5,7 @@ namespace App\Objects\Verification;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class VerificationRepository
 {
@@ -25,5 +26,9 @@ class VerificationRepository
     public function add(Verification $verification)
     {
         $this->entityManager->persist($verification);
+    }
+
+    public function find(UuidInterface $uuid): ?Verification {
+        return $this->repository->find($uuid);
     }
 }
