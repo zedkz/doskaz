@@ -37,7 +37,7 @@
             <zone-step
                     v-for="zone in zonesTabsAvailable"
                     :key="zone.key"
-                    v-show="currentStepKey !== 'first' && currentStepKey === zone.key"
+                    v-show="['middle', 'full'].includes(formVariant) && currentStepKey !== 'first' && currentStepKey === zone.key"
                     :comment-label="zone.commentLabel"
                     :comment-placeholder="zone.commentPlaceholder"
                     :form="formVariant"
@@ -103,9 +103,11 @@
                     </h5>
                 </div>
                 <div class="add-object__content">
-                    <attributes-list
-                            :zone="tab.group" form="small" :value="form[tab.key].attributes"
-                            @change="updateData({path: `${tab.key}.attributes.${$event.path}`, value: $event.value})"
+                    <zone-step
+                            :key="tab.key"
+                            :form="formVariant"
+                            :zone="tab.group"
+                            :zone-key="tab.key"
                     />
                 </div>
             </div>

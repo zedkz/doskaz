@@ -8,12 +8,12 @@
         />
         <accessibility-score :attributes="attributes" :type="zoneType" :key="zoneType"/>
         <div class="add-object__line --lrg">
-            <h5 class="add-object__title">{{ commentLabel }}</h5>
+            <h5 class="add-object__title">Комментарий к оценке зоны</h5>
         </div>
         <div class="add-object__line">
                     <textarea class="add-object__textarea"
                               v-model="comment"
-                              :placeholder="commentPlaceholder"></textarea>
+                              placeholder="Система самостоятельно оценила доступность зоны на основании ваших ответов. Если вы не согласны с оценкой, пожалуйста, оставьте в этом поле ваш комментарий с пояснениями. Модератор сайта сможет исправить оценку сайта."></textarea>
         </div>
     </div>
 </template>
@@ -29,8 +29,6 @@
         props: [
             'form',
             'zone',
-            'commentLabel',
-            'commentPlaceholder',
             'zoneKey'
         ],
         methods: {
