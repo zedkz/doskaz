@@ -1,6 +1,6 @@
 <template>
     <component :is="tag">
-        {{ value }}
+        {{ valueOrDefault }}
     </component>
 </template>
 
@@ -14,7 +14,11 @@
             },
             value: {
                 type: String,
-                default: 'Без имени'
+            }
+        },
+        computed: {
+            valueOrDefault() {
+                return this.value || 'Без имени'
             }
         }
     }
