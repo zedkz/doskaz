@@ -4,6 +4,8 @@
 namespace App\Objects\Verification;
 
 
+use App\Infrastructure\DomainEvents\EventProducer;
+use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -11,8 +13,10 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity()
  * @ORM\Table(name="object_verifications")
  */
-class Verification
+class Verification implements EventProducer
 {
+    use ProducesEvents;
+
     private const STATUS_NOT_VERIFIED = 'not_verified';
     private const STATUS_FULL_VERIFIED = 'full_verified';
     private const STATUS_PARTIAL_VERIFIED = 'partial_verified';
@@ -53,6 +57,7 @@ class Verification
     {
         $this->status = self::STATUS_FULL_VERIFIED;
         $this->userId = $userId;
+        $this->remember(new VerificationConfirmed($this->id, $userId));
         $this->updatedAt = new \DateTimeImmutable();
     }
 
@@ -60,6 +65,7 @@ class Verification
     {
         $this->status = self::STATUS_PARTIAL_VERIFIED;
         $this->userId = $userId;
+        $this->remember(new VerificationRejected($this->id, $userId));
         $this->updatedAt = new \DateTimeImmutable();
     }
 

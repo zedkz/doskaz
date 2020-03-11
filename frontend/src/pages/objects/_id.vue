@@ -100,6 +100,9 @@
                                         <template v-if="item.data.type === 'review_created'">прокомментировал(а)
                                             объект
                                         </template>
+
+                                        <template v-if="item.data.type === 'verification_confirmed'">подтвердил(а) данные</template>
+                                        <template v-if="item.data.type === 'verification_rejected'">не подтвердил(а) данные</template>
                                     </p>
                                 </li>
                                 <!--<li class="object-side__history-item">

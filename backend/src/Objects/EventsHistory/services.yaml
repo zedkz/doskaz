@@ -8,3 +8,11 @@ services:
   App\Objects\EventsHistory\Listener\ReviewCreatedListener:
     tags:
       - { name: domain_events.listener }
+
+  App\Objects\EventsHistory\Listener\VerificationConfirmedListener:
+    tags:
+      - { name: domain_events.listener }
+
+  App\Objects\EventsHistory\Listener\VerificationRejectedListener:
+    tags:
+      - { name: domain_events.listener }

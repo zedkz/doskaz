@@ -11,7 +11,9 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  * @DiscriminatorMap(
  *     typeProperty="type",
  *     mapping={
- *         "review_created" = "App\Objects\EventsHistory\Type\ReviewCreated"
+ *         "review_created" = "App\Objects\EventsHistory\Type\ReviewCreated",
+ *         "verification_rejected" = "App\Objects\EventsHistory\Type\VerificationRejected",
+ *         "verification_confirmed" = "App\Objects\EventsHistory\Type\VerificationConfirmed",
  *     })
  */
 interface EventData
