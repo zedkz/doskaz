@@ -174,7 +174,7 @@
             </nuxt-link>
         </div>
 
-        <nuxt-child @review-submitted="reviewSubmitted" :objectName="object.title"/>
+        <nuxt-child @review-submitted="reloadObject" :objectName="object.title" @verified="reloadObject"/>
         <client-only>
             <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
             <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
@@ -369,7 +369,7 @@
             setActive(tabItem) {
                 this.activeItem = tabItem
             },
-            async reviewSubmitted() {
+            async reloadObject() {
                 const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`)
                 this.object = object;
             },
