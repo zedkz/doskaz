@@ -7,9 +7,10 @@
                       v-model.trim="reviewText" :disabled="reviewSubmitting"></textarea>
             <span class="popup__textarea-text">Введите минимум 20 символов</span>
             <div class="popup__buttons">
-                <div class="timeline__tab-link timeline__tab-link_user"><span class="avatar"
-                                                                              :style="`background-image:url(${user.avatar})`"></span>
-                    <span class="name">{{ user.name }}</span></div>
+                <div class="timeline__tab-link timeline__tab-link_user">
+                    <span class="avatar" :style="`background-image:url(${user.avatar})`"></span>
+                    <username class="name" :value="user.name"/>
+                </div>
                 <button type="button" class="button" @click="createReview"
                         :disabled="reviewText.length < 20 || reviewSubmitting">Отправить
                 </button>
@@ -20,8 +21,10 @@
 
 <script>
     import {get} from "vuex-pathify";
+    import Username from "../../../components/Username";
 
     export default {
+        components: {Username},
         middleware: ['authenticated'],
         data() {
             return {
