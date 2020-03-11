@@ -83,7 +83,7 @@
                                 <li class="object-side__review-item" v-for="(review, index) in object.reviews"
                                     :key="index">
                                     <div class="object-side__review-top">
-                                        <span class="object-side__review-title">{{ review.author }}</span>
+                                        <username class="object-side__review-title" :value="review.author" tag="span"/>
                                         <span class="object-side__review-date">{{ review.createdAt | date }}</span>
                                     </div>
                                     <p class="object-side__review-text">{{ review.text }}</p>
@@ -96,7 +96,7 @@
                                 <li class="object-side__history-item" v-for="(item, index) in object.history"
                                     :key="index">
                                     <span class="object-side__history-date">{{ item.date | date('d MMMM') }}</span>
-                                    <p class="object-side__history-text"><b>{{ item.name }}</b>
+                                    <p class="object-side__history-text"><username :value="item.name" tag="b"/>
                                         <template v-if="item.data.type === 'review_created'">прокомментировал(а)
                                             объект
                                         </template>
@@ -192,6 +192,7 @@
     import chunk from 'lodash/chunk'
     import {format} from 'date-fns'
     import ru from 'date-fns/locale/ru'
+    import Username from "../../components/Username";
 
     const accessibilityValues = {
         full_accessible: {
@@ -227,6 +228,7 @@
     ]
 
     export default {
+        components: {Username},
         layout: 'main',
         data() {
             return {
