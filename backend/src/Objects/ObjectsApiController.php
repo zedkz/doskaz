@@ -369,9 +369,9 @@ final class ObjectsApiController extends AbstractController
                     'viewUrl' => $baseUrl . $urlBuilder->build('local:///storage/' . $file->relativePath, 2560, 1440)->toString()
                 ];
             }, $photos),
-            'videos' => array_filter($videos, function ($video) {
+            'videos' => array_reverse(array_filter($videos, function ($video) {
                 return !empty($video);
-            }),
+            })),
             'reviews' => array_map(function ($review) use ($connection) {
                 return array_replace($review, [
                     'createdAt' => $connection->convertToPHPValue($review['createdAt'], 'datetimetz_immutable')
