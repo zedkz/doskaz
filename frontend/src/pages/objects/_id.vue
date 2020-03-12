@@ -32,7 +32,9 @@
                 </div>
                 <div class="object-side__content">
                     <div class="object-side__tab-link-b">
-                        <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index" class="object-side__tab-link" :class="{active: $route.query.tab === tab.link.query.tab}">
+                        <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index"
+                                   class="object-side__tab-link"
+                                   :class="{active: $route.query.tab === tab.link.query.tab}">
                             {{ tab.title }}
                             <span class="object-side__tab-num" v-if="tab.counter >= 0">{{ tab.counter }}</span>
                         </nuxt-link>
@@ -43,16 +45,22 @@
                             <p class="text" v-html="object.description"></p>
                             <div class="text__verification-b">
                                 <span class="text__verification-link" v-on:click="moreDetailsShow = true">Подробная информация</span>
-                                <p class="text__verification" v-if="object.verificationStatus === 'full_verified'">Объект верифицирован</p>
-                                <p class="text__verification" v-if="object.verificationStatus === 'not_verified'">Объект не верифицирован</p>
-                                <p class="text__verification" v-if="object.verificationStatus === 'partial_verified'">Объект частично верифицирован</p>
+                                <p class="text__verification" v-if="object.verificationStatus === 'full_verified'">
+                                    Объект верифицирован</p>
+                                <p class="text__verification" v-if="object.verificationStatus === 'not_verified'">Объект
+                                    не верифицирован</p>
+                                <p class="text__verification" v-if="object.verificationStatus === 'partial_verified'">
+                                    Объект частично верифицирован</p>
                             </div>
                             <div class="object-side__button-b">
                                 <a href="" class="object-side__button --complaint">Подать жалобу</a>
-                                <nuxt-link :to="{name: 'objects-id-verify', params: {id: $route.params.id}}" class="object-side__button --check">Подтвердить данные</nuxt-link>
+                                <nuxt-link :to="{name: 'objects-id-verify', params: {id: $route.params.id}}"
+                                           class="object-side__button --check">Подтвердить данные
+                                </nuxt-link>
                             </div>
                         </div>
-                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}" id="tab-photo">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}"
+                             id="tab-photo">
                             <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
                                 <div class="object-side__photo-year">{{ group.year }}</div>
                                 <div class="object-side__photo-list">
@@ -65,14 +73,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'videos'}" id="tab-video">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'videos'}"
+                             id="tab-video">
                             <div class="object-side__photo">
                                 <div class="object-side__photo-list --video">
                                     <a href="#" class="object-side__photo-link"
-                                       v-for="(video, videoIndex) in videos"
+                                       v-for="(video, videoIndex) in object.videos"
                                        :key="videoIndex"
                                        @click="imagesIndex = null; videosIndex = videoIndex">
-                                        <img :src=" video.poster "/>
+                                        <img :src="video.thumbnail"/>
                                     </a>
                                 </div>
                             </div>
@@ -96,13 +105,17 @@
                                 <li class="object-side__history-item" v-for="(item, index) in object.history"
                                     :key="index">
                                     <span class="object-side__history-date">{{ item.date | date('d MMMM') }}</span>
-                                    <p class="object-side__history-text"><username :value="item.name" tag="b"/>
+                                    <p class="object-side__history-text">
+                                        <username :value="item.name" tag="b"/>
                                         <template v-if="item.data.type === 'review_created'">прокомментировал(а)
                                             объект
                                         </template>
-
-                                        <template v-if="item.data.type === 'verification_confirmed'">подтвердил(а) данные</template>
-                                        <template v-if="item.data.type === 'verification_rejected'">не подтвердил(а) данные</template>
+                                        <template v-if="item.data.type === 'verification_confirmed'">подтвердил(а)
+                                            данные
+                                        </template>
+                                        <template v-if="item.data.type === 'verification_rejected'">не подтвердил(а)
+                                            данные
+                                        </template>
                                     </p>
                                 </li>
                                 <!--<li class="object-side__history-item">
@@ -158,10 +171,13 @@
                                 <h4 class="more-detail__line-title" v-if="group.title">{{ group.title }}</h4>
                                 <template v-for="(sub, index2) in group.subGroups">
                                     <h4 class="more-detail__line-title" v-if="sub.title">{{ sub.title }}</h4>
-                                    <div class="more-detail__line" v-for="attribute in sub.attributes" :class="{yes: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes', no: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no', empty: !['yes', 'no'].includes(object.attributes.zones[zone.key][`attribute${attribute.key}`])}">
+                                    <div class="more-detail__line" v-for="attribute in sub.attributes"
+                                         :class="{yes: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes', no: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no', empty: !['yes', 'no'].includes(object.attributes.zones[zone.key][`attribute${attribute.key}`])}">
                                         <span class="more-detail__line-text">{{ attribute.title }} {{ attribute.subTitle }}</span>
-                                        <span class="more-detail__line-status" v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">Да</span>
-                                        <span class="more-detail__line-status" v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">Нет</span>
+                                        <span class="more-detail__line-status"
+                                              v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">Да</span>
+                                        <span class="more-detail__line-status"
+                                              v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">Нет</span>
                                         <span class="more-detail__line-status" v-else>&mdash;</span>
                                     </div>
                                 </template>
@@ -179,8 +195,10 @@
 
         <nuxt-child @review-submitted="reloadObject" :objectName="object.title" @verified="reloadObject"/>
         <client-only>
-            <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
-            <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+            <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions"
+                     @close="imagesIndex = null"></gallery>
+            <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions"
+                     @close="videosIndex = null"></gallery>
         </client-only>
     </div>
 </template>
@@ -238,29 +256,6 @@
                 activeItem: 'tab-description',
                 visibleDetail: 'detail_1',
                 moreDetailsShow: false,
-                videos: [
-                    {
-                        title: 'КВН 2016 Спецпроект',
-                        href: 'https://www.youtube.com/watch?v=2C32jWXQnQk',
-                        type: 'text/html',
-                        youtube: '2C32jWXQnQk',
-                        poster: 'https://img.youtube.com/vi/2C32jWXQnQk/maxresdefault.jpg'
-                    },
-                    {
-                        title: 'Встреча выпускников 2019',
-                        href: 'https://www.youtube.com/watch?v=P-nCfhgL_rA',
-                        type: 'text/html',
-                        youtube: 'P-nCfhgL_rA',
-                        poster: 'https://img.youtube.com/vi/P-nCfhgL_rA/maxresdefault.jpg'
-                    },
-                    {
-                        title: 'Кивин 2013',
-                        href: 'https://www.youtube.com/watch?v=THJc0p1i6-s',
-                        type: 'text/html',
-                        youtube: 'THJc0p1i6-s',
-                        poster: 'https://img.youtube.com/vi/THJc0p1i6-s/maxresdefault.jpg'
-                    }
-                ],
                 videosIndex: null,
                 videosOptions: {
                     container: '#blueimp-video',
@@ -272,7 +267,7 @@
                 imagesIndex: null,
                 imagesOptions: {
                     continuous: false,
-                    onslide: function(index, slide) {
+                    onslide: function (index, slide) {
                         var indicator = document.getElementsByClassName('indicator');
                         indicator[0].innerHTML = (index + 1) + ' / ' + document.getElementsByClassName('slide').length;
                     }
@@ -321,8 +316,16 @@
                 return [
                     {title: 'Описание', link: {...this.$route, query: {tab: undefined}}},
                     {title: 'Фото', link: {...this.$route, query: {tab: 'photos'}}, counter: this.object.photos.length},
-                    {title: 'Видео', link: {...this.$route, query: {tab: 'videos'}}, counter: this.object.videos.length},
-                    {title: 'Отзывы', link: {...this.$route, query: {tab: 'reviews'}}, counter: this.object.reviews.length},
+                    {
+                        title: 'Видео',
+                        link: {...this.$route, query: {tab: 'videos'}},
+                        counter: this.object.videos.length
+                    },
+                    {
+                        title: 'Отзывы',
+                        link: {...this.$route, query: {tab: 'reviews'}},
+                        counter: this.object.reviews.length
+                    },
                     {title: 'История', link: {...this.$route, query: {tab: 'history'}}},
                 ]
             },
@@ -331,7 +334,7 @@
                 return this.object.attributes.form
             },
             detailsZones() {
-                const zones =  [
+                const zones = [
                     {key: 'parking', title: 'Парковка', group: 'parking'},
                     {key: 'entrance1', title: 'Входная группа 1', group: 'entrance'},
                     {key: 'entrance2', title: 'Входная группа 2', group: 'entrance'},
@@ -346,10 +349,18 @@
                 return zones.filter(z => this.object.attributes.zones[z.key])
             },
             zonesMenu() {
-                return chunk(this.detailsZones, Math.round(this.detailsZones.length/2))
+                return chunk(this.detailsZones, Math.round(this.detailsZones.length / 2))
             },
             images() {
                 return this.object.photos.map(p => p.viewUrl)
+            },
+            videos() {
+                return this.object.videos.map(v => ({
+                    youtube: v.videoId,
+                    poster: v.thumbnail,
+                    type: 'text/html',
+                    href: v.url
+                }));
             }
         },
         watch: {
@@ -399,6 +410,7 @@
     #blueimp-gallery {
         left: 680px;
         width: auto;
+
         > {
             .close {
                 width: 24px;
@@ -409,6 +421,7 @@
                 font-size: 0;
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi42NjY3IDQuMDA4ZS0wNkwyMCAzLjMzMzM0TDEzLjMzMzMgMTBMMjAgMTYuNjY2N0wxNi42NjY3IDIwTDEwIDEzLjMzMzNMMy4zMzMzMyAyMEwwIDE2LjY2NjdMNi42NjY2NyAxMEwwIDMuMzMzMzNMMy4zMzMzMyAwTDEwIDYuNjY2NjdMMTYuNjY2NyA0LjAwOGUtMDZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K') center no-repeat;
             }
+
             .slides {
                 > .slide {
                     > .slide-content {
@@ -417,6 +430,7 @@
                     }
                 }
             }
+
             .next, .prev {
                 width: 60px;
                 height: 100px;
@@ -425,16 +439,20 @@
                 border-radius: 0;
                 opacity: 0.8;
                 margin: -50px 0 0;
+
                 &:hover {
                     opacity: 1;
                 }
             }
+
             .prev {
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMxIDFMMSAzMUwzMSA2MSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
             }
+
             .next {
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNjFMMzEgMzFMMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K') center no-repeat;
             }
+
             .indicator {
                 color: #FFFFFF;
                 bottom: 60px;
@@ -447,6 +465,7 @@
     #blueimp-video {
         left: 680px;
         width: auto;
+
         > {
             .close {
                 display: block;
@@ -458,10 +477,12 @@
                 font-size: 0;
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi42NjY3IDQuMDA4ZS0wNkwyMCAzLjMzMzM0TDEzLjMzMzMgMTBMMjAgMTYuNjY2N0wxNi42NjY3IDIwTDEwIDEzLjMzMzNMMy4zMzMzMyAyMEwwIDE2LjY2NjdMNi42NjY2NyAxMEwwIDMuMzMzMzNMMy4zMzMzMyAwTDEwIDYuNjY2NjdMMTYuNjY2NyA0LjAwOGUtMDZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K') center no-repeat;
             }
+
             .slides > .slide > .slide-content {
                 max-height: 508px;
                 max-width: 900px;
             }
+
             .next, .prev {
                 width: 60px;
                 height: 100px;
@@ -471,13 +492,16 @@
                 opacity: 0.8;
                 display: block;
                 margin: -50px 0 0;
+
                 &:hover {
                     opacity: 1;
                 }
             }
+
             .prev {
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMxIDFMMSAzMUwzMSA2MSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
             }
+
             .next {
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAzMiA2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNjFMMzEgMzFMMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K') center no-repeat;
             }
@@ -487,14 +511,17 @@
                 left: 0;
                 top: 0;
             }
+
             .slides > .slide > .video-content > a {
-                  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
-                  background-size: 128px;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
             }
+
             .slides > .slide > .video-content:not(.video-loading) > a {
                 background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
                 background-size: 128px;
             }
+
             .title {
                 position: absolute;
                 left: 40px;
@@ -507,6 +534,7 @@
                 opacity: 1;
             }
         }
+
         &.blueimp-gallery-left > .prev, &.blueimp-gallery-right > .next {
             display: none;
         }
@@ -1141,17 +1169,21 @@
                 line-height: 20px;
                 margin: 0 0 16px;
             }
+
             &-list {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: flex-start;
                 align-items: top;
+
                 &.--video {
                     justify-content: space-between;
+
                     .object-side__photo-link {
                         width: calc(50% - 5px);
                         margin: 0 0 10px;
                         position: relative;
+
                         &:after {
                             content: '';
                             position: absolute;
@@ -1163,15 +1195,18 @@
                             background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
                         }
                     }
+
                     img {
                         width: 100%;
                         height: auto;
                     }
                 }
             }
+
             &-link {
                 display: block;
                 margin: 0 10px 10px 0;
+
                 img {
                     display: block;
                     height: 150px;

@@ -14,6 +14,7 @@ use OpenApi\Annotations\Items;
 use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
+use Safe\Exceptions\FilesystemException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,9 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use TheCodingMachine\Gotenberg\Client;
-use TheCodingMachine\Gotenberg\Document;
-use TheCodingMachine\Gotenberg\DocumentFactory;
-use TheCodingMachine\Gotenberg\HTMLRequest;
+use TheCodingMachine\Gotenberg\ClientException;
+use TheCodingMachine\Gotenberg\RequestException;
 use TheCodingMachine\Gotenberg\URLRequest;
 
 /**
@@ -251,7 +251,8 @@ final class ObjectsApiController extends AbstractController
                 'object_categories.title as category',
                 'object_categories.icon as category_icon',
                 'object_verifications.status as verification_status',
-                'objects.zones->>\'type\' as form_type'
+                'objects.zones->>\'type\' as form_type',
+                'objects.videos'
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'sub_categories', 'sub_categories.id = objects.category_id')
@@ -323,6 +324,26 @@ final class ObjectsApiController extends AbstractController
             ->execute()
             ->fetchAll();
 
+        $videos = $connection->convertToPHPValue($object['videos'], 'json');
+        $videos = array_filter($videos, function ($video) {
+            return !empty($video);
+        });
+        $videos = array_map(function ($video) {
+            $result = [];
+            $parsed = parse_url($video);
+
+            try {
+                parse_str($parsed['query'] ?? '', $result);
+
+                return [
+                    'url' => $video,
+                    'thumbnail' => sprintf('https://i.ytimg.com/vi/%s/maxresdefault.jpg', $result['v']),
+                    'videoId' => $result['v']
+                ];
+            } catch (\Exception $exception) {
+            }
+        }, $videos);
+
         return [
             'title' => $object['title'],
             'address' => $object['address'],
@@ -348,7 +369,9 @@ final class ObjectsApiController extends AbstractController
                     'viewUrl' => $baseUrl . $urlBuilder->build('local:///storage/' . $file->relativePath, 2560, 1440)->toString()
                 ];
             }, $photos),
-            'videos' => [],
+            'videos' => array_filter($videos, function ($video) {
+                return !empty($video);
+            }),
             'reviews' => array_map(function ($review) use ($connection) {
                 return array_replace($review, [
                     'createdAt' => $connection->convertToPHPValue($review['createdAt'], 'datetimetz_immutable')
@@ -1379,16 +1402,17 @@ final class ObjectsApiController extends AbstractController
     /**
      * @Route(path="/{id}/pdf", requirements={"id" = "\d+"}, methods={"GET"})
      * @param Request $request
+     * @param MapObject $mapObject
      * @param Client $client
      * @return BinaryFileResponse
-     * @throws \Safe\Exceptions\FilesystemException
-     * @throws \TheCodingMachine\Gotenberg\ClientException
-     * @throws \TheCodingMachine\Gotenberg\RequestException
+     * @throws ClientException
+     * @throws FilesystemException
+     * @throws RequestException
      */
     public function pdf(Request $request, MapObject $mapObject, Client $client)
     {
-      //  $request = new URLRequest('http://frontend:3000/objects/pdf?id='.$mapObject->id());
-        $request = new URLRequest($request->getSchemeAndHttpHost().'/objects/pdf?id='.$mapObject->id());
+        //  $request = new URLRequest('http://frontend:3000/objects/pdf?id='.$mapObject->id());
+        $request = new URLRequest($request->getSchemeAndHttpHost() . '/objects/pdf?id=' . $mapObject->id());
         $request->setMargins([0, 0, 0, 0]);
         $request->setPaperSize(URLRequest::A4);
         $path = tempnam('/tmp', 'pdf');
