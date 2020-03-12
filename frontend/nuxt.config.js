@@ -30,7 +30,8 @@ export default {
     ],
     css: [
         '~/static/normalize.css',
-        '@fortawesome/fontawesome-free/css/all.css'
+        '@fortawesome/fontawesome-free/css/all.css',
+        '~/styles/layout.scss'
     ],
     head: {
         meta: [
