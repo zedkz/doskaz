@@ -819,6 +819,11 @@
 
     export default {
         name: 'ComplaintContent',
+        props: [
+            'initialData',
+            'authorities',
+            'cities'
+        ],
         data() {
             return {
                 complaintType2Attributes: {},
@@ -843,8 +848,6 @@
                     visitPurpose: false
                 },
                 isLoading: false,
-                authorities: [],
-                cities: [],
                 photosRaw: [{preview: null}],
                 photosPreview: [],
                 complaint: {
@@ -896,11 +899,9 @@
                 url: null
             };
         },
-        components: {
-            Loading},
+        components: {Loading},
         mounted() {
-            this.complaint.objectId = this.$route.query.objectId
-            this.initialize();
+            this.complaint = this.initialData
         },
         methods: {
             async checValue(param, content, user) {
@@ -956,40 +957,6 @@
                     });
                     clearInterval(refreshInterval);
                 }, 1000);
-            },
-            async initialize() {
-                this.isLoading = true;
-                await Promise.all([this.loadAuthorities(), this.loadCities(), this.loadInitialData()]);
-                this.isLoading = false;
-            },
-            async loadInitialData() {
-                try {
-                    const {data: initialData} = await this.$axios.get("/api/complaints/initialData", {
-                        params: {
-                            objectId: this.$route.query.objectId
-                        }
-                    });
-                    if (initialData.complainant) {
-                        this.complaint.complainant = initialData.complainant;
-                    }
-                    this.complaint.content = {
-                        ...this.complaint.content,
-                        ...initialData.content
-                    }
-                } catch (e) {
-
-                }
-            },
-            async loadAuthorities() {
-                const {data: authorities} = await this.$axios.get("/api/complaints/authorities");
-                this.authorities = authorities;
-                this.complaint.authorityId = authorities[0].id;
-            },
-            async loadCities() {
-                const {data: cities} = await this.$axios.get("/api/cities");
-                this.cities = cities;
-                this.complaint.content.cityId = cities[0].id;
-                this.complaint.complainant.cityId = cities[0].id;
             },
             async submit() {
                 this.isLoading = true;
