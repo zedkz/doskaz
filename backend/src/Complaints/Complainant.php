@@ -53,7 +53,7 @@ final class Complainant
     public $phone;
 
     /**
-     * @var string|int
+     * @var string|int|null
      * @Assert\NotBlank()
      * @Property(nullable=false, description="id города")
      */
