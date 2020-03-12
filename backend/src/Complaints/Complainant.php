@@ -15,28 +15,28 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class Complainant
 {
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Имя")
      */
     public $firstName;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Фамилия")
      */
     public $lastName;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Отчество")
      */
     public $middleName;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      * @Assert\Length(12)
      * @Assert\Regex(pattern="/^\d+$/")
@@ -60,14 +60,14 @@ final class Complainant
     public $cityId;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Улица")
      */
     public $street;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\NotBlank()
      * @Property(nullable=false, description="Номер дома")
      */
