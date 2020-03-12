@@ -224,17 +224,18 @@ final class ComplaintController extends AbstractController
             ->execute()
             ->fetch();
 
+        $result = [
+            'content' => [
+                'objectName' => $object['title'] ?? '',
+                'cityId' => null,
+                'street' => $object['address'] ?? ''
+            ]
+        ];
+
         if ($lastComplaint && $lastComplaint['remember_personal_data']) {
-            return [
-                'complainant' => $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class),
-                'content' => [
-                    'objectName' => $object['title'] ?? '',
-                    'cityId' => null,
-                    'street' => $object['address'] ?? ''
-                ]
-            ];
+            $result['complainant'] = $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class);
         }
-        return new \Symfony\Component\HttpFoundation\Response('', 404);
+        return $result;
     }
 
     public function complaintAttributes()

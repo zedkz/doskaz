@@ -33,8 +33,6 @@ class ImportGeometry extends Command
                 'geometry' => json_encode($item['geometry'])
             ]);
         }
-
-        dd($geometry);
     }
 
 }
