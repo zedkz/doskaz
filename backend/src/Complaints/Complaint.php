@@ -70,4 +70,9 @@ class Complaint
         $this->objectId = $objectId;
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    public function id()
+    {
+        return $this->id;
+    }
 }

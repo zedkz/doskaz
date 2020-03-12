@@ -200,6 +200,8 @@
             <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions"
                      @close="videosIndex = null"></gallery>
         </client-only>
+
+        <post-submit-message/>
     </div>
 </template>
 
@@ -211,6 +213,7 @@
     import {format} from 'date-fns'
     import ru from 'date-fns/locale/ru'
     import Username from "../../components/Username";
+    import PostSubmitMessage from "../../components/complaint/PostSubmitMessage";
 
     const accessibilityValues = {
         full_accessible: {
@@ -246,7 +249,7 @@
     ]
 
     export default {
-        components: {Username},
+        components: {PostSubmitMessage, Username},
         layout: 'main',
         data() {
             return {

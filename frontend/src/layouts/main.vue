@@ -79,11 +79,6 @@
     import {sync} from 'vuex-pathify'
 
     export default {
-        data() {
-            return {
-                confirmPopup: false
-            }
-        },
         components: {
             LoginForm,
             IntroForm,

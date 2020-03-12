@@ -86,6 +86,10 @@ final class ComplaintController extends AbstractController
         );
         $complaintRepository->add($complaint);
         $flusher->flush();
+
+        return [
+            'id' => $complaint->id()
+        ];
     }
 
     /**
@@ -130,7 +134,6 @@ final class ComplaintController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @Route(path="/{id}/pdf", methods={"GET"}, requirements={"id" = "\d+"})
      * @param $id
      * @param Connection $connection
@@ -141,6 +144,8 @@ final class ComplaintController extends AbstractController
      */
     public function pdfExport($id, Connection $connection)
     {
+        $this->denyAccessUnlessGranted(ComplaintPermissions::PDF_EXPORT, $id);
+
         $data = $connection->createQueryBuilder()
             ->select('complaint_authorities.name as "authorityName"')
             ->addSelect('complaints.complainant->>\'iin\' as "complainantIin"')
@@ -198,7 +203,7 @@ final class ComplaintController extends AbstractController
         $request->setMargins([0.4, 0.4, 0.4, 0.4]);
         $request->setPaperSize(HTMLRequest::A4);
         $request->setAssets(array_map(function ($photo, $index) {
-            return DocumentFactory::makeFromPath('image' . $index, $this->projectDir.$photo);
+            return DocumentFactory::makeFromPath('image' . $index, $this->projectDir . $photo);
         }, $data['photos'], array_keys($data['photos'])));
         $path = tempnam('/tmp', 'pdf');
         $client->store($request, $path);
@@ -251,7 +256,7 @@ final class ComplaintController extends AbstractController
             ->execute()
             ->fetch();
 
-        if($object) {
+        if ($object) {
             $cityId = $findCityIdByLocation->execute($object['lat'], $object['lon']);
         }
 

@@ -972,8 +972,8 @@
                         }
                     }, []);
                     this.complaint.content.photos = uploads.map(upload => upload.data.path);
-                    await this.$axios.post("/api/complaints", this.complaint);
-                    this.$router.push("/");
+                    const {data} = await this.$axios.post("/api/complaints", this.complaint);
+                    return this.redirect(data.id, this.complaint.objectId)
                 } catch (e) {
                     this.violations = get(e, "response.data.errors.violations", []).reduce(
                         (violations, violation) => {
@@ -1057,6 +1057,15 @@
                     reader.readAsDataURL(input.files[0]);
                     p.file = file
                 }
+            },
+            redirect(complaintId, objectId) {
+                this.$cookies.set('complaintPostSubmitMessage', {
+                    complaintId
+                }, {
+                    maxAge: 60
+                })
+
+                return this.$router.push(objectId ? {name: 'objects-id', params: {id: objectId}}: {name: 'index'})
             }
         },
         computed: {
