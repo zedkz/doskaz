@@ -89,8 +89,8 @@ final class ObjectsApiController extends AbstractController
                 'ST_YMIN(ST_COLLECT(objects.point_value::GEOMETRY)) AS p1y',
                 'ST_XMAX(ST_COLLECT(objects.point_value::GEOMETRY)) AS p2x',
                 'ST_YMAX(ST_COLLECT(objects.point_value::GEOMETRY)) AS p2y',
-                'ST_X(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS lat',
-                'ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS long'
+                'ST_X(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS long',
+                'ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS lat'
             ])
             ->from('objects')
             ->andWhere('ST_CONTAINS(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326), point_value::GEOMETRY)')
@@ -98,10 +98,10 @@ final class ObjectsApiController extends AbstractController
             ->groupBy('hash')
             ->having('COUNT(*) > 1')
             ->setParameters([
-                'x1' => $boundary[0],
-                'y1' => $boundary[1],
-                'x2' => $boundary[2],
-                'y2' => $boundary[3],
+                'x1' => $boundary[1],
+                'y1' => $boundary[0],
+                'x2' => $boundary[3],
+                'y2' => $boundary[2],
                 'precision' => $precision
             ]);
 
@@ -135,8 +135,8 @@ final class ObjectsApiController extends AbstractController
                 'objects.id',
                 'categories.icon',
                 'overall_score_movement',
-                'ST_X(ST_AsText(point_value)) as lat',
-                'ST_Y(ST_AsText(point_value)) as long',
+                'ST_X(ST_AsText(point_value)) as long',
+                'ST_Y(ST_AsText(point_value)) as lat',
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'categories', 'categories.id = objects.category_id')
@@ -144,10 +144,10 @@ final class ObjectsApiController extends AbstractController
             ->andWhere('objects.deleted_at IS NULL')
             ->andWhere('ST_GEOHASH(point_value, :precision) NOT IN (:ids)')
             ->setParameters([
-                'x1' => $boundary[0],
-                'y1' => $boundary[1],
-                'x2' => $boundary[2],
-                'y2' => $boundary[3],
+                'x1' => $boundary[1],
+                'y1' => $boundary[0],
+                'x2' => $boundary[3],
+                'y2' => $boundary[2],
                 'ids' => array_merge($ids, ['']),
                 'precision' => $precision
             ], [
@@ -208,7 +208,7 @@ final class ObjectsApiController extends AbstractController
                     'type' => 'Point',
                     'coordinates' => [$item['lat'], $item['long']]
                 ],
-                'bbox' => [[$item['p1x'], $item['p1y']], [$item['p2x'], $item['p2y']]],
+                'bbox' => [[$item['p1y'], $item['p1x']], [$item['p2y'], $item['p2x']]],
                 'number' => $item['number'],
                 'features' => []
             ];
@@ -244,8 +244,8 @@ final class ObjectsApiController extends AbstractController
                 'objects.overall_score_hearing',
                 'objects.overall_score_intellectual',
                 'objects.zones',
-                'ST_X(ST_AsText(objects.point_value)) as lat',
-                'ST_Y(ST_AsText(objects.point_value)) as long',
+                'ST_X(ST_AsText(objects.point_value)) as long',
+                'ST_Y(ST_AsText(objects.point_value)) as lat',
                 'sub_categories.title as sub_category',
                 'sub_categories.icon as sub_category_icon',
                 'object_categories.title as category',

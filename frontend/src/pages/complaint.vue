@@ -1,7 +1,6 @@
 <template>
     <div class="complaint">
         <MainHeader />
-
         <div class="container">
             <div class="complaint__top">
                 <h2 class="title">Подать жалобу</h2>
@@ -22,7 +21,10 @@
     import ComplaintContent from "@/components/complaint/ComplaintContent";
     export default {
         components: {ComplaintContent, MainHeader},
-        middleware: ['authenticated']
+        middleware: ['authenticated'],
+        async asyncData({$axios, query: {objectId}}) {
+            console.log(objectId)
+        }
     }
 </script>
 

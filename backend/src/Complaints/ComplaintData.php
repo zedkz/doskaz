@@ -35,6 +35,11 @@ final class ComplaintData implements DataObject
     public $rememberPersonalData = false;
 
     /**
+     * @var int|string|null
+     */
+    public $objectId;
+
+    /**
      * @var ComplaintContent
      * @Assert\Valid()
      * @Assert\NotBlank()

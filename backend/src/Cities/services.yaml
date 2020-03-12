@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Cities\ImportGeometry:
+        tags: ['console.command']

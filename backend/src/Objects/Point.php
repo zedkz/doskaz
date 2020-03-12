@@ -11,14 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 final class Point
 {
     /**
-     * @ORM\Column(type="geography", options={"geometry_type" = "POINT"})
+     * @ORM\Column(type="geometry", options={"geometry_type" = "POINT"})
      */
     private $value;
 
     public static function fromLatLong(string $lat, string $long): self
     {
         $point = new self();
-        $point->value = sprintf('POINT(%s %s)', $lat, $long);
+        $point->value = sprintf('POINT(%s %s)', $long, $lat);
         return $point;
     }
 
@@ -26,6 +26,6 @@ final class Point
     {
         $matches = [];
         preg_match('/POINT\((.*)\s(.*)\)$/', $this->value, $matches);
-        return [$matches[1], $matches[2]];
+        return [$matches[2], $matches[1]];
     }
 }

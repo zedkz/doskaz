@@ -50,3 +50,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Complaints'
                 prefix: 'App\Complaints'
+            Cities:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Cities'
+                prefix: 'App\Cities'

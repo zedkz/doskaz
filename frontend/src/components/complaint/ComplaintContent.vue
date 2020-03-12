@@ -863,6 +863,7 @@
                     rememberPersonalData: true,
                     content: {
                         type: types[0].type,
+                        objectName: '',
                         videos: [""],
                         photos: [""],
                         options: []
@@ -897,6 +898,7 @@
         components: {
             Loading},
         mounted() {
+            this.complaint.objectId = this.$route.query.objectId
             this.initialize();
         },
         methods: {
@@ -961,8 +963,16 @@
             },
             async loadInitialData() {
                 try {
-                    const {data: initialData} = await this.$axios.get("/api/complaints/initialData");
-                    this.complaint.complainant = initialData.complainant
+                    const {data: initialData} = await this.$axios.get("/api/complaints/initialData", {
+                        params: {
+                            objectId: this.$route.query.objectId
+                        }
+                    });
+                    this.complaint.complainant = initialData.complainant;
+                    this.complaint.content = {
+                        ...this.complaint.content,
+                        ...initialData.content
+                    }
                 } catch (e) {
 
                 }

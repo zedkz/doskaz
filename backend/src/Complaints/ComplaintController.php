@@ -69,6 +69,7 @@ final class ComplaintController extends AbstractController
             $complaintData->content,
             $complaintData->authorityId,
             $this->getUser()->id(),
+            $complaintData->objectId,
             $complaintData->rememberPersonalData
         );
         $complaintRepository->add($complaint);
@@ -199,7 +200,7 @@ final class ComplaintController extends AbstractController
      * @param Connection $connection
      * @return \Symfony\Component\HttpFoundation\Response|array
      */
-    public function initialData(Connection $connection)
+    public function initialData(Connection $connection, Request $request)
     {
         $lastComplaint = $connection->createQueryBuilder()
             ->select('complainant', 'remember_personal_data')
@@ -211,9 +212,26 @@ final class ComplaintController extends AbstractController
             ->execute()
             ->fetch();
 
+
+        $object = $connection->createQueryBuilder()
+            ->select([
+                'objects.title',
+                'objects.address',
+            ])
+            ->from('objects')
+            ->andWhere('objects.id = :id')
+            ->setParameter('id', $request->query->getInt('objectId'))
+            ->execute()
+            ->fetch();
+
         if ($lastComplaint && $lastComplaint['remember_personal_data']) {
             return [
-                'complainant' => $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class)
+                'complainant' => $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class),
+                'content' => [
+                    'objectName' => $object['title'] ?? '',
+                    'cityId' => null,
+                    'street' => $object['address'] ?? ''
+                ]
             ];
         }
         return new \Symfony\Component\HttpFoundation\Response('', 404);
