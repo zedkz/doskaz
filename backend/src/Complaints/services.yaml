@@ -5,6 +5,8 @@ services:
 
     App\Complaints\ComplaintController:
         tags: ['controller.service_arguments']
+        arguments:
+            - '%kernel.project_dir%'
 
     App\Complaints\ComplaintRepository:
 

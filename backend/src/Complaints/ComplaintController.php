@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Complaints;
 
 use App\Cities\Cities;
+use App\Cities\FindCityIdByLocation;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use OpenApi\Annotations\JsonContent;
@@ -29,6 +30,17 @@ use TheCodingMachine\Gotenberg\RequestException;
  */
 final class ComplaintController extends AbstractController
 {
+    private $projectDir;
+
+    /**
+     * ComplaintController constructor.
+     */
+    public function __construct($projectDir)
+    {
+        $this->projectDir = $projectDir;
+    }
+
+
     /**
      * @Route(path="/validate", methods={"POST"})
      * @param ComplaintData $complaintData
@@ -186,7 +198,7 @@ final class ComplaintController extends AbstractController
         $request->setMargins([0.4, 0.4, 0.4, 0.4]);
         $request->setPaperSize(HTMLRequest::A4);
         $request->setAssets(array_map(function ($photo, $index) {
-            return DocumentFactory::makeFromPath('image' . $index, '/app' . $photo);
+            return DocumentFactory::makeFromPath('image' . $index, $this->projectDir.$photo);
         }, $data['photos'], array_keys($data['photos'])));
         $path = tempnam('/tmp', 'pdf');
         $client->store($request, $path);
@@ -198,10 +210,22 @@ final class ComplaintController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route(path="/initialData", methods={"GET"})
      * @param Connection $connection
-     * @return \Symfony\Component\HttpFoundation\Response|array
+     * @param Request $request
+     * @param FindCityIdByLocation $findCityIdByLocation
+     * @return ComplaintData
      */
-    public function initialData(Connection $connection, Request $request)
+    public function initialData(Connection $connection, Request $request, FindCityIdByLocation $findCityIdByLocation)
     {
+        $authority = $connection->createQueryBuilder()
+            ->select('id')
+            ->from('complaint_authorities')
+            ->where('deleted_at IS NULL')
+            ->orderBy('id', 'desc')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchColumn();
+
+
         $lastComplaint = $connection->createQueryBuilder()
             ->select('complainant', 'remember_personal_data')
             ->from('complaints')
@@ -213,16 +237,24 @@ final class ComplaintController extends AbstractController
             ->fetch();
 
 
+        $cityId = Cities::list()[0]['id'];
         $object = $connection->createQueryBuilder()
             ->select([
                 'objects.title',
                 'objects.address',
+                'ST_X(ST_AsText(objects.point_value)) as lon',
+                'ST_Y(ST_AsText(objects.point_value)) as lat',
             ])
             ->from('objects')
             ->andWhere('objects.id = :id')
             ->setParameter('id', $request->query->getInt('objectId'))
             ->execute()
             ->fetch();
+
+        if($object) {
+            $cityId = $findCityIdByLocation->execute($object['lat'], $object['lon']);
+        }
+
 
         $result = [
             'content' => [
@@ -232,10 +264,30 @@ final class ComplaintController extends AbstractController
             ]
         ];
 
+        $complainant = new Complainant();
         if ($lastComplaint && $lastComplaint['remember_personal_data']) {
-            $result['complainant'] = $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class);
+            $complainant = $connection->convertToPHPValue($lastComplaint['complainant'], Complainant::class);
         }
-        return $result;
+
+
+        return new ComplaintData(
+            $complainant,
+            new ComplaintType1(
+                'complaint1',
+                new \DateTimeImmutable(),
+                $object['title'] ?? '',
+                $cityId,
+                $object['address'] ?? '',
+                '',
+                '',
+                '',
+                [''],
+                []
+            ),
+            $authority,
+            true,
+            $request->query->getInt('objectId', null)
+        );
     }
 
     public function complaintAttributes()

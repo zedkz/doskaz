@@ -5,3 +5,5 @@ services:
 
     App\Cities\ImportGeometry:
         tags: ['console.command']
+
+    App\Cities\FindCityIdByLocation:

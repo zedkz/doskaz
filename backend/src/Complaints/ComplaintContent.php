@@ -104,4 +104,33 @@ class ComplaintContent
      * @Property()
      */
     public $photos = [];
+
+    /**
+     * ComplaintContent constructor.
+     * @param string $type
+     * @param \DateTimeImmutable $visitedAt
+     * @param string $objectName
+     * @param int|string $cityId
+     * @param string $street
+     * @param string $building
+     * @param string|null $office
+     * @param string $visitPurpose
+     * @param string[] $videos
+     * @param string[] $photos
+     */
+    public function __construct(string $type, ?\DateTimeImmutable $visitedAt, ?string $objectName, $cityId, ?string $street, ?string $building, ?string $office, ?string $visitPurpose, ?array $videos, ?array $photos)
+    {
+        $this->type = $type;
+        $this->visitedAt = $visitedAt;
+        $this->objectName = $objectName;
+        $this->cityId = $cityId;
+        $this->street = $street;
+        $this->building = $building;
+        $this->office = $office;
+        $this->visitPurpose = $visitPurpose;
+        $this->videos = $videos;
+        $this->photos = $photos;
+    }
+
+
 }

@@ -862,6 +862,7 @@
                     authorityId: null,
                     rememberPersonalData: true,
                     content: {
+                        cityId: 1,
                         type: types[0].type,
                         objectName: '',
                         videos: [""],

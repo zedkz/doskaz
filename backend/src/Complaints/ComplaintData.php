@@ -46,4 +46,23 @@ final class ComplaintData implements DataObject
      * @Property(ref="#/components/schemas/AbstractComplaintContent")
      */
     public $content;
+
+    /**
+     * ComplaintData constructor.
+     * @param Complainant $complainant
+     * @param int|string|null $authorityId
+     * @param bool $rememberPersonalData
+     * @param int|string|null $objectId
+     * @param ComplaintContent $content
+     */
+    public function __construct(?Complainant $complainant, ?ComplaintContent $content = null, $authorityId = null, bool $rememberPersonalData = true, $objectId = null)
+    {
+        $this->complainant = $complainant;
+        $this->authorityId = $authorityId;
+        $this->rememberPersonalData = $rememberPersonalData;
+        $this->objectId = $objectId;
+        $this->content = $content;
+    }
+
+
 }
