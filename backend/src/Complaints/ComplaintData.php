@@ -55,7 +55,7 @@ final class ComplaintData implements DataObject
      * @param int|string|null $objectId
      * @param ComplaintContent $content
      */
-    public function __construct(?Complainant $complainant, ?ComplaintContent $content = null, $authorityId = null, bool $rememberPersonalData = true, $objectId = null)
+    public function __construct(?Complainant $complainant = null, ?ComplaintContent $content = null, $authorityId = null, bool $rememberPersonalData = true, $objectId = null)
     {
         $this->complainant = $complainant;
         $this->authorityId = $authorityId;
