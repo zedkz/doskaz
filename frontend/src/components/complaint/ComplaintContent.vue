@@ -968,7 +968,9 @@
                             objectId: this.$route.query.objectId
                         }
                     });
-                    this.complaint.complainant = initialData.complainant;
+                    if (initialData.complainant) {
+                        this.complaint.complainant = initialData.complainant;
+                    }
                     this.complaint.content = {
                         ...this.complaint.content,
                         ...initialData.content
