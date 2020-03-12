@@ -53,7 +53,7 @@
                                     Объект частично верифицирован</p>
                             </div>
                             <div class="object-side__button-b">
-                                <a href="" class="object-side__button --complaint">Подать жалобу</a>
+                                <nuxt-link :to="{name: 'complaint', query: {objectId: $route.params.id}}" class="object-side__button --complaint">Подать жалобу</nuxt-link>
                                 <nuxt-link :to="{name: 'objects-id-verify', params: {id: $route.params.id}}"
                                            class="object-side__button --check">Подтвердить данные
                                 </nuxt-link>
