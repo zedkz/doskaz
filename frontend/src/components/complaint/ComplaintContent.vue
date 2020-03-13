@@ -206,10 +206,10 @@
                         class="complaint__line --sm complaint__row required"
                         :class="{ error: violations['content.type'] }"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label for="s2" class="label --vertical">Вид жалобы</label>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div class="select">
                             <select id="s2" v-model="complaint.content.type">
                                 <option
@@ -226,10 +226,10 @@
                         class="complaint__line --sm complaint__row required"
                         :class="{ error: violations['content.visitedAt'] }"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label class="label --vertical">Дата посещения объекта</label>
                     </div>
-                    <div class="complaint__col --sm">
+                    <div class="complaint__col --sm --vertical">
                         <div class="input --date">
                             <vuejs-date-picker
                                     id="x3"
@@ -248,10 +248,10 @@
                         class="complaint__line --sm complaint__row required"
                         :class="{ error: violations['content.objectName'] }"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label for="i2" class="label --vertical">Название объекта</label>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div class="input">
                             <input
                                     id="i2"
@@ -269,10 +269,10 @@
                         class="complaint__line --sm complaint__row required"
                         :class="{ error: violations['content.cityId'] }"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label for="s3" class="label --vertical">Город</label>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div class="select">
                             <select id="s3" v-model="complaint.content.cityId">
                                 <option v-for="city in cities" :value="city.id" :key="city.id"
@@ -286,10 +286,10 @@
                         class="complaint__line --sm complaint__row required"
                         :class="{ error: violations['content.street'] }"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label for="i3" class="label --vertical">Улица</label>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div class="input">
                             <input
                                     type="text"
@@ -303,55 +303,57 @@
                         >
                     </div>
                 </div>
-                <div
-                        class="complaint__line --sm complaint__row required"
-                        :class="{ error: violations['content.building'] }"
-                >
-                    <div class="complaint__col --text">
-                        <label for="i4" class="label --vertical">Номер дома</label>
-                    </div>
-                    <div class="complaint__col --sm">
-                        <div class="input">
-                            <input
-                                    type="text"
-                                    id="i4"
-                                    v-model="complaint.content.building"
-                                    @input="checValue('building', 'content')"
-                            />
+                <div class="complaint__line --sm --mob">
+                    <div
+                            class="complaint__line --sm complaint__row required"
+                            :class="{ error: violations['content.building'] }"
+                    >
+                        <div class="complaint__col --text --vertical">
+                            <label for="i4" class="label --vertical">Номер дома</label>
                         </div>
-                        <span class="violations_error" v-if="focus.building"
-                        >Поле не может быть пустым</span
-                        >
-                    </div>
-                </div>
-                <div class="complaint__line --sm complaint__row">
-                    <div class="complaint__col --text">
-                        <label for="i5" class="label --vertical">Офис(если есть)</label>
-                    </div>
-                    <div class="complaint__col --sm">
-                        <div class="input">
-                            <input
-                                    type="text"
-                                    id="i5"
-                                    v-model="complaint.content.office"
-                                    @input="checValue('office', 'content')"
-                            />
+                        <div class="complaint__col --sm --vertical">
+                            <div class="input">
+                                <input
+                                        type="text"
+                                        id="i4"
+                                        v-model="complaint.content.building"
+                                        @input="checValue('building', 'content')"
+                                />
+                            </div>
+                            <span class="violations_error" v-if="focus.building"
+                            >Поле не может быть пустым</span
+                            >
                         </div>
-                        <span class="violations_error" v-if="focus.office"
-                        >Поле не может быть пустым</span
-                        >
+                    </div>
+                    <div class="complaint__line --sm complaint__row">
+                        <div class="complaint__col --text --vertical">
+                            <label for="i5" class="label --vertical">Офис (если есть)</label>
+                        </div>
+                        <div class="complaint__col --sm --vertical">
+                            <div class="input">
+                                <input
+                                        type="text"
+                                        id="i5"
+                                        v-model="complaint.content.office"
+                                        @input="checValue('office', 'content')"
+                                />
+                            </div>
+                            <span class="violations_error" v-if="focus.office"
+                            >Поле не может быть пустым</span
+                            >
+                        </div>
                     </div>
                 </div>
                 <div
                         class="complaint__line --sm complaint__row required"
                         :class="{ error: violations['content.visitPurpose'] }"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label for="i6" class="label --vertical"
                         >Цель посещения объекта</label
                         >
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div class="input">
                             <input
                                     type="text"
@@ -443,11 +445,11 @@
             </div>
             <div class="complaint__item">
                 <div class="complaint__line complaint__row">
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label class="label">Ссылка на видео</label>
-                        <span class="label-text">не обязательно</span>
+                        <span class="label-text">(не обязательно)</span>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div
                                 class="complaint__line --sm"
                                 v-for="(input, index) in complaint.content.videos"
@@ -476,10 +478,10 @@
                         class="complaint__line complaint__row required"
                         id="file_required_class"
                 >
-                    <div class="complaint__col --text">
+                    <div class="complaint__col --text --vertical">
                         <label class="label">Загрузить фото</label>
                     </div>
-                    <div class="complaint__col --lg">
+                    <div class="complaint__col --lg --vertical">
                         <div class="photo-input__wrapper">
                             <div
                                     class="photo-input required"
@@ -1090,10 +1092,17 @@
 
     .input {
         margin-bottom: 10px;
+        @media all and (max-width: 768px) {
+            margin-bottom: 4px;
+        }
     }
 
     .violations_error {
         color: red;
+        @media all and (max-width: 1023px){
+            font-size: 12px;
+            line-height: 1.25;
+        }
     }
 
     .required {
@@ -1120,11 +1129,21 @@
             &-text {
                 display: inline-block;
                 margin: 0 0 0 20px;
+                @media all and (max-width: 768px) {
+                    margin: 16px 0 0;
+                    font-size: 12px;
+                    line-height: 16px;
+                    text-align: center;
+                    display: block;
+                }
             }
         }
 
         &__row {
             display: flex;
+            @media all and (max-width: 768px){
+                display: block;
+            }
         }
 
         &__col {
@@ -1132,41 +1151,115 @@
             flex-grow: 1;
             max-width: 100%;
             padding: 0 20px;
+            @media all and (max-width: 1023px) {
+                padding: 0 15px;
+            }
+            @media all and (max-width: 768px) {
+                margin: 22px 0 0;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            &.--vertical {
+                @media all and (max-width: 768px) {
+                    margin: 0;
+                }
+            }
 
             &.--sm {
                 flex: 0 0 (170/1080) * 100%;
                 max-width: (170/1080) * 100%;
+                @media all and (max-width: 1023px) {
+                    flex: 0 0 (190/1080) * 100%;
+                    max-width: (190/1080) * 100%;
+                }
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                    max-width: 100%;
+                }
             }
 
             &.--text {
                 flex: 0 0 (240/1080) * 100%;
                 max-width: (240/1080) * 100%;
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                    max-width: 100%;
+                }
             }
 
             &.--lg {
                 flex: 0 0 (840/1080) * 100%;
                 max-width: (840/1080) * 100%;
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                    max-width: 100%;
+                }
             }
 
             &.--lg-2 {
                 flex: 0 0 (690/1080) * 100%;
                 max-width: (690/1080) * 100%;
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                    max-width: 100%;
+                }
             }
 
             &:first-child {
                 padding: 0 20px 0 0;
+                @media all and (max-width: 1023px) {
+                    padding: 0 15px 0 0;
+                }
+                @media all and (max-width: 768px) {
+                    padding: 0;
+                }
             }
 
             &:last-child {
                 padding: 0 0 0 20px;
+                @media all and (max-width: 1023px) {
+                    padding: 0 0 0 15px;
+                }
+                @media all and (max-width: 768px) {
+                    padding: 0;
+                }
             }
         }
 
         &__line {
             margin: 38px 0 0;
+            @media  all and (max-width: 1023px) {
+                margin: 22px 0 0;
+            }
+
+            .button {
+                @media all and (max-width: 768px){
+                    width: 100%;
+                }
+            }
 
             &.--sm {
                 margin: 20px 0 0;
+            }
+
+            &.--mob {
+                @media all and (max-width: 768px) {
+                    display: flex !important;
+                    .complaint__line {
+                        width: 50%;
+                        max-width: 50%;
+                        min-width: 50%;
+                        padding: 0 10px;
+                        margin: 0;
+                        &:first-child {
+                            padding: 0 10px 0 0;
+                        }
+                        &:last-child {
+                            padding: 0 0 0 10px;
+                        }
+                    }
+                }
             }
 
             &:first-child {
@@ -1178,6 +1271,35 @@
             background: #ffffff;
             margin: 20px 0;
             padding: 30px 40px 40px;
+            @media all and (max-width: 1023px) {
+                padding: 20px;
+            }
+            .input {
+                @media all and (max-width: 1023px) {
+                   height: 50px;
+                }
+                @media all and (max-width: 768px) {
+                    input {
+                        font-size: 14px;
+                    }
+                    height: 36px;
+                }
+            }
+
+            .select {
+                @media all and (max-width: 768px) {
+                    height: 36px;
+                    &:after {
+                        top: 15px;
+                        right: 14px;
+                    }
+                    select {
+                        font-size: 14px;
+                        height: 36px;
+                        padding: 0 30px 0 10px;
+                    }
+                }
+            }
 
             .label {
                 font-size: 16px;
@@ -1185,12 +1307,22 @@
                 margin: 0 0 6px;
                 display: block;
                 font-weight: 700;
+                @media all and (max-width: 768px){
+                    font-size: 12px;
+                    line-height: 16px;
+                    font-weight: 400;
+                    margin: 0 0 4px;
+                    display: inline-block;
+                }
 
                 &-text {
                     font-size: 12px;
                     line-height: 20px;
                     color: #5b6067;
                     display: block;
+                    @media all and (max-width: 768px) {
+                        display: inline-block;
+                    }
                 }
 
                 &.--vertical {
@@ -1199,12 +1331,22 @@
                     line-height: 20px;
                     font-weight: 400;
                     color: #5b6067;
+                    @media all and (max-width: 768px){
+                        padding: 0;
+                        font-size: 12px;
+                        line-height: 16px;
+                        font-weight: 400;
+                        margin: 0 0 4px;
+                    }
                 }
             }
 
             .add-link {
                 margin: 15px 0 0;
                 display: inline-block;
+                @media all and (max-width: 768px) {
+                    margin: 6px 0 0;
+                }
             }
 
             .photo-input {
@@ -1219,10 +1361,21 @@
                 background-size: 24px;
                 margin: 0 30px 30px 0;
                 display: inline-block;
+                @media all and (max-width: 768px) {
+                    margin: 0 0 0 10px;
+                    &:first-child {
+                        margin: 0;
+                    }
+                }
 
                 &__wrapper {
                     font-size: 0;
                     margin: 0 0 -30px;
+                    @media all and (max-width: 768px) {
+                        overflow-x: auto;
+                        white-space: nowrap;
+                        margin: 0;
+                    }
                 }
 
                 span {
@@ -1244,6 +1397,10 @@
                     width: 100%;
                     height: 100%;
                     z-index: 2;
+                    @media all and (max-width: 1023px) {
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
             }
 

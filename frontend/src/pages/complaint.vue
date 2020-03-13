@@ -54,19 +54,47 @@
         &__wrapper {
             padding: 30px 0 60px;
             background: #F1F8FC;
+            @media all and (max-width: 1023px) {
+                padding: 20px 0;
+                .container {
+                    padding: 0;
+                }
+            }
         }
 
         &__top {
             padding: 46px 0 23px;
+            @media all and (max-width: 1023px) {
+                padding: 28px 0 21px;
+            }
+            @media all and (max-width: 768px) {
+                padding: 14px 0 15px;
+                .title.--md {
+                    font-size: 18px;
+                }
+            }
         }
 
         &__pre-text {
             margin: 43px 0 0;
             font-size: 16px;
             line-height: 30px;
+            @media all and (max-width: 1023px) {
+                margin: 12px 0 0;
+            }
+            @media all and (max-width: 768px) {
+                font-size: 14px;
+                line-height: 20px;
+            }
 
             &.--required {
                 margin: 19px 0 0;
+                @media all and (max-width: 1023px) {
+                    margin: 10px 0 0;
+                }
+                @media all and (max-width: 768px) {
+                    margin: 5px 0 0;
+                }
 
                 span {
                     color: #E0202E;

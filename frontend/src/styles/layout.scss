@@ -177,6 +177,9 @@ a {
     -moz-appearance: none;
     appearance: none;
     -ms-appearance: none;
+    @media all and (max-width: 1023px) {
+      font-size: 16px;
+    }
 
     option {
       width: 100%;
@@ -196,8 +199,15 @@ a {
   @media all and (max-width: 1200px) {
     height: 40px;
   }
+  @media all and (max-width: 768px) {
+    padding: 0 10px;
+  }
 
   &.--date {
+    @media all and (max-width: 768px) {
+      width: 180px;
+      max-width: 180px;
+    }
     input {
       background: transparent;
     }
@@ -218,6 +228,12 @@ a {
     height: 100%;
     display: block;
     width: 100%;
+    @media all and (max-width: 1023px) {
+      font-size: 16px;
+    }
+    @media all and (max-width: 768px) {
+      font-size: 14px;
+    }
   }
 
   button {
@@ -287,10 +303,18 @@ a {
       position: relative;
       background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzdCOTVBNyIvPgo8L3N2Zz4K") left top 4px no-repeat;
       background-size: 16px;
+      @media all and (max-width: 768px) {
+        line-height: 22px;
+        font-size: 14px;
+        padding: 0 0 0 22px;
+      }
     }
 
     &:checked + label {
       background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSIjMEY2QkY1Ii8+CjxwYXRoIGQ9Ik0xMS41MTQ2IDRMNi43MDI5MyA4Ljk1Mjg5TDQuNDg1MzYgNi42NTk0OUwzIDguMTg4NDNMNi43MDI5MyAxMkwxMyA1LjUyODk0TDExLjUxNDYgNFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=") left top 4px no-repeat;
+      @media all and (max-width: 768px) {
+        background-position: left top 2px;
+      }
     }
   }
 }
@@ -305,10 +329,14 @@ a {
   color: #5B6067;
   padding: 0;
   border-bottom: 1px dashed #5B6067;
+  @media all and (max-width: 768px) {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 
 .title {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 48px;
   line-height: 50px;
   margin: 0;
@@ -324,6 +352,14 @@ a {
   &.--md {
     font-size: 32px;
     line-height: 40px;
+    @media all and (max-width: 1023px) {
+      font-size: 22px;
+      line-height: 30px;
+    }
+    @media all and (max-width: 768px) {
+      font-size: 16px;
+      line-height: 20px;
+    }
   }
 
   &.--small {
