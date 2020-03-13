@@ -450,7 +450,12 @@ a {
     text-align: center;
     font-size: 16px;
     line-height: 20px;
-    padding: 0 5px;
+    > a {
+      border-bottom: 1px solid;
+    }
+    & +  .popup__text {
+      margin: 14px 0 0;
+    }
     & + .user-page__button {
       margin-top: 36px;
     }
@@ -513,6 +518,10 @@ a {
     text-align: center;
     display: flex;
     justify-content: space-between;
+    svg {
+      margin: 0 10px 0 0;
+      display: inline-block;
+    }
   }
   &__button {
     cursor: pointer;
