@@ -48,9 +48,9 @@
         <span>+7 747 563-26-87</span>
       </div>
       <div class="user-profile__edit" v-if="currentPage != '/user/profile/edit'">
-        <a href="#">
+        <nuxt-link :to="{name: 'profile-edit'}">
           <span>Редактировать анкету</span>
-        </a>
+        </nuxt-link>
       </div>
 
       <div class="popup__wrapper" v-show="popupAvatar">

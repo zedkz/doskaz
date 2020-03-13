@@ -1,17 +1,50 @@
 <template>
-    <nuxt-child/>
+    <div class="user-page">
+        <MainHeader />
+        <UserPageHeader />
+        <div class="container">
+            <div class="user-page__row">
+                <div class="user-page__profile">
+                    <UserProfile />
+                    <UserLevel />
+                    <UserTask />
+                </div>
+                <div class="user-page__tabs">
+                    <nuxt-child/>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script>
+    import MainHeader from "@/components/MainHeader";
+    import UserPageHeader from "@/components/user/UserPageHeader.vue"
+    import UserProfile from "@/components/user/UserProfile";
+    import UserLevel from "@/components/user/UserLevel";
+    import UserTask from "@/components/user/UserTask";
+    import UserObjects from "@/components/user/UserObjects";
+
     export default {
-        name: "index",
         middleware: ['authenticated'],
-        mounted() {
-            this.$router.push({name: 'profile-objects'})
+        components: {
+            MainHeader,
+            UserPageHeader,
+            UserProfile,
+            UserLevel,
+            UserTask,
+            UserObjects
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    @import "@/styles/mixins.scss";
 
+    .user-page {
+        .main-header__content {
+            border: none;
+        }
+    }
 </style>

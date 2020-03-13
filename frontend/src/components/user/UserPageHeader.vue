@@ -2,21 +2,21 @@
     <div class="user-page__header" v-bind:style="{'background-image': 'url(' + require('./../../assets/user-bg.png') + ')'}">
         <div class="menu">
             <div class="menu__content">
-                <a href="#" class="menu__item" v-bind:class="{ isActive : currentPage == '/user/achievments' }">
+                <nuxt-link :to="{name: 'profile-achievements'}" class="menu__item" active-class="isActive">
                     <span>Достижения</span>
-                </a>
-                <a href="#" class="menu__item" v-bind:class="{ isActive : currentPage == '/user/objects' }">
+                </nuxt-link>
+                <nuxt-link :to="{name: 'profile-objects'}" class="menu__item" active-class="isActive">
                     <span>Мои объекты</span>
-                </a>
-                <a href="#" class="menu__item" v-bind:class="{ isActive : currentPage == '/user/tickets' }">
+                </nuxt-link>
+                <nuxt-link :to="{name: 'profile-tickets'}" class="menu__item" active-class="isActive">
                     <span>Мои тикеты</span>
-                </a>
-                <a href="#" class="menu__item" v-bind:class="{ isActive : currentPage == '/user/tasks' }">
+                </nuxt-link>
+                <nuxt-link :to="{name: 'profile-tasks'}" class="menu__item" active-class="isActive">
                     <span>Мои задания</span>
-                </a>
-                <a href="#" class="menu__item" v-bind:class="{ isActive : currentPage == '/user/comments' }">
+                </nuxt-link>
+                <nuxt-link :to="{name: 'profile-comments'}" class="menu__item" active-class="isActive">
                     <span>Мои комментарии</span>
-                </a>
+                </nuxt-link>
                 <a class="menu__item --logout" @click="logout()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M12 15.3339V17.5876C12 18.3689 11.3654 19 10.5797 19H2.42033C1.63462 19 1 18.3689 1 17.5876V2.41235C1 1.63105 1.63462 1 2.42033 1H10.5797C11.3654 1 12 1.63105 12 2.41235V4.66611" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"/>
@@ -50,7 +50,7 @@
 </script>
 
 <style lang="scss">
-    @import "./../../styles/mixins.scss";
+    @import "@/styles/mixins.scss";
 
     .user-page {
         overflow-x: hidden;
