@@ -45,5 +45,10 @@ export const actions = {
             this.app.$cookies.remove('redirect');
             window.location.href = redirect
         }
+    },
+    async logout({dispatch}) {
+        await this.$axios.delete('/api/token');
+        dispatch('deAuthenticate')
+        await this.$router.push('/')
     }
 }

@@ -17,7 +17,7 @@
                 <a href="#" class="menu__item" v-bind:class="{ isActive : currentPage == '/user/comments' }">
                     <span>Мои комментарии</span>
                 </a>
-                <a href="" class="menu__item --logout">
+                <a class="menu__item --logout" @click="logout()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M12 15.3339V17.5876C12 18.3689 11.3654 19 10.5797 19H2.42033C1.63462 19 1 18.3689 1 17.5876V2.41235C1 1.63105 1.63462 1 2.42033 1H10.5797C11.3654 1 12 1.63105 12 2.41235V4.66611" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"/>
                         <path d="M19 10H7" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"/>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+    import {call} from 'vuex-pathify'
+
     export default {
         data() {
             return {};
@@ -38,6 +40,11 @@
             currentPage(){
                 return this.$route.path;
             }
+        },
+        methods: {
+            ...call('authentication', [
+                'logout'
+            ])
         }
     }
 </script>
