@@ -21,7 +21,7 @@ export const mutations = {
 export const actions = {
     reset({commit}) {
         //commit('SET_IS_LOADING', false);
-        //commit('SET_ITEM', {})
+        commit('SET_ITEM', {})
         //commit('SET_API_PATH', null)
         commit('SET_ID', null)
         commit('SET_VALIDATION_ERRORS', {})

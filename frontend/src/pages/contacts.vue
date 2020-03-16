@@ -6,8 +6,8 @@
                 <h2 class="title">Контакты</h2>
             </div>
         </div>
-        <div class="contacts__wrapper">
-            <div class="container vld-parent" ref="contactsContainer">
+        <div class="contacts__wrapper vld-parent" ref="contactsContainer">
+            <div class="container">
                 <div class="contacts__content">
                     <div class="contacts__left">
                         <p class="contacts__text">Вы можете связаться с нами по электронной почте, через колл-центр или
@@ -56,11 +56,8 @@
             <div class="represent">
                 <div class="represent__title">Региональные представители в городе
                     <span class="select-text">
-                        <select>
-                            <option>Усть-Каменогорск</option>
-                            <option>Павлодар</option>
-                            <option>Семей</option>
-                            <option>Петропавловск</option>
+                        <select v-model="city">
+                            <option v-for="city in availableCities" :key="city.id" :value="city.id">{{ city.name }}</option>
                         </select>
                     </span>
                 </div>
@@ -70,19 +67,12 @@
                     вопросов, связанных с защитой прав людей с инвалидностью и других маломобильных граждан на
                     безбарьерную среду.</p>
                 <div class="represent__list">
-                    <div class="represent__item">
-                        <img src="@/assets/img/files/represent.jpg" class="represent__item-img">
-                        <h4 class="represent__item-name">Ерлан Курмангазин</h4>
-                        <span class="represent__item-text">Инициативная группа</span>
-                        <a href="mailto:k_erlan_k79@mail.ru" class="represent__item-link">k_erlan_k79@mail.ru</a>
-                        <a href="tel:+77712152316" class="represent__item-link">8 (771) 215 2316</a>
-                    </div>
-                    <div class="represent__item disabled">
-                        <img src="@/assets/img/files/represent.jpg" class="represent__item-img">
-                        <h4 class="represent__item-name">Ерлан Курмангазин</h4>
-                        <span class="represent__item-text">Инициативная группа</span>
-                        <a href="mailto:k_erlan_k79@mail.ru" class="represent__item-link">k_erlan_k79@mail.ru</a>
-                        <a href="tel:+77712152316" class="represent__item-link">8 (771) 215 2316</a>
+                    <div class="represent__item" v-for="item in regionalRepresentativesFromCity" :key="item.id">
+                        <img :src="item.image" class="represent__item-img">
+                        <h4 class="represent__item-name">{{ item.name }}</h4>
+                        <span class="represent__item-text">{{ item.department }}</span>
+                        <a :href="`mailto:${item.email}`" class="represent__item-link">{{ item.email }}</a>
+                        <a :href="`tel:${item.phone}`" class="represent__item-link">{{ item.phone }}</a>
                     </div>
                 </div>
             </div>
@@ -95,14 +85,37 @@
 
     export default {
         components: {MainHeader},
+        async asyncData({$axios}) {
+            const [{data: regionalRepresentatives}, {data: cities}] = await Promise.all([
+                $axios.get('/api/regionalRepresentatives'),
+                $axios.get('/api/cities'),
+            ])
+
+            return {
+                regionalRepresentatives,
+                cities
+            }
+        },
         data() {
             return {
-                isLoading: false,
+                city: null,
                 feedback: {
                     name: '',
                     email: '',
                     text: ''
                 }
+            }
+        },
+        mounted() {
+          this.city = this.cities[0].id
+        },
+        computed: {
+            availableCities() {
+                const regionalRepresentativesCities = this.regionalRepresentatives.map(item => item.cityId)
+                return this.cities.filter(city => regionalRepresentativesCities.includes(city.id))
+            },
+            regionalRepresentativesFromCity() {
+                return this.regionalRepresentatives.filter(item => item.cityId === this.city)
             }
         },
         methods: {

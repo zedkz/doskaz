@@ -30,7 +30,7 @@
                 'item'
             ]),
             ...get('crud/edit', [
-                'validationErrors'
+                'validationErrors',
             ])
         },
         methods: {
@@ -45,6 +45,9 @@
                 try {
                     const create = !this.item.id
                     await this.submitForm();
+                    if(Object.keys(this.validationErrors).length) {
+                        return ;
+                    }
                     if (create) {
                         await this.$router.push(`${this.editBasePath}/${this.item.id}`)
                     }

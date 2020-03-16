@@ -26,6 +26,10 @@ feedback:
     resource: ../../src/Feedback
     type: annotation
 
+regionalRepresentatives:
+    resource: ../../src/RegionalRepresentatives
+    type: annotation
+
 apiDocs:
     resource: ../../src/Infrastructure/Api
     type: annotation

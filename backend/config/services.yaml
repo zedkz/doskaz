@@ -28,3 +28,4 @@ imports:
     - { resource: '../src/Complaints/services.yaml' }
     - { resource: '../src/Cities/services.yaml' }
     - { resource: '../src/Feedback/services.yaml' }
+    - { resource: '../src/RegionalRepresentatives/services.yaml' }

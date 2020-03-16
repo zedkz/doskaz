@@ -60,3 +60,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Feedback'
                 prefix: 'App\Feedback'
+            RegionalRepresentatives:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/RegionalRepresentatives'
+                prefix: 'App\RegionalRepresentatives'

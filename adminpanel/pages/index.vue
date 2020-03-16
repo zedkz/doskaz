@@ -11,6 +11,7 @@
                         <sidebar-link path="/complaints"><i class="fa fa-exclamation-circle"></i> Жалобы</sidebar-link>
                         <sidebar-link path="/addingRequests"><i class="fa fa-file"></i> Заявки на добавление объектов</sidebar-link>
                         <sidebar-link path="/objects"><i class="fa fa-map-marker-alt"></i> Объекты</sidebar-link>
+                        <sidebar-link path="/regionalRepresentatives"><i class="fa fa-id-card"></i> Региональные представители</sidebar-link>
                     </ul>
                 </nav>
             </div>
