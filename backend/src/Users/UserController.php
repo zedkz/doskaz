@@ -4,13 +4,17 @@
 namespace App\Users;
 
 use App\Infrastructure\Doctrine\Flusher;
+use App\Infrastructure\ObjectResolver\ValidationException;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 /**
  * @Route(path="/api")
@@ -113,15 +117,16 @@ final class UserController extends AbstractController
     }
 
     /**
-     * @Route(path="/profile")
+     * @Route(path="/profile", methods={"GET"})
      * @IsGranted("ROLE_USER")
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
+     * @return ProfileData
      */
     public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request)
     {
         $user = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar')
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
             ->andWhere('users.id = :id')
@@ -136,14 +141,45 @@ final class UserController extends AbstractController
             'avatar' => $request->getSchemeAndHttpHost() . '/static/ava.png'
         ]);*/
 
+        /**
+         * @var $fullName FullName
+         */
+        $fullName = $connection->convertToPHPValue($user['full_name'], FullName::class);
+
 
         return new ProfileData(
             $user['name'],
             $user['email'],
             $user['phone'],
             $connection->convertToPHPValue($user['roles'], 'json'),
-            $user['avatar'] ? $request->getSchemeAndHttpHost() . $user['avatar'] : null
+            $user['avatar'] ? $request->getSchemeAndHttpHost() . $user['avatar'] : null,
+            $fullName->first,
+            $fullName->last,
+            $fullName->middle
         );
+    }
+
+    /**
+     * @Route(path="/profile", methods={"PUT"})
+     * @IsGranted("ROLE_USER")
+     * @param ProfileData $profileData
+     * @param UserRepository $repository
+     * @param TokenStorageInterface $tokenStorage
+     * @param Flusher $flusher
+     * @throws ValidationException
+     */
+    public function updateProfile(ProfileData $profileData, UserRepository $repository, TokenStorageInterface $tokenStorage, Flusher $flusher)
+    {
+        $user = $repository->find($tokenStorage->getToken()->getUser()->id());
+
+        if ($profileData->email) {
+            $userByEmail = $repository->findOneBy(['email' => $profileData->email]);
+            if ($userByEmail && $userByEmail !== $user) {
+                throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этот email занят другим пользователем', '', [], '', 'email', '')]));
+            }
+        }
+        $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email);
+        $flusher->flush();
     }
 
 

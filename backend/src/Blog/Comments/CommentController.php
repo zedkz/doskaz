@@ -76,7 +76,7 @@ class CommentController extends AbstractController
                 'blog_comments.text',
                 'blog_comments.created_at AS "createdAt"',
                 'blog_comments.parent_id AS "parentId"',
-                'COALESCE(users.name, \'Без имени\') AS "userName"'
+                'users.full_name->>\'firstAndLast\' as "userName"'
             ])
             ->from('blog_comments')
             ->leftJoin('blog_comments', 'users', 'users', 'users.id = blog_comments.user_id')

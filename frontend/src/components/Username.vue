@@ -14,11 +14,14 @@
             },
             value: {
                 type: String,
+            },
+            placeholder: {
+                type: String
             }
         },
         computed: {
             valueOrDefault() {
-                return this.value || 'Без имени'
+                return this.value || this.placeholder || 'Без имени'
             }
         }
     }

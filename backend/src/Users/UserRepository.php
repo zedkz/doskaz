@@ -34,4 +34,9 @@ final class UserRepository
     {
         return $this->repository->findAll();
     }
+
+    public function findOneBy(array $criteria): ?User
+    {
+        return $this->repository->findOneBy($criteria);
+    }
 }

@@ -26,6 +26,11 @@ class FullName
     public $middle;
 
     /**
+     * @var string|null
+     */
+    public $firstAndLast;
+
+    /**
      * FullName constructor.
      * @param string|null $first
      * @param string|null $last
@@ -36,6 +41,7 @@ class FullName
         $this->first = $first;
         $this->last = $last;
         $this->middle = $middle;
+        $this->firstAndLast = $this->firstAndLast();
     }
 
     public static function parseFromString(string $fullName): self
@@ -47,5 +53,12 @@ class FullName
     public function empty(): bool
     {
         return empty($this->first) && empty($this->last) && empty($this->middle);
+    }
+
+    public function firstAndLast(): string
+    {
+        return implode(' ', array_filter([$this->first, $this->last], function ($item) {
+            return !empty($item);
+        }));
     }
 }

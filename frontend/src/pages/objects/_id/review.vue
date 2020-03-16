@@ -8,8 +8,8 @@
             <span class="popup__textarea-text">Введите минимум 20 символов</span>
             <div class="popup__buttons">
                 <div class="timeline__tab-link timeline__tab-link_user">
-                    <span class="avatar" :style="`background-image:url(${user.avatar})`"></span>
-                    <username class="name" :value="user.name"/>
+                    <span class="avatar" :style="`background-image:url(${avatar})`"></span>
+                    <username class="name" :value="name"/>
                 </div>
                 <button type="button" class="button" @click="createReview"
                         :disabled="reviewText.length < 20 || reviewSubmitting">Отправить
@@ -33,7 +33,8 @@
             }
         },
         computed: {
-            user: get('authentication/user')
+            avatar: get('authentication/user.avatar'),
+            name: get('authentication/name')
         },
         methods: {
             async createReview() {

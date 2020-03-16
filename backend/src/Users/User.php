@@ -75,6 +75,12 @@ class User
         $this->roles = $data->roles;
     }
 
+    public function updateProfile(FullName $fullName, ?string $email) {
+        $this->fullName = $fullName;
+        $this->email = $email;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function migrateFullName()
     {
         $this->fullName = FullName::parseFromString($this->name);

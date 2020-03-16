@@ -7,6 +7,9 @@
 
     export default {
         name: "objects",
+        head: {
+            title: 'Мои объекты'
+        },
         components: {
             UserObjects
         }

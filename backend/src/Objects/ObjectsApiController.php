@@ -300,7 +300,7 @@ final class ObjectsApiController extends AbstractController
             ->select([
                 'object_reviews.created_at as "createdAt"',
                 'object_reviews.text',
-                'authors.name as author'
+                'authors.full_name->>\'firstAndLast\' as author'
             ])
             ->from('object_reviews')
             ->leftJoin('object_reviews', 'users', 'authors', 'authors.id = object_reviews.author_id')
@@ -314,7 +314,7 @@ final class ObjectsApiController extends AbstractController
         $events = $connection->createQueryBuilder()->select([
             'data',
             'date',
-            'users.name'
+            'full_name->>\'firstAndLast\' as name'
         ])
             ->from('objects_events_history')
             ->leftJoin('objects_events_history', 'users', 'users', 'users.id = objects_events_history.user_id')

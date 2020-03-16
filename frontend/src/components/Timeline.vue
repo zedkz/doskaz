@@ -24,7 +24,7 @@
                 class="avatar"
                 v-bind:style="{'background-image': 'url(' + require('./../assets/img/avatar.png') + ')'}"
         ></span>
-                <span class="name">{{user.name || 'Без имени'}}</span>
+                <span class="name">{{name || 'Без имени'}}</span>
             </nuxt-link>
             <div
                     v-else
@@ -145,6 +145,7 @@
     import UserTabs from "./../components/UserTabs";
     import {format} from 'date-fns'
     import {ru} from 'date-fns/locale'
+    import {get} from 'vuex-pathify'
 
     export default {
         props: ['posts'],
@@ -176,6 +177,7 @@
             user() {
                 return this.$store.state.authentication.user
             },
+            name: get('authentication/name'),
             postsShow() {
                 return this.posts.slice(0, 3)
             }

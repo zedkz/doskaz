@@ -92,7 +92,7 @@
                                 <li class="object-side__review-item" v-for="(review, index) in object.reviews"
                                     :key="index">
                                     <div class="object-side__review-top">
-                                        <username class="object-side__review-title" :value="''" tag="span"/>
+                                        <username class="object-side__review-title" :value="review.author" tag="span"/>
                                         <span class="object-side__review-date">{{ review.createdAt | date }}</span>
                                     </div>
                                     <p class="object-side__review-text">{{ review.text }}</p>

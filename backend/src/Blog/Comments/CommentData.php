@@ -71,7 +71,7 @@ class CommentData implements DataObject
         $self = new self();
         $self->id = $data['id'];
         $self->userId = $data['userId'];
-        $self->userName = $data['userName'] ?: 'Без имени';
+        $self->userName = $data['userName'];
         $self->userAvatar = '/static/ava.png';
         $self->text = $data['text'];
         $self->parentId = $data['parentId'];

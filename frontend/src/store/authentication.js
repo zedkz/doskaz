@@ -52,3 +52,7 @@ export const actions = {
         await this.$router.push('/')
     }
 }
+
+export const getters = {
+    name: (state) => [state.user.lastName, state.user.firstName].filter(item => !!item).join(' ')
+}

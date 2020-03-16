@@ -47,18 +47,18 @@
               </div>-->
 
             <div class="user-profile__name">
-                <span>kudaibergenov almas</span>
+                <username :value="name" placeholder="Ваше имя"/>
             </div>
             <div class="user-profile__title">
-                <span>Помогая другим, помогаешь себе</span>
+                <span>Всем привет! Я с вами :)</span>
             </div>
             <div class="user-profile__email">
-                <span>{{ profile.email || 'Ваш email' }}</span>
+                <span>{{ profile.email || 'Ваша эл. почта' }}</span>
             </div>
             <div class="user-profile__phone">
-                <span>{{ profile.phone }}</span>
+                <span>{{ profile.phone || 'Ваш телефон' }}</span>
             </div>
-            <div class="user-profile__edit" v-if="currentPage != '/user/profile/edit'">
+            <div class="user-profile__edit" v-if="$route.name !== 'profile-edit'">
                 <nuxt-link :to="{name: 'profile-edit'}">
                     <span>Редактировать анкету</span>
                 </nuxt-link>
@@ -90,9 +90,11 @@
 </template>
 
 <script>
-    import {sync} from 'vuex-pathify'
+    import {sync, get} from 'vuex-pathify'
+    import Username from "../Username";
 
     export default {
+        components: {Username},
         data() {
             return {
                 isAchievement: false,
@@ -121,6 +123,7 @@
 
                 return avatarType;
             },
+            name: get('authentication/name'),
             profile: sync('authentication/user')
         },
         methods: {

@@ -4,10 +4,19 @@
 namespace App\Users;
 
 
-class ProfileData
+use App\Infrastructure\ObjectResolver\DataObject;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class ProfileData implements DataObject
 {
+    public $id;
+
     public $name;
 
+    /**
+     * @Assert\Email()
+     * @var string|null
+     */
     public $email;
 
     public $phone;
@@ -17,17 +26,41 @@ class ProfileData
     public $avatar;
 
     /**
+     * @Assert\NotBlank()
+     */
+    public $firstName;
+
+    /**
+     * @Assert\NotBlank()
+     * @var string|null
+     */
+    public $lastName;
+
+    /**
+     * @var string|null
+     */
+    public $middleName;
+
+    /**
      * ProfileData constructor.
      * @param $name
      * @param $email
      * @param $phone
      * @param $roles
+     * @param $avatar
+     * @param $firstName
+     * @param $lastName
+     * @param $middleName
      */
-    public function __construct($name, $email, $phone, $roles, $avatar)
+    public function __construct($name, $email, $phone, $roles, $avatar, $firstName, $lastName, $middleName)
     {
         $this->name = $name;
         $this->email = $email;
         $this->phone = $phone;
         $this->roles = $roles;
+        $this->avatar = $avatar;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->middleName = $middleName;
     }
 }
