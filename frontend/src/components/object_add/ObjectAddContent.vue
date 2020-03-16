@@ -907,10 +907,18 @@
                         max-width: calc(100% - 170px);
                         min-width: calc(100% - 170px);
                     }
+                    @media all and (max-width: 768px){
+                        max-width: 100%;
+                        min-width: 100%;
+                    }
                     &.--info {
                         @media all and (max-width: 1023px){
                             max-width: calc(100% - 220px);
                             min-width: calc(100% - 220px);
+                        }
+                        @media all and (max-width: 768px){
+                            max-width: calc(100% - 34px);
+                            min-width: calc(100% - 34px);
                         }
                     }
                 }
@@ -1001,13 +1009,21 @@
                 margin: 0 0 0 10px;
                 top: 0;
             }
+            @media all and (max-width: 768px) {
+                width: 24px;
+                width: 24px;
+                top: 5px;
+            }
 
             &-icon {
                 display: block;
                 cursor: pointer;
-
                 svg {
                     display: block;
+                    @media all and (max-width: 768px) {
+                        width: 24px;
+                        width: 24px;
+                    }
                 }
             }
 
@@ -1039,6 +1055,11 @@
                         left: auto;
                         right: 10px;
                     }
+                }
+                @media all and (max-width: 768px) {
+                    width: 280px;
+                    padding: 8px 10px;
+                    font-size: 12px;
                 }
             }
 
