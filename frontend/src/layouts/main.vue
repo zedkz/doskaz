@@ -12,9 +12,6 @@
             <button class="button button_blue" type="button" @click="popupOpen = true">
                 <img :src="require(`~/assets/icons/categories/${category}.svg`)" v-if="category"/>
             </button>
-            <button class="button button_blue" type="button">
-                <img :src="require(`~/assets/icons/site-map.svg`)"/>
-            </button>
         </div>
         <div class="main-page__actions">
             <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
