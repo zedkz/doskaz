@@ -11,7 +11,7 @@
             <div class="col">
                 <p class="add-object__text">{{ category.title }}</p>
             </div>
-            <div class="col --small">
+            <div class="col --small --rating">
                 <div class="add-object__rating">
                     <span></span>
                 </div>
