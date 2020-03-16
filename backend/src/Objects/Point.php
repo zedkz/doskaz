@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 final class Point
 {
     /**
-     * @ORM\Column(type="geometry", options={"geometry_type" = "POINT"})
+     * @ORM\Column(type="geography", options={"geometry_type" = "POINT"})
      */
     private $value;
 

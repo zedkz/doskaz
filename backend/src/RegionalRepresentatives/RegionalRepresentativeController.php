@@ -19,6 +19,7 @@ class RegionalRepresentativeController extends AbstractController
     /**
      * @Route(path="/api/regionalRepresentatives", methods={"GET"})
      * @param Connection $connection
+     * @return array
      */
     public function index(Connection $connection)
     {

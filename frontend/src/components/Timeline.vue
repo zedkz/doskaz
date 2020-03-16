@@ -4,11 +4,9 @@
             <div
                     class="timeline__tab-link timeline__tab-link_blog"
                     :class="{'isActive': activeTab===0}"
-                    @click="setActiveTab(0)"
-            >
-        <span>
-          Блог
-          <!--<span class="new">2</span>-->
+                    @click="setActiveTab(0)">
+        <span>Блог
+            <!--<span class="new">2</span>-->
         </span>
             </div>
             <div class="timeline__tab-link" :class="{'isActive': activeTab===1}" @click="setActiveTab(1)"
@@ -16,18 +14,18 @@
                 <span>Лента событий</span>
             </div>
             <div class="spacer"></div>
-            <div
+            <nuxt-link
+                    :to="{name: 'profile'}"
                     v-if="isAuthenticated"
                     class="timeline__tab-link timeline__tab-link_user"
                     :class="{'isActive': activeTab===2}"
-                    @click="setActiveTab(2)"
             >
         <span
                 class="avatar"
                 v-bind:style="{'background-image': 'url(' + require('./../assets/img/avatar.png') + ')'}"
         ></span>
                 <span class="name">{{user.name || 'Без имени'}}</span>
-            </div>
+            </nuxt-link>
             <div
                     v-else
                     class="timeline__tab-link timeline__tab-link_user"
@@ -38,7 +36,8 @@
         </div>
         <div class="timeline__tabs">
             <div class="timeline__tab timeline__tab_blog" :class="{'isActive': activeTab===0}">
-                <nuxt-link :to="`/blog/${post.categorySlug}/${post.slug}`" class="item" v-for="post in postsShow" :key="post.id">
+                <nuxt-link :to="`/blog/${post.categorySlug}/${post.slug}`" class="item" v-for="post in postsShow"
+                           :key="post.id">
                     <div
                             class="item__img"
                             v-bind:style="{'background-image': 'url(' +post.previewImage +')'}"
@@ -51,7 +50,7 @@
                         <h3 class="item__title">{{ post.title }}</h3>
                         <p
                                 class="item__text"
-                         v-html="post.annotation"></p>
+                                v-html="post.annotation"></p>
                     </div>
                 </nuxt-link>
                 <div class="item item_link">
