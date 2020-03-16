@@ -56,7 +56,7 @@
             <div class="col">
                 <label class="add-object__label">Категория</label>
             </div>
-            <div class="col --long">
+            <div class="col --long --info">
                 <div class="select">
                     <select v-model="selectedCategory">
                         <option disabled :value="null">Выберите категорию</option>
@@ -82,7 +82,7 @@
             <div class="col">
                 <label class="add-object__label">Подкатегория</label>
             </div>
-            <div class="col --long">
+            <div class="col --long --info">
                 <div class="select">
                     <select :disabled="!selectedCategory" v-model="categoryId">
                         <option disabled :value="null">Выберите подкатегорию</option>
@@ -122,7 +122,7 @@
             <div class="col">
                 <label class="add-object__label">Загрузить фото</label>
             </div>
-            <div class="col --long">
+            <div class="col --long --info">
                 <photo-uploader v-model="photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
             </div>
             <div class="add-object__info" :class="{ '--selected': selectedInfo == 'infoPhoto'}">

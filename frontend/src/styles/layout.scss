@@ -148,6 +148,9 @@ a {
 .select {
   height: 50px;
   position: relative;
+  @media all and (max-width: 1023px) {
+    height: 40px;
+  }
 
   &:after {
     content: '';
@@ -159,6 +162,10 @@ a {
     border-top: 5px solid #7B95A7;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
+    @media all and (max-width: 1023px) {
+      top: 15px;
+      right: 14px;
+    }
   }
 
   select {
@@ -178,7 +185,7 @@ a {
     appearance: none;
     -ms-appearance: none;
     @media all and (max-width: 1023px) {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     option {
