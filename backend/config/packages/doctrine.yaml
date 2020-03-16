@@ -55,3 +55,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Cities'
                 prefix: 'App\Cities'
+            Feedback:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Feedback'
+                prefix: 'App\Feedback'

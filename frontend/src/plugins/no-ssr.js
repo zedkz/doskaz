@@ -3,10 +3,8 @@ import VuejsDatePicker from 'vuejs-datepicker'
 import maskedInput from 'vue-masked-input'
 import YmapPlugin, { loadYmap } from 'vue-yandex-maps'
 import VueGallery from 'vue-gallery'
-
-
-Vue.use(YmapPlugin)
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 const plugin = {
     install(Vue) {
@@ -17,3 +15,5 @@ const plugin = {
 };
 
 Vue.use(plugin);
+Vue.use(Loading);
+Vue.use(YmapPlugin)

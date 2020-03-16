@@ -22,6 +22,10 @@ cities:
     resource: ../../src/Cities
     type: annotation
 
+feedback:
+    resource: ../../src/Feedback
+    type: annotation
+
 apiDocs:
     resource: ../../src/Infrastructure/Api
     type: annotation
