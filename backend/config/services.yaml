@@ -27,3 +27,4 @@ imports:
     - { resource: '../src/Blog/services.yaml' }
     - { resource: '../src/Complaints/services.yaml' }
     - { resource: '../src/Cities/services.yaml' }
+    - { resource: '../src/Feedback/services.yaml' }

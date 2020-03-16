@@ -38,10 +38,14 @@ class FullName
         $this->middle = $middle;
     }
 
-
     public static function parseFromString(string $fullName): self
     {
         $parts = explode(' ', $fullName);
         return new self(...$parts);
+    }
+
+    public function empty(): bool
+    {
+        return empty($this->first) && empty($this->last) && empty($this->middle);
     }
 }

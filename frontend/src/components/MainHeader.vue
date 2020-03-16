@@ -17,9 +17,9 @@
             <a href="#">
               <span>О проекте</span>
             </a>
-            <a href="#">
+            <nuxt-link :to="{name: 'contacts'}">
               <span>Контакты</span>
-            </a>
+            </nuxt-link>
             <nuxt-link :to="{name: 'blog-category'}">
               <span>Блог</span>
             </nuxt-link>
