@@ -251,6 +251,11 @@
     export default {
         components: {PostSubmitMessage, Username},
         layout: 'main',
+        head() {
+            return {
+                title: this.object.title
+            }
+        },
         data() {
             return {
                 isPartially: false,

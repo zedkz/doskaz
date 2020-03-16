@@ -9,6 +9,11 @@
     import Sidebar from "@/components/Sidebar.vue";
     import PostSubmitMessage from "../components/complaint/PostSubmitMessage";
     export default {
+        head() {
+            return {
+                title: 'Главная'
+            }
+        },
         layout: 'main',
         components: {
             PostSubmitMessage,

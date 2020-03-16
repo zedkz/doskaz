@@ -28,6 +28,11 @@
     import {get, call} from 'vuex-pathify'
 
     export default {
+        head() {
+            return {
+                title: 'Добавить объект'
+            }
+        },
         middleware: ['authenticated'],
         layout: 'complaint',
         components: {

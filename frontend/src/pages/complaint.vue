@@ -25,6 +25,11 @@
     import ComplaintContent from "@/components/complaint/ComplaintContent";
 
     export default {
+        head() {
+            return {
+                title: 'Подать жалобу'
+            }
+        },
         components: {ComplaintContent, MainHeader},
         middleware: ['authenticated'],
         async asyncData({$axios, query: {objectId}}) {

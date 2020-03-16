@@ -85,6 +85,11 @@
 
     export default {
         components: {MainHeader},
+        head() {
+            return {
+                title: 'Контакты'
+            }
+        },
         async asyncData({$axios}) {
             const [{data: regionalRepresentatives}, {data: cities}] = await Promise.all([
                 $axios.get('/api/regionalRepresentatives'),
