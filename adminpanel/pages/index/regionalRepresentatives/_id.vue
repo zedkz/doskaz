@@ -13,6 +13,14 @@
 
     export default {
         components: {CrudEdit},
+        async asyncData({$axios}) {
+            const {data} = await $axios.get('/api/cities')
+            const cities = [{value: null, title: 'Не выбрано'}].concat(data.map(item => ({
+                value: item.id,
+                title: item.name
+            })))
+            return {cities}
+        },
         computed: {
             fields() {
                 const self = this;
@@ -25,10 +33,7 @@
                     {
                         key: 'cityId', label: 'Город', type: Selection, required: true, options: {
                             async asyncOptions() {
-                                const {data: items} = await self.$axios.get('/api/cities', {
-                                    params: {limit: 999}
-                                });
-                                return [{value: null, title: 'Не выбрано'}].concat(items.map(item => ({value: item.id, title: item.name})))
+                                return self.cities
                             }
                         }
                     },
