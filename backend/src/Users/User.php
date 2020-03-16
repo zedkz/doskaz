@@ -25,9 +25,21 @@ class User
     private $name;
 
     /**
+     * @var FullName|null
+     * @ORM\Column(type=App\Users\FullName::class, options={"jsonb" = true}, nullable=true)
+     */
+    private $fullName;
+
+    /**
      * @ORM\Column(type="string", unique=true, nullable=true)
      */
     private $email;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $avatar;
 
     /**
      * @ORM\Column(type="json_array", options={"jsonb": true})
@@ -51,6 +63,7 @@ class User
         $this->name = $name;
         $this->email = $email;
         $this->roles = ['ROLE_USER'];
+        $this->fullName = $name ? FullName::parseFromString($name) : new FullName();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
@@ -58,7 +71,18 @@ class User
     public function update(UserData $data)
     {
         $this->name = $data->name;
+        $this->fullName = FullName::parseFromString($data->name);
         $this->roles = $data->roles;
+    }
+
+    public function migrateFullName()
+    {
+        $this->fullName = FullName::parseFromString($this->name);
+    }
+
+    public function changeAvatar(string $avatar)
+    {
+        $this->avatar = $avatar;
     }
 
     public function id()

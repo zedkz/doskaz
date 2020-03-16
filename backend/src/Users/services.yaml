@@ -32,3 +32,6 @@ services:
     App\Users\Security\PhoneAuth\CredentialsRepository:
     App\Users\Security\AuthController:
         tags: [ 'controller.service_arguments' ]
+
+    App\Users\MigrateFullName:
+        tags: ['console.command']

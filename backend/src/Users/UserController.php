@@ -45,6 +45,7 @@ final class UserController extends AbstractController
     /**
      * @Route(path="/users", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
      * @param Connection $connection
      * @return array
      */
@@ -120,7 +121,7 @@ final class UserController extends AbstractController
     public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request)
     {
         $user = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
             ->andWhere('users.id = :id')
@@ -129,10 +130,50 @@ final class UserController extends AbstractController
             ->execute()
             ->fetch();
 
-        return array_replace($user, [
+        /*return array_replace($user, [
             'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
             'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable'),
-            'avatar' => $request->getSchemeAndHttpHost().'/static/ava.png'
-        ]);
+            'avatar' => $request->getSchemeAndHttpHost() . '/static/ava.png'
+        ]);*/
+
+
+        return new ProfileData(
+            $user['name'],
+            $user['email'],
+            $user['phone'],
+            $connection->convertToPHPValue($user['roles'], 'json'),
+            $user['avatar'] ? $request->getSchemeAndHttpHost() . $user['avatar'] : null
+        );
+    }
+
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/chooseAvatarPreset/{presetNumber}", methods={"POST"}, requirements={"presetNumber" = "\d+"})
+     * @param $preset
+     * @param UserRepository $repository
+     */
+    public function chooseAvatarPreset($preset, UserRepository $repository, Flusher $flusher): array
+    {
+        $presets = [
+            1 => 'av1.svg',
+            2 => 'av2.svg',
+            3 => 'av3.svg',
+            4 => 'av4.svg',
+            5 => 'av5.svg',
+            6 => 'av6.svg',
+        ];
+
+        if (!array_key_exists($preset, $presets)) {
+            throw new NotFoundHttpException(sprintf('Preset "%s" not exists!', $presets));
+        }
+        $selected = $presets[$preset];
+        $user = $repository->find($this->getUser()->id());
+        $avatar = sprintf('/static/presets/%s', $selected);
+        $user->changeAvatar($avatar);
+        $flusher->flush();
+        return [
+            'avatar' => $avatar
+        ];
     }
 }
