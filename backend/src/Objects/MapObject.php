@@ -108,6 +108,12 @@ class MapObject implements EventProducer
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @var integer|null
+     */
+    private $createdBy;
+
     public function __construct(
         Point $point,
         string $title,
@@ -116,7 +122,8 @@ class MapObject implements EventProducer
         string $address,
         ?string $description,
         FileReferenceCollection $photos,
-        array $videos
+        array $videos,
+        ?int $createdBy = null
     )
     {
         $this->uuid = Uuid::uuid4();
@@ -130,6 +137,7 @@ class MapObject implements EventProducer
         $this->updatedAt = $this->createdAt = new \DateTimeImmutable();
         $this->videos = $videos;
         $this->photos = $photos;
+        $this->createdBy = $createdBy;
 
         $this->remember(new MapObjectCreated($this->uuid));
         if (!$this->photos->isEmpty()) {
@@ -146,11 +154,13 @@ class MapObject implements EventProducer
         string $address,
         string $description,
         FileReferenceCollection $photos,
-        array $videos
+        array $videos,
+        ?int $createdBy = null
     ): self
     {
         $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos);
         $self->requestId = $requestId;
+        $self->createdBy = $createdBy;
         return $self;
     }
 

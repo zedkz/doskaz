@@ -85,7 +85,8 @@ class AddingRequest
             $data->first->address,
             '',
             $data->first->photos,
-            $data->first->videos
+            $data->first->videos,
+            $this->userId
         );
     }
 
