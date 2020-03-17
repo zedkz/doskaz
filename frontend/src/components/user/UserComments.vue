@@ -35,7 +35,7 @@
             />
         </div>
         <div class="user-comments__pagination">
-            <pagination :pages="pages"/>
+            <pagination :pages="pages" v-if="pages"/>
         </div>
     </div>
 </template>
