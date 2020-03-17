@@ -54,7 +54,7 @@
         </div>
         <div class="container">
             <div class="represent">
-                <div class="represent__title">Региональные представители в городе
+                <div class="represent__title">Выберите регионального представителя
                     <span class="select-text">
                         <select v-model="city">
                             <option v-for="city in availableCities" :key="city.id" :value="city.id">{{ city.name }}</option>
