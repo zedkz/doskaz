@@ -20,11 +20,11 @@
                     class="timeline__tab-link timeline__tab-link_user"
                     :class="{'isActive': activeTab===2}"
             >
-        <span
+        <user-avatar
                 class="avatar"
-                v-bind:style="{'background-image': 'url(' + require('./../assets/img/avatar.png') + ')'}"
-        ></span>
-                <span class="name">{{name || 'Без имени'}}</span>
+                :value="user.avatar"
+        ></user-avatar>
+                <username class="name" :value="name"/>
             </nuxt-link>
             <div
                     v-else
@@ -146,6 +146,8 @@
     import {format} from 'date-fns'
     import {ru} from 'date-fns/locale'
     import {get} from 'vuex-pathify'
+    import Username from "./Username";
+    import UserAvatar from "./UserAvatar";
 
     export default {
         props: ['posts'],
@@ -160,6 +162,8 @@
             }
         },
         components: {
+            UserAvatar,
+            Username,
             UserTabs
         },
         methods: {

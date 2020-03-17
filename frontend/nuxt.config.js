@@ -16,6 +16,9 @@ export default {
         },
         '/api': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
+        },
+        '/static': {
+            target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
     },
     axios: {
