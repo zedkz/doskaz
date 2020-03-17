@@ -129,9 +129,9 @@
                     </div>
                 </div>
                 <div class="link">
-                    <a href="#">
+                    <nuxt-link :to="{name: 'profile'}">
                         <span>Перейти в профиль</span>
-                    </a>
+                    </nuxt-link>
                 </div>
             </div>
             <div class="timeline__tab timeline__tab_user" :class="{'isActive': activeTab===2}">
