@@ -26,12 +26,11 @@ class ProfileData implements DataObject
     public $avatar;
 
     /**
-     * @Assert\NotBlank()
+     * @var string|null
      */
     public $firstName;
 
     /**
-     * @Assert\NotBlank()
      * @var string|null
      */
     public $lastName;
