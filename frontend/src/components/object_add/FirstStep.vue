@@ -10,13 +10,13 @@
                 </div>
             </div>
         </field>
-        <field>
+        <field :error="validationErrors.otherNames">
             <div class="col">
                 <label class="add-object__label">Другие наименования</label>
             </div>
             <div class="col --long">
                 <div class="input">
-                    <input type="text" placeholder="KAZKOM, КАЗКОМ">
+                    <input type="text" placeholder="KAZKOM, КАЗКОМ" v-model.trim="otherNames">
                 </div>
             </div>
         </field>
@@ -199,7 +199,8 @@
                 'point',
                 'categoryId',
                 'videos',
-                'photos'
+                'photos',
+                'otherNames'
             ]),
             ...get('objectAdding', [
                 'categories'

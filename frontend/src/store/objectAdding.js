@@ -91,7 +91,8 @@ export const state = () => ({
         first: {
             categoryId: null,
             videos: [''],
-            photos: []
+            photos: [],
+            otherNames: ''
         },
         parking: {
             attributes: {},
