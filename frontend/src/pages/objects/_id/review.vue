@@ -8,7 +8,7 @@
             <span class="popup__textarea-text">Введите минимум 20 символов</span>
             <div class="popup__buttons">
                 <div class="timeline__tab-link timeline__tab-link_user">
-                    <span class="avatar" :style="`background-image:url(${avatar})`"></span>
+                    <user-avatar class="avatar" :value="avatar"/>
                     <username class="name" :value="name"/>
                 </div>
                 <button type="button" class="button" @click="createReview"
@@ -22,9 +22,10 @@
 <script>
     import {get} from "vuex-pathify";
     import Username from "../../../components/Username";
+    import UserAvatar from "../../../components/UserAvatar";
 
     export default {
-        components: {Username},
+        components: {UserAvatar, Username},
         middleware: ['authenticated'],
         data() {
             return {
