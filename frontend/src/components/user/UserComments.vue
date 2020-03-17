@@ -25,38 +25,32 @@
         </div>
         <div class="user-comments__list">
             <UserComment
-                    :commentObjectImg="require('./../../assets/img/objects/1.png')"
-                    commentText="Я вчера там был, таблички уже повесили :)"
-                    commentDate="Сегодня в 14:23"
-                    commentObject="Суши-бар Saya Sushi"
+                    v-for="item in items"
+                    :key="item.id"
+                    :commentObjectImg="item.image"
+                    :commentText="item.text"
+                    :type="item.type"
+                    :commentDate="item.date"
+                    :commentObject="item.title"
             />
-            <UserComment
-                    :commentObjectImg="require('./../../assets/img/objects/1.png')"
-                    commentText="Хотелось бы добавить, что входная группа сделана не очень удобно для людей, передвигающихся на колясках. Угол наклона пандуса очень большой, подниматься без посторонней помощи сложно. А зимой там ещё хуже будет."
-                    commentDate="Вчера в 18:01"
-                    commentObject="Стоматологическая клиника Vitadent"
-            />
-            <UserComment
-                    :commentObjectImg="require('./../../assets/img/objects/1.png')"
-                    commentText="Я вчера там был, таблички уже повесили :)"
-                    commentDate="Сегодня в 14:23"
-                    commentObject="Суши-бар Saya Sushi"
-            />
-            <UserComment
-                    :commentObjectImg="require('./../../assets/img/objects/1.png')"
-                    commentText="Хотелось бы добавить, что входная группа сделана не очень удобно для людей, передвигающихся на колясках. Угол наклона пандуса очень большой, подниматься без посторонней помощи сложно. А зимой там ещё хуже будет."
-                    commentDate="Вчера в 18:01"
-                    commentObject="Стоматологическая клиника Vitadent"
-            />
+        </div>
+        <div class="user-comments__pagination">
+            <pagination :pages="pages"/>
         </div>
     </div>
 </template>
 
 <script>
     import UserComment from "./UserComment";
+    import Pagination from "../Pagination";
 
     export default {
+        props: [
+            'pages',
+            'items'
+        ],
         components: {
+            Pagination,
             UserComment
         }
     };

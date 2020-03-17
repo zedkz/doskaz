@@ -3,10 +3,13 @@
 
 namespace App\Users;
 
+use App\Blog\Image;
 use App\Infrastructure\Doctrine\Flusher;
+use App\Infrastructure\FileReferenceCollection;
 use App\Infrastructure\ObjectResolver\ValidationException;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Imgproxy\UrlBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -226,5 +229,127 @@ final class UserController extends AbstractController
         $user = $repository->find($this->getUser()->id());
         $user->removeAvatar();
         $flusher->flush();
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/objects", methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     */
+    public function objects(Request $request, Connection $connection)
+    {
+
+        return [
+            'count' => 0,
+            'items' => []
+        ];
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/comments", methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     */
+    public function comments(Request $request, Connection $connection, UrlBuilder $urlBuilder)
+    {
+        $perPage = 10;
+
+        $qb = $connection->createQueryBuilder()
+            ->select([
+                'id',
+                'type',
+                'date'
+            ])
+            ->from('user_comments_history')
+            ->andWhere('user_comments_history.user_id = :userId')
+            ->setParameter('userId', $this->getUser()->id());
+
+        $items = (clone $qb)
+            ->setMaxResults($perPage)
+            ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
+            ->orderBy('date', 'desc')
+            ->execute()
+            ->fetchAll();
+
+
+        $postComments = $connection->createQueryBuilder()
+            ->select([
+                'blog_comments.id',
+                'blog_comments.text',
+                'blog_posts.title',
+                'blog_posts.slug_value as slug',
+                'blog_categories.slug_value as "categorySlug"',
+                'blog_posts.image'
+            ])
+            ->from('blog_comments')
+            ->leftJoin('blog_comments', 'blog_posts', 'blog_posts', 'blog_posts.id = blog_comments.post_id')
+            ->leftJoin('blog_posts', 'blog_categories', 'blog_categories', 'blog_posts.category_id = blog_categories.id')
+            ->andWhere('blog_comments.id in (:ids)')
+            ->setParameter('ids', array_column($items, 'id'), Connection::PARAM_STR_ARRAY)
+            ->execute()
+            ->fetchAll(\PDO::FETCH_UNIQUE);
+
+
+        $objectReviews = $connection->createQueryBuilder()
+            ->select([
+                'object_reviews.id',
+                'object_reviews.text',
+                'objects.title',
+                'objects.id as "objectId"',
+                'objects.photos'
+            ])
+            ->from('object_reviews')
+            ->leftJoin('object_reviews', 'objects', 'objects', 'objects.id = object_reviews.object_id')
+            ->andWhere('object_reviews.id in (:ids)')
+            ->setParameter('ids', array_column($items, 'id'), Connection::PARAM_STR_ARRAY)
+            ->execute()
+            ->fetchAll(\PDO::FETCH_UNIQUE);
+
+        $mappedItems = array_map(function ($item) use ($connection, $postComments, $objectReviews, $request, $urlBuilder) {
+            $result = [
+                'date' => $connection->convertToPHPValue($item['date'], 'datetimetz_immutable'),
+                'type' => $item['type']
+            ];
+
+            if (array_key_exists($item['id'], $postComments)) {
+                $postComment = $postComments[$item['id']];
+                $result['slug'] = $postComment['slug'];
+                $result['categorySlug'] = $postComment['categorySlug'];
+                $result['title'] = $postComment['title'];
+                $result['text'] = $postComment['text'];
+
+                /**
+                 * @var $image Image|null
+                 */
+                $image = $connection->convertToPHPValue($postComment['image'], Image::class);
+                if($image) {
+                    $result['image'] =  $request->getSchemeAndHttpHost().$image->resize(140, 100);
+                }
+            }
+
+            if(array_key_exists($item['id'], $objectReviews)) {
+                $objectReview = $objectReviews[$item['id']];
+                $result['title'] = $objectReview['title'];
+                $result['text'] = $objectReview['text'];
+
+                /**
+                 * @var $photos FileReferenceCollection
+                 */
+                $photos = $connection->convertToPHPValue($objectReview['photos'], FileReferenceCollection::class);
+                if($photos->count()) {
+                    $result['image'] =  $request->getSchemeAndHttpHost(). $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
+                }
+            }
+
+            return $result;
+
+        }, $items);
+
+        return [
+            'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
+            'items' => $mappedItems
+        ];
     }
 }
