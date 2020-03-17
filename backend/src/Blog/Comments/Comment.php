@@ -3,18 +3,23 @@
 
 namespace App\Blog\Comments;
 
+use App\Infrastructure\DomainEvents\EventProducer;
+use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="blog_comments")
  */
-class Comment
+class Comment implements EventProducer
 {
+    use ProducesEvents;
+
     /**
-     * @var int
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var UuidInterface
+     * @ORM\Column(type="uuid")
      * @ORM\Id()
      */
     private $id;
@@ -26,8 +31,8 @@ class Comment
     private $postId;
 
     /**
-     * @var integer
-     * @ORM\Column(type="integer", nullable=true)
+     * @var UuidInterface
+     * @ORM\Column(type="uuid", nullable=true)
      */
     private $parentId;
 
@@ -60,12 +65,14 @@ class Comment
         $this->popularity++;
     }
 
-    public function __construct(int $postId, int $userId, string $text, ?int $parentId = null)
+    public function __construct(int $postId, int $userId, string $text, ?UuidInterface $parentId = null)
     {
+        $this->id = Uuid::uuid4();
         $this->postId = $postId;
         $this->userId = $userId;
         $this->text = $text;
         $this->parentId = $parentId;
         $this->createdAt = new \DateTimeImmutable();
+        $this->remember(new CommentCreated($this->id, $this->userId));
     }
 }

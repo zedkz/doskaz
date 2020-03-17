@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Schema;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -53,7 +54,7 @@ class CommentData implements DataObject
     public $createdAt;
 
     /**
-     * @var int|null
+     * @var UuidInterface|null
      * @Property(nullable=true, example=null, description="Id родительского комментария")
      */
     public $parentId;

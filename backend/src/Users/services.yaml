@@ -1,3 +1,6 @@
+imports:
+    - { resource: './CommentsHistory/services.yaml' }
+
 services:
     _defaults:
         autowire: true
