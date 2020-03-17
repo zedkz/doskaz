@@ -75,7 +75,8 @@ class User
         $this->roles = $data->roles;
     }
 
-    public function updateProfile(FullName $fullName, ?string $email) {
+    public function updateProfile(FullName $fullName, ?string $email)
+    {
         $this->fullName = $fullName;
         $this->email = $email;
         $this->updatedAt = new \DateTimeImmutable();
@@ -94,5 +95,11 @@ class User
     public function id()
     {
         return $this->id;
+    }
+
+    public function removeAvatar()
+    {
+        $this->avatar = null;
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

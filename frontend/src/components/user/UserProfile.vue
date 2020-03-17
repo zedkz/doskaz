@@ -121,16 +121,12 @@
             }
         },
         methods: {
-            setDefaultAvatar: function (av) { // здесь еще надо сохранить эти значения
-                this.isAvatarLoaded = true;
-                this.defaultAvatarType = av;
-            },
-            popupAvatarDefault: function () { //
+            popupAvatarDefault: function () {
                 this.popupAvatar = true;
             },
-            avatarDelete: function () {  // здесь еще надо сохранить эти значения
-                this.isAvatarLoaded = false;
-                this.defaultAvatarType = 0;
+            async avatarDelete() {
+                await this.$axios.delete('/api/profile/avatar')
+                await this.loadUser();
             },
             async chooseAvatarPreset(presetNumber) {
                 await this.$axios.post(`/api/profile/chooseAvatarPreset/${presetNumber}`)

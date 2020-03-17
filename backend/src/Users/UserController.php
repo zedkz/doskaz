@@ -214,4 +214,17 @@ final class UserController extends AbstractController
             'avatar' => $avatar
         ];
     }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/avatar", methods={"DELETE"})
+     * @param UserRepository $repository
+     * @param Flusher $flusher
+     */
+    public function removeAvatar(UserRepository $repository, Flusher $flusher)
+    {
+        $user = $repository->find($this->getUser()->id());
+        $user->removeAvatar();
+        $flusher->flush();
+    }
 }
