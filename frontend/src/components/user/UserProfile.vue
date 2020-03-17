@@ -11,7 +11,7 @@
             </div>
 
             <div class="user-profile__icon"
-                 v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/default.svg') + ')'}">
+                 v-bind:style="{'background-image': 'url(' + avatar + ')'}">
                 <div class="user-profile__icon-edit">
                     <span class="user-profile__icon-link" v-on:click="popupAvatarDefault">Обновить фотографию</span>
                     <span class="user-profile__icon-link" v-on:click="avatarDelete">Удалить</span>
@@ -70,18 +70,8 @@
                     <p class="popup__text">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7 уровне
                         :)</p>
                     <div class="user-profile__avatar-list">
-                        <span v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/av1.svg') + ')'}"
-                              v-on:click="setDefaultAvatar('1')" class="user-profile__avatar"></span>
-                        <span v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/av2.svg') + ')'}"
-                              v-on:click="setDefaultAvatar('2')" class="user-profile__avatar"></span>
-                        <span v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/av3.svg') + ')'}"
-                              v-on:click="setDefaultAvatar('3')" class="user-profile__avatar"></span>
-                        <span v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/av4.svg') + ')'}"
-                              v-on:click="setDefaultAvatar('4')" class="user-profile__avatar"></span>
-                        <span v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/av5.svg') + ')'}"
-                              v-on:click="setDefaultAvatar('5')" class="user-profile__avatar"></span>
-                        <span v-bind:style="{'background-image': 'url(' + require('./../../assets/img/user/av6.svg') + ')'}"
-                              v-on:click="setDefaultAvatar('6')" class="user-profile__avatar"></span>
+                         <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
+                               v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
                     </div>
                 </div>
             </div>
@@ -90,8 +80,9 @@
 </template>
 
 <script>
-    import {sync, get} from 'vuex-pathify'
+    import {sync, get, call} from 'vuex-pathify'
     import Username from "../Username";
+    import range from 'lodash/range'
 
     export default {
         components: {Username},
@@ -107,7 +98,7 @@
         },
         computed: {
             avatar() {
-                return require('~/assets/img/user/default.svg')
+                return this.profile.avatar || require('~/assets/img/user/default.svg')
             },
             currentPage() {
                 return this.$route.path;
@@ -124,7 +115,10 @@
                 return avatarType;
             },
             name: get('authentication/name'),
-            profile: sync('authentication/user')
+            profile: sync('authentication/user'),
+            avatarPresets() {
+                return range(1, 7).map(presetNumber => require(`~/assets/img/user/av${presetNumber}.svg`))
+            }
         },
         methods: {
             setDefaultAvatar: function (av) { // здесь еще надо сохранить эти значения
@@ -137,7 +131,13 @@
             avatarDelete: function () {  // здесь еще надо сохранить эти значения
                 this.isAvatarLoaded = false;
                 this.defaultAvatarType = 0;
-            }
+            },
+            async chooseAvatarPreset(presetNumber) {
+                await this.$axios.post(`/api/profile/chooseAvatarPreset/${presetNumber}`)
+                await this.loadUser();
+                this.popupAvatar = false;
+            },
+            ...call('authentication', ['loadUser'])
         }
     };
 </script>

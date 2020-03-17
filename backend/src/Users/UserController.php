@@ -186,10 +186,12 @@ final class UserController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      * @Route(path="/profile/chooseAvatarPreset/{presetNumber}", methods={"POST"}, requirements={"presetNumber" = "\d+"})
-     * @param $preset
+     * @param $presetNumber
      * @param UserRepository $repository
+     * @param Flusher $flusher
+     * @return array
      */
-    public function chooseAvatarPreset($preset, UserRepository $repository, Flusher $flusher): array
+    public function chooseAvatarPreset($presetNumber, UserRepository $repository, Flusher $flusher): array
     {
         $presets = [
             1 => 'av1.svg',
@@ -200,10 +202,10 @@ final class UserController extends AbstractController
             6 => 'av6.svg',
         ];
 
-        if (!array_key_exists($preset, $presets)) {
+        if (!array_key_exists($presetNumber, $presets)) {
             throw new NotFoundHttpException(sprintf('Preset "%s" not exists!', $presets));
         }
-        $selected = $presets[$preset];
+        $selected = $presets[$presetNumber];
         $user = $repository->find($this->getUser()->id());
         $avatar = sprintf('/static/presets/%s', $selected);
         $user->changeAvatar($avatar);
