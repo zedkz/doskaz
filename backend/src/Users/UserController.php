@@ -414,4 +414,54 @@ final class UserController extends AbstractController
             'items' => $mappedItems
         ];
     }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/complaints", methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     * @param UrlBuilder $urlBuilder
+     * @return array
+     */
+    public function complaints(Request $request, Connection $connection, UrlBuilder $urlBuilder)
+    {
+        $perPage = 10;
+
+        $qb = $connection->createQueryBuilder()
+            ->from('complaints')
+            ->andWhere('complainant_id = :userId')
+            ->setParameter('userId', $this->getUser()->id());
+
+        $items = (clone $qb)->select([
+            'id',
+            'created_at',
+            'content->>\'objectName\' as "title"',
+            'content->>\'photos\' as photos',
+            'content->>\'type\' as type'
+        ])
+            ->orderBy('created_at', 'desc')
+            ->setMaxResults($perPage)
+            ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
+            ->execute()->fetchAll();
+
+        return [
+            'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
+            'items' => array_map(function($item) use($connection, $request, $urlBuilder) {
+
+                $image = null;
+                $photos = $connection->convertToPHPValue($item['photos'], 'json');
+                if(count($photos)) {
+                    $image =  $request->getSchemeAndHttpHost() . $urlBuilder->build('local://' .$photos[0], 220, 160)->toString();
+                }
+
+                return [
+                    'id' => $item['id'],
+                    'type' => $item['type'],
+                    'title' => $item['title'],
+                    'date' => $connection->convertToPHPValue($item['created_at'], 'datetimetz_immutable'),
+                    'image' => $image,
+                ];
+            }, $items)
+        ];
+    }
 }

@@ -23,40 +23,43 @@
                 </div>
             </div>
             <div class="filter">
-                <a href="" class="object-side__button --complaint">Подать жалобу</a>
+                <nuxt-link :to="{name: 'complaint'}" class="object-side__button --complaint">Подать жалобу</nuxt-link>
             </div>
         </div>
         <div class="user-objects__content">
             <UserTicket
-                :ticketImg="require('./../../assets/img/objects/1.png')"
-                ticketTitle="Суши-бар Saya Sushi"
-                ticketText="Жалоба на отсутствие доступа на объект или несоответствие функциональных зон объекта требованиям нормативного законодательства"
-                ticketDate="12.08.2019"
-                ticketAnswer="yes"
-                ticketLink="#"
+                    v-for="complaint in complaints"
+                    :key="complaint.id"
+                    :ticket-id="complaint.id"
+                    :ticketImg="complaint.image"
+                    :ticketTitle="complaint.title"
+                    :ticket-type="complaint.type"
+                    :ticketDate="complaint.date"
             />
-            <UserTicket
-                    :ticketImg="require('./../../assets/img/objects/1.png')"
-                    ticketTitle="Стоматологическая клиника Vitadent"
-                    ticketText="Жалоба на отсутствие пандуса/подъёмника на входе в объект"
-                    ticketDate="25.11.2019"
-                    ticketAnswer="no"
-                    ticketLink="#"
-            />
+        </div>
+
+        <div class="user-tickets__pagination">
+            <pagination :pages="pages" v-if="pages > 1"/>
         </div>
     </div>
 </template>
 
 <script>
     import UserTicket from "./UserTicket";
+    import Pagination from "../Pagination";
 
     export default {
+        props: [
+            'pages',
+            'complaints'
+        ],
         components: {
+            Pagination,
             UserTicket
         }
     };
 </script>
 
 <style lang="scss">
-    @import "./../../styles/mixins.scss";
+    @import "@/styles/mixins.scss";
 </style>

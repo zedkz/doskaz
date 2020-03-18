@@ -1,5 +1,5 @@
 <template>
-    <UserTickets/>
+    <UserTickets :complaints="items" :pages="pages"/>
 </template>
 
 <script>
@@ -8,7 +8,16 @@
     export default {
         components: {
             UserTickets
-        }
+        },
+        async asyncData({$axios, query}) {
+            const {data} = await $axios.get('/api/profile/complaints', {
+                params: {
+                    page: query.page || 1
+                }
+            })
+            return data
+        },
+        watchQuery: ['page']
     };
 </script>
 
