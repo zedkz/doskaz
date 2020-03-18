@@ -55,8 +55,8 @@
         <div class="pdf__fixed-left">
             <div class="pdf__fixed-item"><img :src="require('@/assets/icons/pdf-check.svg')"/><span>Да</span></div>
             <div class="pdf__fixed-item"><img :src="require('@/assets/icons/pdf-no-check.svg')"/><span>Нет</span></div>
-            <div class="pdf__fixed-item"><img
-                    :src="require('@/assets/icons/pdf-not-prov.svg')"/><span>Не предусмотрено</span></div>
+            <div class="pdf__fixed-item"><img :src="require('@/assets/icons/pdf-not-prov.svg')"/><span>Не предусмотрено</span></div>
+            <div class="pdf__fixed-item"><img :src="require('@/assets/icons/pdf-unknown.svg')"/><span>Неизвестно</span></div>
         </div>
     </div>
 </template>
