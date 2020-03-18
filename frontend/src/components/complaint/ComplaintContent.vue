@@ -234,6 +234,7 @@
                             <vuejs-date-picker
                                     id="x3"
                                     :format="format"
+                                    :disabledDates="disabledDates"
                                     :language="locale"
                                     v-model="complaint.content.visitedAt"
                                     @change="checValue('visitedAt')"
@@ -894,6 +895,9 @@
                 },
                 imageFile: "",
                 format: "dd.MM.yyyy",
+                disabledDates: {
+                    from: new Date(Date.now() - 8640000)
+                },
                 isOpen: true,
                 locale: ru,
                 inputs: [],

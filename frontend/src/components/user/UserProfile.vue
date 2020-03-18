@@ -67,10 +67,27 @@
             <div class="popup__wrapper" v-show="popupAvatar">
                 <div class="popup__in">
                     <span class="popup__close" v-on:click="popupAvatar = false"></span>
-                    <p class="popup__text">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7 уровне
+                    <p class="popup__title">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7 уровне
                         :)</p>
                     <div class="user-profile__avatar-list">
                          <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
+                               v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup__wrapper" v-show="popupAvatarLevel">
+                <div class="popup__in --lrg">
+                    <span class="popup__close" v-on:click="popupAvatarLevel = false"></span>
+                    <h3 class="popup__title">Обновление фотографии</h3>
+                    <div class="user-profile__avatar-list">
+                        <span class="user-profile__avatar">
+                            <span class="user-profile__avatar-file">
+                                <input type="file">
+                                <img :src="require('@/assets/icons/avatar-img.svg')"/>
+                            </span>
+                        </span>
+                        <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
                                v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
                     </div>
                 </div>
@@ -90,10 +107,11 @@
             return {
                 isAchievement: false,
                 isVerified: true,
-                userLevel: 6,
+                userLevel: 7,
                 isAvatarLoaded: false,
                 defaultAvatarType: 0,
-                popupAvatar: false
+                popupAvatar: false,
+                popupAvatarLevel: true
             }
         },
         computed: {
@@ -152,13 +170,42 @@
             height: 120px;
             background-position: center;
             background-size: 100%;
-            margin: 30px 0 0;
+            margin: 30px 15px 0;
             cursor: pointer;
+
+            &-file {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                display: block;
+                border-radius: 50%;
+                background-color: #F1F9FD;
+                overflow: hidden;
+                input[type=file] {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                    cursor: pointer;
+                    z-index: 2;
+                    opacity: 0;
+                }
+                img {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    margin: -21px 0 0 -18px;
+                    z-index: 1;
+                }
+            }
 
             &-list {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 flex-wrap: wrap;
+                margin: -14px -15px 0;
             }
         }
 

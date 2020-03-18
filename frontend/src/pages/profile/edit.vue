@@ -1,6 +1,5 @@
 <template>
-    <div class="user-page__tabs">
-        <div class="user-page__edit">
+    <div class="user-page__edit">
             <h3 class="user-page__title">Редактирование анкеты</h3>
             <p class="user-page__text --line">За заполнение анкеты вы получите 70 баллов.</p>
             <p class="user-page__text --line">Ваша личная информация не будет видна другим пользователям</p>
@@ -39,8 +38,9 @@
                     <label class="user-page__label">Эл. Почта</label>
                 </div>
                 <div class="col">
-                    <div class="input" :class="{error: !!violations.email}">
+                    <div class="input error" :class="{error: !!violations.email}">
                         <input type="email" v-model="profile.email">
+                        <span class="error-msg">Неправильный адрес почты</span>
                     </div>
                 </div>
             </div>
@@ -51,6 +51,22 @@
                 <div class="col">
                     <div class="input" :class="{error: !!violations.phone}">
                         <masked-input mask="\+\7(111)111-11-11" v-model="profile.phone"/>
+                    </div>
+                </div>
+            </div>
+            <div class="user-page__line">
+                <div class="col --label">
+                    <label class="user-page__label">Смс код</label>
+                </div>
+                <div class="col --flex">
+                    <div class="input --flex-col --sm" :class="{error: !!violations.phone}">
+                        <input type="text">
+                    </div>
+                    <div class="--flex-col">
+                        <div class="user-page__sms">
+                            <img class="user-page__sms-img" :src="require('@/assets/icons/sms-phone.svg')"/>
+                            <span class="user-page__sms-text">Повторную отправку можно выполнить через 15 секунд</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,7 +87,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -128,7 +143,36 @@
 <style lang="scss">
     @import "@/styles/mixins.scss";
 
+    .--flex {
+        display: flex;
+        &-col {
+             -ms-flex-preferred-size: 0;
+             flex-basis: 0;
+             -ms-flex-positive: 1;
+             -webkit-box-flex: 1;
+             flex-grow: 1;
+             max-width: 100%;
+            &.--sm {
+                 min-width: 110px;
+                 max-width: 110px;
+            }
+        }
+    }
+
     .user-page {
+        &__sms {
+            padding: 0 0 0 40px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            &-img {
+                margin: 0 10px 0 0;
+            }
+            &-text {
+                font-size: 14px;
+                line-height: 14px;
+            }
+        }
         &__edit {
             padding: 26px 0 0;
             width: 560px;
@@ -180,13 +224,27 @@
             position: relative;
             margin: 40px 0 0;
 
-            .input {
-                &.error {
-                    border-color: $red;
-                }
+            .error-msg {
+                display: none;
+                position: absolute;
+                left: 0;
+                top: 100%;
+                margin: 5px 0 0;
+                font-size: 14px;
+                line-height: 20px;
+                color: $red;
+            }
 
+            .input {
                 input {
                     font-size: 14px;
+                }
+                &.error {
+                    border-color: $red;
+                    position: relative;
+                    .error-msg {
+                        display: block;
+                    }
                 }
             }
 

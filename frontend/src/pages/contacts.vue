@@ -29,19 +29,20 @@
                         </div>
                     </div>
                     <div class="contacts__right">
-                        <div class="contacts__line">
+                        <div class="contacts__line required error">
                             <label for="c_name" class="label">Ваше имя</label>
                             <div class="input">
                                 <input id="c_name" type="text" v-model="feedback.name">
+                                <span class="error-msg">Поле обязательно для заполнения</span>
                             </div>
                         </div>
-                        <div class="contacts__line">
+                        <div class="contacts__line required">
                             <label class="label">Эл. почта</label>
                             <div class="input">
                                 <input type="email" v-model="feedback.email">
                             </div>
                         </div>
-                        <div class="contacts__line">
+                        <div class="contacts__line required">
                             <label class="label">Текст сообщения</label>
                             <textarea class="textarea" v-model="feedback.text"></textarea>
                         </div>
@@ -77,6 +78,16 @@
                 </div>
             </div>
         </div>
+        <div class="popup__wrapper" v-show="formSent">
+            <div class="popup__in">
+                <span class="popup__close" v-on:click="formSent = false"></span>
+                <h3 class="popup__title">Готово!</h3>
+                <p class="popup__text">Сообщение успешно отправлено. Спасибо за сотрудничество!</p>
+                <div class="popup__buttons --center">
+                    <button class="button">Ок</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -103,6 +114,7 @@
         },
         data() {
             return {
+                formSent: true,
                 city: null,
                 feedback: {
                     name: '',
@@ -390,6 +402,36 @@
 
         &__line {
             margin: 24px 0 0;
+            .error-msg {
+                display: none;
+                position: absolute;
+                left: 0;
+                top: 100%;
+                line-height: 20px;
+                font-size: 14px;
+                color: $red;
+                margin: 5px 0 0;
+            }
+
+            &.required {
+                z-index: 1;
+                label {
+                    &:after {
+                     content: "*";
+                     color: #e0202e;
+                     margin: 0 0 0 5px;
+                 }
+                }
+                &.error {
+                    .input {
+                        position: relative;
+                        border-color: $red;
+                    }
+                    .error-msg {
+                        display: block;
+                    }
+                }
+            }
 
             button {
                 cursor: pointer;
