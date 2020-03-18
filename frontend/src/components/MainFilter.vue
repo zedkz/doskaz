@@ -47,20 +47,7 @@
                 </div>
                 <div class="main-filter__geo-sub" v-if="selectCity">
                     <div class="main-filter__geo-list">
-                        <span class="main-filter__geo-item">Акмолинская</span>
-                        <span class="main-filter__geo-item">Актюбинская</span>
-                        <span class="main-filter__geo-item">Алматинская</span>
-                        <span class="main-filter__geo-item">Атырауская</span>
-                        <span class="main-filter__geo-item">Восточно-Казахстанская</span>
-                        <span class="main-filter__geo-item">Жамбылская</span>
-                        <span class="main-filter__geo-item">Западно-Казахстанская</span>
-                        <span class="main-filter__geo-item">Карагандинская</span>
-                        <span class="main-filter__geo-item">Костанайская</span>
-                        <span class="main-filter__geo-item">Кызылординская</span>
-                        <span class="main-filter__geo-item">Мангистауская</span>
-                        <span class="main-filter__geo-item">Павлодарская</span>
-                        <span class="main-filter__geo-item">Северо-Казахстанская</span>
-                        <span class="main-filter__geo-item">Туркестанская</span>
+                        <span class="main-filter__geo-item" v-for="city in cities" :key="city.id">{{ city.name }}</span>
                     </div>
                 </div>
             </div>
@@ -145,6 +132,9 @@
             CategorySelector,
             LangSelect
         },
+        props: [
+            'cities'
+        ],
         methods: {}
     };
 </script>
