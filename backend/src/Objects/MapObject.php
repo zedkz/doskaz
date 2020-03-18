@@ -215,7 +215,8 @@ class MapObject implements EventProducer
             $mapObjectData->address,
             $mapObjectData->description,
             $mapObjectData->photos,
-            $mapObjectData->videos
+            $mapObjectData->videos,
+            $userId
         );
         return $self;
     }
