@@ -333,6 +333,7 @@ final class UserController extends AbstractController
                 $objectReview = $objectReviews[$item['id']];
                 $result['title'] = $objectReview['title'];
                 $result['text'] = $objectReview['text'];
+                $result['objectId'] = $objectReview['objectId'];
 
                 /**
                  * @var $photos FileReferenceCollection
