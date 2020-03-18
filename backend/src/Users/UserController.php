@@ -236,13 +236,74 @@ final class UserController extends AbstractController
      * @Route(path="/profile/objects", methods={"GET"})
      * @param Request $request
      * @param Connection $connection
+     * @param UrlBuilder $urlBuilder
+     * @return array
      */
-    public function objects(Request $request, Connection $connection)
+    public function objects(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
+        $perPage = 10;
+
+        $qb = $connection->createQueryBuilder()
+            ->select([
+                'id',
+                'title',
+                'created_at as date',
+                'overall_score_movement as "overallScore"',
+                'photos'
+            ])
+            ->from('objects')
+            ->andWhere('created_by = :userId')
+            ->andWhere('deleted_at IS NULL')
+            ->setParameter('userId', $this->getUser()->id());
+
+
+        $reviewsCountQuery = $connection->createQueryBuilder()
+            ->select('count(*) AS "reviewsCount"')
+            ->from('object_reviews')
+            ->andWhere('object_id = objects.id')
+            ->getSQL();
+
+        $complaintsCountQuery = $connection->createQueryBuilder()
+            ->select('count(*) AS "complaintsCount"')
+            ->from('complaints')
+            ->andWhere('object_id = objects.id')
+            ->getSQL();
+
+
+        $objects = (clone $qb)
+            ->addSelect('reviews."reviewsCount"')
+            ->addSelect('complaints."complaintsCount"')
+            ->join('objects', "LATERAL ($reviewsCountQuery)", 'reviews', 'true')
+            ->join('objects', "LATERAL ($complaintsCountQuery)", 'complaints', 'true')
+            ->setMaxResults($perPage)
+            ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
+            ->orderBy('created_at', 'desc')
+            ->execute()
+            ->fetchAll();
 
         return [
-            'count' => 0,
-            'items' => []
+            'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
+            'items' => array_map(function ($object) use ($connection, $request, $urlBuilder) {
+
+                $image = null;
+                /**
+                 * @var $photos FileReferenceCollection
+                 */
+                $photos = $connection->convertToPHPValue($object['photos'], FileReferenceCollection::class);
+                if ($photos->count()) {
+                    $image = $request->getSchemeAndHttpHost() . $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 220, 160)->toString();
+                }
+
+                return [
+                    'id' => $object['id'],
+                    'title' => $object['title'],
+                    'date' => $connection->convertToPHPValue($object['date'], 'datetimetz_immutable'),
+                    'overallScore' => $object['overallScore'],
+                    'reviewsCount' => $object['reviewsCount'],
+                    'complaintsCount' => $object['complaintsCount'],
+                    'image' => $image
+                ];
+            }, $objects)
         ];
     }
 
@@ -324,12 +385,12 @@ final class UserController extends AbstractController
                  * @var $image Image|null
                  */
                 $image = $connection->convertToPHPValue($postComment['image'], Image::class);
-                if($image) {
-                    $result['image'] =  $request->getSchemeAndHttpHost().$image->resize(140, 100);
+                if ($image) {
+                    $result['image'] = $request->getSchemeAndHttpHost() . $image->resize(140, 100);
                 }
             }
 
-            if(array_key_exists($item['id'], $objectReviews)) {
+            if (array_key_exists($item['id'], $objectReviews)) {
                 $objectReview = $objectReviews[$item['id']];
                 $result['title'] = $objectReview['title'];
                 $result['text'] = $objectReview['text'];
@@ -339,8 +400,8 @@ final class UserController extends AbstractController
                  * @var $photos FileReferenceCollection
                  */
                 $photos = $connection->convertToPHPValue($objectReview['photos'], FileReferenceCollection::class);
-                if($photos->count()) {
-                    $result['image'] =  $request->getSchemeAndHttpHost(). $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
+                if ($photos->count()) {
+                    $result['image'] = $request->getSchemeAndHttpHost() . $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
                 }
             }
 
