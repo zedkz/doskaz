@@ -6,6 +6,9 @@
     import UserComments from "@/components/user/UserComments";
 
     export default {
+        head: {
+            title: 'Мои комментарии'
+        },
         components: {
             UserComments
         },
