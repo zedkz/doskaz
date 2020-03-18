@@ -27,15 +27,11 @@
             <UserComment
                     v-for="item in items"
                     :key="item.id"
-                    :commentObjectImg="item.image"
-                    :commentText="item.text"
-                    :type="item.type"
-                    :commentDate="item.date"
-                    :commentObject="item.title"
+                    :item="item"
             />
         </div>
         <div class="user-comments__pagination">
-            <pagination :pages="pages" v-if="pages"/>
+            <pagination :pages="pages" v-if="pages > 1"/>
         </div>
     </div>
 </template>
