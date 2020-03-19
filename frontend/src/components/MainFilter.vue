@@ -236,7 +236,19 @@
                  display: flex;
             }
             &-list {
-                 padding: 15px 0;
+                padding: 15px 0;
+                max-height: 480px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                &::-webkit-scrollbar {
+                    width: 10px;
+                }
+                &::-webkit-scrollbar-track {
+                    background: $tr;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: transparentize(#c4c4c4, 0.5);
+                }
             }
             &-item {
                 display: block;
