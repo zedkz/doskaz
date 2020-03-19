@@ -29,22 +29,24 @@
                         </div>
                     </div>
                     <div class="contacts__right">
-                        <div class="contacts__line required error">
+                        <div class="contacts__line required" :class="{error: !!violations.name}">
                             <label for="c_name" class="label">Ваше имя</label>
                             <div class="input">
                                 <input id="c_name" type="text" v-model="feedback.name">
-                                <span class="error-msg">Поле обязательно для заполнения</span>
+                                <span class="error-msg">{{ violations.name }}</span>
                             </div>
                         </div>
-                        <div class="contacts__line required">
+                        <div class="contacts__line required" :class="{error: !!violations.email}">
                             <label class="label">Эл. почта</label>
                             <div class="input">
                                 <input type="email" v-model="feedback.email">
+                                <span class="error-msg">{{ violations.email }}</span>
                             </div>
                         </div>
-                        <div class="contacts__line required">
+                        <div class="contacts__line required" :class="{error: !!violations.text}">
                             <label class="label">Текст сообщения</label>
                             <textarea class="textarea" v-model="feedback.text"></textarea>
+                            <span class="error-msg">{{ violations.text }}</span>
                         </div>
                         <div class="contacts__line">
                             <button type="button" class="button" @click.prevent="leaveFeedback">Отправить</button>
@@ -58,7 +60,8 @@
                 <div class="represent__title">Выберите регионального представителя
                     <span class="select-text">
                         <select v-model="city">
-                            <option v-for="city in availableCities" :key="city.id" :value="city.id">{{ city.name }}</option>
+                            <option v-for="city in availableCities" :key="city.id"
+                                    :value="city.id">{{ city.name }}</option>
                         </select>
                     </span>
                 </div>
@@ -84,7 +87,7 @@
                 <h3 class="popup__title">Готово!</h3>
                 <p class="popup__text">Сообщение успешно отправлено. Спасибо за сотрудничество!</p>
                 <div class="popup__buttons --center">
-                    <button class="button">Ок</button>
+                    <button class="button" @click="formSent = false">Ок</button>
                 </div>
             </div>
         </div>
@@ -93,6 +96,7 @@
 
 <script>
     import MainHeader from "@/components/MainHeader";
+    import mapValidationErrors from "../mapValidationErrors";
 
     export default {
         components: {MainHeader},
@@ -114,8 +118,9 @@
         },
         data() {
             return {
-                formSent: true,
+                formSent: false,
                 city: null,
+                errors: [],
                 feedback: {
                     name: '',
                     email: '',
@@ -124,7 +129,7 @@
             }
         },
         mounted() {
-          this.city = this.cities[0].id
+            this.city = this.cities[0].id
         },
         computed: {
             availableCities() {
@@ -133,6 +138,9 @@
             },
             regionalRepresentativesFromCity() {
                 return this.regionalRepresentatives.filter(item => item.cityId === this.city)
+            },
+            violations() {
+                return mapValidationErrors(this.errors)
             }
         },
         methods: {
@@ -141,13 +149,23 @@
                     container: this.$refs.contactsContainer
                 });
                 try {
-                    await this.$axios.post('/api/feedback', this.feedback)
+                    this.errors = [];
+                    const {data, status} = await this.$axios.post('/api/feedback', this.feedback, {
+                        validateStatus: status => status <= 400
+                    })
+
+                    if (status === 400) {
+                        this.errors = data.errors.violations
+                        return;
+                    }
+                    this.formSent = true;
                     this.feedback = {
                         name: '',
                         email: '',
                         text: ''
                     }
                 } catch (e) {
+                    throw e
                 } finally {
                     loader.hide()
                 }
@@ -402,6 +420,7 @@
 
         &__line {
             margin: 24px 0 0;
+
             .error-msg {
                 display: none;
                 position: absolute;
@@ -415,18 +434,21 @@
 
             &.required {
                 z-index: 1;
+
                 label {
                     &:after {
-                     content: "*";
-                     color: #e0202e;
-                     margin: 0 0 0 5px;
-                 }
+                        content: "*";
+                        color: #e0202e;
+                        margin: 0 0 0 5px;
+                    }
                 }
+
                 &.error {
                     .input {
                         position: relative;
                         border-color: $red;
                     }
+
                     .error-msg {
                         display: block;
                     }

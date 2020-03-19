@@ -38,9 +38,9 @@
                     <label class="user-page__label">Эл. Почта</label>
                 </div>
                 <div class="col">
-                    <div class="input error" :class="{error: !!violations.email}">
+                    <div class="input" :class="{error: !!violations.email}">
                         <input type="email" v-model="profile.email">
-                        <span class="error-msg">Неправильный адрес почты</span>
+                        <span class="error-msg">{{ violations.email }}</span>
                     </div>
                 </div>
             </div>
@@ -112,6 +112,7 @@
         },
         methods: {
             async submit() {
+                this.errors = [];
                 const loader = this.$loading.show();
 
                 try {
