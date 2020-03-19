@@ -419,6 +419,7 @@
         }
 
         &__line {
+            position: relative;
             margin: 24px 0 0;
 
             .error-msg {
@@ -450,6 +451,11 @@
                     }
 
                     .error-msg {
+                        display: block;
+                    }
+
+                    .textarea {
+                        border-color: $red;
                         display: block;
                     }
                 }
