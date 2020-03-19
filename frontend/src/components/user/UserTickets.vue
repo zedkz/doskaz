@@ -4,22 +4,7 @@
             <div class="filter">
                 <div class="filter__text">Сортировать по</div>
                 <div class="filter__dropdown">
-                    <div class="dropdown">
-                        <div class="dropdown__selected" @click="toggleDropdown($event)">
-                            <span>дате добавления</span>
-                        </div>
-                        <div class="dropdown__list">
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                        </div>
-                    </div>
+                    <dropdown v-model="filter.sort" :options="sortOptions"/>
                 </div>
             </div>
             <div class="filter">
@@ -47,6 +32,7 @@
 <script>
     import UserTicket from "./UserTicket";
     import Pagination from "../Pagination";
+    import Dropdown from "../Dropdown";
 
     export default {
         props: [
@@ -54,12 +40,31 @@
             'complaints'
         ],
         components: {
+            Dropdown,
             Pagination,
             UserTicket
         },
-        methods: {
-            toggleDropdown (event) {
-                event.currentTarget.classList.toggle('opened')
+        data() {
+            return {
+                filter: {
+                    sort: 'date_desc'
+                }
+            }
+        },
+        computed: {
+            sortOptions() {
+                return [
+                    {value: 'date_desc', title: 'дате добавления'},
+                    {value: 'date_asc', title: 'сначала старые'},
+                ]
+            },
+        },
+        watch: {
+            filter: {
+                handler(v) {
+                    this.$router.push({...this.$route, query: v})
+                },
+                deep: true
             }
         }
     };

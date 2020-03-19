@@ -439,14 +439,18 @@ final class UserController extends AbstractController
             ->andWhere('complainant_id = :userId')
             ->setParameter('userId', $this->getUser()->id());
 
+        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
+
+
         $items = (clone $qb)->select([
             'id',
             'created_at',
+            'created_at as date',
             'content->>\'objectName\' as "title"',
             'content->>\'photos\' as photos',
             'content->>\'type\' as type'
         ])
-            ->orderBy('created_at', 'desc')
+            ->orderBy($field, $sort)
             ->setMaxResults($perPage)
             ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
             ->execute()->fetchAll();

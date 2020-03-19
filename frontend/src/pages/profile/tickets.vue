@@ -12,12 +12,13 @@
         async asyncData({$axios, query}) {
             const {data} = await $axios.get('/api/profile/complaints', {
                 params: {
+                    ...query,
                     page: query.page || 1
                 }
             })
             return data
         },
-        watchQuery: ['page']
+        watchQuery: true
     };
 </script>
 
