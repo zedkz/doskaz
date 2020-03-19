@@ -249,13 +249,19 @@ final class UserController extends AbstractController
                 'title',
                 'created_at as date',
                 'overall_score_movement as "overallScore"',
-                'photos'
+                'photos',
             ])
             ->from('objects')
             ->andWhere('created_by = :userId')
             ->andWhere('deleted_at IS NULL')
             ->setParameter('userId', $this->getUser()->id());
 
+
+        $overallScore = $request->query->get('overallScore', 'all');
+        if ($overallScore !== 'all') {
+            $qb->andWhere('overall_score_movement = :score')
+                ->setParameter('score', $overallScore);
+        }
 
         $reviewsCountQuery = $connection->createQueryBuilder()
             ->select('count(*) AS "reviewsCount"')
@@ -269,6 +275,7 @@ final class UserController extends AbstractController
             ->andWhere('object_id = objects.id')
             ->getSQL();
 
+        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
 
         $objects = (clone $qb)
             ->addSelect('reviews."reviewsCount"')
@@ -277,7 +284,7 @@ final class UserController extends AbstractController
             ->join('objects', "LATERAL ($complaintsCountQuery)", 'complaints', 'true')
             ->setMaxResults($perPage)
             ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
-            ->orderBy('created_at', 'desc')
+            ->orderBy($field, $sort)
             ->execute()
             ->fetchAll();
 
@@ -446,12 +453,12 @@ final class UserController extends AbstractController
 
         return [
             'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
-            'items' => array_map(function($item) use($connection, $request, $urlBuilder) {
+            'items' => array_map(function ($item) use ($connection, $request, $urlBuilder) {
 
                 $image = null;
                 $photos = $connection->convertToPHPValue($item['photos'], 'json');
-                if(count($photos)) {
-                    $image =  $request->getSchemeAndHttpHost() . $urlBuilder->build('local://' .$photos[0], 220, 160)->toString();
+                if (count($photos)) {
+                    $image = $request->getSchemeAndHttpHost() . $urlBuilder->build('local://' . $photos[0], 220, 160)->toString();
                 }
 
                 return [

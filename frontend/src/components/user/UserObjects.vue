@@ -4,43 +4,13 @@
             <div class="filter">
                 <div class="filter__text">Сортировать по</div>
                 <div class="filter__dropdown">
-                    <div class="dropdown">
-                        <div class="dropdown__selected" @click="toggleDropdown($event)">
-                            <span>дате добавления</span>
-                        </div>
-                        <div class="dropdown__list">
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                        </div>
-                    </div>
+                    <dropdown :options="sortOptions" v-model="filter.sort"/>
                 </div>
             </div>
             <div class="filter">
                 <div class="filter__text">Показать</div>
                 <div class="filter__dropdown">
-                    <div class="dropdown">
-                        <div class="dropdown__selected" @click="toggleDropdown($event)">
-                            <span>частично доступные</span>
-                        </div>
-                        <div class="dropdown__list">
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                        </div>
-                    </div>
+                    <dropdown :options="scoreOptions" v-model="filter.overallScore"/>
                 </div>
             </div>
         </div>
@@ -66,19 +36,60 @@
 <script>
     import UserObject from "./UserObject";
     import Pagination from "./../Pagination";
+    import Dropdown from "../Dropdown";
 
     export default {
         components: {
+            Dropdown,
             UserObject,
             Pagination,
+        },
+        data() {
+            return {
+                filter: {
+                    sort: 'date_desc',
+                    overallScore: undefined
+                }
+            }
         },
         props: [
             'pages',
             'objects'
         ],
+        mounted() {
+            this.filter = {
+                sort: 'date_desc',
+                overallScore: 'all',
+                ...this.$route.query,
+            }
+        },
         methods: {
-            toggleDropdown (event) {
+            toggleDropdown(event) {
                 event.currentTarget.classList.toggle('opened')
+            }
+        },
+        computed: {
+            sortOptions() {
+                return [
+                    {value: 'date_desc', title: 'дате добавления'},
+                    {value: 'date_asc', title: 'сначала старые'},
+                ]
+            },
+            scoreOptions() {
+                return [
+                    {value: 'all', title: 'все'},
+                    {value: 'full_accessible', title: 'доступные'},
+                    {value: 'partial_accessible', title: 'частично доступные'},
+                    {value: 'not_accessible', title: 'недоступные'},
+                ]
+            },
+        },
+        watch: {
+            filter: {
+                handler(v) {
+                    this.$router.push({...this.$route, query: v})
+                },
+                deep: true
             }
         }
     };
@@ -153,6 +164,7 @@
                             span {
                                 border-bottom: 1px dashed #333;
                             }
+
                             &.opened + .dropdown__list {
                                 display: block;
                             }
@@ -169,6 +181,7 @@
                             padding: 4px 0;
                             margin: 6px 0 0;
                         }
+
                         &__item {
                             font-size: 14px;
                             line-height: 30px;
@@ -178,6 +191,7 @@
                             transition: background 0.3s;
                             text-align: left;
                             white-space: nowrap;
+
                             &:hover {
                                 background: #F1F8FC;
                             }
