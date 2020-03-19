@@ -4,22 +4,7 @@
             <div class="filter">
                 <div class="filter__text">Сортировать по</div>
                 <div class="filter__dropdown">
-                    <div class="dropdown">
-                        <div class="dropdown__selected" @click="toggleDropdown($event)">
-                            <span>дате добавления</span>
-                        </div>
-                        <div class="dropdown__list">
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                            <div class="dropdown__item">
-                                <span>дате добавления</span>
-                            </div>
-                        </div>
-                    </div>
+                    <dropdown :options="options" v-model="filterValue"/>
                 </div>
             </div>
         </div>
@@ -39,6 +24,7 @@
 <script>
     import UserComment from "./UserComment";
     import Pagination from "../Pagination";
+    import Dropdown from "../Dropdown";
 
     export default {
         props: [
@@ -46,12 +32,29 @@
             'items'
         ],
         components: {
+            Dropdown,
             Pagination,
             UserComment
         },
         methods: {
             toggleDropdown (event) {
                 event.currentTarget.classList.toggle('opened')
+            }
+        },
+        computed: {
+            options() {
+                return [
+                    {value: 'date', title: 'дате добавления'},
+                    {value: 'popularity', title: 'популярности'}
+                ]
+            },
+            filterValue: {
+                get() {
+                    return this.$route.query.sort || 'date'
+                },
+                set(v) {
+                    this.$router.push({...this.$route, query: {sort: v}})
+                }
             }
         }
     };

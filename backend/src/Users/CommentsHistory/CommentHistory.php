@@ -35,6 +35,12 @@ class CommentHistory
      */
     private $date;
 
+    /**
+     * @var int
+     * @ORM\Column(type="integer", options={"default" = 0})
+     */
+    private $popularity = 0;
+
     private const TYPE_OBJECT = 'object';
     private const TYPE_POST = 'post';
 
@@ -56,5 +62,10 @@ class CommentHistory
         $self->userId = $userId;
         $self->date = new \DateTimeImmutable();
         return $self;
+    }
+
+    public function increasePopularity()
+    {
+        $this->popularity++;
     }
 }

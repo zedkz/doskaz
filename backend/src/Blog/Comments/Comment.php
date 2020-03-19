@@ -63,6 +63,7 @@ class Comment implements EventProducer
     public function increasePopularity()
     {
         $this->popularity++;
+        $this->remember(new PopularityIncreased($this->id));
     }
 
     public function __construct(int $postId, int $userId, string $text, ?UuidInterface $parentId = null)

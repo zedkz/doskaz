@@ -5,6 +5,7 @@ namespace App\Users\CommentsHistory;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class CommentHistoryRepository
 {
@@ -23,5 +24,9 @@ class CommentHistoryRepository
 
     public function add(CommentHistory $history) {
         $this->entityManager->persist($history);
+    }
+
+    public function find(UuidInterface $id): ?CommentHistory {
+        return $this->repository->find($id);
     }
 }

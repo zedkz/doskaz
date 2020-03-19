@@ -15,11 +15,12 @@
         async asyncData({$axios, query}) {
             const {data} = await $axios.get('/api/profile/comments', {
                 params: {
-                    page: query.page || 1
+                    page: query.page || 1,
+                    sort: query.sort
                 }
             })
             return data
         },
-        watchQuery: ['page']
+        watchQuery: ['page', 'sort']
     };
 </script>

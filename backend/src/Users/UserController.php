@@ -321,7 +321,7 @@ final class UserController extends AbstractController
             ->select([
                 'id',
                 'type',
-                'date'
+                'date',
             ])
             ->from('user_comments_history')
             ->andWhere('user_comments_history.user_id = :userId')
@@ -330,7 +330,7 @@ final class UserController extends AbstractController
         $items = (clone $qb)
             ->setMaxResults($perPage)
             ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
-            ->orderBy('date', 'desc')
+            ->orderBy($request->query->get('sort', 'date'), 'desc')
             ->execute()
             ->fetchAll();
 
