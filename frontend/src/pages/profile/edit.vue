@@ -65,7 +65,7 @@
                     <div class="--flex-col">
                         <div class="user-page__sms">
                             <img class="user-page__sms-img" :src="require('@/assets/icons/sms-phone.svg')"/>
-                            <span class="user-page__sms-text">Повторную отправку можно выполнить через 15 секунд</span>
+                            <span class="user-page__sms-text">Отправить код</span>
                         </div>
                     </div>
                 </div>
@@ -165,6 +165,11 @@
             display: flex;
             align-items: center;
             height: 100%;
+            cursor: pointer;
+            transition: opacity 0.4s;
+            &:hover {
+                opacity: 0.7;
+            }
             &-img {
                 margin: 0 10px 0 0;
             }

@@ -5,7 +5,7 @@
                 <div class="filter__text">Сортировать по</div>
                 <div class="filter__dropdown">
                     <div class="dropdown">
-                        <div class="dropdown__selected">
+                        <div class="dropdown__selected" @click="toggleDropdown($event)">
                             <span>дате добавления</span>
                         </div>
                         <div class="dropdown__list">
@@ -64,6 +64,11 @@
     export default {
         components: {
             UserTasksItem
+        },
+        methods: {
+            toggleDropdown (event) {
+                event.currentTarget.classList.toggle('opened')
+            }
         }
     };
 </script>

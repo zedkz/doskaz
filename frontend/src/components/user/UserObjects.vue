@@ -5,7 +5,7 @@
                 <div class="filter__text">Сортировать по</div>
                 <div class="filter__dropdown">
                     <div class="dropdown">
-                        <div class="dropdown__selected">
+                        <div class="dropdown__selected" @click="toggleDropdown($event)">
                             <span>дате добавления</span>
                         </div>
                         <div class="dropdown__list">
@@ -26,7 +26,7 @@
                 <div class="filter__text">Показать</div>
                 <div class="filter__dropdown">
                     <div class="dropdown">
-                        <div class="dropdown__selected">
+                        <div class="dropdown__selected" @click="toggleDropdown($event)">
                             <span>частично доступные</span>
                         </div>
                         <div class="dropdown__list">
@@ -76,6 +76,11 @@
             'pages',
             'objects'
         ],
+        methods: {
+            toggleDropdown (event) {
+                event.currentTarget.classList.toggle('opened')
+            }
+        }
     };
 </script>
 
@@ -148,12 +153,40 @@
                             span {
                                 border-bottom: 1px dashed #333;
                             }
+                            &.opened + .dropdown__list {
+                                display: block;
+                            }
                         }
 
                         &__list {
                             display: none;
+                            position: absolute;
+                            top: 100%;
+                            left: -15px;
+                            background: #ffffff;
+                            z-index: 3;
+                            border: 1px solid #7B95A7;
+                            padding: 4px 0;
+                            margin: 6px 0 0;
+                        }
+                        &__item {
+                            font-size: 14px;
+                            line-height: 30px;
+                            color: #333333;
+                            padding: 0 14px;
+                            -webkit-transition: background 0.3s;
+                            transition: background 0.3s;
+                            text-align: left;
+                            white-space: nowrap;
+                            &:hover {
+                                background: #F1F8FC;
+                            }
                         }
                     }
+                }
+
+                .button {
+                    margin: -15px 0 0;
                 }
             }
         }
