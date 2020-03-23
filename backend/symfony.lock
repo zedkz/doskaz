@@ -121,7 +121,20 @@
         "version": "1.0.0"
     },
     "league/flysystem": {
-        "version": "1.0.57"
+        "version": "1.0.66"
+    },
+    "league/flysystem-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "8ad3ded1f39fedce098e43259741f42092a1010e"
+        },
+        "files": [
+            "config/packages/flysystem.yaml",
+            "var/storage/.gitignore"
+        ]
     },
     "league/oauth2-client": {
         "version": "2.4.1"
@@ -137,6 +150,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "opencage/geocode": {
+        "version": "2.1.0"
     },
     "php": {
         "version": "7.4"

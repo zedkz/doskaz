@@ -3,10 +3,22 @@
 
 namespace App\Infrastructure;
 
+use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class FileNormalizer extends AbstractNormalizer
 {
+    /**
+     * @var FilesystemInterface
+     */
+    private $storage;
+
+    public function __construct(FilesystemInterface $defaultStorage)
+    {
+        parent::__construct();
+        $this->storage = $defaultStorage;
+    }
+
     public function denormalize($data, $type, $format = null, array $context = [])
     {
         return new FileReference($data);
@@ -14,10 +26,6 @@ class FileNormalizer extends AbstractNormalizer
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        /*   if($type === FileReference::class) {
-               dd($data);
-           }*/
-
         return $type === FileReference::class;
     }
 
@@ -25,7 +33,7 @@ class FileNormalizer extends AbstractNormalizer
      * @param FileReference $object
      * @param null $format
      * @param array $context
-     * @return array|bool|float|int|mixed|string|null
+     * @return string
      */
     public function normalize($object, $format = null, array $context = [])
     {

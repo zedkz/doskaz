@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Storage;
 
 use App\Blog\Image;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,11 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 final class StorageController extends AbstractController
 {
-    private $adapter;
+    /**
+     * @var FilesystemInterface
+     */
+    private $filesystem;
 
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(FilesystemInterface $defaultStorage)
     {
-        $this->adapter = $adapter;
+     //   $this->adapter = $adapter;
+        $this->filesystem = $defaultStorage;
     }
 
     /**
@@ -33,10 +36,9 @@ final class StorageController extends AbstractController
      */
     public function upload(Request $request)
     {
-        $filesystem = new Filesystem($this->adapter);
         $name = bin2hex(random_bytes(16));
-        $filesystem->assertAbsent($name);
-        $filesystem->writeStream($name, $request->getContent(true));
+        $this->filesystem->assertAbsent($name);
+        $this->filesystem->writeStream($name, $request->getContent(true));
 
         return [
             'path' => "/storage/{$name}"
