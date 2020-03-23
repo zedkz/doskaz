@@ -1,4 +1,4 @@
-FROM php:7.4-fpm AS base
+FROM php:7.4.4-fpm AS base
 RUN apt-get update \
     && apt-get install -y \
         libpq-dev \
