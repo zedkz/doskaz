@@ -377,6 +377,9 @@
                     this.coordinates = coordinates
                 },
                 immediate: true
+            },
+            '$route.query.t'() {
+                this.coordinates = [...this.object.coordinates]
             }
         },
         methods: {

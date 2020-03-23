@@ -13,6 +13,7 @@
     import {sync, get} from 'vuex-pathify'
     import queryString from 'query-string'
     import debounce from 'lodash/debounce'
+    import now from 'lodash/now'
 
     export default {
         data() {
@@ -30,10 +31,9 @@
         methods: {
             mapWasInitialized(map) {
                 this.map = map;
-                if(this.coordinates) {
+                if (this.coordinates) {
                     this.map.setCenter(this.coordinates, 18)
-                }
-                else {
+                } else {
                     this.map.setBounds(this.cityBounds)
                 }
 
@@ -53,7 +53,12 @@
                 this.objectManager = yamap
                 map.geoObjects.add(yamap);
                 yamap.objects.events.add(['click'], e => {
-                    this.$router.push({name: 'objects-id', params: {id: e.get('objectId')}})
+                    const isSame = this.$route.name === 'objects-id' && this.$route.params.id === e.get('objectId')
+                    this.$router.push({
+                        name: 'objects-id', params: {id: e.get('objectId')}, query: isSame ? {
+                            t: now()
+                        } : undefined
+                    })
                 });
             },
             applyFilter: debounce(function (val) {
