@@ -34,7 +34,7 @@ FROM base as prod
 ENV APP_ENV prod
 COPY --from=build /var/www/html /var/www/html
 #RUN mkdir /var/www/html/storage
-#RUN chown -R www-data:www-data /var/www/html/var /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/storage
 VOLUME /var/www/html/storage
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
