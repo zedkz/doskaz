@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Sidebar :posts="posts" :cities="cities"></Sidebar>
+        <Sidebar :posts="posts"></Sidebar>
         <post-submit-message/>
     </div>
 </template>
@@ -20,11 +20,10 @@
             Sidebar
         },
         async asyncData({$axios}) {
-            const [{data: {items: posts}}, {data: cities}] = await Promise.all([
-                $axios.get('/api/blogPosts/list'),
-                $axios.get('/api/cities')
+            const [{data: {items: posts}}] = await Promise.all([
+                $axios.get('/api/blogPosts/list')
             ])
-            return {posts, cities}
+            return {posts}
         },
         async fetch({store}) {
             return store.dispatch('objectCategories/getCategories')

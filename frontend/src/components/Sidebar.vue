@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar" v-bind:class="{ 'isMinified': isMinified }">
-        <MainFilter :cities="cities"/>
+        <MainFilter/>
 
         <Timeline :posts="posts"></Timeline>
 
@@ -30,7 +30,6 @@
     export default {
         props: [
             'posts',
-            'cities'
         ],
         data() {
             return {
