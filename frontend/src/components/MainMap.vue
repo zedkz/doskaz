@@ -2,7 +2,7 @@
     <yandex-map
             class="ymap"
             :settings="settings"
-            :coords.sync="coordinates"
+            :coords="[52.2944954, 76.970281]"
             :zoom.sync="zoom"
             :controls="controls"
             @map-was-initialized="mapWasInitialized"
@@ -30,7 +30,12 @@
         methods: {
             mapWasInitialized(map) {
                 this.map = map;
-                map.setBounds(this.cityBounds)
+                if(this.coordinates) {
+                    this.map.setCenter(this.coordinates, 18)
+                }
+                else {
+                    this.map.setBounds(this.cityBounds)
+                }
 
                 if (!ymaps.layout.storage.get('custom#objectIconLayout')) {
                     const CustomObjectIconLayout = ymaps.templateLayoutFactory.createClass(
@@ -62,6 +67,9 @@
             },
             cityBounds(val) {
                 this.map.setBounds(val)
+            },
+            coordinates(val) {
+                this.map.panTo(val)
             }
         },
         computed: {

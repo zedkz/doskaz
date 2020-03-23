@@ -1,7 +1,7 @@
 import {make} from 'vuex-pathify'
 
 export const state = () => ({
-    coordinates: [52.2944954, 76.970281],
+    coordinates: null,
     zoom: 14,
     selectedCategories: [],
     search: '',
