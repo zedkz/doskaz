@@ -30,31 +30,19 @@
             </div>
 
             <div class="main-filter__language">
-                <LangSelect />
+                <LangSelect/>
             </div>
         </div>
 
         <div class="main-filter__title">
             <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
-                <img :src="require('@/assets/logo.svg')" alt />
+                <img :src="require('@/assets/logo.svg')" alt/>
             </nuxt-link>
-            <div class="main-filter__geo">
-                <div class="main-filter__geo-city" @click="selectCity = !selectCity">
-                    <svg width="12" height="17" viewBox="0 0 12 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6 16.25C6 16.25 12 9.71155 12 6.34524C12 2.97893 9.31371 0.25 6 0.25C2.68629 0.25 0 2.97893 0 6.34524C0 9.71155 6 16.25 6 16.25ZM6 8.63095C7.24264 8.63095 8.25 7.6076 8.25 6.34524C8.25 5.08287 7.24264 4.05952 6 4.05952C4.75736 4.05952 3.75 5.08287 3.75 6.34524C3.75 7.6076 4.75736 8.63095 6 8.63095Z" fill="#3180F7"/>
-                    </svg>
-                    <span>Усть-Каменогорск</span>
-                </div>
-                <div class="main-filter__geo-sub" v-if="selectCity">
-                    <div class="main-filter__geo-list">
-                        <span class="main-filter__geo-item" v-for="city in cities" :key="city.id">{{ city.name }}</span>
-                    </div>
-                </div>
-            </div>
+            <city-selector :cities="cities" :value="selectedCity" @input="selectCity"/>
         </div>
         <div class="main-filter__search">
             <form class="input">
-                <input type="text" placeholder="Тип объекта, название или улица" />
+                <input type="text" placeholder="Тип объекта, название или улица"/>
                 <button alt="search">
                     <svg
                             width="24"
@@ -107,7 +95,7 @@
                         </g>
                         <defs>
                             <clipPath id="clip0">
-                                <rect width="17.6901" height="24" fill="white" />
+                                <rect width="17.6901" height="24" fill="white"/>
                             </clipPath>
                         </defs>
                     </svg>
@@ -115,27 +103,29 @@
             </div>
         </div>
 
-        <CategorySelector />
+        <CategorySelector/>
     </div>
 </template>
 
 <script>
     import CategorySelector from "./../components/CategorySelector";
     import LangSelect from "./../components/LangSelect";
+    import {get, call} from 'vuex-pathify'
+    import CitySelector from "./CitySelector";
+
     export default {
-        data() {
-            return {
-                selectCity: false
-            };
-        },
         components: {
+            CitySelector,
             CategorySelector,
             LangSelect
         },
-        props: [
-            'cities'
-        ],
-        methods: {}
+        computed: {
+            cities: get('cities/list'),
+            selectedCity: get('settings/cityId')
+        },
+        methods: {
+            selectCity: call('settings/select')
+        }
     };
 </script>
 
@@ -164,18 +154,21 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
+
             a {
                 font-size: 14px;
                 line-height: 20px;
                 color: #333333;
                 transition: opacity 0.3s;
                 margin-right: 14px;
+
                 &:last-child {
-                     margin-right: 0;
-                 }
+                    margin-right: 0;
+                }
+
                 &:hover {
-                     opacity: 0.7;
-                 }
+                    opacity: 0.7;
+                }
             }
         }
 
@@ -183,9 +176,10 @@
             margin: 0 15px;
             cursor: pointer;
             transition: opacity 0.3s;
+
             &:hover {
-             opacity: 0.7;
-         }
+                opacity: 0.7;
+            }
         }
 
         &__title {
@@ -205,6 +199,7 @@
             margin-bottom: 4px;
             position: relative;
             z-index: 2;
+
             &-city {
                 display: flex;
                 flex-direction: row;
@@ -212,9 +207,11 @@
                 justify-content: flex-end;
                 cursor: pointer;
                 transition: opacity 0.3s;
+
                 &:hover {
                     opacity: 0.7;
                 }
+
                 span {
                     font-size: 16px;
                     line-height: 20px;
@@ -226,30 +223,36 @@
                     margin-right: 7px;
                 }
             }
+
             &-sub {
-                 margin: 16px 0 0;
-                 position: absolute;
-                 border: 1px solid $stroke;
-                 left: 0;
-                 top: 100%;
-                 background: #ffffff;
-                 display: flex;
+                margin: 16px 0 0;
+                position: absolute;
+                border: 1px solid $stroke;
+                left: 0;
+                top: 100%;
+                background: #ffffff;
+                display: flex;
             }
+
             &-list {
                 padding: 15px 0;
                 max-height: 480px;
                 overflow-x: hidden;
                 overflow-y: auto;
+
                 &::-webkit-scrollbar {
                     width: 10px;
                 }
+
                 &::-webkit-scrollbar-track {
                     background: $tr;
                 }
+
                 &::-webkit-scrollbar-thumb {
                     background: transparentize(#c4c4c4, 0.5);
                 }
             }
+
             &-item {
                 display: block;
                 cursor: pointer;
@@ -260,6 +263,7 @@
                 white-space: nowrap;
                 background: transparent;
                 transition: background 0.3s;
+
                 &__title {
                     font-size: 14px;
                     line-height: 20px;
@@ -267,24 +271,26 @@
                     margin: 0 0 4px;
                     display: block;
                 }
+
                 &.selected, &:hover {
                     background: $light-gray;
                     font-weight: 700;
-                 }
+                }
             }
         }
 
         &__search {
-             padding-right: 40px;
-             padding-top: 30px;
-             padding-bottom: 30px;
-             display: flex;
-             flex-direction: row;
-             justify-content: flex-start;
-             align-items: center;
+            padding-right: 40px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
 
             .input {
                 margin-right: 10px;
+
                 input {
                     width: calc(100% - 40px);
                 }
@@ -292,16 +298,17 @@
 
             .voice-input {
                 display: block;
+
                 button {
-                   border: 1px solid #7b95a7;
-                   height: 50px;
-                   width: 50px;
-                   display: flex;
-                   flex-direction: row;
-                   justify-content: center;
-                   align-items: center;
-                   background: $tr;
-                   cursor: pointer;
+                    border: 1px solid #7b95a7;
+                    height: 50px;
+                    width: 50px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    background: $tr;
+                    cursor: pointer;
                 }
             }
         }

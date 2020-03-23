@@ -3,13 +3,49 @@
 
 namespace App\Cities;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="cities")
+ */
 class Cities
 {
+    /**
+     * @var integer
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="geometry", options={"geometry_type" = "POLYGON"})
+     */
+    private $bbox;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $priority;
+
+    public function __construct(int $id, string $name, int $priority)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->priority = $priority;
+    }
+
     public static function list()
     {
         return [
-            ['id' => 106724, 'name' => 'Нур-Султан'],
-            ['id' => 158106, 'name' => 'Алматы'],
+            ['id' => 106724, 'name' => 'Нур-Султан', 'bounds' => [[51.0006766, 71.2244414], [51.3511101, 71.7851913]]],
+            ['id' => 158106, 'name' => 'Алматы', 'bounds' => [[43.0328438, 76.7382775], [43.4036849, 77.1667539]]],
             ['id' => 110170, 'name' => 'Актау'],
             ['id' => 68402, 'name' => 'Актобе'],
             ['id' => 26551, 'name' => 'Атырау'],
@@ -18,8 +54,8 @@ class Cities
             ['id' => 155241, 'name' => 'Кокшетау'],
             ['id' => 125193, 'name' => 'Костанай'],
             ['id' => 165288, 'name' => 'Кызылорда'],
-            ['id' => 9103, 'name' => 'Павлодар'],
-            ['id' => 33335, 'name' => 'Семей'],
+            ['id' => 9103, 'name' => 'Павлодар', 'bounds' => [[52.2234455, 76.8608794], [52.3988251, 77.12136]]],
+            ['id' => 33335, 'name' => 'Семей',],
             ['id' => 79497, 'name' => 'Талдыкорган'],
             ['id' => 168533, 'name' => 'Тараз'],
             ['id' => 182036, 'name' => 'Туркестан'],

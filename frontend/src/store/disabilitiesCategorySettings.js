@@ -10,17 +10,20 @@ export const state = function () {
 export const mutations = make.mutations(state)
 
 export const actions = {
-    init({commit}) {
-        const category = this.app.$cookies.get('userCategory');
+    init({commit, rootState}) {
+        const category = rootState.settings.userCategory;
         if (category) {
             commit('SET_CATEGORY', category);
         } else {
             commit('SET_POPUP_OPEN', true)
         }
     },
-    selectCategory({commit}, category) {
+    selectCategory({dispatch, commit}, category) {
         commit('SET_CATEGORY', category);
         commit('SET_POPUP_OPEN', false);
-        this.app.$cookies.set('userCategory', category)
+        dispatch('settings/selectUserCategory', category, {root: true})
+    },
+    closePopup({commit}) {
+        commit('SET_POPUP_OPEN', false)
     }
 }

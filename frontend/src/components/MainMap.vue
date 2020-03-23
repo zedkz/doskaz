@@ -30,6 +30,8 @@
         methods: {
             mapWasInitialized(map) {
                 this.map = map;
+                map.setBounds(this.cityBounds)
+
                 if (!ymaps.layout.storage.get('custom#objectIconLayout')) {
                     const CustomObjectIconLayout = ymaps.templateLayoutFactory.createClass(
                         `<div style="border: none; font-size: 22px; display: flex; width: 50px; height: 60px; padding-bottom: 11px; justify-content: center; align-items: center; top: -60px; left: -25px; position:absolute;">
@@ -57,7 +59,9 @@
         watch: {
             url(val) {
                 this.applyFilter(val)
-
+            },
+            cityBounds(val) {
+                this.map.setBounds(val)
             }
         },
         computed: {
@@ -70,6 +74,8 @@
                 'accessibilityLevels',
                 'search'
             ]),
+            cities: get('cities/list'),
+            cityId: get('settings/cityId'),
             url() {
                 const serializedParams = queryString.stringify({
                     categories: this.selectedCategories,
@@ -78,6 +84,12 @@
                 }, {arrayFormat: 'index'})
 
                 return '/api/objects/ymaps?bbox=%b&zoom=%z'.concat(serializedParams ? `&${serializedParams}` : '')
+            },
+            cityBounds() {
+                const city = this.cities.find(city => city.id === this.cityId);
+                if (city) {
+                    return city.bounds
+                }
             }
         }
     };

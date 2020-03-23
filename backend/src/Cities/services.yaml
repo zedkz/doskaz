@@ -7,3 +7,13 @@ services:
         tags: ['console.command']
 
     App\Cities\FindCityIdByLocation:
+
+    App\Cities\Seed:
+        tags: ['console.command']
+
+    App\Cities\CitiesController:
+        tags: ['controller.service_arguments']
+
+    OpenCage\Geocoder\Geocoder:
+        arguments:
+            - '%env(OPENCAGE_API_KEY)%'
