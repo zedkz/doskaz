@@ -6,9 +6,13 @@ namespace App\Users;
 use App\Blog\Image;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\FileReferenceCollection;
+use App\Infrastructure\Firebase\Exception;
+use App\Infrastructure\Firebase\InvalidIdToken;
+use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
+use App\Users\Security\PhoneAuth\Credentials;
+use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Imgproxy\UrlBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
+use Webmozart\Assert\Assert;
 
 /**
  * @Route(path="/api")
@@ -165,13 +170,23 @@ final class UserController extends AbstractController
     /**
      * @Route(path="/profile", methods={"PUT"})
      * @IsGranted("ROLE_USER")
-     * @param ProfileData $profileData
+     * @param UpdateUserProfileData $profileData
      * @param UserRepository $repository
      * @param TokenStorageInterface $tokenStorage
      * @param Flusher $flusher
+     * @param ProfileFetcher $profileFetcher
+     * @param CredentialsRepository $credentialsRepository
      * @throws ValidationException
+     * @throws Exception
      */
-    public function updateProfile(ProfileData $profileData, UserRepository $repository, TokenStorageInterface $tokenStorage, Flusher $flusher)
+    public function updateProfile(
+        UpdateUserProfileData $profileData,
+        UserRepository $repository,
+        TokenStorageInterface $tokenStorage,
+        Flusher $flusher,
+        ProfileFetcher $profileFetcher,
+        CredentialsRepository $credentialsRepository
+    )
     {
         $user = $repository->find($tokenStorage->getToken()->getUser()->id());
 
@@ -181,6 +196,30 @@ final class UserController extends AbstractController
                 throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этот email занят другим пользователем', '', [], '', 'email', '')]));
             }
         }
+
+        if ($profileData->phoneChangeToken) {
+            try {
+                $userProfile = $profileFetcher->fetch($profileData->phoneChangeToken);
+                Assert::notEmpty($userProfile->phoneNumber);
+                $existingCredentials = $credentialsRepository->findByPhoneNumber($userProfile->phoneNumber);
+                if ($existingCredentials) {
+                    if ($existingCredentials->id() !== $user->id()) {
+                        throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этот номер занят другим пользователем', '', [], '', 'phoneChangeToken', '')]));
+                    }
+                } else {
+                    $credentials = $credentialsRepository->find($user->id());
+                    if ($credentials) {
+                        $credentials->changeNumber($userProfile->phoneNumber);
+                    } else {
+                        $credentials = new Credentials($user->id(), $userProfile->phoneNumber);
+                        $credentialsRepository->add($credentials);
+                    }
+                }
+            } catch (InvalidIdToken $exception) {
+                throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Неверный id токен', '', [], '', 'phoneChangeToken', '')]));
+            }
+        }
+
         $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email);
         $flusher->flush();
     }
@@ -319,6 +358,8 @@ final class UserController extends AbstractController
      * @Route(path="/profile/comments", methods={"GET"})
      * @param Request $request
      * @param Connection $connection
+     * @param UrlBuilder $urlBuilder
+     * @return array
      */
     public function comments(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {

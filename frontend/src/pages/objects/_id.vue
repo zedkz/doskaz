@@ -360,14 +360,14 @@
                 return chunk(this.detailsZones, Math.round(this.detailsZones.length / 2))
             },
             images() {
-                return this.object.photos.map(p => p.viewUrl)
+                return this.object.photos.map(photo => photo.viewUrl)
             },
             videos() {
-                return this.object.videos.map(v => ({
-                    youtube: v.videoId,
-                    poster: v.thumbnail,
+                return this.object.videos.map(video => ({
+                    youtube: video.videoId,
+                    poster: video.thumbnail,
                     type: 'text/html',
-                    href: v.url
+                    href: video.url
                 }));
             }
         },
@@ -381,6 +381,9 @@
             '$route.query.t'() {
                 this.coordinates = [...this.object.coordinates]
             }
+        },
+        destroyed() {
+            this.coordinates = null
         },
         methods: {
             isActive(tabItem) {

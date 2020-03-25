@@ -74,7 +74,9 @@
                 this.map.setBounds(val)
             },
             coordinates(val) {
-                this.map.panTo(val)
+                if(val) {
+                    this.map.panTo(val)
+                }
             }
         },
         computed: {

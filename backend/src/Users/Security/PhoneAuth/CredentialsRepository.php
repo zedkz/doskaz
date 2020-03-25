@@ -28,4 +28,8 @@ final class CredentialsRepository
             'number' => $phoneNumber
         ]);
     }
+
+    public function find(int $id): ?Credentials {
+        return $this->repository->find($id);
+    }
 }

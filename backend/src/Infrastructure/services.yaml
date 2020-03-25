@@ -73,3 +73,8 @@ services:
     TheCodingMachine\Gotenberg\Client:
         arguments:
             - 'http://gotenberg:3000'
+
+    App\Infrastructure\Firebase\ProfileFetcher:
+        arguments:
+            - '%env(FIREBASE_API_KEY)%'
+        lazy: true

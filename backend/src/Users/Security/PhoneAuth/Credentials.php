@@ -41,4 +41,9 @@ class Credentials
     {
         return $this->id;
     }
+
+    public function changeNumber(string $newNumber)
+    {
+        $this->number = $newNumber;
+    }
 }
