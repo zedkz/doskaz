@@ -30,3 +30,4 @@ imports:
     - { resource: '../src/Feedback/services.yaml' }
     - { resource: '../src/RegionalRepresentatives/services.yaml' }
     - { resource: '../src/Tasks/services.yaml' }
+    - { resource: '../src/Levels/services.yaml' }

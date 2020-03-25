@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  App\Levels\LevelRepository:
+
+  App\Levels\SeedLevels:
+    tags: ['console.command']
+
+  App\Levels\IncreaseLevelOnTaskDone:
+    tags: ['domain_events.listener']

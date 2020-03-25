@@ -53,7 +53,7 @@ class ProfileCompletionTask implements EventProducer
         $this->progress = count($completedFields) / count($data->toArray()) * 100;
         if ($this->progress === 100) {
             $this->completedAt = new \DateTimeImmutable();
-            $this->remember(new ProfileCompletionTaskDone($this->userId));
+            $this->remember(new ProfileCompletionTaskDone($this->userId, self::REWARD_POINTS_COUNT));
         }
     }
 }

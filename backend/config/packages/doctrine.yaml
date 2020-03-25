@@ -70,3 +70,9 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Tasks'
                 prefix: 'App\Tasks'
+            Levels:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Levels'
+                prefix: 'App\Levels'
+

@@ -10,6 +10,7 @@ use App\Infrastructure\Firebase\Exception;
 use App\Infrastructure\Firebase\InvalidIdToken;
 use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
+use App\Levels\LevelRepository;
 use App\Tasks\CurrentTaskProvider;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
@@ -132,9 +133,10 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param Request $request
      * @param CurrentTaskProvider $currentTaskProvider
+     * @param LevelRepository $levelRepository
      * @return ProfileData
      */
-    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskProvider $currentTaskProvider)
+    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskProvider $currentTaskProvider, LevelRepository $levelRepository)
     {
         $user = $connection->createQueryBuilder()
             ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name')
@@ -158,6 +160,9 @@ final class UserController extends AbstractController
         $fullName = $connection->convertToPHPValue($user['full_name'], FullName::class);
 
 
+        $level = $levelRepository->find($user['id']);
+
+
         return new ProfileData(
             $user['name'],
             $user['email'],
@@ -167,7 +172,17 @@ final class UserController extends AbstractController
             $fullName->first,
             $fullName->last,
             $fullName->middle,
-            $currentTaskProvider->forUser($user['id'])
+            $currentTaskProvider->forUser($user['id']),
+            [
+                'current' => $level->value(),
+                'currentPoints' => $level->points(),
+                'progressToNext' => $level->progressToNextLevel(),
+                'nextLevelThreshold' => $level->nextLevelThreshold()
+            ],
+            [
+                'objects' => $connection->createQueryBuilder()->select('COUNT(*) FROM objects WHERE created_by = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
+                'complaints' => $connection->createQueryBuilder()->select('COUNT(*) FROM complaints WHERE complainant_id = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
+            ]
         );
     }
 

@@ -42,6 +42,10 @@ class ProfileData
 
     public $currentTask;
 
+    public $level;
+
+    public $stats;
+
     /**
      * ProfileData constructor.
      * @param $name
@@ -54,7 +58,7 @@ class ProfileData
      * @param $middleName
      * @param CurrentTaskData|null $currentTask
      */
-    public function __construct($name, $email, $phone, $roles, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask = null)
+    public function __construct($name, $email, $phone, $roles, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask, $level, $stats)
     {
         $this->name = $name;
         $this->email = $email;
@@ -65,5 +69,7 @@ class ProfileData
         $this->lastName = $lastName;
         $this->middleName = $middleName;
         $this->currentTask = $currentTask;
+        $this->level = $level;
+        $this->stats = $stats;
     }
 }
