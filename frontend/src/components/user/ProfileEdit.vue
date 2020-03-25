@@ -138,6 +138,7 @@
                 const timeout = setTimeout(() => {
                     this.smsWait = false
                 }, 15 * 1000)
+                this.smsErrorCode = null;
                 this.confirmationResult = null;
                 try {
                     this.confirmationResult = await firebase.auth().signInWithPhoneNumber(this.profile.phone, this.recaptchaVerifier);
