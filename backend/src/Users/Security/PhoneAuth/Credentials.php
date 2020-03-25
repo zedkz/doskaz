@@ -3,14 +3,18 @@
 
 namespace App\Users\Security\PhoneAuth;
 
+use App\Infrastructure\DomainEvents\EventProducer;
+use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="phone_credentials")
  */
-class Credentials
+class Credentials implements EventProducer
 {
+    use ProducesEvents;
+
     /**
      * @var integer
      * @ORM\Column(type="integer")
@@ -35,6 +39,7 @@ class Credentials
         $this->id = $id;
         $this->number = $number;
         $this->createdAt = new \DateTimeImmutable();
+        $this->remember(new PhoneCredentialsCreated($id));
     }
 
     public function id()

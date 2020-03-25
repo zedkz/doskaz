@@ -29,3 +29,4 @@ imports:
     - { resource: '../src/Cities/services.yaml' }
     - { resource: '../src/Feedback/services.yaml' }
     - { resource: '../src/RegionalRepresentatives/services.yaml' }
+    - { resource: '../src/Tasks/services.yaml' }

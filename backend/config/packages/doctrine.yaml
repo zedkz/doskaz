@@ -65,3 +65,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/RegionalRepresentatives'
                 prefix: 'App\RegionalRepresentatives'
+            Tasks:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Tasks'
+                prefix: 'App\Tasks'

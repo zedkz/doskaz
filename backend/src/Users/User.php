@@ -3,14 +3,19 @@
 
 namespace App\Users;
 
+use App\Infrastructure\DomainEvents\EventProducer;
+use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="users")
+ * @ORM\HasLifecycleCallbacks()
  */
-class User
+class User implements EventProducer
 {
+    use ProducesEvents;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -80,6 +85,7 @@ class User
         $this->fullName = $fullName;
         $this->email = $email;
         $this->updatedAt = new \DateTimeImmutable();
+        $this->remember(new UserProfileUpdated($this->id));
     }
 
     public function migrateFullName()
@@ -101,5 +107,13 @@ class User
     {
         $this->avatar = null;
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function fireRegisteredEvent()
+    {
+        $this->remember(new UserRegistered($this->id));
     }
 }
