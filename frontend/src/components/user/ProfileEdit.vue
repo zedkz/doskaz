@@ -204,7 +204,8 @@
             },
             smsError() {
                 const messages = {
-                    'auth/invalid-verification-code': 'Неверный код'
+                    'auth/invalid-verification-code': 'Неверный код',
+                    'auth/too-many-requests': 'Превышено допустимое количество попыток'
                 }
 
                 if (!this.smsErrorCode) {
