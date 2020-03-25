@@ -10,6 +10,7 @@ use App\Infrastructure\Firebase\Exception;
 use App\Infrastructure\Firebase\InvalidIdToken;
 use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
+use App\Tasks\CurrentTaskProvider;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
@@ -129,9 +130,11 @@ final class UserController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
+     * @param Request $request
+     * @param CurrentTaskProvider $currentTaskProvider
      * @return ProfileData
      */
-    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request)
+    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskProvider $currentTaskProvider)
     {
         $user = $connection->createQueryBuilder()
             ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name')
@@ -163,7 +166,8 @@ final class UserController extends AbstractController
             $user['avatar'] ? $request->getSchemeAndHttpHost() . $user['avatar'] : null,
             $fullName->first,
             $fullName->last,
-            $fullName->middle
+            $fullName->middle,
+            $currentTaskProvider->forUser($user['id'])
         );
     }
 

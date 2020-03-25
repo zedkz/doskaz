@@ -83,7 +83,7 @@ class User implements EventProducer
     public function updateProfile(FullName $fullName, ?string $email)
     {
         $this->fullName = $fullName;
-        $this->email = $email;
+        $this->email = empty($email) ? null : $email;
         $this->updatedAt = new \DateTimeImmutable();
         $this->remember(new UserProfileUpdated($this->id));
     }

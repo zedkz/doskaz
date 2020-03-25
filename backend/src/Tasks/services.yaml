@@ -5,3 +5,5 @@ services:
   _defaults:
     autowire: true
     autoconfigure: false
+
+  App\Tasks\CurrentTaskProvider:

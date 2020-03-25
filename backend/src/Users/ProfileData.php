@@ -5,6 +5,7 @@ namespace App\Users;
 
 
 use App\Infrastructure\ObjectResolver\DataObject;
+use App\Tasks\CurrentTaskData;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ProfileData
@@ -39,6 +40,8 @@ class ProfileData
      */
     public $middleName;
 
+    public $currentTask;
+
     /**
      * ProfileData constructor.
      * @param $name
@@ -49,8 +52,9 @@ class ProfileData
      * @param $firstName
      * @param $lastName
      * @param $middleName
+     * @param CurrentTaskData|null $currentTask
      */
-    public function __construct($name, $email, $phone, $roles, $avatar, $firstName, $lastName, $middleName)
+    public function __construct($name, $email, $phone, $roles, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask = null)
     {
         $this->name = $name;
         $this->email = $email;
@@ -60,5 +64,6 @@ class ProfileData
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->middleName = $middleName;
+        $this->currentTask = $currentTask;
     }
 }
