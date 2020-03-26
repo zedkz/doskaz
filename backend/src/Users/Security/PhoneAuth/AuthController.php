@@ -58,7 +58,7 @@ class AuthController extends AbstractController
         if ($phoneNumber) {
             $phoneCredentials = $credentialsRepository->findByPhoneNumber($phoneNumber);
             if (!$phoneCredentials) {
-                $user = new User('');
+                $user = new User(null);
                 $userRepository->add($user);
                 $phoneCredentials = new Credentials($user->id(), $phoneNumber);
                 $credentialsRepository->add($phoneCredentials);
