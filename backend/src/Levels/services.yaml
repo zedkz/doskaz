@@ -10,3 +10,6 @@ services:
 
   App\Levels\IncreaseLevelOnTaskDone:
     tags: ['domain_events.listener']
+
+  App\Levels\InitializeLevelWhenUserRegistered:
+    tags: ['domain_events.listener']
