@@ -32,7 +32,8 @@
                 </div>
 
                 <template v-if="!$route.query.popup">
-                    <div class="buttons">
+                    <login-social-buttons/>
+                   <!-- <div class="buttons">
                         <a class="button button_google" @click.prevent="authenticate(providers.google)">
                             <svg
                                     width="20"
@@ -111,7 +112,7 @@
                                 />
                             </svg>
                         </button>
-                    </div>
+                    </div>-->
                     <div class="phone-form">
                         <div class="phone-form__switch" @click="showPhoneAuthForm = true" :class="{active: showPhoneAuthForm}">
                             <span>Или войдите с помощью телефона</span>
@@ -135,9 +136,10 @@
     import PhoneAuthFormPoints from "./PhoneAuthFormPoints";
     import openPopup from '@/oauth/popup';
     import providers from '@/oauth/providers';
+    import LoginSocialButtons from "./LoginSocialButtons";
 
     export default {
-        components: {PhoneAuthForm, PhoneAuthFormPoints},
+        components: {LoginSocialButtons, PhoneAuthForm, PhoneAuthFormPoints},
         data() {
             return {
                 showPhoneAuthForm: false
@@ -164,7 +166,7 @@
     };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import "./../styles/mixins.scss";
 
     .login-form {

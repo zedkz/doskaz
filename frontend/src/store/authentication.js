@@ -46,6 +46,19 @@ export const actions = {
             window.location.href = redirect
         }
     },
+    async uloginAuthenticate({dispatch}, token) {
+        const {status} = await this.$axios.post('/api/token/ulogin', {token});
+        await dispatch('loadUser');
+
+        if (status === 201) {
+            commit('SET_CREATED', true)
+            await this.$router.push('/login?popup=true')
+        } else {
+            const redirect = this.app.$cookies.get('redirect') || '/';
+            this.app.$cookies.remove('redirect');
+            window.location.href = redirect
+        }
+    },
     async logout({dispatch}) {
         await this.$axios.delete('/api/token');
         dispatch('deAuthenticate')

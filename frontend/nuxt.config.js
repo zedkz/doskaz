@@ -42,7 +42,8 @@ export default {
             {name: 'viewport', content: 'width=device-width, initial-scale=1'}
         ],
         script: [
-            {type: "text/javascript", src: "https://code.jquery.com/jquery-1.11.0.min.js"}
+            {type: "text/javascript", src: "https://code.jquery.com/jquery-1.11.0.min.js"},
+            {type: "text/javascript", src: "https://ulogin.ru/js/ulogin.js"}
         ]
     },
 }

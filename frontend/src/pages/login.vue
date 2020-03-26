@@ -9,7 +9,10 @@
     export default {
         layout: 'main',
         name: "login",
-        components: {LoginForm}
+        components: {LoginForm},
+        head: {
+           title: 'Вход'
+        }
     }
 </script>
 

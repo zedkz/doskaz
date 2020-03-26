@@ -63,12 +63,12 @@ class User implements EventProducer
      */
     private $updatedAt;
 
-    public function __construct(string $name, ?string $email = null)
+    public function __construct(?FullName $fullName, ?string $email = null)
     {
-        $this->name = $name;
+        $this->name = '';
+        $this->fullName = $fullName ?? new FullName();
         $this->email = $email;
         $this->roles = ['ROLE_USER'];
-        $this->fullName = $name ? FullName::parseFromString($name) : new FullName();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
