@@ -10,23 +10,19 @@ class ProfileCompletionTaskData
 
     private $lastName;
 
-    private $phoneNumber;
-
-    private $email;
+    private $middleName;
 
     /**
      * ProfileCompletionTaskData constructor.
      * @param $firstName
      * @param $lastName
-     * @param $phoneNumber
-     * @param $email
+     * @param $middleName
      */
-    public function __construct($firstName, $lastName, $phoneNumber, $email)
+    public function __construct($firstName, $lastName, $middleName)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->phoneNumber = $phoneNumber;
-        $this->email = $email;
+        $this->middleName = $middleName;
     }
 
     public function toArray(): array
@@ -34,8 +30,7 @@ class ProfileCompletionTaskData
         return [
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'phoneNumber' => $this->phoneNumber,
-            'email' => $this->email
+            'middleName' => $this->middleName
         ];
     }
 

@@ -4,36 +4,35 @@
 namespace App\Tasks;
 
 
-use Doctrine\DBAL\Connection;
+use App\Tasks\Daily\DailyTaskRepository;
+use App\Tasks\ProfileCompletion\ProfileCompletionTaskRepository;
+
 
 class CurrentTaskProvider
 {
     /**
-     * @var Connection
+     * @var DailyTaskRepository
      */
-    private $connection;
+    private $dailyTaskRepository;
+    /**
+     * @var ProfileCompletionTaskRepository
+     */
+    private $profileCompletionTaskRepository;
 
-    public function __construct(Connection $connection)
+    public function __construct(DailyTaskRepository $dailyTaskRepository, ProfileCompletionTaskRepository $profileCompletionTaskRepository)
     {
-        $this->connection = $connection;
+        $this->dailyTaskRepository = $dailyTaskRepository;
+        $this->profileCompletionTaskRepository = $profileCompletionTaskRepository;
     }
 
-    public function forUser(int $userId): ?CurrentTaskData
+    public function execute(int $userId)
     {
-        $progress = $this->connection->createQueryBuilder()
-            ->select([
-                'progress'
-            ])
-            ->from('profile_completion_tasks')
-            ->andWhere('user_id = :userId')
-            ->setParameter('userId', $userId)
-            ->execute()
-            ->fetchColumn();
-
-        if($progress === 100) {
-            return null;
+        $profileCompletionTask = $this->profileCompletionTaskRepository->find($userId);
+        if (!$profileCompletionTask->isCompleted()) {
+            return $profileCompletionTask;
         }
 
-        return new CurrentTaskData($progress, 'Заполните профиль');
+        $dailyTask = $this->dailyTaskRepository->findLastByUserId($userId);
+        return $dailyTask;
     }
 }

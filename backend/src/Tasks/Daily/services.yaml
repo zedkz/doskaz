@@ -1,0 +1,18 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  App\Tasks\Daily\DailyTaskRepository:
+
+  App\Tasks\Daily\Seed:
+    tags: ['console.command']
+
+  App\Tasks\Daily\IssueDailyTaskWhenUserRegistered:
+    tags: ['domain_events.listener']
+
+  App\Tasks\Daily\ProgressDailyTaskWhenObjectCreated:
+    tags: ['domain_events.listener']
+
+  App\Tasks\Daily\ProgressDailyTaskWhenObjectVerified:
+    tags: ['domain_events.listener']

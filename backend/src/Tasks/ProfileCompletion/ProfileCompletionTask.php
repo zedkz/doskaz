@@ -50,10 +50,15 @@ class ProfileCompletionTask implements EventProducer
             return !empty($item);
         });
 
-        $this->progress = count($completedFields) / count($data->toArray()) * 100;
-        if ($this->progress === 100) {
+        $this->progress = round(count($completedFields) / count($data->toArray()) * 100);
+        if ($this->progress === 100.0) {
             $this->completedAt = new \DateTimeImmutable();
             $this->remember(new ProfileCompletionTaskDone($this->userId, self::REWARD_POINTS_COUNT));
         }
+    }
+
+    public function isCompleted(): bool
+    {
+        return !is_null($this->completedAt);
     }
 }

@@ -17,6 +17,7 @@
         "league/flysystem-bundle": "^1.4",
         "league/oauth2-client": "^2.4",
         "league/oauth2-google": "^3.0",
+        "ocramius/doctrine-batch-utils": "^2.0",
         "opencage/geocode": "^2.1",
         "php-http/guzzle6-adapter": "^2.0",
         "phpdocumentor/reflection-docblock": "^4.3",

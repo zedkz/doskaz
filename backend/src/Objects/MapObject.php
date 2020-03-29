@@ -139,7 +139,7 @@ class MapObject implements EventProducer
         $this->photos = $photos;
         $this->createdBy = $createdBy;
 
-        $this->remember(new MapObjectCreated($this->uuid));
+        $this->remember(new MapObjectCreated($this->uuid, $createdBy));
         if (!$this->photos->isEmpty()) {
             $this->remember(new PhotosUpdated($this->uuid, $this->photos, $photos));
         }

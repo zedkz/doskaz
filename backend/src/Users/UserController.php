@@ -5,13 +5,14 @@ namespace App\Users;
 
 use App\Blog\Image;
 use App\Infrastructure\Doctrine\Flusher;
+use App\Infrastructure\Doctrine\Transactional;
 use App\Infrastructure\FileReferenceCollection;
 use App\Infrastructure\Firebase\Exception;
 use App\Infrastructure\Firebase\InvalidIdToken;
 use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
 use App\Levels\LevelRepository;
-use App\Tasks\CurrentTaskProvider;
+use App\Tasks\CurrentTaskDataProvider;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
@@ -65,10 +66,29 @@ final class UserController extends AbstractController
      */
     public function list(Request $request, Connection $connection)
     {
+        $filter = json_decode($request->query->get('filter', '{}'), true);
+
         $usersQb = $connection->createQueryBuilder()
             ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id');
+
+
+        foreach ($filter as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            switch ($key) {
+                case 'email':
+                    $usersQb->orWhere('email ilike :email')
+                        ->setParameter('email', "%$value%");
+                    break;
+                case 'phone':
+                    $usersQb->orWhere('phone_credentials.number ilike :phone')
+                        ->setParameter('phone', "%$value%");
+                    break;
+            }
+        }
 
         $count = (clone $usersQb)->select('count(*)')->execute()->fetchColumn();
 
@@ -132,11 +152,11 @@ final class UserController extends AbstractController
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
      * @param Request $request
-     * @param CurrentTaskProvider $currentTaskProvider
+     * @param CurrentTaskDataProvider $currentTaskProvider
      * @param LevelRepository $levelRepository
      * @return ProfileData
      */
-    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskProvider $currentTaskProvider, LevelRepository $levelRepository)
+    public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskDataProvider $currentTaskProvider, LevelRepository $levelRepository)
     {
         $user = $connection->createQueryBuilder()
             ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name')
@@ -182,7 +202,11 @@ final class UserController extends AbstractController
             [
                 'objects' => $connection->createQueryBuilder()->select('COUNT(*) FROM objects WHERE created_by = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
                 'complaints' => $connection->createQueryBuilder()->select('COUNT(*) FROM complaints WHERE complainant_id = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
-            ]
+            ],
+            new UserAbilities(
+                $this->isGranted(UserAbility::AVATAR_UPLOAD),
+                $this->isGranted(UserAbility::STATUS_CHANGE),
+            )
         );
     }
 
@@ -192,19 +216,18 @@ final class UserController extends AbstractController
      * @param UpdateUserProfileData $profileData
      * @param UserRepository $repository
      * @param TokenStorageInterface $tokenStorage
-     * @param Flusher $flusher
      * @param ProfileFetcher $profileFetcher
      * @param CredentialsRepository $credentialsRepository
+     * @param Transactional $transactional
      * @throws ValidationException
-     * @throws Exception
      */
     public function updateProfile(
         UpdateUserProfileData $profileData,
         UserRepository $repository,
         TokenStorageInterface $tokenStorage,
-        Flusher $flusher,
         ProfileFetcher $profileFetcher,
-        CredentialsRepository $credentialsRepository
+        CredentialsRepository $credentialsRepository,
+        Transactional $transactional
     )
     {
         $user = $repository->find($tokenStorage->getToken()->getUser()->id());
@@ -216,31 +239,31 @@ final class UserController extends AbstractController
             }
         }
 
-        if ($profileData->phoneChangeToken) {
-            try {
-                $userProfile = $profileFetcher->fetch($profileData->phoneChangeToken);
-                Assert::notEmpty($userProfile->phoneNumber);
-                $existingCredentials = $credentialsRepository->findByPhoneNumber($userProfile->phoneNumber);
-                if ($existingCredentials) {
-                    if ($existingCredentials->id() !== $user->id()) {
-                        throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этот номер занят другим пользователем', '', [], '', 'phoneChangeToken', '')]));
-                    }
-                } else {
-                    $credentials = $credentialsRepository->find($user->id());
-                    if ($credentials) {
-                        $credentials->changeNumber($userProfile->phoneNumber);
+        $transactional->transaction(function () use ($tokenStorage, $repository, $profileData, $profileFetcher, $credentialsRepository, $user) {
+            if ($profileData->phoneChangeToken) {
+                try {
+                    $userProfile = $profileFetcher->fetch($profileData->phoneChangeToken);
+                    Assert::notEmpty($userProfile->phoneNumber);
+                    $existingCredentials = $credentialsRepository->findByPhoneNumber($userProfile->phoneNumber);
+                    if ($existingCredentials) {
+                        if ($existingCredentials->id() !== $user->id()) {
+                            throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этот номер занят другим пользователем', '', [], '', 'phoneChangeToken', '')]));
+                        }
                     } else {
-                        $credentials = new Credentials($user->id(), $userProfile->phoneNumber);
-                        $credentialsRepository->add($credentials);
+                        $credentials = $credentialsRepository->find($user->id());
+                        if ($credentials) {
+                            $credentials->changeNumber($userProfile->phoneNumber);
+                        } else {
+                            $credentials = new Credentials($user->id(), $userProfile->phoneNumber);
+                            $credentialsRepository->add($credentials);
+                        }
                     }
+                } catch (InvalidIdToken $exception) {
+                    throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Неверный id токен', '', [], '', 'phoneChangeToken', '')]));
                 }
-            } catch (InvalidIdToken $exception) {
-                throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Неверный id токен', '', [], '', 'phoneChangeToken', '')]));
             }
-        }
-
-        $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email);
-        $flusher->flush();
+            $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email);
+        });
     }
 
 

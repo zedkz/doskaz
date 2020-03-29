@@ -47,7 +47,7 @@ class User implements EventProducer
     private $avatar;
 
     /**
-     * @ORM\Column(type="json_array", options={"jsonb": true})
+     * @ORM\Column(type="json", options={"jsonb": true})
      */
     private $roles = [];
 

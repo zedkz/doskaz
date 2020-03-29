@@ -145,6 +145,9 @@
     "monolog/monolog": {
         "version": "1.25.2"
     },
+    "ocramius/doctrine-batch-utils": {
+        "version": "2.0.0"
+    },
     "ocramius/package-versions": {
         "version": "1.5.1"
     },

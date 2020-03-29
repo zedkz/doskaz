@@ -26,8 +26,6 @@ class ProfileCompletionDataProvider
                 "users.full_name->>'first' as \"firstName\"",
                 "users.full_name->>'last' as \"lastName\"",
                 "users.full_name->>'middle' as \"middleName\"",
-                'users.email',
-                'phone_credentials.number as phone'
             ])
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'phone_credentials.id = users.id')
@@ -39,8 +37,7 @@ class ProfileCompletionDataProvider
         return new ProfileCompletionTaskData(
             $data['firstName'],
             $data['lastName'],
-            $data['phone'],
-            $data['email'],
+            $data['middleName']
         );
     }
 }

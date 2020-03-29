@@ -1,5 +1,6 @@
 imports:
   - { resource: './ProfileCompletion/services.yaml' }
+  - { resource: './Daily/services.yaml' }
 
 services:
   _defaults:
@@ -7,3 +8,4 @@ services:
     autoconfigure: false
 
   App\Tasks\CurrentTaskProvider:
+  App\Tasks\CurrentTaskDataProvider:
