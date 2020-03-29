@@ -12,6 +12,9 @@
                 </div>
             </div>
         </div>
+
+        <slot name="filter"/>
+
         <b-card>
             <loading :active="isLoading" :is-full-page="false"/>
             <b-table striped bordered hover :items="items" :fields="fields">
