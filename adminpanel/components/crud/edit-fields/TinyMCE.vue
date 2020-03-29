@@ -25,7 +25,7 @@
                     height: 500,
                     language_url: '/admin/tinymce/langs/ru.js',
                     images_upload_handler: (blobInfo, success, failure) => {
-                        this.$axios.post('storage/upload', blobInfo.blob())
+                        this.$axios.post('/api/storage/upload', blobInfo.blob())
                             .then(({data: {path}}) => success(path))
                             .catch(e => failure(e));
                     }
