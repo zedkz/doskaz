@@ -3,7 +3,7 @@
         <div class="main-filter__header">
             <div class="main-filter__menu">
                 <a href="#"><span>Помощь</span></a>
-                <a href="#"><span>О проекте</span></a>
+                <nuxt-link :to="{name: 'about'}"><span>О проекте</span></nuxt-link>
                 <nuxt-link :to="{name: 'blog-category'}"><span>Блог</span></nuxt-link>
                 <nuxt-link :to="{name: 'contacts'}"><span>Контакты</span></nuxt-link>
             </div>

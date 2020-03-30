@@ -14,9 +14,9 @@
             <a href="#">
               <span>Помощь</span>
             </a>
-            <a href="#">
+            <nuxt-link :to="{name: 'about'}">
               <span>О проекте</span>
-            </a>
+            </nuxt-link>
             <nuxt-link :to="{name: 'contacts'}">
               <span>Контакты</span>
             </nuxt-link>
@@ -226,6 +226,7 @@ export default {
       line-height: 20px;
       color: #333333;
       margin-left: 20px;
+      position: relative;
       @media all and (max-width: 1023px) {
         font-size: 14px;
       }
@@ -247,6 +248,24 @@ export default {
       }
       &.nuxt-link-active {
         font-weight: 700;
+        &:before {
+          content: '';
+          position: absolute;
+          bottom: -33px;
+          left: -8px;
+          right: -8px;
+          height: 4px;
+          background: $blue;
+          @media all and (max-width: 1023px) {
+            bottom: -17px;
+            left: -5px;
+            right: -5px;
+            height: 3px;
+          }
+          @media all and (max-width: 768px) {
+            display: none;
+          }
+        }
       }
     }
   }
