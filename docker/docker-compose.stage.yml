@@ -22,6 +22,8 @@ services:
       - traefik.http.routers.doskaz_frontend.tls=true
       - traefik.http.routers.doskaz_frontend.entrypoints=websecure
       - traefik.http.routers.doskaz_frontend.tls.certresolver=le
+      - traefik.http.routers.app_rss.tls=true
+      - traefik.http.routers.app_rss.tls.certresolver=le
 
     restart: unless-stopped
 
