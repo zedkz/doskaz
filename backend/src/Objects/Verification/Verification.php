@@ -58,6 +58,7 @@ class Verification implements EventProducer
         $this->status = self::STATUS_FULL_VERIFIED;
         $this->userId = $userId;
         $this->remember(new VerificationConfirmed($this->id, $userId));
+        $this->remember(new ObjectVerified($this->id, $this->userId));
         $this->updatedAt = new \DateTimeImmutable();
     }
 
@@ -66,6 +67,7 @@ class Verification implements EventProducer
         $this->status = self::STATUS_PARTIAL_VERIFIED;
         $this->userId = $userId;
         $this->remember(new VerificationRejected($this->id, $userId));
+        $this->remember(new ObjectVerified($this->id, $this->userId));
         $this->updatedAt = new \DateTimeImmutable();
     }
 

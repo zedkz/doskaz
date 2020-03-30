@@ -1,27 +1,28 @@
 <?php
 
 
-namespace App\Tasks\Daily;
+namespace App\Tasks\DailyVerification;
 
 
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Users\UserRegistered;
 
-class IssueDailyTaskWhenUserRegistered implements EventListener
+class IssueVerificationTaskWheUserRegistered implements EventListener
 {
     /**
-     * @var DailyTaskRepository
+     * @var DailyVerificationTaskRepository
      */
-    private $dailyTaskRepository;
+    private $dailyVerificationTaskRepository;
+
     /**
      * @var Flusher
      */
     private $flusher;
 
-    public function __construct(DailyTaskRepository $dailyTaskRepository, Flusher $flusher)
+    public function __construct(DailyVerificationTaskRepository $dailyVerificationTaskRepository, Flusher $flusher)
     {
-        $this->dailyTaskRepository = $dailyTaskRepository;
+        $this->dailyVerificationTaskRepository = $dailyVerificationTaskRepository;
         $this->flusher = $flusher;
     }
 
@@ -30,7 +31,7 @@ class IssueDailyTaskWhenUserRegistered implements EventListener
      */
     public function handle($event)
     {
-        $this->dailyTaskRepository->add(new DailyTask($event->id));
+        $this->dailyVerificationTaskRepository->add(new DailyVerificationTask($event->id));
         $this->flusher->flush();
     }
 
@@ -38,4 +39,5 @@ class IssueDailyTaskWhenUserRegistered implements EventListener
     {
         return $event instanceof UserRegistered;
     }
+
 }

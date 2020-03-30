@@ -1,6 +1,7 @@
 imports:
   - { resource: './ProfileCompletion/services.yaml' }
   - { resource: './Daily/services.yaml' }
+  - { resource: './DailyVerification/services.yaml' }
 
 services:
   _defaults:

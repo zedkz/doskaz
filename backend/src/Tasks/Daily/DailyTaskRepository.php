@@ -38,6 +38,14 @@ class DailyTaskRepository
         ]);
     }
 
+    public function findCurrentForUser(int $userId): ?DailyTask
+    {
+        return $this->repository->findOneBy([
+            'userId' => $userId,
+            'completedAt' => null
+        ]);
+    }
+
     public function forAggregate(UuidInterface $id, callable $callback)
     {
         return $this->entityManager->transactional(function () use ($id, $callback) {
