@@ -11,6 +11,10 @@ services:
     restart: unless-stopped
 
   frontend:
+    labels:
+      - traefik.http.routers.doskaz_frontend_insecure.rule=Host(`${APP_HOST}`)
+      - traefik.http.routers.doskaz_frontend_insecure.entrypoints=web
+      - traefik.http.routers.doskaz_frontend.tls=true
     restart: unless-stopped
 
   database:
