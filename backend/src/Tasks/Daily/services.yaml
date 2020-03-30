@@ -8,11 +8,11 @@ services:
   App\Tasks\Daily\Seed:
     tags: ['console.command']
 
-  App\Tasks\Daily\IssueDailyTaskWhenUserRegistered:
-    tags: ['domain_events.listener']
+  #App\Tasks\Daily\IssueDailyTaskWhenUserRegistered:
+  #  tags: ['domain_events.listener']
 
-  App\Tasks\Daily\ProgressDailyTaskWhenObjectCreated:
-    tags: ['domain_events.listener']
+  #App\Tasks\Daily\ProgressDailyTaskWhenObjectCreated:
+  #  tags: ['domain_events.listener']
 
-  App\Tasks\Daily\ProgressDailyTaskWhenObjectVerified:
-    tags: ['domain_events.listener']
+  #App\Tasks\Daily\ProgressDailyTaskWhenObjectVerified:
+  #  tags: ['domain_events.listener']
