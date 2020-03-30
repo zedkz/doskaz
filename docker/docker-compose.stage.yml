@@ -9,6 +9,8 @@ services:
 
   backend_nginx:
     restart: unless-stopped
+    environment:
+      - TRUSTED_PROXIES=172.25.0.2
     labels:
       - traefik.http.routers.doskaz_app.tls=true
       - traefik.http.routers.doskaz_app.entrypoints=websecure
