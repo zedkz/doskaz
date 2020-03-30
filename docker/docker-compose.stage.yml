@@ -6,11 +6,10 @@ services:
     restart: unless-stopped
     environment:
       - SENTRY_DSN
+      - TRUSTED_PROXIES=172.25.0.0/16
 
   backend_nginx:
     restart: unless-stopped
-    environment:
-      - TRUSTED_PROXIES=172.25.0.0/16
     labels:
       - traefik.http.routers.doskaz_app.tls=true
       - traefik.http.routers.doskaz_app.entrypoints=websecure
