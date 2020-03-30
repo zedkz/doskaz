@@ -9,6 +9,10 @@ services:
 
   backend_nginx:
     restart: unless-stopped
+    labels:
+      - traefik.http.routers.doskaz_app.tls=true
+      - traefik.http.routers.doskaz_app.entrypoints=websecure
+      - traefik.http.routers.doskaz_app.tls.certresolver=le
 
   frontend:
     labels:
@@ -25,9 +29,17 @@ services:
 
   imgproxy:
     restart: unless-stopped
+    labels:
+      - traefik.http.routers.doskaz_imgproxy.tls=true
+      - traefik.http.routers.doskaz_imgproxy.entrypoints=websecure
+      - traefik.http.routers.doskaz_imgproxy.tls.certresolver=le
 
   adminpanel:
     restart: unless-stopped
+    labels:
+      - traefik.http.routers.doskaz_adminpanel.tls=true
+      - traefik.http.routers.doskaz_adminpanel.entrypoints=websecure
+      - traefik.http.routers.doskaz_adminpanel.tls.certresolver=le
 
   gotenberg:
     restart: unless-stopped
