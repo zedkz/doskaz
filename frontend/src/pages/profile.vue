@@ -35,6 +35,9 @@
             UserLevel,
             UserTask,
             UserObjects
+        },
+        async fetch({store}) {
+           await store.dispatch('authentication/loadUser')
         }
     }
 </script>

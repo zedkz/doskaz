@@ -13,3 +13,9 @@ services:
 
   App\Levels\InitializeLevelWhenUserRegistered:
     tags: ['domain_events.listener']
+
+  App\Levels\IncreaseLevelOnVerificationTaskDone:
+    tags: ['domain_events.listener']
+
+  App\Levels\IncreaseLevelOnDailyTaskDone:
+    tags: ['domain_events.listener']

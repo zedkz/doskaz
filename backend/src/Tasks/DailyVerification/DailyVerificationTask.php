@@ -1,20 +1,20 @@
 <?php
 
 
-namespace App\Tasks\Daily;
+namespace App\Tasks\DailyVerification;
+
 
 use App\Infrastructure\DomainEvents\EventProducer;
 use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="daily_tasks")
+ * @ORM\Table(name="daily_verification_tasks")
  */
-class DailyTask implements EventProducer
+class DailyVerificationTask implements EventProducer
 {
     use ProducesEvents;
 
@@ -32,13 +32,7 @@ class DailyTask implements EventProducer
     private $userId;
 
     /**
-     * @var \DateTimeImmutable|null
-     * @ORM\Column(type="datetimetz_immutable", nullable=true)
-     */
-    private $completedAt;
-
-    /**
-     * @var UuidInterface|null
+     * @var UuidInterface
      * @ORM\Column(type="uuid", nullable=true)
      */
     private $objectId;
@@ -49,23 +43,33 @@ class DailyTask implements EventProducer
      */
     private $createdAt;
 
-    private $reward = 4;
+    /**
+     * @var \DateTimeImmutable
+     * @ORM\Column(type="datetimetz_immutable", nullable=true)
+     */
+    private $completedAt;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    private $reward = 2;
 
     public function __construct(int $userId)
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->id = Uuid::uuid4();
         $this->userId = $userId;
-        $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function objectAdded(UuidInterface $objectId)
+    public function complete(UuidInterface $objectId)
     {
         if ($this->objectId) {
             return;
         }
         $this->objectId = $objectId;
         $this->completedAt = new \DateTimeImmutable();
-        $this->remember(new DailyTaskDone($this->id, $this->userId, $this->reward));
+        $this->remember(new DailyVerificationTaskDone($this->id, $this->userId, $this->reward));
     }
 
     public function id(): UuidInterface

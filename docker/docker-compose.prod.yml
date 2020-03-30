@@ -6,11 +6,26 @@ services:
     restart: unless-stopped
     environment:
       - SENTRY_DSN
+      - TRUSTED_PROXIES=172.18.0.0/16
 
   backend_nginx:
     restart: unless-stopped
+    labels:
+      - traefik.http.routers.doskaz_app.tls=true
+      - traefik.http.routers.doskaz_app.entrypoints=websecure
+      - traefik.http.routers.doskaz_app.tls.certresolver=le
+      - traefik.http.routers.app_rss.tls=true
+      - traefik.http.routers.app_rss.tls.certresolver=le
 
   frontend:
+    labels:
+      - traefik.http.routers.doskaz_frontend_insecure.rule=Host(`${APP_HOST}`)
+      - traefik.http.routers.doskaz_frontend_insecure.entrypoints=web
+      - traefik.http.middlewares.redirect_to_secured.redirectscheme.scheme=https
+      - traefik.http.routers.doskaz_frontend_insecure.middlewares=redirect_to_secured
+      - traefik.http.routers.doskaz_frontend.tls=true
+      - traefik.http.routers.doskaz_frontend.entrypoints=websecure
+      - traefik.http.routers.doskaz_frontend.tls.certresolver=le
     restart: unless-stopped
 
   database:
@@ -18,9 +33,17 @@ services:
 
   imgproxy:
     restart: unless-stopped
+    labels:
+      - traefik.http.routers.doskaz_imgproxy.tls=true
+      - traefik.http.routers.doskaz_imgproxy.entrypoints=websecure
+      - traefik.http.routers.doskaz_imgproxy.tls.certresolver=le
 
   adminpanel:
     restart: unless-stopped
+    labels:
+      - traefik.http.routers.doskaz_adminpanel.tls=true
+      - traefik.http.routers.doskaz_adminpanel.entrypoints=websecure
+      - traefik.http.routers.doskaz_adminpanel.tls.certresolver=le
 
   gotenberg:
     restart: unless-stopped

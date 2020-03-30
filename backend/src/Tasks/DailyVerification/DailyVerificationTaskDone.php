@@ -1,17 +1,18 @@
 <?php
 
 
-namespace App\Tasks\Daily;
+namespace App\Tasks\DailyVerification;
 
 
 use Ramsey\Uuid\UuidInterface;
 
-class DailyTaskDone
+class DailyVerificationTaskDone
 {
     /**
      * @var UuidInterface
      */
     public $id;
+
     /**
      * @var int
      */
@@ -21,8 +22,9 @@ class DailyTaskDone
      */
     public $reward;
 
+
     /**
-     * DailyTaskDone constructor.
+     * DailyVerificationTaskDone constructor.
      * @param UuidInterface $id
      * @param int $userId
      * @param int $reward
