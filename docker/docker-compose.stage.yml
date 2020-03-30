@@ -21,6 +21,8 @@ services:
     labels:
       - traefik.http.routers.doskaz_frontend_insecure.rule=Host(`${APP_HOST}`)
       - traefik.http.routers.doskaz_frontend_insecure.entrypoints=web
+      - traefik.http.middlewares.redirect_to_secured.redirectscheme.scheme=https
+      - traefik.http.routers.doskaz_frontend_insecure.middlewares=redirect_to_secured
       - traefik.http.routers.doskaz_frontend.tls=true
       - traefik.http.routers.doskaz_frontend.entrypoints=websecure
       - traefik.http.routers.doskaz_frontend.tls.certresolver=le
