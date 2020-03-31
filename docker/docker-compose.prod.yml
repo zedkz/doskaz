@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - SENTRY_DSN
-      - TRUSTED_PROXIES=172.18.0.0/16
+      - TRUSTED_PROXIES=172.18.0.0/16,172.21.0.6
 
   backend_nginx:
     restart: unless-stopped
