@@ -69,7 +69,7 @@ steps:
       COMPOSE_PROJECT_NAME: doskaz
       COMPOSE_FILE: docker-compose.yml:docker-compose.prod.yml
       APP_HOST: doskaz.kz
-      BACKEND_DOMAIN: https://doskaz.kz
+      BACKEND_DOMAIN: http://doskaz.kz
       FIREBASE_API_KEY:
         from_secret: firebase_api_key
       DB_NAME: doskaz
