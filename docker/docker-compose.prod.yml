@@ -27,8 +27,8 @@ services:
       - traefik.http.routers.doskaz_frontend.entrypoints=websecure
       - traefik.http.routers.doskaz_frontend.tls.certresolver=le
     restart: unless-stopped
-    #extra_hosts:
-    #  - "doskaz.kz:172.21.0.4"
+    extra_hosts:
+      - "doskaz.kz:172.21.0.5"
 
   database:
     restart: unless-stopped
