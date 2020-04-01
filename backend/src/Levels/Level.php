@@ -90,12 +90,19 @@ class Level implements EventProducer
         return ($this->points - $currentLevelThreshold) / ($nextLevelThreshold - $currentLevelThreshold) * 100;
     }
 
+    public function pointsToNextLevel(): int
+    {
+        $nextLevelThreshold = self::MAP[$this->value + 1] ?? 0;
+        return $nextLevelThreshold > 0 ? $nextLevelThreshold - $this->points : 0;
+    }
+
     public function value()
     {
         return $this->value;
     }
 
-    public function points() {
+    public function points()
+    {
         return $this->points;
     }
 }

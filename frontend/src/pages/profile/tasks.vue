@@ -1,6 +1,6 @@
 <template>
     <div>
-        <UserTasks />
+        <UserTasks :pages="pages" :items="items"/>
         <div class="popup__wrapper" v-if="addTaskPopup">
             <div class="popup__in">
                 <span class="popup__close" v-on:click="addTaskPopup = false"></span>
@@ -17,12 +17,16 @@
 
     export default {
         data() {
-          return {
-              addTaskPopup: true
-          }
+            return {
+                addTaskPopup: false
+            }
         },
         components: {
             UserTasks
+        },
+        async asyncData({$axios}) {
+            const {data} = await $axios.get('/api/profile/tasks')
+            return data;
         }
     };
 </script>

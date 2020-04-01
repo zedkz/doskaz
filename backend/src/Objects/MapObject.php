@@ -230,4 +230,8 @@ class MapObject implements EventProducer
     {
         return $this->uuid;
     }
+
+    public function createdBy(): ?int {
+        return $this->createdBy;
+    }
 }

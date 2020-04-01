@@ -64,6 +64,10 @@ services:
         tags:
             - { name: serializer.normalizer, priority: 1 }
 
+    App\Infrastructure\UuidNormalizer:
+        tags:
+            - { name: serializer.normalizer, priority: 1 }
+
     Imgproxy\UrlBuilder:
         arguments:
             - '/img'

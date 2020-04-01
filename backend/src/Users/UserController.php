@@ -13,6 +13,7 @@ use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
 use App\Levels\LevelRepository;
 use App\Tasks\CurrentTaskDataProvider;
+use App\UserEvents\UserEventsFinder;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
@@ -557,5 +558,54 @@ final class UserController extends AbstractController
                 ];
             }, $items)
         ];
+    }
+
+    /**
+     * @Route(path="/profile/tasks", methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     * @return mixed[]
+     */
+    public function tasks(Request $request, Connection $connection)
+    {
+        $perPage = 10;
+
+        $query = "
+               select completed_at, 'Заполните профиль' as type, 4 as points
+                  from profile_completion_tasks
+                  where user_id = :userId
+                  union all select completed_at, 'Добавьте 1 объект' as type, reward as points from daily_tasks where user_id = :userId
+                  union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points from daily_verification_tasks where user_id = :userId
+        ";
+
+        [$field, $sort] = explode('_', $request->query->get('sort', 'completedAt_desc'));
+
+        $qb = $connection->createQueryBuilder()
+            ->select(
+                'completed_at as "completedAt"',
+                'type',
+                'points'
+            )
+            ->from("($query)", 'tasks')
+            ->setParameter('userId', $this->getUser()->id());
+
+        return [
+            'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
+            'items' => $qb->orderBy('"' . $field . '"', $sort)
+                ->setMaxResults($perPage)
+                ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
+                ->execute()
+                ->fetchAll()
+        ];
+    }
+
+    /**
+     * @Route(path="/profile/events", methods={"GET"})
+     * @param UserEventsFinder $eventsFinder
+     * @return array
+     */
+    public function events(UserEventsFinder $eventsFinder)
+    {
+        return $eventsFinder->execute($this->getUser()->id(), 1, 'date', 'desc');
     }
 }

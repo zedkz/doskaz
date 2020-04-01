@@ -31,3 +31,5 @@ imports:
     - { resource: '../src/RegionalRepresentatives/services.yaml' }
     - { resource: '../src/Tasks/services.yaml' }
     - { resource: '../src/Levels/services.yaml' }
+    - { resource: '../src/UserEvents/services.yaml' }
+    - { resource: '../src/UserAbilities/services.yaml' }

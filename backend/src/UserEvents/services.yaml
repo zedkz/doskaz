@@ -1,0 +1,28 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  App\UserEvents\UserEventRepository:
+
+  App\UserEvents\ObjectReviewed\RememberWhenObjectReviewed:
+    tags: ['domain_events.listener']
+
+  App\UserEvents\ObjectReviewed\ObjectReviewedDataFormatter:
+    tags: ['user_events.data_formatter']
+
+  App\UserEvents\LevelReached\RememberWhenLevelReached:
+    tags: ['domain_events.listener']
+
+  App\UserEvents\LevelReached\LevelReachedDataFormatter:
+    tags: ['user_events.data_formatter']
+
+  App\UserEvents\BlogCommentReplied\RememberWhenBlogCommentReplied:
+    tags: ['domain_events.listener']
+
+  App\UserEvents\BlogCommentReplied\BlogCommentRepliedDataFormatter:
+    tags: ['user_events.data_formatter']
+
+  App\UserEvents\UserEventsFinder:
+    arguments:
+      $formatters: !tagged user_events.data_formatter

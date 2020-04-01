@@ -49,6 +49,9 @@ class DailyTask implements EventProducer
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="integer", options={"default" = 4})
+     */
     private $reward = 4;
 
     public function __construct(int $userId)

@@ -55,14 +55,24 @@
                     tasksItemPoints="50 баллов"
             />
         </div>
+
+        <div class="user-tickets__pagination">
+            <pagination :pages="pages" v-if="pages > 1"/>
+        </div>
     </div>
 </template>
 
 <script>
     import UserTasksItem from "./UserTasksItem";
+    import Pagination from "../Pagination";
 
     export default {
+        props: [
+            'pages',
+            'items'
+        ],
         components: {
+            Pagination,
             UserTasksItem
         },
         methods: {

@@ -18,7 +18,7 @@
           <div>
             <span class="person-name">{{ comment.userName }}</span>
             <span v-if="parentItem">
-              <small class="small" style="margin:0 10px;">ответил </small>
+              <small class="small" style="margin:0 10px;">ответил(а) </small>
               <small class="small">{{ parentItem.userName }}</small>
             </span>
             <p class="text-comment">{{ comment.text }}</p>
@@ -117,7 +117,7 @@ export default {
       this.$emit("formFocus", id);
     },
     requestComment(id) {
-      this.$store.commit("setId", id);
+     // this.$store.commit("setId", id);
       this.$emit("formFocus", id);
     },
     colorGenerator() {

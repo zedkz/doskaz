@@ -6,3 +6,4 @@ doctrine_json_odm:
             - '%kernel.project_dir%/src/Objects'
             - '%kernel.project_dir%/src/Infrastructure'
             - '%kernel.project_dir%/src/Users'
+            - '%kernel.project_dir%/src/UserEvents'

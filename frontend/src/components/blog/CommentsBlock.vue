@@ -109,17 +109,18 @@
                 this.$axios
                     .post(`/api/blogPosts/${this.id}/comments`, {
                         text: this.commentText,
-                        parentId: this.$store.getters.getId
+                        parentId: this.commentId
                     })
                     .then(res => {
                         console.log(res);
                         this.$axios.get(`/api/blogPosts/${this.id}/comments`).then(res => {
                             this.comments = res.data;
                         });
+                        this.commentId = null;
                         this.commentText = "";
-                        this.$store.commit("setId", null);
+                     //   this.$store.commit("setId", null);
                     });
-                this.$store.commit("setId", null);
+               // this.$store.commit("setId", null);
             },
             clearComment() {
                 this.commentText = "";

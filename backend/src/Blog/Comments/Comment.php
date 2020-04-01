@@ -75,5 +75,12 @@ class Comment implements EventProducer
         $this->parentId = $parentId;
         $this->createdAt = new \DateTimeImmutable();
         $this->remember(new CommentCreated($this->id, $this->userId));
+        if ($parentId) {
+            $this->remember(new ReplyCreated($this->id, $this->parentId, $this->userId));
+        }
+    }
+
+    public function userId(): int {
+        return $this->userId;
     }
 }

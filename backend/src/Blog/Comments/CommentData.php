@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CommentData implements DataObject
 {
     /**
-     * @var integer|null
+     * @var UuidInterface|null
      * @Property(readOnly=true, example=1)
      */
     public $id;

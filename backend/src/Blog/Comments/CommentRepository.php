@@ -5,6 +5,7 @@ namespace App\Blog\Comments;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Ramsey\Uuid\UuidInterface;
 
 class CommentRepository
 {
@@ -26,7 +27,7 @@ class CommentRepository
         $this->entityManager->persist($comment);
     }
 
-    public function find(int $id, $lockMode = null): ?Comment
+    public function find(UuidInterface $id, $lockMode = null): ?Comment
     {
         return $this->repository->find($id, $lockMode);
     }

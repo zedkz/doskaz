@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UserAchievments/>
+    <UserAchievments :events="items"/>
     <div class="popup__wrapper" v-if="newLevelPopup">
       <div class="popup__in">
         <span class="popup__close" v-on:click="newLevelPopup = false"></span>
@@ -72,8 +72,12 @@
             return {
                 newLevelPopup: false,
                 newPointsPopup: false,
-                addAwardPopup: true
+                addAwardPopup: false
             };
+        },
+        async asyncData({$axios}) {
+          const {data: {items}} = await $axios.get('/api/profile/events')
+          return {items}
         },
         computed: {
             currentPage() {

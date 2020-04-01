@@ -75,4 +75,14 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Levels'
                 prefix: 'App\Levels'
+            UserEvents:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/UserEvents'
+                prefix: 'App\UserEvents'
+            UserAbilities:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/UserAbilities'
+                prefix: 'App\UserAbilities'
 
