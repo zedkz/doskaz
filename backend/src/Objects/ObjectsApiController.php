@@ -1412,7 +1412,7 @@ final class ObjectsApiController extends AbstractController
     public function pdf(Request $request, MapObject $mapObject, Client $client)
     {
         //  $request = new URLRequest('http://frontend:3000/objects/pdf?id='.$mapObject->id());
-        $request = new URLRequest($request->getSchemeAndHttpHost() . '/objects/pdf?id=' . $mapObject->id());
+        $request = new URLRequest('http://frontend:3000/objects/pdf?id=' . $mapObject->id());
         $request->setMargins([0, 0, 0, 0]);
         $request->setPaperSize(URLRequest::A4);
         $path = tempnam('/tmp', 'pdf');
