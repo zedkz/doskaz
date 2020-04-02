@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  App\Awards\IssueAwardForAddedObjects:
+    tags: ['domain_events.listener']
+
+  App\Awards\AwardRepository:

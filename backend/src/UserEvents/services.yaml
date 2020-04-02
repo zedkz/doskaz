@@ -23,6 +23,12 @@ services:
   App\UserEvents\BlogCommentReplied\BlogCommentRepliedDataFormatter:
     tags: ['user_events.data_formatter']
 
+  App\UserEvents\AwardIssued\RememberWhenAwardIssued:
+    tags: ['domain_events.listener']
+
+  App\UserEvents\AwardIssued\AwardIssuedDataFormatter:
+    tags: ['user_events.data_formatter']
+
   App\UserEvents\UserEventsFinder:
     arguments:
       $formatters: !tagged user_events.data_formatter

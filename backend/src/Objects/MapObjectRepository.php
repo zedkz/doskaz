@@ -48,4 +48,11 @@ final class MapObjectRepository
     {
         return $this->repository->find($id);
     }
+
+    public function countForUser(int $userId): int
+    {
+        return $this->repository->count([
+            'createdBy' => $userId
+        ]);
+    }
 }

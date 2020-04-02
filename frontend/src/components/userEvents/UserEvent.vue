@@ -38,6 +38,10 @@
                 </template>
             </div>
         </template>
+        <template v-if="event.type === 'award_issued'">
+            <div class="list__icon list__icon_achievment"></div>
+            <div class="list__text">Вам выдана награда: "{{ event.data.title }}"</div>
+        </template>
 
     </div>
 
