@@ -215,9 +215,8 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-
-        @media all and (max-width: 1023px) {
-            max-height: 330px;
+        @media all and (max-width: 768px){
+            display: none;
         }
 
         &__tab-links {

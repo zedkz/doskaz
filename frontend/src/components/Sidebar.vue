@@ -72,6 +72,11 @@
             width: 670px;
             padding-left: 0;
         }
+        @media all and (max-width: 768px){
+            width: 100%;
+            padding: 20px 0 0;
+            height: 220px;
+        }
 
         &.isMinified {
             transform: translateX(calc(-100% + 30px));
@@ -129,7 +134,63 @@
             flex: 1 0 auto;
             margin-bottom: 10px;
 
+            @media all and (max-width: 768px){
+                width: 100%;
+                margin: 0;
+                height: 200px;
+                max-height: 200px;
+                padding: 0;
+            }
             &__header {
+                @media all and (max-width: 768px){
+                    padding: 0;
+                    width: 60px;
+                    height: 50px;
+                    .main-filter__logo {
+                        display: none;
+                    }
+                    .burger-wrapper {
+                        width: 60px;
+                        height: 50px;
+                        padding: 16px 20px 17px;
+                    }
+                }
+            }
+            &__mobile-top {
+                @media all and (max-width: 768px) {
+                    height: 50px;
+                    display: flex;
+                    flex-direction: row-reverse;
+                }
+            }
+            &__search {
+                @media all and (max-width: 768px){
+                    padding: 0;
+                    width: calc(100% - 60px);
+                    border-right: 1px solid rgba(123, 149, 167, 0.3);
+                    .input {
+                        flex-direction: row-reverse;
+                        margin: 0;
+                        border: none;
+                        padding: 0;
+                        button {
+                            height: 50px;
+                            width: 40px;
+                            svg {
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+                    }
+                    .voice-input {
+                        button {
+                            border: none;
+                        }
+                    }
+                }
+            }
+            &__header {
+
             }
         }
 

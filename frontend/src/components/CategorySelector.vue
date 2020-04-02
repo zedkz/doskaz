@@ -1,6 +1,6 @@
 <template>
     <div class="category-selector">
-        <div class="availability">
+        <div class="availability" :class="{ opened: availabilityToggle }">
             <div class="availability__item availability__item_green" @click="toggleAccessibilityLevel('full_accessible')" :class="{isActive: accessibilityLevels.includes('full_accessible')}">
                 <div class="availability__icon"></div>
                 <span class="availability__text">Доступно</span>
@@ -13,6 +13,7 @@
                 <div class="availability__icon"></div>
                 <span class="availability__text">Недоступно</span>
             </div>
+            <span class="availability__button" @click="availabilityToggle = !availabilityToggle"></span>
         </div>
 
         <div class="category">
@@ -59,9 +60,13 @@
         data() {
             return {
                 selectedCategory: null,
+                availabilityToggle: false
             };
         },
         methods: {
+            availabilityToggle() {
+
+            },
             selectCategory(cat) {
                 this.selectedCategory = cat;
             },
@@ -90,17 +95,67 @@
     .category-selector .category .category__scroll .subcategory-title {
         width: 100%;
         cursor: pointer;
+        @media all and (max-width: 768px){
+            text-align: center;
+            line-height: 20px;
+            font-weight: 700;
+            margin: 0 14px 0 12px;
+            font-size: 14px;
+
+        }
     }
 
     .category-selector {
         height: calc(100% - 225px);
-
+        @media all and (max-width: 1023px) {
+            height: calc(100% - 155px);
+        }
+        @media all and (max-width: 768px){
+            height: 50px;
+            display: block;
+            padding: 0;
+        }
         .availability {
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
             padding-bottom: 30px;
+            position: relative;
+            &__button {
+                display: none;
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                right: 0;
+                top: 0;
+                &:before {
+                    content: '';
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    margin: -2px 0 0 -4px;
+                    border-top: 4px solid #333333;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                }
+                @media all and (max-width: 768px){
+                    display: block;
+                }
+            }
+            @media all and (max-width: 768px){
+                flex-direction: column;
+                padding: 0;
+                background: $light-gray;
+                overflow: hidden;
+                height: 50px;
+                align-items: baseline;
+                z-index: 2;
+                &.opened {
+                    overflow: visible;
+                }
+            }
 
             &__item {
                 display: flex;
@@ -111,6 +166,16 @@
                 transition: background 0.3s;
                 margin-left: 20px;
                 cursor: pointer;
+
+                @media all and (max-width: 768px){
+                    padding: 10px 0 10px 20px;
+                    width: 100%;
+                    margin: 0;
+                    background: #F1F8FC;
+                    &:first-child {
+                        width: calc(100% - 50px);
+                    }
+                }
 
                 &:first-child {
                     margin-left: 0;
@@ -162,6 +227,9 @@
                         &__icon {
                             border: 2px solid $green;
                             background-image: url("data:image/svg+xml,%3Csvg width='22' height='14' viewBox='0 0 22 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.22581 0L0 3.20635L11 14L22 3.20635L18.7419 0L11 7.65079L3.22581 0Z' fill='%233DBA3B'/%3E%3C/svg%3E%0A");
+                            @media all and (max-width: 768px){
+                                border-width: 1px;
+                            }
                         }
                     }
                 }
@@ -171,6 +239,9 @@
                         &__icon {
                             border: 2px solid $yellow;
                             background-image: url("data:image/svg+xml,%3Csvg width='24' height='6' viewBox='0 0 24 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M23.993 0.0017395H0.00708008V5.99821H23.993V0.0017395Z' fill='%23F8AC1A'/%3E%3C/svg%3E%0A");
+                            @media all and (max-width: 768px){
+                                border-width: 1px;
+                            }
                         }
                     }
                 }
@@ -180,6 +251,9 @@
                         &__icon {
                             border: 2px solid $red;
                             background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.2646 4.29808L17.702 0.735474L11 7.47269L4.29808 0.735474L0.735474 4.29808L7.47269 11L0.735474 17.702L4.29808 21.2646L11 14.5274L17.702 21.2646L21.2646 17.702L14.5274 11L21.2646 4.29808Z' fill='%23DE1220'/%3E%3C/svg%3E%0A");
+                            @media all and (max-width: 768px){
+                                border-width: 1px;
+                            }
                         }
                     }
                 }
@@ -193,6 +267,11 @@
                 background-color: $tr;
                 background-position: center;
                 background-repeat: no-repeat;
+                @media all and (max-width: 768px){
+                    width: 30px;
+                    height: 30px;
+                    background-size: 16px;
+                }
             }
 
             &__text {
@@ -200,11 +279,17 @@
                 font-size: 16px;
                 line-height: 20px;
                 color: #333333;
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                }
             }
         }
 
         .category {
             height: calc(100% - 70px);
+            @media all and (max-width: 768px) {
+                height: 100px;
+            }
 
             &__scroll {
                 position: relative;
@@ -228,6 +313,17 @@
                 &::-webkit-scrollbar-thumb {
                     background: transparentize(#c4c4c4, 0.5);
                 }
+
+                @media all and (max-width: 768px) {
+                    padding: 20px 0 0;
+                    overflow-y: hidden;
+                    overflow-x: auto;
+                    flex-wrap: unset;
+                    height: 100px;
+                    &::-webkit-scrollbar {
+                        height: 2px;
+                    }
+                }
             }
 
             &__item {
@@ -247,6 +343,13 @@
 
                 &:nth-child(odd) {
                     margin-left: 0;
+                }
+
+                @media all and (max-width: 768px) {
+                    width: auto;
+                    display: block;
+                    margin: 0;
+                    text-align: center;
                 }
 
                 &:hover {
@@ -305,6 +408,14 @@
                 line-height: 30px;
                 transition: opacity 0.3s;
                 color: #ffffff;
+                @media all and (max-width: 768px) {
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 22px;
+                    margin: 0 auto;
+                    display: block;
+                }
             }
 
             &__text {
@@ -312,6 +423,12 @@
                 line-height: 20px;
                 color: #333333;
                 padding: 0 10px;
+                @media all and (max-width: 768px) {
+                    font-size: 12px;
+                    line-height: 14px;
+                    margin: 3px 0 0;
+                    text-align: center;
+                }
             }
         }
     }
