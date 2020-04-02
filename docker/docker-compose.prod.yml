@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - SENTRY_DSN
-      - TRUSTED_PROXIES=172.18.0.0/16,172.21.0.6/16
+      - TRUSTED_PROXIES=REMOTE_ADDR
 
   backend_nginx:
     restart: unless-stopped
@@ -16,6 +16,10 @@ services:
       - traefik.http.routers.doskaz_app.tls.certresolver=le
       - traefik.http.routers.app_rss.tls=true
       - traefik.http.routers.app_rss.tls.certresolver=le
+    networks:
+      default:
+        aliases:
+          - 'doskaz.kz'
 
   frontend:
     labels:
@@ -27,8 +31,6 @@ services:
       - traefik.http.routers.doskaz_frontend.entrypoints=websecure
       - traefik.http.routers.doskaz_frontend.tls.certresolver=le
     restart: unless-stopped
-    extra_hosts:
-      - "doskaz.kz:172.21.0.5"
 
   database:
     restart: unless-stopped
