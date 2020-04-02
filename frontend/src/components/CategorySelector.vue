@@ -64,9 +64,6 @@
             };
         },
         methods: {
-            availabilityToggle() {
-
-            },
             selectCategory(cat) {
                 this.selectedCategory = cat;
             },
