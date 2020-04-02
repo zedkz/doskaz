@@ -134,7 +134,7 @@
             flex: 1 0 auto;
             margin-bottom: 10px;
             @media all and (max-width: 1180px){
-                max-height: calc(100% - 350px);
+                max-height: calc(100% - 254px);
             }
 
             @media all and (max-width: 768px){

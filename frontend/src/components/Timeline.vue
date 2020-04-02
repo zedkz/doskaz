@@ -216,7 +216,7 @@
         justify-content: flex-start;
         align-items: flex-start;
         @media all and (max-width: 1180px){
-            max-height: 350px;
+            max-height: 254px;
         }
         @media all and (max-width: 768px){
             display: none;
