@@ -41,9 +41,9 @@
             categories() {
                 return [
                     {key: 'movement', title: 'Люди, передвигающиеся на кресло-коляске'},
-                    {key: 'vision', title: 'Люди с нарушениями зрения'},
+                    {key: 'vision', title: 'Люди с инвалидностью по зрению'},
                     {key: 'limb', title: 'Люди с нарушением опорно-двигательного аппарата'},
-                    {key: 'hearing', title: 'Люди с нарушениями слуха'},
+                    {key: 'hearing', title: 'Люди с инвалидностью по слуху'},
                     {key: 'temporal', title: 'Временно травмированные люди'},
                     {key: 'babyCarriage', title: 'Люди с детскими колясками'},
                     {key: 'missingLimbs', title: 'Люди с отсутствующими конечностями'},
