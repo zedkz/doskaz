@@ -110,6 +110,12 @@
                 width: 100%;
                 background: rgba(0, 0, 0, 0.7);
                 padding: 0 0 0 50%;
+                @media all and (max-width: 1280px) {
+                    padding: 0 0 0 550px;
+                }
+                @media all and (max-width: 1200px) {
+                    padding: 0 0 0 490px;
+                }
 
                 &__content {
                     margin-left: -130px;
@@ -128,7 +134,10 @@
                     line-height: 20px;
                     color: #ffffff;
                     height: 50px;
-
+                    @media all and (max-width: 1200px) {
+                        padding: 0 10px;
+                        font-size: 14px;
+                    }
                     span {
                         color: #ffffff;
                     }
@@ -165,7 +174,9 @@
             width: 390px;
             position: relative;
             top: -110px;
-
+            @media all and (max-width: 1280px) {
+                width: 330px;
+            }
             & > div {
                 margin-top: 10px;
 
@@ -179,6 +190,9 @@
             flex: 1 0 auto;
             max-width: calc(100% - 450px);
             margin-left: 60px;
+            @media all and (max-width: 1200px) {
+                margin-left: 20px;
+            }
         }
     }
 </style>
