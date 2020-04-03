@@ -82,12 +82,14 @@
             </div>
         </div>
         <div class="popup__wrapper" v-show="formSent">
-            <div class="popup__in">
-                <span class="popup__close" v-on:click="formSent = false"></span>
-                <h3 class="popup__title">Готово!</h3>
-                <p class="popup__text">Сообщение успешно отправлено. Спасибо за сотрудничество!</p>
-                <div class="popup__buttons --center">
-                    <button class="button" @click="formSent = false">Ок</button>
+            <div class="popup__scroll">
+                <div class="popup__in">
+                    <span class="popup__close" v-on:click="formSent = false"></span>
+                    <h3 class="popup__title">Готово!</h3>
+                    <p class="popup__text">Сообщение успешно отправлено. Спасибо за сотрудничество!</p>
+                    <div class="popup__buttons --center">
+                        <button class="button" @click="formSent = false">Ок</button>
+                    </div>
                 </div>
             </div>
         </div>

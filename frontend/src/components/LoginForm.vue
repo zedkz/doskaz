@@ -294,6 +294,7 @@
                     line-height: 20px;
                     text-align: center;
                     color: #333333;
+                    cursor: pointer;
                 }
             }
         }

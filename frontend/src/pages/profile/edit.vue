@@ -71,10 +71,19 @@
         &__edit {
             padding: 26px 0 0;
             width: 560px;
+            @media all and (max-width: 1023px){
+                width: 100%;
+                padding: 26px 0;
+            }
         }
 
         &__title {
             margin: 0 0 30px;
+            @media all and (max-width: 1023px){
+                font-size: 18px;
+                line-height: 20px;
+                margin: 0 0 22px;
+            }
         }
 
         &__text {
@@ -92,6 +101,11 @@
             font-weight: 700;
             display: block;
             padding: 0 20px 0 0;
+            @media all and (max-width: 1023px){
+                font-size: 10px;
+                line-height: 20px;
+                color: #5B6067;
+            }
         }
 
         &__button {
@@ -118,7 +132,10 @@
             display: flex;
             position: relative;
             margin: 40px 0 0;
-
+            @media all and (max-width: 1023px){
+                margin: 22px 0 0;
+                display: block;
+            }
             .error-msg {
                 display: none;
                 position: absolute;

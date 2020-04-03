@@ -2,64 +2,70 @@
   <div>
     <UserAchievments :events="items"/>
     <div class="popup__wrapper" v-if="newLevelPopup">
-      <div class="popup__in">
-        <span class="popup__close" v-on:click="newLevelPopup = false"></span>
-        <h5 class="popup__title">Новый уровень!</h5>
-        <p class="popup__text">Поздравляем, вы получили 5 уровень!<br>Теперь вы можете редактировать свой статус
-        </p>
-        <div class="popup__new-level"
-             v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/newLevel.svg') + ')'}"></div>
-      </div>
+        <div class="popup__scroll">
+            <div class="popup__in">
+                <span class="popup__close" v-on:click="newLevelPopup = false"></span>
+                <h5 class="popup__title">Новый уровень!</h5>
+                <p class="popup__text">Поздравляем, вы получили 5 уровень!<br>Теперь вы можете редактировать свой статус
+                </p>
+                <div class="popup__new-level"
+                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/newLevel.svg') + ')'}"></div>
+            </div>
+        </div>
     </div>
 
     <div class="popup__wrapper" v-if="newPointsPopup">
-      <div class="popup__in">
-        <span class="popup__close" v-on:click="newPointsPopup = false"></span>
-        <h5 class="popup__title">Вам начислено 10 баллов!</h5>
-        <p class="popup__text">Вы закончили еженедельное задание<br>«Добавь 5 объектов в районе»</p>
-        <div class="popup__new-points">10</div>
-      </div>
+        <div class="popup__scroll">
+            <div class="popup__in">
+                <span class="popup__close" v-on:click="newPointsPopup = false"></span>
+                <h5 class="popup__title">Вам начислено 10 баллов!</h5>
+                <p class="popup__text">Вы закончили еженедельное задание<br>«Добавь 5 объектов в районе»</p>
+                <div class="popup__new-points">10</div>
+            </div>
+        </div>
     </div>
 
     <div class="popup__wrapper" v-if="addAwardPopup">
-      <div class="popup__in">
-        <span class="popup__close" v-on:click="addAwardPopup = false"></span>
-        <h5 class="popup__title">Добавить награду</h5>
-        <div class="popup__award-wrapper">
-          <form>
-            <div class="popup__award-list">
-              <div class="popup__award">
-                <div class="popup__award-icon"
-                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-gold.svg') + ')'}"></div>
-                <input id="award-gold" type="radio" class="popup__award-input" name="award">
-                <label for="award-gold">золотая</label>
-              </div>
-              <div class="popup__award">
-                <div class="popup__award-icon"
-                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-silver.svg') + ')'}"></div>
-                <input id="award-silver" type="radio" class="popup__award-input" name="award">
-                <label for="award-silver">серебряная</label>
-              </div>
-              <div class="popup__award">
-                <div class="popup__award-icon"
-                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-bronze.svg') + ')'}"></div>
-                <input id="award-bronze" type="radio" class="popup__award-input" name="award">
-                <label for="award-bronze">бронзовая</label>
-              </div>
+        <div class="popup__scroll">
+            <div class="popup__in">
+                <span class="popup__close" v-on:click="addAwardPopup = false"></span>
+                <h5 class="popup__title">Добавить награду</h5>
+                <div class="popup__award-wrapper">
+                    <form>
+                        <div class="popup__award-list">
+                            <div class="popup__award">
+                                <div class="popup__award-icon"
+                                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-gold.svg') + ')'}"></div>
+                                <input id="award-gold" type="radio" class="popup__award-input" name="award">
+                                <label for="award-gold">золотая</label>
+                            </div>
+                            <div class="popup__award">
+                                <div class="popup__award-icon"
+                                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-silver.svg') + ')'}"></div>
+                                <input id="award-silver" type="radio" class="popup__award-input" name="award">
+                                <label for="award-silver">серебряная</label>
+                            </div>
+                            <div class="popup__award">
+                                <div class="popup__award-icon"
+                                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-bronze.svg') + ')'}"></div>
+                                <input id="award-bronze" type="radio" class="popup__award-input" name="award">
+                                <label for="award-bronze">бронзовая</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="select">
+                    <select>
+                        <option disabled selected>Выберите категорию</option>
+                        <option>Категория1</option>
+                        <option>Категория2</option>
+                        <option>Категория3</option>
+                        <option>Категория4</option>
+                    </select>
+                </div>
+                <button type="button" class="user-page__button">Добавить</button>
             </div>
-          </form>
         </div>
-        <div class="select">
-          <select>
-            <option disabled selected>Выберите категорию</option>
-            <option>Категория1</option>
-            <option>Категория2</option>
-            <option>Категория3</option>
-            <option>Категория4</option>
-          </select>
-        </div>
-        <button type="button" class="user-page__button">Добавить</button>
-      </div>
     </div>
   </div>
 </template>
@@ -104,12 +110,24 @@
             position: relative;
             display: flex;
             align-items: flex-end;
+            @media all and (max-width: 768px){
+                display: none;
+            }
 
             .menu {
                 height: 50px;
                 width: 100%;
                 background: rgba(0, 0, 0, 0.7);
                 padding: 0 0 0 50%;
+                @media all and (max-width: 1280px) {
+                    padding: 0 0 0 550px;
+                }
+                @media all and (max-width: 1200px) {
+                    padding: 0 0 0 490px;
+                }
+                @media all and (max-width: 1024px) {
+                    padding: 0 0 0 360px;
+                }
 
                 &__content {
                     margin-left: -130px;
@@ -128,7 +146,10 @@
                     line-height: 20px;
                     color: #ffffff;
                     height: 50px;
-
+                    @media all and (max-width: 1200px) {
+                        padding: 0 10px;
+                        font-size: 14px;
+                    }
                     span {
                         color: #ffffff;
                     }
@@ -159,13 +180,25 @@
             justify-content: flex-start;
             align-items: flex-start;
             flex-direction: row;
+            @media all and (max-width: 768px) {
+                display: block;
+            }
         }
 
         &__profile {
             width: 390px;
             position: relative;
             top: -110px;
-
+            @media all and (max-width: 1280px) {
+                width: 330px;
+            }
+            @media all and (max-width: 1024px) {
+                width: 200px;
+            }
+            @media all and (max-width: 768px) {
+                top: 0;
+                width: 100%;
+            }
             & > div {
                 margin-top: 10px;
 
@@ -179,6 +212,18 @@
             flex: 1 0 auto;
             max-width: calc(100% - 450px);
             margin-left: 60px;
+            @media all and (max-width: 1200px) {
+                margin-left: 20px;
+            }
+            @media all and (max-width: 1024px) {
+                max-width: calc(100% - 216px);
+            }
+            @media all and (max-width: 768px){
+                max-width: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0 20px;
+            }
         }
     }
 </style>
