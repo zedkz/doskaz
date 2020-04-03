@@ -12,6 +12,7 @@
                         <sidebar-link path="/addingRequests"><i class="fa fa-file"></i> Заявки на добавление объектов</sidebar-link>
                         <sidebar-link path="/objects"><i class="fa fa-map-marker-alt"></i> Объекты</sidebar-link>
                         <sidebar-link path="/regionalRepresentatives"><i class="fa fa-id-card"></i> Региональные представители</sidebar-link>
+                        <sidebar-link path="/regionalCoordinators"><i class="fa fa-id-card"></i> Региональные координаторы</sidebar-link>
                     </ul>
                 </nav>
             </div>
