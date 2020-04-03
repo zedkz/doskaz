@@ -36,7 +36,7 @@ class RegionalCoordinator
     /**
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
-    private \DateTimeImmutable $deletedAt;
+    private ?\DateTimeImmutable $deletedAt;
 
     public function __construct(int $userId, CityIdCollection $cities)
     {
@@ -44,5 +44,9 @@ class RegionalCoordinator
         $this->cities = $cities;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function markAsDeleted() {
+        $this->deletedAt = new \DateTimeImmutable();
     }
 }

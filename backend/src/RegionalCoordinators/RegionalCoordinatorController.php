@@ -4,6 +4,7 @@
 namespace App\RegionalCoordinators;
 
 
+use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,5 +57,16 @@ class RegionalCoordinatorController extends AbstractController
             'count' => (clone $qb)->select('count(*)')->execute()->fetchColumn(),
             'items' => $items
         ];
+    }
+
+    /**
+     * @Route(path="/{userId}", methods={"DELETE"})
+     * @param RegionalCoordinator $coordinator
+     * @param Flusher $flusher
+     */
+    public function delete(RegionalCoordinator $coordinator, Flusher $flusher)
+    {
+        $coordinator->markAsDeleted();
+        $flusher->flush();
     }
 }
