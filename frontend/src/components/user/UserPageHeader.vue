@@ -88,24 +88,34 @@
                 width: 100%;
                 background: rgba(0, 0, 0, 0.7);
                 padding: 0 0 0 50%;
+                @media all and (max-width: 1280px) {
+                    padding: 0 0 0 550px;
+                }
+                @media all and (max-width: 1200px) {
+                    padding: 0 0 0 490px;
+                }
 
                 &__content {
-                     margin-left: -130px;
-                     display: flex;
-                     justify-content: flex-start;
-                     align-items: center;
-                     position: relative;
+                    margin-left: -130px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    position: relative;
                  }
 
                 &__item {
-                     padding: 0 20px;
-                     display: flex;
-                     justify-content: center;
-                     align-items: center;
-                     font-size: 16px;
-                     line-height: 20px;
-                     color: #ffffff;
-                     height: 50px;
+                    padding: 0 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 16px;
+                    line-height: 20px;
+                    color: #ffffff;
+                    height: 50px;
+                    @media all and (max-width: 1200px) {
+                        padding: 0 10px;
+                        font-size: 14px;
+                    }
                     span {
                         color: #ffffff;
                     }
@@ -138,8 +148,11 @@
 
         &__profile {
             width: 390px;
-             position: relative;
-             top: -110px;
+            position: relative;
+            top: -110px;
+            @media all and (max-width: 1280px) {
+                width: 330px;
+            }
 
             & > div {
                 margin-top: 10px;
@@ -150,9 +163,12 @@
         }
 
         &__tabs {
-             flex: 1 0 auto;
-             max-width: calc(100% - 450px);
-             margin-left: 60px;
+            flex: 1 0 auto;
+            max-width: calc(100% - 450px);
+            margin-left: 60px;
+            @media all and (max-width: 1200px) {
+                margin-left: 20px;
+            }
         }
     }
 </style>

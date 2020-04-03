@@ -164,6 +164,9 @@
         padding: 40px 40px 35px;
         width: 100%;
         position: relative;
+        @media all and (max-width: 1280px) {
+            padding: 30px;
+        }
 
         &__avatar {
             width: 120px;
@@ -254,6 +257,10 @@
             overflow: hidden;
             text-align: center;
             font-size: 0;
+            @media all and (max-width: 1280px) {
+                width: 200px;
+                height: 200px;
+            }
 
             &-link {
                 display: block;
@@ -300,6 +307,10 @@
             line-height: 40px;
             color: #333333;
             margin-top: 28px;
+            @media all and (max-width: 1280px) {
+                font-size: 28px;
+                line-height: 36px;
+            }
         }
 
         &__title {

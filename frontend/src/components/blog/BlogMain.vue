@@ -60,7 +60,11 @@
             <ul class="blog__list">
                 <li class="blog__list-item" v-for="post in posts" :key="post.id">
                     <div class="blog__item">
-                        <h3 class="blog__item-title">{{ post.title }}</h3>
+                        <h3 class=""></h3>
+                        <nuxt-link
+                                :to="{name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}}"
+                                class="blog__item-title">{{ post.title }}
+                        </nuxt-link>
                         <img class="blog__item-img" v-if="post.image" :src="post.image" :alt="post.title">
                         <p class="blog__item-text" v-html="post.annotation"></p>
                         <div class="blog__item-bottom">

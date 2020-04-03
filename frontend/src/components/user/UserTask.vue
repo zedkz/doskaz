@@ -72,7 +72,7 @@
                 display: block;
                 width: 100%;
                 height: 8px;
-                background: fade-out(#7b95a7, 0.3);
+                background: rgba(123,149,167,.3);
                 border-radius: 10px;
                 position: relative;
 

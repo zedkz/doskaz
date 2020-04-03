@@ -75,7 +75,8 @@
         @media all and (max-width: 768px){
             width: 100%;
             padding: 20px 0 0;
-            height: 220px;
+            height: auto;
+            bottom: auto;
         }
 
         &.isMinified {

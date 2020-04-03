@@ -100,6 +100,9 @@
 
     .user-objects {
         padding: 35px 0 0;
+        @media all and (max-width: 1200px) {
+            padding: 24px 0 0;
+        }
 
         &__filter {
             margin-bottom: 55px;

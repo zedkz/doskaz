@@ -137,7 +137,6 @@
         methods: {
             selectCity: call('settings/select'),
             mainPageMobOpened() {
-                console.log('true');
                 eventBus.$emit('mainPageMobOpened');
             }
         }
