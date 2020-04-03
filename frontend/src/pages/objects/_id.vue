@@ -1,5 +1,15 @@
 <template>
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper" :class="{opened: mobileOpened}">
+        <div class="mob-menu">
+            <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
+                <img :src="require('@/assets/logo.svg')" alt/>
+            </nuxt-link>
+            <div class="burger-wrapper" @click="mainPageMobOpened()">
+                <span class="burger">
+                  <span class="burger-line"></span>
+                </span>
+            </div>
+        </div>
         <div class="sidebar">
             <div class="object-side">
                 <div class="object-side__top">
@@ -9,7 +19,7 @@
                             <i class="fa" :class="object.icon"></i>
                         </div>
                         <div class="object-side__breadcrumb-list">
-                            <a class="object-side__breadcrumb">{{ object.category }}</a>
+                            <a class="object-side__breadcrumb"><span>&#8592;</span>{{ object.category }}</a>
                             <a class="object-side__breadcrumb">{{ object.subCategory }}</a>
                         </div>
                     </div>
@@ -31,13 +41,15 @@
                     </div>
                 </div>
                 <div class="object-side__content">
-                    <div class="object-side__tab-link-b">
-                        <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index"
-                                   class="object-side__tab-link"
-                                   :class="{active: $route.query.tab === tab.link.query.tab}">
-                            {{ tab.title }}
-                            <span class="object-side__tab-num" v-if="tab.counter >= 0">{{ tab.counter }}</span>
-                        </nuxt-link>
+                    <div class="object-side__tab-link-wrapper">
+                        <div class="object-side__tab-link-b">
+                            <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index"
+                                       class="object-side__tab-link"
+                                       :class="{active: $route.query.tab === tab.link.query.tab}">
+                                {{ tab.title }}
+                                <span class="object-side__tab-num" v-if="tab.counter >= 0">{{ tab.counter }}</span>
+                            </nuxt-link>
+                        </div>
                     </div>
                     <div class="object-side__tab-content-b">
                         <div class="object-side__tab-content" :class="{active: !$route.query.tab}"
@@ -59,8 +71,7 @@
                                 </nuxt-link>
                             </div>
                         </div>
-                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}"
-                             id="tab-photo">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'photos'}" id="tab-photo">
                             <div class="object-side__photo" v-for="group in photosByYear" :key="group.year">
                                 <div class="object-side__photo-year">{{ group.year }}</div>
                                 <div class="object-side__photo-list">
@@ -99,8 +110,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'history'}"
-                             id="tab-history">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'history'}" id="tab-history">
                             <ul class="object-side__history-list">
                                 <li class="object-side__history-item" v-for="(item, index) in object.history"
                                     :key="index">
@@ -118,7 +128,7 @@
                                         </template>
                                     </p>
                                 </li>
-                                <!--<li class="object-side__history-item">
+                                <li class="object-side__history-item">
                                     <span class="object-side__history-date">11 августа</span>
                                     <p class="object-side__history-text"><b>Алдияр Тулебаев</b> изменил описание объекта
                                     </p>
@@ -148,7 +158,7 @@
                                     <span class="object-side__history-date">6 августа</span>
                                     <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал зоны
                                         доступности объекта</p>
-                                </li>-->
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -214,6 +224,8 @@
     import ru from 'date-fns/locale/ru'
     import Username from "../../components/Username";
     import PostSubmitMessage from "../../components/complaint/PostSubmitMessage";
+    import LangSelect from "./../../components/LangSelect";
+    import {eventBus} from './../../store/bus.js'
 
     const accessibilityValues = {
         full_accessible: {
@@ -249,7 +261,7 @@
     ]
 
     export default {
-        components: {PostSubmitMessage, Username},
+        components: {PostSubmitMessage, Username, LangSelect},
         layout: 'main',
         head() {
             return {
@@ -386,6 +398,9 @@
             this.coordinates = null
         },
         methods: {
+            mainPageMobOpened() {
+                eventBus.$emit('mainPageMobOpened');
+            },
             isActive(tabItem) {
                 return this.activeItem === tabItem
             },
@@ -406,7 +421,7 @@
             viewPhoto(photo) {
                 this.videosIndex = null;
                 this.imagesIndex = this.object.photos.indexOf(photo)
-            }
+            },
         },
         filters: {
             date(value, pattern = 'd MMMM, HH:mm') {
@@ -420,6 +435,28 @@
 
 <style lang="scss">
     @import "@/styles/mixins.scss";
+
+    .mob-menu {
+        display: none;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 50px;
+        z-index: 10;
+        background: #FFFFFF;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        padding: 0 20px;
+        .main-filter__logo {
+            img {
+                width: 100px;
+            }
+        }
+        @media all and (max-width: 768px) {
+            display: flex;
+        }
+    }
 
     #blueimp-gallery {
         left: 680px;
@@ -570,6 +607,15 @@
         padding-left: 40px;
         padding-right: 30px;
         z-index: 5;
+        &-wrapper {
+            .sidebar {
+                @media all and (max-width: 768px) {
+                    height: 100%;
+                    bottom: 0;
+                    padding: 80px 0 0;
+                }
+            }
+        }
     }
 
     .--partially {
@@ -595,9 +641,16 @@
         position: relative;
         overflow-x: hidden;
         overflow-y: auto;
+        @media all and (max-width: 768px) {
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.1), 0px 0px 2px rgba(0, 0, 0, 0.2);
+        }
 
         &::-webkit-scrollbar {
             width: 10px;
+            @media all and (max-width: 768px) {
+                width: 4px;
+            }
         }
 
         &::-webkit-scrollbar-track {
@@ -767,6 +820,9 @@
         .availability {
             padding: 30px 40px 37px;
             background: #FEF3DD;
+            @media all and (max-width: 768px) {
+                padding: 30px 20px 27px;
+            }
 
             &__title {
                 font-weight: 700;
@@ -777,6 +833,11 @@
                 background-size: 30px 30px;
                 background-repeat: no-repeat;
                 background-position: left top;
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                    padding: 0 0 0 50px;
+                    margin: 0;
+                }
             }
 
             &__list {
@@ -794,6 +855,15 @@
                 background-position: left center;
                 background-size: 16px 16px;
                 background-repeat: no-repeat;
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                    padding: 0 0 0 50px;
+                    font-size: 14px;
+                    line-height: 16px;
+                    margin: 24px 0 0;
+                    background-position: left 7px center;
+                    height: auto;
+                }
             }
         }
 
@@ -810,6 +880,12 @@
             transition: opacity 0.3s;
             background-position: center left 30px;
             background-repeat: no-repeat;
+            @media all and (max-width: 768px) {
+                display: block;
+                font-size: 14px;
+                padding: 10px 0;
+                text-align: center;
+            }
 
             &:hover {
                 opacity: 0.7;
@@ -817,6 +893,9 @@
 
             & + .object-side__button {
                 margin: 0 0 0 20px;
+                @media all and (max-width: 768px) {
+                    margin: 20px 0 0;
+                }
             }
 
             &.--check {
@@ -832,11 +911,17 @@
             &-b {
                 padding: 150px 0 0;
                 font-size: 0;
+                @media all and (max-width: 768px) {
+                    padding: 30px 0 0;
+                }
             }
         }
 
         &__content {
             padding: 33px 40px 20px;
+            @media all and (max-width: 768px) {
+                padding: 0;
+            }
         }
 
         &__close {
@@ -851,6 +936,15 @@
             -ms-transition: opacity 0.3s;
             -o-transition: opacity 0.3s;
             transition: opacity 0.3s;
+            @media all and (max-width: 768px) {
+                left: 50%;
+                top: 14px;
+                width: 30px;
+                height: 2px;
+                background: $stroke;
+                opacity: 0.5;
+                margin: 0 0 0 -15px;
+            }
 
             &:hover {
                 opacity: 0.7;
@@ -860,6 +954,10 @@
         &__address {
             margin: 16px 0 0;
             line-height: 20px;
+            @media all and (max-width: 768px) {
+                font-size: 14px;
+                margin: 14px 0 0;
+            }
 
             &-link {
                 display: inline-block;
@@ -881,18 +979,78 @@
             font-size: 32px;
             line-height: 40px;
             margin: 28px 0 16px;
+            @media all and (max-width: 768px) {
+                font-size: 18px;
+                line-height: 20px;
+                margin: 8px 0 14px;
+            }
         }
 
         &__top {
             position: relative;
             padding: 30px 40px 26px;
+            @media all and (max-width: 768px) {
+                padding: 34px 20px 27px;
+            }
         }
 
         &__tab {
             &-link {
+                display: inline-block;
+                vertical-align: top;
+                font-size: 16px;
+                line-height: 20px;
+                padding: 0 0 16px;
+                position: relative;
+                color: #333;
+                margin: 0 0 0 40px;
+                @media all and (max-width: 768px) {
+                    color: $stroke;
+                    padding: 16px;
+                    font-size: 14px;
+                    line-height: 16px;
+                    margin: 0;
+                    .object-side__tab-num {
+                        display: inline-block;
+                        left: auto;
+                        top: -10px;
+                        position: relative;
+                    }
+                }
+                &-wrapper {
+                    @media all and (max-width: 768px) {
+                        overflow-x: auto;
+                        white-space: nowrap;
+                        position: relative;
+                        &::-webkit-scrollbar {
+                             height: 2px;
+                         }
+
+                        &::-webkit-scrollbar-track {
+                             background: rgba(123, 149, 167, 0.1);
+                         }
+
+                        &::-webkit-scrollbar-thumb {
+                             background: rgba(123, 149, 167, 0.5);
+                         }
+                        &:after {
+                            background: rgba(123, 149, 167, 0.2);
+                            position: absolute;
+                            display: block;
+                            content: '';
+                            height: 1px;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                        }
+                    }
+                }
                 &-b {
                     position: relative;
                     font-size: 0;
+                    @media all and (max-width: 768px) {
+                        overflow-x: auto;
+                    }
 
                     &:after {
                         position: absolute;
@@ -903,17 +1061,11 @@
                         right: 0;
                         bottom: 0;
                         background: #7B95A7;
+                        @media all and (max-width: 768px){
+                            display: none;
+                        }
                     }
                 }
-
-                display: inline-block;
-                vertical-align: top;
-                font-size: 16px;
-                line-height: 20px;
-                padding: 0 0 16px;
-                position: relative;
-                color: #333;
-                margin: 0 0 0 40px;
 
                 &:after {
                     content: '';
@@ -938,6 +1090,9 @@
 
                 &.active, &:hover {
                     font-weight: 700;
+                    @media all and (max-width: 768px){
+                        color: $blue;
+                    }
 
                     &:after {
                         background: $blue;
@@ -951,6 +1106,9 @@
 
                 &-b {
                     padding: 20px 0 0;
+                    @media all and (max-width: 768px) {
+                        padding: 24px 20px 30px;
+                    }
                 }
 
                 &.active {
@@ -960,16 +1118,27 @@
                 .text {
                     font-size: 16px;
                     line-height: 30px;
+                    @media all and (max-width: 768px) {
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
 
                     &__verification {
                         font-size: 14px;
                         line-height: 20px;
                         color: #5B6067;
+                        @media all and (max-width: 768px) {
+                            font-size: 12px;
+                            margin: 14px 0 0;
+                        }
 
                         &-b {
                             margin: 14px 0 0;
                             display: flex;
                             justify-content: space-between;
+                            @media all and (max-width: 768px) {
+                                display: block;
+                            }
                         }
 
                         &-link {
@@ -984,6 +1153,10 @@
                             transition: opacity 0.4s;
                             color: $black;
                             position: relative;
+                            @media all and (max-width: 768px) {
+                                font-size: 14px;
+                                line-height: 20px;
+                            }
 
                             &:after {
                                 content: '';
@@ -1026,6 +1199,24 @@
             -o-transition: opacity 0.3s;
             transition: opacity 0.3s;
             color: #5B6067;
+            span {
+                display: none;
+                @media all and (max-width: 768px){
+                    display: inline-block;
+                    font-size: 12px;
+                    color: $stroke;
+                    padding: 0 4px 0 0;
+                }
+            }
+            @media all and (max-width: 768px){
+                display: none;
+                font-size: 12px;
+                line-height: 20px;
+                color: $stroke;
+                &:first-child {
+                    display: block;
+                }
+            }
 
             &:hover {
                 opacity: 0.7;
@@ -1046,12 +1237,18 @@
 
             &-list {
                 padding: 0 0 0 9px;
+                @media all and (max-width: 768px){
+                   padding: 0;
+                }
             }
 
             &-b {
                 display: flex;
                 align-items: center;
                 margin: 0 0 28px;
+                @media all and (max-width: 768px) {
+                    margin: 0 0 8px;
+                }
             }
 
             &-icon {
@@ -1062,6 +1259,10 @@
                 background-color: #FF5F5F;
                 background-position: center;
                 background-repeat: no-repeat;
+
+                @media all and (max-width: 768px){
+                    display: none;
+                }
 
                 .fa {
                     color: #FFFFFF;
@@ -1077,13 +1278,23 @@
             &-list {
                 padding: 0 0 20px;
                 list-style: none;
+                @media all and (max-width: 768px){
+                    margin: 0;
+                    padding: 0 0 40px;
+                }
             }
 
             &-item {
                 margin: 34px 0 0;
+                @media all and (max-width: 768px){
+                    margin: 23px 0 0;
+                }
 
                 &:first-child {
                     margin: 14px 0 0;
+                    @media all and (max-width: 768px){
+                        margin: 0;
+                    }
                 }
             }
 
@@ -1098,6 +1309,11 @@
                 font-weight: 700;
                 display: inline-block;
                 vertical-align: top;
+                @media all and (max-width: 768px){
+                   font-size: 14px;
+                   line-height: 24px;
+                   display: block;
+                }
             }
 
             &-date {
@@ -1107,12 +1323,23 @@
                 font-size: 14px;
                 line-height: 20px;
                 margin: 0 0 0 9px;
+                @media all and (max-width: 768px){
+                    font-size: 12px;
+                    line-height: 20px;
+                    display: block;
+                    margin: 0;
+                }
             }
 
             &-text {
                 font-size: 16px;
                 line-height: 30px;
                 margin: 9px 0 0;
+                @media all and (max-width: 768px){
+                    font-size: 14px;
+                    line-height: 20px;
+                    margin: 10px 0 0;
+                }
             }
 
             &-add {
@@ -1130,6 +1357,12 @@
                 -ms-transition: opacity 0.4s;
                 -o-transition: opacity 0.4s;
                 transition: opacity 0.4s;
+                @media all and (max-width: 768px){
+                    left: 20px;
+                    right: 20px;
+                    line-height: 40px;
+                    font-size: 14px;
+                }
 
                 &:hover {
                     opacity: 0.9
@@ -1141,21 +1374,31 @@
             &-list {
                 padding: 0;
                 list-style: none;
+                margin: 0;
             }
 
             &-item {
                 margin: 30px 0 0;
                 padding: 0 0 0 100px;
                 position: relative;
-
+                @media all and (max-width: 768px) {
+                    padding: 0;
+                }
                 &:first-child {
                     margin: 4px 0 0;
+                    @media all and (max-width: 768px) {
+                        margin: 0;
+                    }
                 }
             }
 
             &-text {
                 font-size: 16px;
                 line-height: 20px;
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                    margin: 10px 0 0;
+                }
             }
 
             &-date {
@@ -1167,6 +1410,10 @@
                 position: absolute;
                 left: 0;
                 top: 0;
+                @media all and (max-width: 768px) {
+                    position: relative;
+                    font-size: 12px;
+                }
             }
         }
 

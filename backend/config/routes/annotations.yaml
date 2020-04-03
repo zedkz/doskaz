@@ -30,6 +30,11 @@ regionalRepresentatives:
     resource: ../../src/RegionalRepresentatives
     type: annotation
 
+regionalCoordinators:
+    resource: ../../src/RegionalCoordinators
+    type: annotation
+
+
 apiDocs:
     resource: ../../src/Infrastructure/Api
     type: annotation

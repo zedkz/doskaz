@@ -16,10 +16,10 @@
                     <span>{{formattedDate}}</span>
                 </div>
                 <div class="user-object__param">
-                    <span>комментариев {{objectComments}}</span>
+                    <span><span>комментариев</span> {{objectComments}}</span>
                 </div>
                 <div class="user-object__param">
-                    <span>жалоб {{objectReports}}</span>
+                    <span><span>жалоб</span> {{objectReports}}</span>
                 </div>
             </div>
         </div>
@@ -105,12 +105,20 @@
             margin: 11px 0 0;
             font-size: 16px;
             line-height: 20px;
+            @media all and (max-width: 1023px){
+                font-size: 14px;
+            }
         }
 
         &__image {
             width: 110px;
             position: relative;
-
+            @media all and (max-width: 1023px){
+                width: 80px;
+            }
+            @media all and (max-width: 768px){
+                width: 60px;
+            }
             .image {
                 width: 100%;
                 height: 80px;
@@ -119,6 +127,9 @@
                 background-size: cover;
                 position: relative;
                 z-index: 1;
+                @media all and (max-width: 768px){
+                    height: 60px;
+                }
             }
 
             .type {
@@ -131,6 +142,10 @@
                 background-position: center;
                 background-size: cover;
                 background-repeat: no-repeat;
+                @media all and (max-width: 768px){
+                    width: 20px;
+                    height: 20px;
+                }
             }
         }
 
@@ -138,6 +153,14 @@
             flex: 1 0 auto;
             max-width: calc(100% - 150px);
             margin-left: 40px;
+            @media all and (max-width: 1023px){
+                max-width: calc(100% - 100px);
+                margin-left: 20px;
+            }
+            @media all and (max-width: 768px){
+                max-width: calc(100% - 70px);
+                margin-left: 10px;
+            }
         }
 
         &__title {
@@ -147,6 +170,10 @@
             color: #333333;
             min-height: 40px;
             margin-top: 6px;
+            @media all and (max-width: 1023px){
+                font-size: 16px;
+                line-height: 20px;
+            }
 
             &.--ticket {
                 min-height: 0;
@@ -174,7 +201,29 @@
             line-height: 20px;
             color: #5b6067;
             margin-left: 30px;
-
+            @media all and (max-width: 1023px){
+                font-size: 12px;
+                line-height: 20px;
+            }
+            @media all and (max-width: 768px){
+                margin: 0 30px 0 0;
+            }
+            &-comments {
+                @media all and (max-width: 768px){
+                    display: inline-block;
+                    padding: 0 0 0 20px;
+                    background: url('data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDEwLjMzMzNDMTUgMTAuNzQ1OSAxNC44MzYxIDExLjE0MTYgMTQuNTQ0NCAxMS40MzMzQzE0LjI1MjcgMTEuNzI1IDEzLjg1NyAxMS44ODg5IDEzLjQ0NDQgMTEuODg4OUg0LjExMTExTDEgMTVWMi41NTU1NkMxIDIuMTQzIDEuMTYzODkgMS43NDczMyAxLjQ1NTYxIDEuNDU1NjFDMS43NDczMyAxLjE2Mzg5IDIuMTQzIDEgMi41NTU1NiAxSDEzLjQ0NDRDMTMuODU3IDEgMTQuMjUyNyAxLjE2Mzg5IDE0LjU0NDQgMS40NTU2MUMxNC44MzYxIDEuNzQ3MzMgMTUgMi4xNDMgMTUgMi41NTU1NlYxMC4zMzMzWiIgc3Ryb2tlPSIjN0I5NUE3IiBzdHJva2Utb3BhY2l0eT0iMC43IiBzdHJva2Utd2lkdGg9IjEuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') left center no-repeat;
+                    background-size: 14px;
+                }
+            }
+            &-complaint {
+                @media all and (max-width: 768px){
+                    display: inline-block;
+                    padding: 0 0 0 20px;
+                    background: url('data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNCAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyLjEyMDQgMy4yODU3MUMxMS42MzQ3IDMuMjg1NzEgMTEuMjQwOSAzLjY3OTUxIDExLjI0MDkgNC4xNjUyOVY3QzExLjI0MDkgNy4xNTc3MSAxMS4xMDk1IDcuMjg1NzEgMTAuOTQ3NyA3LjI4NTcxQzEwLjc4NTggNy4yODU3MSAxMC42NTQ1IDcuMTU3NzEgMTAuNjU0NSA3VjIuNDUxQzEwLjY1NDUgMS45NjUyMyAxMC4yNjA3IDEuNTcxNDMgOS43NzQ4OSAxLjU3MTQzVjEuNTcxNDNDOS4yODkxMiAxLjU3MTQzIDguODk1MzIgMS45NjUyMyA4Ljg5NTMyIDIuNDUxVjYuNDI4NTdDOC44OTUzMiA2LjU4NjI5IDguNzYzOTcgNi43MTQyOSA4LjYwMjEzIDYuNzE0MjlDOC40NDAyOSA2LjcxNDI5IDguMzA4OTQgNi41ODYyOSA4LjMwODk0IDYuNDI4NTdWMS44Nzk1N0M4LjMwODk0IDEuMzkzOCA3LjkxNTE0IDEgNy40MjkzNiAxVjFDNi45NDM1OSAxIDYuNTQ5NzkgMS4zOTM4IDYuNTQ5NzkgMS44Nzk1N1Y2LjQyODU3QzYuNTQ5NzkgNi41ODYyOSA2LjQxODQ0IDYuNzE0MjkgNi4yNTY2IDYuNzE0MjlDNi4wOTQ3NSA2LjcxNDI5IDUuOTYzNCA2LjU4NjI5IDUuOTYzNCA2LjQyODU3VjMuMDIyNDNDNS45NjM0IDIuNTM2NjYgNS41Njk2IDIuMTQyODYgNS4wODM4MyAyLjE0Mjg2VjIuMTQyODZDNC41OTgwNSAyLjE0Mjg2IDQuMjA0MjUgMi41MzY2NiA0LjIwNDI1IDMuMDIyNDNWOC45ODU2OEM0LjIwNDI1IDkuMDgxNzkgNC4wODE5MSA5LjEyMjU3IDQuMDI0MjUgOS4wNDU2OEwzLjAxNjgzIDcuNzAyMjlDMi42NjUgNy4xNzM3MSAxLjk3ODM0IDYuOTk2NTcgMS40NzUyMyA3LjI5OTQzQzAuOTczODcxIDcuNjA5MTQgMC44NDk1NTcgOC4yODQ1NyAxLjE5NjcgOC44MTE0M0MxLjE5NjcgOC44MTE0MyAzLjExMTgyIDExLjYzNiAzLjkyODA3IDEyLjg0NTFDNC43NDQzMSAxNC4wNTQzIDYuMDY2NjEgMTUgOC41MzkzOCAxNUMxMi42MzM1IDE1IDEzIDExLjkxODkgMTMgMTFDMTMgMTAuMjg2NyAxMyA2LjAzMTU1IDEzIDQuMTYzNzhDMTMgMy42NzgwMSAxMi42MDYyIDMuMjg1NzEgMTIuMTIwNCAzLjI4NTcxVjMuMjg1NzFaIiBzdHJva2U9IiM3Qjk1QTciIHN0cm9rZS1vcGFjaXR5PSIwLjciIHN0cm9rZS13aWR0aD0iMS4zIi8+Cjwvc3ZnPgo=') left center no-repeat;
+                    background-size: 14px;
+                }
+            }
             .yes {
                 display: none;
                 color: $green;

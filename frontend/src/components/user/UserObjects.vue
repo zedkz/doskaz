@@ -1,14 +1,15 @@
 <template>
     <div class="user-objects">
+        <h3 class="user-profile__mob-title">Мои объекты</h3>
         <div class="user-objects__filter">
             <div class="filter">
-                <div class="filter__text">Сортировать по</div>
+                <div class="filter__text --mob-hide">Сортировать по</div>
                 <div class="filter__dropdown">
                     <dropdown :options="sortOptions" v-model="filter.sort"/>
                 </div>
             </div>
             <div class="filter">
-                <div class="filter__text">Показать</div>
+                <div class="filter__text --mob-hide">Показать</div>
                 <div class="filter__dropdown">
                     <dropdown :options="scoreOptions" v-model="filter.overallScore"/>
                 </div>
@@ -100,6 +101,9 @@
 
     .user-objects {
         padding: 35px 0 0;
+        @media all and (max-width: 1200px) {
+            padding: 24px 0 0;
+        }
 
         &__filter {
             margin-bottom: 55px;
@@ -107,6 +111,9 @@
             flex-direction: row;
             justify-content: flex-start;
             align-items: flex-start;
+            @media all and (max-width: 1023px){
+                margin-bottom: 35px;
+            }
 
             .object-side__button {
                 margin: -15px 0 0;
@@ -115,6 +122,9 @@
             &.--between {
                 justify-content: space-between;
                 margin-bottom: 40px;
+                @media all and (max-width: 768px){
+                    margin-bottom: 20px;
+                }
             }
 
             & > * {
@@ -135,6 +145,9 @@
                     line-height: 20px;
                     color: #5b6067;
                     margin-right: 6px;
+                    @media all and (max-width: 1023px){
+                        font-size: 12px;
+                    }
                 }
 
                 &__dropdown {
@@ -151,6 +164,10 @@
                             color: #333333;
                             display: flex;
                             align-items: center;
+                            @media all and (max-width: 1023px){
+                                font-size: 12px;
+                                line-height: 18px;
+                            }
 
                             &:after {
                                 content: "";
@@ -201,15 +218,32 @@
 
                 .button {
                     margin: -15px 0 0;
+                    &.--complaint {
+                        @media all and (max-width: 768px){
+                            font-size: 0;
+                            width: 50px;
+                            height: 50px;
+                            min-width: 50px;
+                            border-radius: 50%;
+                            padding: 0;
+                            background-position: center;
+                        }
+                    }
                 }
             }
         }
 
         &__content {
             margin-bottom: 60px;
+            @media all and (max-width: 1023px) {
+                margin-bottom: 30px;
+            }
 
             & > * {
                 margin-top: 60px;
+                @media all and (max-width: 1023px) {
+                    margin-top: 30px;
+                }
 
                 &:first-child {
                     margin-top: 0;
@@ -221,6 +255,18 @@
 
                 &:first-child {
                     margin-top: 0;
+                }
+                .user-object__image {
+                    @media all and (max-width: 768px){
+                        display: none;
+                    }
+                }
+                .user-object__description {
+                    @media all and (max-width: 768px){
+                        width: 100%;
+                        max-width: 100%;
+                        margin: 0;
+                    }
                 }
             }
         }

@@ -5,7 +5,4 @@ export default function ({store, app, redirect, error}) {
         });
         return redirect('/login')
     }
-    if (!store.state.authentication.user.roles.includes('ROLE_ADMIN')) {
-        return error({statusCode: 403, message: 'Access Denied'})
-    }
 }

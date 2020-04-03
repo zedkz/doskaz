@@ -50,6 +50,12 @@
         padding: 26px 40px 35px;
         width: 100%;
         position: relative;
+        @media all and (max-width: 1280px) {
+            padding: 26px 30px 30px;
+        }
+        @media all and (max-width: 1024px) {
+            padding: 20px;
+        }
 
         &__title {
             font-weight: bold;
@@ -57,25 +63,47 @@
             line-height: 30px;
             color: #333333;
             margin-bottom: 18px;
+            @media all and (max-width: 1023px) {
+                font-size: 16px;
+                line-height: 20px;
+                margin-bottom: 12px;
+            }
         }
 
         &__description {
             font-size: 16px;
             line-height: 20px;
             color: #333333;
+            @media all and (max-width: 1023px) {
+                font-size: 12px;
+                line-height: 20px;
+            }
         }
 
         &__progress {
             margin-top: 48px;
+            @media all and (max-width: 1023px) {
+                margin-top: 37px;
+            }
+            @media all and (max-width: 768px) {
+                position: absolute;
+                width: 140px;
+                right: 20px;
+                top: 38px;
+                margin: 0;
+            }
 
             .progress {
                 display: block;
                 width: 100%;
                 height: 8px;
-                background: fade-out(#7b95a7, 0.3);
+                background: rgba(123,149,167,.3);
                 border-radius: 10px;
                 position: relative;
-
+                @media all and (max-width: 768px) {
+                    width: 140px;
+                    height: 3px;
+                }
                 &__bar {
                     position: absolute;
                     top: 0;
@@ -94,6 +122,10 @@
                     line-height: 20px;
                     color: #5b6067;
                     z-index: 1;
+                    @media all and (max-width: 1023px) {
+                        font-size: 10px;
+                        line-height: 20px;
+                    }
 
                     &::before {
                         position: absolute;
@@ -102,6 +134,9 @@
                         height: 8px;
                         top: 100%;
                         left: calc(50% - 1px);
+                        @media all and (max-width: 768px) {
+                           height: 3px;
+                        }
                     }
                 }
             }

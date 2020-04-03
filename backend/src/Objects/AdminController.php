@@ -3,8 +3,10 @@
 
 namespace App\Objects;
 
+use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 /**
  * @Route(path="/api/admin/objects")
+ * @IsGranted("ROLE_USER")
  */
 class AdminController extends AbstractController
 {
@@ -23,8 +26,7 @@ class AdminController extends AbstractController
      */
     public function list(Request $request, Connection $connection)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
+        $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         $queryBuilder = $connection->createQueryBuilder()
             ->select([
                 'objects.id',
@@ -61,7 +63,7 @@ class AdminController extends AbstractController
      */
     public function delete(MapObject $mapObject, Flusher $flusher)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         $mapObject->markAsDeleted();
         $flusher->flush();
     }
@@ -73,7 +75,7 @@ class AdminController extends AbstractController
      */
     public function retrieve(MapObject $mapObject)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         return $mapObject->toMapObjectData();
     }
 
@@ -86,7 +88,7 @@ class AdminController extends AbstractController
      */
     public function update(MapObject $mapObject, MapObjectData $mapObjectData, MapObjectRepository $mapObjectRepository)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         $mapObjectRepository->forAggregate($mapObject->id(), function (MapObject $mapObject) use ($mapObjectData) {
             $mapObject->update($mapObjectData);
         });
@@ -102,7 +104,7 @@ class AdminController extends AbstractController
      */
     public function create(MapObjectData $mapObjectData, TokenStorageInterface $tokenStorage, MapObjectRepository $mapObjectRepository, Flusher $flusher)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         $mapObject = MapObject::fromMapObjectRequestData($mapObjectData, $tokenStorage->getToken()->getUser()->id());
         $mapObjectRepository->add($mapObject);
         $flusher->flush();

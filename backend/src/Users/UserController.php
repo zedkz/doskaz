@@ -3,6 +3,7 @@
 
 namespace App\Users;
 
+use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Blog\Image;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\Doctrine\Transactional;
@@ -35,15 +36,17 @@ use Webmozart\Assert\Assert;
 final class UserController extends AbstractController
 {
     /**
-     * @Route(path="/users/me", methods={"GET"})
+     * @Route(path="/admin/profile", methods={"GET"})
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
      * @return array
      */
     public function me(TokenStorageInterface $tokenStorage, Connection $connection)
     {
+        $this->denyAccessUnlessGranted('adminpanel_access');
+
         $user = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->select('users.id', 'full_name->>\'firstAndLast\' as name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
             ->andWhere('users.id = :id')
@@ -54,7 +57,10 @@ final class UserController extends AbstractController
 
         return array_replace($user, [
             'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
+            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable'),
+            'permissions' => array_filter(AdminpanelPermission::ALL, function ($permission) {
+                return $this->isGranted($permission);
+            })
         ]);
     }
 
@@ -70,7 +76,7 @@ final class UserController extends AbstractController
         $filter = json_decode($request->query->get('filter', '{}'), true);
 
         $usersQb = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->select('users.id', 'full_name->>\'firstAndLast\' as name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id');
 

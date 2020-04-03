@@ -90,3 +90,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Awards'
                 prefix: 'App\Awards'
+            RegionalCoordinators:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/RegionalCoordinators'
+                prefix: 'App\RegionalCoordinators'
