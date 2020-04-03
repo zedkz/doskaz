@@ -55,6 +55,12 @@
     .user-page {
         overflow-x: hidden;
 
+        .container {
+            @media all and (max-width: 768px){
+                padding: 0;
+            }
+        }
+
         &__button {
              width: 170px;
              line-height: 50px;
@@ -75,14 +81,16 @@
         }
 
         &__header {
-             width: 100%;
-             min-height: 180px;
-             background-size: cover;
-             background-position: center;
-             position: relative;
-             display: flex;
-             align-items: flex-end;
-
+            width: 100%;
+            min-height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            @media all and (max-width: 768px){
+                display: none;
+            }
             .menu {
                 height: 50px;
                 width: 100%;
@@ -93,6 +101,9 @@
                 }
                 @media all and (max-width: 1200px) {
                     padding: 0 0 0 490px;
+                }
+                @media all and (max-width: 1024px) {
+                    padding: 0 0 0 360px;
                 }
 
                 &__content {
@@ -144,6 +155,9 @@
              justify-content: flex-start;
              align-items: flex-start;
              flex-direction: row;
+            @media all and (max-width: 768px) {
+                display: block;
+            }
         }
 
         &__profile {
@@ -153,7 +167,13 @@
             @media all and (max-width: 1280px) {
                 width: 330px;
             }
-
+            @media all and (max-width: 1024px) {
+                width: 200px;
+            }
+            @media all and (max-width: 768px) {
+                top: 0;
+                width: 100%;
+            }
             & > div {
                 margin-top: 10px;
                 &:first-child {
@@ -168,6 +188,15 @@
             margin-left: 60px;
             @media all and (max-width: 1200px) {
                 margin-left: 20px;
+            }
+            @media all and (max-width: 1023px) {
+                max-width: calc(100% - 200px);
+            }
+            @media all and (max-width: 768px){
+                max-width: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0 20px;
             }
         }
     }

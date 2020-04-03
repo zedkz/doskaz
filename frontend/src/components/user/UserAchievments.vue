@@ -1,13 +1,14 @@
 <template>
     <div class="user-achievments">
+        <h3 class="user-profile__mob-title">Достижения</h3>
         <div class="user-achievments__achievments">
-            <UserAchievment text="Первый вход"/>
-            <UserAchievment text="Регистрация"/>
-            <UserAchievment text="Добавлено 3 объекта"/>
-            <UserAchievment text="Добавлено 5 объектов"/>
-            <UserAchievment text="Добавлено 18 объектов"/>
-            <UserAchievment text="Награда от администрации"/>
-            <UserAchievment text="За активное участие в развитии портала"/>
+            <UserAchievment text="Первый вход" award-type="gold"/>
+            <UserAchievment text="Регистрация" award-type="silver"/>
+            <UserAchievment text="Добавлено 3 объекта" award-type="bronze"/>
+            <UserAchievment text="Добавлено 5 объектов" award-type="silver"/>
+            <UserAchievment text="Добавлено 18 объектов" award-type="gold"/>
+            <UserAchievment text="Награда от администрации" award-type="silver"/>
+            <UserAchievment text="За активное участие в развитии портала" award-type="bronze"/>
             <UserAchievment text="Добавить награду" addNew/>
         </div>
         <div class="user-achievments__events">
@@ -17,7 +18,7 @@
             <div class="list">
 
                 <user-event v-for="event in events" :key="event.id" :event="event"/>
-                <!--<div class="list__item">
+                <div class="list__item">
                     <div class="list__date">
                         <span>12 августа</span>
                     </div>
@@ -69,9 +70,7 @@
                     <div class="list__icon list__icon_level">
                         <span>7</span>
                     </div>
-                    <div
-                            class="list__text"
-                    >Поздравляем, вы достигли 7 уровня! Теперь вы можете сменить аватар. До 8 уровня вам нужно набрать
+                    <div class="list__text">Поздравляем, вы достигли 7 уровня! Теперь вы можете сменить аватар. До 8 уровня вам нужно набрать
                         60 баллов.
                     </div>
                 </div>
@@ -80,7 +79,9 @@
                     <div class="list__date">
                         <span>23 июля</span>
                     </div>
-                    <div class="list__icon list__icon_achievment"></div>
+                    <div class="list__icon list__icon_achievment">
+                        <img src="@/assets/img/user/award-gold.svg"/> <!-- здесь так же надо выводить нужную картинку -->
+                    </div>
                     <div class="list__text">Вам выдана награда за активное участие в развитии портала</div>
                 </div>
 
@@ -94,7 +95,7 @@
                         <a href="#">Аптека №234</a> проверен и верифицирован модератором
                         <a href="#">Валерия Осинская</a>
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>
@@ -118,18 +119,34 @@
 <style lang='scss'>
     .user-achievments {
         padding-top: 40px;
-
+        @media all and (max-width: 1023px){
+            padding-top: 28px;
+        }
+        @media all and (max-width: 768px){
+            padding: 30px 0;
+        }
         &__achievments {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             justify-content: flex-start;
             flex-wrap: wrap;
-
+            @media all and (max-width: 768px){
+                margin: 24px 0 0;
+            }
             & > * {
                 width: 33.33%;
                 padding-right: 40px;
                 margin-bottom: 40px;
+                @media all and (max-width: 1023px){
+                    width: 50%;
+                    padding-right: 30px;
+                    margin-bottom: 30px;
+                }
+                @media all and (max-width: 520px){
+                    width: 100%;
+                    padding-right: 0;
+                }
             }
         }
 
@@ -142,6 +159,13 @@
                 line-height: 30px;
                 color: #333333;
                 margin-bottom: 49px;
+                @media all and (max-width: 1023px){
+                    margin-bottom: 28px;
+                }
+                @media all and (max-width: 1023px){
+                    font-size: 18px;
+                    line-height: 20px;
+                }
             }
 
             .list {
@@ -151,6 +175,11 @@
                     align-items: center;
                     justify-content: flex-start;
                     margin-top: 49px;
+                    position: relative;
+                    @media all and (max-width: 768px){
+                        display: block;
+                        margin: 30px 0 0;
+                    }
 
                     &:first-child {
                         margin-top: 0;
@@ -162,6 +191,11 @@
                     font-size: 14px;
                     line-height: 20px;
                     color: #5b6067;
+                    @media all and (max-width: 1023px){
+                        font-size: 12px;
+                        line-height: 20px;
+                        width: 70px;
+                    }
                 }
 
                 &__icon {
@@ -172,6 +206,16 @@
                     background-position: center;
                     background-size: cover;
                     background-repeat: no-repeat;
+                    @media all and (max-width: 1023px){
+                        margin-left: 6px;
+                        margin-right: 6px;
+                    }
+                    @media all and (max-width: 768px){
+                        position: absolute;
+                        top: -6px;
+                        left: 106px;
+                        margin: 0;
+                    }
 
                     &.list__icon_level {
                         border-radius: 50%;
@@ -187,7 +231,10 @@
                     }
 
                     &.list__icon_achievment {
-                        background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='14.5' fill='white' stroke='%237B95A7'/%3E%3Cpath d='M15.5 9.61803L16.7083 13.3369L16.8206 13.6824H17.1839H21.0941L17.9306 15.9807L17.6367 16.1943L17.749 16.5398L18.9573 20.2586L15.7939 17.9602L15.5 17.7467L15.2061 17.9602L12.0427 20.2586L13.251 16.5398L13.3633 16.1943L13.0694 15.9807L9.90592 13.6824H13.8161H14.1794L14.2917 13.3369L15.5 9.61803Z' fill='%237B95A7' stroke='%237B95A7'/%3E%3C/svg%3E%0A");
+                        img {
+                            width: 100%;
+                            height: auto;
+                        }
                     }
                 }
 
@@ -198,7 +245,16 @@
                     font-size: 16px;
                     line-height: 20px;
                     color: #333333;
-
+                    @media all and (max-width: 1023px){
+                        max-width: calc(100% - 120px);
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                    @media all and (max-width: 768px){
+                        max-width: 100%;
+                        width: 100%;
+                        margin: 10px 0 0;
+                    }
                     a {
                         font-weight: bold;
                         color: #333;

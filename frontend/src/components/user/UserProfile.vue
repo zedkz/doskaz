@@ -2,12 +2,8 @@
     <div class="user-profile">
         <div class="user-profile__content" v-bind:class="{ '--verified': isVerified }">
 
-            <div class="user-profile__favorites" v-if="isAchievement">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" r="30" fill="white"/>
-                    <path d="M30 15L33.3677 25.3647H44.2658L35.4491 31.7705L38.8168 42.1353L30 35.7295L21.1832 42.1353L24.5509 31.7705L15.7342 25.3647H26.6323L30 15Z"
-                          fill="#7B95A7"/>
-                </svg>
+            <div class="user-profile__favorites">
+                <img src="@/assets/img/user/award-gold.svg"/>
             </div>
 
             <div class="user-profile__icon"
@@ -45,42 +41,45 @@
                       <span class="user-profile__icon-link">Обновить фотографию</span>
                   </div>
               </div>-->
-
-            <div class="user-profile__name">
-                <username :value="name" placeholder="Ваше имя"/>
+            <div class="user-profile__mob-info">
+                <div class="user-profile__name">
+                    <username :value="name" placeholder="Ваше имя"/>
+                </div>
+                <div class="user-profile__title">
+                    <span>Всем привет! Я с вами :)</span>
+                </div>
+                <div class="user-profile__email">
+                    <span>{{ profile.email || 'Ваша эл. почта' }}</span>
+                </div>
+                <div class="user-profile__phone">
+                    <span>{{ profile.phone || 'Ваш телефон' }}</span>
+                </div>
+                <div class="user-profile__edit" v-if="$route.name !== 'profile-edit'">
+                    <nuxt-link :to="{name: 'profile-edit'}">
+                        <span>Редактировать анкету</span>
+                    </nuxt-link>
+                </div>
             </div>
-            <div class="user-profile__title">
-                <span>Всем привет! Я с вами :)</span>
-            </div>
-            <div class="user-profile__email">
-                <span>{{ profile.email || 'Ваша эл. почта' }}</span>
-            </div>
-            <div class="user-profile__phone">
-                <span>{{ profile.phone || 'Ваш телефон' }}</span>
-            </div>
-            <div class="user-profile__edit" v-if="$route.name !== 'profile-edit'">
-                <nuxt-link :to="{name: 'profile-edit'}">
-                    <span>Редактировать анкету</span>
-                </nuxt-link>
-            </div>
-
             <div class="popup__wrapper" v-show="popupAvatar">
-                <div class="popup__in">
-                    <span class="popup__close" v-on:click="popupAvatar = false"></span>
-                    <p class="popup__title">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7 уровне
-                        :)</p>
-                    <div class="user-profile__avatar-list">
+                <div class="popup__scroll">
+                    <div class="popup__in">
+                        <span class="popup__close" v-on:click="popupAvatar = false"></span>
+                        <p class="popup__title">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7 уровне
+                            :)</p>
+                        <div class="user-profile__avatar-list">
                          <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
                                v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="popup__wrapper" v-show="popupAvatarLevel">
-                <div class="popup__in --lrg">
-                    <span class="popup__close" v-on:click="popupAvatarLevel = false"></span>
-                    <h3 class="popup__title">Обновление фотографии</h3>
-                    <div class="user-profile__avatar-list">
+                <div class="popup__scroll">
+                    <div class="popup__in --lrg">
+                        <span class="popup__close" v-on:click="popupAvatarLevel = false"></span>
+                        <h3 class="popup__title">Обновление фотографии</h3>
+                        <div class="user-profile__avatar-list">
                         <span class="user-profile__avatar">
                             <span class="user-profile__avatar-file">
                                 <input type="file">
@@ -88,7 +87,8 @@
                             </span>
                         </span>
                         <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
-                               v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
+                              v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
         components: {Username},
         data() {
             return {
-                isAchievement: false,
+                isAchievement: true,
                 isVerified: true,
                 userLevel: 7,
                 isAvatarLoaded: false,
@@ -164,10 +164,27 @@
         padding: 40px 40px 35px;
         width: 100%;
         position: relative;
+        &__mob-title {
+            font-size: 18px;
+            line-height: 20px;
+            font-weight: 700;
+            display: none;
+            margin: 0 0 12px;
+            @media all and (max-width: 768px){
+                display: block;
+            }
+        }
         @media all and (max-width: 1280px) {
             padding: 30px;
         }
-
+        @media all and (max-width: 1024px) {
+            padding: 20px;
+        }
+        &__mob-info {
+            @media all and (max-width: 768px){
+                width: calc(100% - 100px);
+            }
+        }
         &__avatar {
             width: 120px;
             height: 120px;
@@ -213,6 +230,10 @@
         }
 
         &__content {
+            @media all and (max-width: 768px){
+                display: flex;
+                justify-content: baseline;
+            }
             &.--verified:before {
                 content: "";
                 background-image: url("data:image/svg+xml,%3Csvg width='50' height='70' viewBox='0 0 50 70' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0H50V70L25 60L0 70V0Z' fill='%237AB73F'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13 30.6733L25.5712 43L38 30.638L34.5812 27L25.5712 35.936L16.49 27.0353L13 30.6733Z' fill='white'/%3E%3C/svg%3E%0A");
@@ -222,6 +243,17 @@
                 width: 50px;
                 height: 70px;
                 z-index: 1;
+                @media all and (max-width: 1023px){
+                    width: 36px;
+                    height: 50px;
+                    background-size: 36px;
+                    left: 20px;
+                }
+                @media all and (max-width: 768px){
+                    width: 22px;
+                    height: 30px;
+                    background-size: 22px;
+                }
             }
         }
 
@@ -231,15 +263,25 @@
             top: 40px;
             cursor: pointer;
             font-size: 0;
-
-            path {
-                transition: fill 0.3s;
+            z-index: 1;
+            width: 60px;
+            height: 60px;
+            img {
+                width: 100%;
+                height: auto;
+                display: block;
             }
-
-            &:hover {
-                path {
-                    fill: $yellow;
-                }
+            @media all and (max-width: 1023px){
+                right: 20px;
+                top: 20px;
+                width: 50px;
+                height: 50px;
+            }
+            @media all and (max-width: 768px){
+                right: auto;
+                left: 78px;
+                width: 20px;
+                height: 20px;
             }
         }
 
@@ -260,6 +302,14 @@
             @media all and (max-width: 1280px) {
                 width: 200px;
                 height: 200px;
+            }
+            @media all and (max-width: 1024px) {
+                width: 160px;
+                height: 160px;
+            }
+            @media all and (max-width: 768px) {
+                width: 80px;
+                height: 80px;
             }
 
             &-link {
@@ -311,6 +361,11 @@
                 font-size: 28px;
                 line-height: 36px;
             }
+            @media all and (max-width: 1024px) {
+                font-size: 16px;
+                line-height: 20px;
+                margin-top: 14px;
+            }
         }
 
         &__title {
@@ -319,6 +374,12 @@
             font-size: 16px;
             line-height: 20px;
             color: #333333;
+            @media all and (max-width: 1024px) {
+                font-size: 12px;
+                line-height: 20px;
+                font-weight: 400;
+                margin-top: 12px;
+            }
         }
 
         &__email,
@@ -327,6 +388,11 @@
             font-size: 16px;
             line-height: 20px;
             color: #333333;
+            @media all and (max-width: 1024px) {
+                font-size: 12px;
+                line-height: 20px;
+                margin-top: 10px;
+            }
         }
 
         &__edit {
@@ -334,7 +400,11 @@
             font-size: 14px;
             line-height: 20px;
             color: #5b6067;
-
+            @media all and (max-width: 1024px) {
+                font-size: 12px;
+                line-height: 20px;
+                margin-top: 12px;
+            }
             a {
                 color: #5b6067;
                 transition: opacity 0.3s;

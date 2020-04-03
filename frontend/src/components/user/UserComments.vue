@@ -1,5 +1,6 @@
 <template>
     <div class="user-comments">
+        <h3 class="user-profile__mob-title">Мои комментарии</h3>
         <div class="user-objects__filter">
             <div class="filter">
                 <div class="filter__text">Сортировать по</div>
@@ -14,6 +15,27 @@
                     :key="item.id"
                     :item="item"
             />
+            <div class="user-comments__item">
+                <div class="user-comments__image"></div>
+                <div class="user-comments__description">
+                    <p class="user-comments__text">asdasdasdas</p>
+                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
+                </div>
+            </div>
+            <div class="user-comments__item">
+                <div class="user-comments__image"></div>
+                <div class="user-comments__description">
+                    <p class="user-comments__text">asdasdasdas</p>
+                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
+                </div>
+            </div>
+            <div class="user-comments__item">
+                <div class="user-comments__image"></div>
+                <div class="user-comments__description">
+                    <p class="user-comments__text">asdasdasdas</p>
+                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
+                </div>
+            </div>
         </div>
         <div class="user-comments__pagination">
             <pagination :pages="pages" v-if="pages > 1"/>
@@ -64,8 +86,14 @@
     @import "./../../styles/mixins.scss";
     .user-comments {
         padding: 35px 0 0;
+        @media all and (max-width: 1023px){
+            padding: 28px 0 0;
+        }
         &__list {
             margin: 55px 0 0;
+            @media all and (max-width: 1023px){
+                margin: 30px 0 0;
+            }
         }
         &__item {
             display: flex;
@@ -78,15 +106,25 @@
             width: 70px;
             height: 50px;
             background-size: cover;
+            @media all and (max-width: 1023px){
+                width: 50px;
+            }
         }
         &__description {
             margin: 0 0 0 40px;
             padding: 4px 0 0;
             max-width: calc(100% - 110px);
+            @media all and (max-width: 1023px){
+                max-width: calc(100% - 70px);
+                margin: 0 0 0 20px;
+            }
         }
         &__text {
-             font-size: 16px;
-             line-height: 20px;
+            font-size: 16px;
+            line-height: 20px;
+            @media all and (max-width: 1023px){
+                font-size: 14px;
+            }
         }
         &__info {
             margin: 11px 0 0;
@@ -95,6 +133,9 @@
             line-height: 20px;
             strong {
                 color: $text;
+            }
+            @media all and (max-width: 1023px){
+                font-size: 12px;
             }
         }
     }

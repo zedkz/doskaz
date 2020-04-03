@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="info__points">
-                    <span>баллов {{ level.currentPoints }} / {{ level.nextLevelThreshold }}</span>
+                    <span><span class="--mob-hide">баллов </span>{{ level.currentPoints }} / {{ level.nextLevelThreshold }}</span>
                 </div>
             </div>
             <div class="progress">
@@ -61,6 +61,12 @@
 <style lang="scss">
     @import "./../../styles/mixins.scss";
 
+    .--mob-hide {
+        @media all and (max-width: 768px) {
+            display: none;
+        }
+    }
+
     .user-level {
         background: #f1f8fc;
         padding: 26px 40px 35px;
@@ -69,9 +75,15 @@
         @media all and (max-width: 1280px) {
             padding: 26px 30px 30px;
         }
+        @media all and (max-width: 1024px) {
+            padding: 20px;
+        }
 
         &__progress {
             margin-bottom: 28px;
+            @media all and (max-width: 1023px) {
+                margin-bottom: 18px;
+            }
 
             .info {
                 margin-bottom: 8px;
@@ -89,6 +101,14 @@
                     font-size: 48px;
                     line-height: 48px;
                     color: #333333;
+                    @media all and (max-width: 1280px) {
+                        font-size: 32px;
+                        line-height: 36px;
+                    }
+                    @media all and (max-width: 1023px) {
+                        font-size: 22px;
+                        line-height: 30px;
+                    }
                 }
 
                 &__level-text {
@@ -96,12 +116,24 @@
                     font-size: 14px;
                     line-height: 20px;
                     color: #333333;
+                    @media all and (max-width: 1023px) {
+                        font-size: 12px;
+                        line-height: 26px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 14px;
+                        line-height: 26px;
+                    }
                 }
 
                 &__points {
                     font-size: 14px;
                     line-height: 20px;
                     color: #5b6067;
+                    @media all and (max-width: 1023px) {
+                        font-size: 10px;
+                        line-height: 20px;
+                    }
                 }
             }
 
@@ -121,6 +153,14 @@
                     border-radius: 10px;
                     background: #0f6bf5;
                 }
+
+                @media all and (max-width: 768px) {
+                    position: absolute;
+                    width: 80px;
+                    height: 3px;
+                    right: 60px;
+                    top: 38px;
+                }
             }
         }
 
@@ -134,12 +174,22 @@
                 display: block;
                 flex: 1 0 auto;
                 text-align: left;
-
+                @media all and (max-width: 768px){
+                    display: flex;
+                }
                 &__num {
                     font-weight: bold;
                     font-size: 32px;
                     line-height: 40px;
                     color: #333333;
+                    @media all and (max-width: 1023px) {
+                        font-size: 16px;
+                        line-height: 20px;
+                    }
+                    @media all and (max-width: 768px){
+                        font-size: 12px;
+                        font-weight: 400;
+                    }
                 }
 
                 &__cat {
@@ -147,6 +197,15 @@
                     font-size: 14px;
                     line-height: 20px;
                     color: #5b6067;
+                    @media all and (max-width: 1023px) {
+                        font-size: 10px;
+                        line-height: 20px;
+                    }
+                    @media all and (max-width: 768px){
+                        font-size: 12px;
+                        padding: 0 0 0 6px;
+                        margin: 0;
+                    }
                 }
             }
         }
