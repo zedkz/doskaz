@@ -5,11 +5,17 @@ namespace App\RegionalCoordinators;
 
 
 use App\Infrastructure\Doctrine\Flusher;
+use App\Infrastructure\ObjectResolver\ValidationException;
 use Doctrine\DBAL\Connection;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 /**
  * @Route(path="/api/admin/regionalCoordinators")
@@ -32,7 +38,7 @@ class RegionalCoordinatorController extends AbstractController
                 SELECT STRING_AGG(cities.name, ', ' ORDER BY name) as city_names
                 FROM cities
                 WHERE cities.id IN
-                (SELECT JSONB_ARRAY_ELEMENTS_TEXT(cities)::INTEGER FROM regional_coordinators)
+                (select JSONB_ARRAY_ELEMENTS_TEXT(regional_coordinators.cities)::INTEGER)
             ) cities ON TRUE
             WHERE deleted_at IS NULL
         ";
@@ -43,7 +49,7 @@ class RegionalCoordinatorController extends AbstractController
 
         $items = (clone $qb)
             ->select([
-                'regional_coordinators.user_id as id',
+                'regional_coordinators.id as id',
                 'regional_coordinators.city_names as "cityNames"',
                 'users.full_name->>\'firstAndLast\' as name'
             ])
@@ -60,13 +66,77 @@ class RegionalCoordinatorController extends AbstractController
     }
 
     /**
-     * @Route(path="/{userId}", methods={"DELETE"})
+     * @Route(path="/{id}", methods={"DELETE"})
      * @param RegionalCoordinator $coordinator
      * @param Flusher $flusher
+     * @param RegionalCoordinatorRepository $regionalCoordinatorRepository
      */
-    public function delete(RegionalCoordinator $coordinator, Flusher $flusher)
+    public function delete(RegionalCoordinator $coordinator, Flusher $flusher, RegionalCoordinatorRepository $regionalCoordinatorRepository)
     {
-        $coordinator->markAsDeleted();
+        $regionalCoordinatorRepository->remove($coordinator);
         $flusher->flush();
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"GET"})
+     * @param $userId
+     * @param Connection $connection
+     */
+    public function show($id, Connection $connection)
+    {
+        $coordinator = $connection->createQueryBuilder()
+            ->addSelect('id', 'user_id', 'cities')
+            ->from('regional_coordinators')
+            ->andWhere('id = :id')
+            ->andWhere('deleted_at IS NULL')
+            ->setParameter('id', $id)
+            ->execute()
+            ->fetch();
+
+        if (!$coordinator) {
+            throw new NotFoundHttpException('Not found');
+        }
+
+        return new RegionalCoordinatorData(
+            $connection->convertToPHPValue($coordinator['id'], 'uuid'),
+            $coordinator['user_id'],
+            $connection->convertToPHPValue($coordinator['cities'], CityIdCollection::class)
+        );
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"PUT"})
+     * @param RegionalCoordinator $coordinator
+     * @param RegionalCoordinatorData $coordinatorData
+     * @param Flusher $flusher
+     */
+    public function update(RegionalCoordinator $coordinator, RegionalCoordinatorData $coordinatorData, Flusher $flusher, RegionalCoordinatorRepository $regionalCoordinatorRepository)
+    {
+        $regionalCoordinator = $regionalCoordinatorRepository->findByUserId($coordinatorData->userId);
+        if ($regionalCoordinator !== $coordinator) {
+            throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этому пользователю уже назначены города', '', [], '', 'userId', '')]));
+        }
+        $coordinator->updateCities($coordinatorData->cities);
+        $flusher->flush();
+    }
+
+    /**
+     * @Route(path="", methods={"POST"})
+     * @param RegionalCoordinatorData $coordinatorData
+     * @param Flusher $flusher
+     * @param RegionalCoordinatorRepository $regionalCoordinatorRepository
+     * @param Connection $connection
+     * @return RegionalCoordinatorData
+     */
+    public function create(RegionalCoordinatorData $coordinatorData, Flusher $flusher, RegionalCoordinatorRepository $regionalCoordinatorRepository, Connection $connection)
+    {
+        $regionalCoordinator = $regionalCoordinatorRepository->findByUserId($coordinatorData->userId);
+        if ($regionalCoordinator) {
+            throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Этому пользователю уже назначены города', '', [], '', 'userId', '')]));
+        }
+        $id = Uuid::uuid4();
+        $regionalCoordinatorRepository->add(new RegionalCoordinator($id, $coordinatorData->userId, $coordinatorData->cities));
+        $flusher->flush();
+        return $this->show($id, $connection);
     }
 }

@@ -23,4 +23,16 @@ class RegionalCoordinatorRepository
     {
         $this->entityManager->persist($coordinator);
     }
+
+    public function remove(RegionalCoordinator $coordinator)
+    {
+        $this->entityManager->remove($coordinator);
+    }
+
+    public function findByUserId(int $userId): ?RegionalCoordinator
+    {
+        return $this->repository->findOneBy([
+            'userId' => $userId
+        ]);
+    }
 }

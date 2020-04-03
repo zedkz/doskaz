@@ -14,6 +14,6 @@ class CityIdCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return 'int';
+        return 'string';
     }
 }

@@ -70,7 +70,7 @@ final class UserController extends AbstractController
         $filter = json_decode($request->query->get('filter', '{}'), true);
 
         $usersQb = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
+            ->select('users.id', 'full_name->>\'firstAndLast\' as name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id');
 
