@@ -7,3 +7,6 @@ services:
     tags: ['controller.service_arguments']
 
   App\RegionalCoordinators\RegionalCoordinatorRepository:
+
+  App\RegionalCoordinators\RegionalCoordinatorAdminPermissionsVoter:
+    tags: ['security.voter']

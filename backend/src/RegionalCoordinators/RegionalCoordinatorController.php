@@ -53,7 +53,7 @@ class RegionalCoordinatorController extends AbstractController
                 'regional_coordinators.city_names as "cityNames"',
                 'users.full_name->>\'firstAndLast\' as name'
             ])
-            ->setMaxResults($request->query->getInt('limit', 10))
+            ->setMaxResults($request->query->getInt('limit', 20))
             ->setFirstResult($request->query->getInt('offset', 0))
             ->orderBy('regional_coordinators.created_at', 'desc')
             ->execute()

@@ -3,19 +3,21 @@
 
 namespace App\Objects\Adding;
 
+use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\MapObjectRepository;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route(path="/api/admin/addingRequests")
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_USER")
  */
-class AdminController
+class AdminController extends AbstractController
 {
     /**
      * @Route(methods={"GET"})
@@ -25,6 +27,8 @@ class AdminController
      */
     public function list(Connection $connection, Request $request)
     {
+        $this->denyAccessUnlessGranted(AdminpanelPermission::ADDING_REQUESTS_ACCESS);
+
         $requestsQuery = $connection->createQueryBuilder()
             ->select([
                 'adding_requests.id',
@@ -63,6 +67,8 @@ class AdminController
      */
     public function show($id, Connection $connection)
     {
+        $this->denyAccessUnlessGranted(AdminpanelPermission::ADDING_REQUESTS_ACCESS);
+
         $item = $connection->createQueryBuilder()
             ->select(['id', 'data', 'approved_at'])
             ->from('adding_requests')
@@ -90,6 +96,7 @@ class AdminController
      */
     public function update(AddingRequest $addingRequest, AddingRequestReviewData $addingRequestReviewData, Flusher $flusher)
     {
+        $this->denyAccessUnlessGranted(AdminpanelPermission::ADDING_REQUESTS_ACCESS);
         $addingRequest->updateData($addingRequestReviewData->form);
         $flusher->flush();
     }
@@ -102,6 +109,7 @@ class AdminController
      */
     public function approve(AddingRequest $request, MapObjectRepository $mapObjectRepository, Flusher $flusher)
     {
+        $this->denyAccessUnlessGranted(AdminpanelPermission::ADDING_REQUESTS_ACCESS);
         $mapObject = $request->approve();
         $mapObjectRepository->add($mapObject);
         $flusher->flush();
@@ -114,6 +122,7 @@ class AdminController
      */
     public function delete(AddingRequest $request, Flusher $flusher)
     {
+        $this->denyAccessUnlessGranted(AdminpanelPermission::ADDING_REQUESTS_ACCESS);
         $request->markAsDeleted();
         $flusher->flush();
     }
