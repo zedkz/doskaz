@@ -31,8 +31,8 @@
         methods: {
             mapWasInitialized(map) {
                 this.map = map;
-                if (this.coordinates) {
-                    this.map.setCenter(this.coordinates, 18)
+                if (this.coordinatesAndZoom) {
+                    this.map.setCenter(this.coordinatesAndZoom.coordinates, this.coordinatesAndZoom.zoom)
                 } else {
                     this.map.setBounds(this.cityBounds)
                 }
@@ -77,12 +77,25 @@
                 if(val) {
                     this.map.panTo(val)
                 }
+            },
+            coordinatesAndZoom(val, prev) {
+                console.log(val)
+                if(!val) {
+                   return;
+                }
+                if(val.zoom && val.zoom !== (prev || {}).zoom) {
+                    this.map.setCenter(val.coordinates, val.zoom)
+                }
+                else {
+                    this.map.panTo(val.coordinates)
+                }
             }
         },
         computed: {
             ...sync('map', [
                 'coordinates',
                 'zoom',
+                'coordinatesAndZoom'
             ]),
             ...get('map', [
                 'selectedCategories',
@@ -95,7 +108,6 @@
                 const serializedParams = queryString.stringify({
                     categories: this.selectedCategories,
                     accessibilityLevels: this.accessibilityLevels,
-                    search: this.search
                 }, {arrayFormat: 'index'})
 
                 return '/api/objects/ymaps?bbox=%b&zoom=%z'.concat(serializedParams ? `&${serializedParams}` : '')

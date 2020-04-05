@@ -166,13 +166,14 @@
                 <div class="more-detail__wrapper" v-if="moreDetailsShow">
                     <span class="more-detail__close" v-on:click="moreDetailsShow = false"></span>
                     <div class="more-detail__top">
-                        <div class="more-detail__links" v-for="(chunk, index) in zonesMenu" :key="index">
-                            <a href="#detail_1" class="more-detail__link" v-for="item in chunk" :key="item.key"
-                               :class="{ active: isVisibleDetail(item.key) }"
-                               @click.prevent="setVisible(item.key)">{{ item.title }}</a>
+                        <div class="more-detail__links-wrapper">
+                            <div class="more-detail__links" v-for="(chunk, index) in zonesMenu" :key="index">
+                                <a href="#detail_1" class="more-detail__link" v-for="item in chunk" :key="item.key"
+                                   :class="{ active: isVisibleDetail(item.key) }"
+                                   @click.prevent="setVisible(item.key)">{{ item.title }}</a>
+                            </div>
                         </div>
-
-                        <a :href="`/api/objects/${$route.params.id}/pdf`" target="_blank" class="more-detail__download">Скачать</a>
+                        <a :href="`/api/objects/${$route.params.id}/pdf`" target="_blank" class="more-detail__download" download>Скачать</a>
                     </div>
                     <div class="more-detail__content" id="more-detail__content">
                         <div :id="zone.key" class="more-detail__item" v-for="zone in detailsZones" :key="zone.key">
@@ -294,11 +295,15 @@
                 }
             }
         },
-        async asyncData({$axios, store, params}) {
+        async asyncData({$axios, store, params, query}) {
             const [{data: object}] = await Promise.all([
                 $axios.get(`/api/objects/${params.id}`),
                 store.dispatch('objectAdding/init')
             ])
+            store.commit('map/SET_COORDINATES_AND_ZOOM', {
+                coordinates: object.coordinates,
+                zoom: process.server ? 19: query.zoom
+            })
             return {object}
         },
         mounted() {
@@ -307,7 +312,8 @@
         computed: {
             ...sync('map', [
                 'coordinates',
-                'zoom'
+                'zoom',
+                'coordinatesAndZoom'
             ]),
             overallAccessibility() {
                 return accessibilityValues[this.object.overallScore]
@@ -384,18 +390,28 @@
             }
         },
         watch: {
-            'object.coordinates': {
+            /*'object.coordinates': {
                 handler(coordinates) {
-                    this.coordinates = coordinates
+                  //  this.coordinates = coordinates
+                    this.coordinatesAndZoom = {
+                        zoom: this.$route.query.zoom,
+                        coordinates: coordinates
+                    }
+                 //   this.zoom = 17;
                 },
-                immediate: true
-            },
+                immediate: false
+            },*/
             '$route.query.t'() {
-                this.coordinates = [...this.object.coordinates]
+                this.coordinatesAndZoom = {
+                    coordinates: this.object.coordinates,
+                    zoom: this.$route.query.zoom
+                }
+              //  this.coordinates = [...this.object.coordinates]
             }
         },
         destroyed() {
-            this.coordinates = null
+            this.coordinates = null;
+            this.coordinatesAndZoom = null;
         },
         methods: {
             mainPageMobOpened() {
@@ -673,6 +689,15 @@
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
+                @media all and (max-width: 1023px){
+                    left: 0;
+                    width: 700px;
+                }
+                @media all and (max-width: 768px){
+                    left: 0;
+                    top: 50px;
+                    width: 100%;
+                }
             }
 
             &__content {
@@ -680,6 +705,9 @@
                 overflow-x: hidden;
                 overflow-y: auto;
                 padding: 2px 30px 34px 40px;
+                @media all and (max-width: 768px){
+                    padding: 0 20px 20px 20px;
+                }
 
                 &::-webkit-scrollbar {
                     width: 10px;
@@ -710,13 +738,29 @@
             &__top {
                 background: $light-gray;
                 padding: 32px 40px;
-                display: flex;
+                display: block;
                 position: relative;
+                @media all and (max-width: 768px){
+                    padding: 30px 46px 30px 0;;
+                    height: 40px;
+                    display: block;
+                }
             }
 
             &__links {
                 width: 300px;
                 padding: 0 40px 0 0;
+                &-wrapper {
+                    display: flex;
+                    position: relative;
+                    @media all and (max-width: 768px){
+                        display: none;
+                    }
+                }
+                @media all and (max-width: 768px){
+                    width: 100%;
+                    padding: 0;
+                }
             }
 
             &__link {
@@ -729,7 +773,11 @@
                 &.active, &:hover {
                     font-weight: 700;
                 }
-
+                @media all and (max-width: 768px){
+                    font-size: 14px;
+                    line-height: 18px;
+                    margin: 8px 0 0;
+                }
                 &:first-child {
                     margin: 0;
                 }
@@ -754,7 +802,14 @@
                 background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0IDEwVjEyLjY2NjdDMTQgMTMuMDIwMyAxMy44NTk1IDEzLjM1OTQgMTMuNjA5NSAxMy42MDk1QzEzLjM1OTQgMTMuODU5NSAxMy4wMjAzIDE0IDEyLjY2NjcgMTRIMy4zMzMzM0MyLjk3OTcxIDE0IDIuNjQwNTcgMTMuODU5NSAyLjM5MDUyIDEzLjYwOTVDMi4xNDA0OCAxMy4zNTk0IDIgMTMuMDIwMyAyIDEyLjY2NjdWMTAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQuNjY2NSA2LjY2NjY5TDcuOTk5ODQgMTBMMTEuMzMzMiA2LjY2NjY5IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik04IDEwVjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==);
                 background-position: left 15px center;
                 background-repeat: no-repeat;
-
+                @media all and (max-width: 768px){
+                    padding: 8px 16px 8px 40px;
+                    bottom: auto;
+                    right: auto;
+                    top: 12px;
+                    left: 20px;
+                    font-size: 14px;
+                }
                 &:hover {
                     opacity: 0.7;
                 }
@@ -762,11 +817,19 @@
 
             &__item {
                 padding: 30px 0 0;
+                @media all and (max-width: 768px){
+                    padding: 20px 0 0;
+                }
 
                 &-title {
                     font-size: 34px;
                     line-height: 40px;
                     margin: 0 0 24px;
+                    @media all and (max-width: 768px){
+                        font-size: 20px;
+                        line-height: 24px;
+                        margin: 0 0 12px;
+                    }
                 }
             }
 
@@ -776,11 +839,20 @@
                 display: flex;
                 align-items: flex-start;
                 justify-content: space-between;
+                @media all and (max-width: 768px){
+                    padding: 10px 0px 10px 0;
+                    align-items: center;
+                }
 
                 &-title {
                     font-size: 16px;
                     line-height: 20px;
                     margin: 24px 0 16px;
+                    @media all and (max-width: 768px){
+                        font-size: 14px;
+                        line-height: 18px;
+                        margin: 18px 0 12px;
+                    }
                 }
 
                 &-text {
@@ -788,6 +860,11 @@
                     line-height: 20px;
                     width: 540px;
                     display: block;
+                    @media all and (max-width: 768px){
+                        font-size: 14px;
+                        line-height: 18px;
+                        width: calc(100% - 45px);
+                    }
                 }
 
                 &-status {
@@ -795,17 +872,29 @@
                     font-size: 16px;
                     line-height: 20px;
                     padding: 0 0 0 30px;
+                    @media all and (max-width: 768px){
+                        font-size: 14px;
+                        line-height: 0;
+                        width: 45px;
+                        padding: 9px 33px 9px 12px;
+                    }
                 }
 
                 &.yes {
                     .more-detail__line-status {
                         background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2LjY2NjggNUw3LjUwMDE2IDE0LjE2NjdMMy4zMzM1IDEwIiBzdHJva2U9IiMzREJBM0IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=) left center no-repeat;
+                        @media all and (max-width: 768px){
+                            background-position: center;
+                        }
                     }
                 }
 
                 &.no {
                     .more-detail__line-status {
                         background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmUgeDE9IjQiIHkxPSIxMCIgeDI9IjE2IiB5Mj0iMTAiIHN0cm9rZT0iI0RFMTIyMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==) left center no-repeat;
+                        @media all and (max-width: 768px){
+                            background-position: center;
+                        }
                     }
                 }
 

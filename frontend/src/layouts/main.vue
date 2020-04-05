@@ -79,6 +79,9 @@
                     </span>
                     </div>
                     <div class="main-page__mobile-item">
+                        <city-selector/>
+                    </div>
+                    <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
                             <a href="">Войти</a>
                         </div>
@@ -160,6 +163,7 @@
     import MainMap from "./../components/MainMap.vue";
     import LoginForm from "../components/LoginForm";
     import LangSelect from "./../components/LangSelect";
+    import CitySelector from "./../components/CitySelector";
     import {eventBus} from './../store/bus'
     import {sync} from 'vuex-pathify'
 
@@ -175,7 +179,8 @@
             StartCategoryForm,
             ObjectModal,
             MainMap,
-            LangSelect
+            LangSelect,
+            CitySelector
         },
         computed: {
             popupOpen: sync('disabilitiesCategorySettings/popupOpen'),

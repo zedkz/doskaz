@@ -1419,4 +1419,36 @@ final class ObjectsApiController extends AbstractController
         $client->store($request, $path);
         return (new BinaryFileResponse($path, 200, [], true))->deleteFileAfterSend();
     }
+
+    /**
+     * @Route(path="/search", methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     * @return array|mixed[]
+     */
+    public function search(Request $request, Connection $connection)
+    {
+        if(empty($request->query->get('query'))) {
+            return [];
+        }
+        $cityId = $request->query->get('cityId');
+        $cityGeometry = 'SELECT geometry FROM cities_geometry WHERE ST_CONTAINS(geometry, (SELECT ST_CENTROID(cities.bbox) FROM cities WHERE id = :id))';
+        return $connection->createQueryBuilder()
+            ->select([
+                'objects.id',
+                'objects.title',
+                'objects.address',
+                'object_categories.title as category',
+                'object_categories.icon'
+            ])
+            ->from('objects')
+            ->join('objects', 'object_categories', 'object_categories', 'object_categories.id = objects.category_id')
+            ->andWhere("ST_CONTAINS(($cityGeometry), objects.point_value::geometry)")
+            ->setParameter('search', $request->query->get('query', ''))
+            ->setParameter('id', $cityId)
+            ->setMaxResults(10)
+            ->orderBy('SIMILARITY(concat(objects.title, \' \', objects.address, \' \', object_categories.title), :search)', 'desc')
+            ->execute()
+            ->fetchAll();
+    }
 }

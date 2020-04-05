@@ -48,11 +48,11 @@
                 <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
                     <img :src="require('@/assets/logo.svg')" alt/>
                 </nuxt-link>
-                <city-selector :cities="cities" :value="selectedCity" @input="selectCity"/>
+                <city-selector/>
             </div>
-            <div class="main-filter__search">
+            <div class="main-filter__search" v-click-outside="closeSearch">
                 <form class="input">
-                    <input type="text" placeholder="Тип объекта, название или улица"/>
+                    <input type="text" placeholder="Тип объекта, название или улица"  @focus="searchFocused = true" @input="search({query: $event.target.value, cityId})" v-model="query"/>
                     <button alt="search">
                         <svg
                                 width="24"
@@ -111,6 +111,17 @@
                         </svg>
                     </button>
                 </div>
+                <div class="search-sub" v-if="searchHighlights.length && searchFocused">
+                    <nuxt-link :to="{name: 'objects-id', params: {id: item.id}, query: {zoom: 19}}" class="search-sub__item" v-for="item in searchHighlights" :key="item.id">
+                        <div class="search-sub__icon">
+                            <i class="fa" :class="item.icon"></i>
+                        </div>
+                        <div class="search-sub__info">
+                            <span class="search-sub__title">{{ item.title }}, {{ item.category }}</span>
+                            <span class="search-sub__address">{{ item.address }}</span>
+                        </div>
+                    </nuxt-link>
+                </div>
             </div>
         </div>
         <CategorySelector/>
@@ -121,21 +132,35 @@
     import CategorySelector from "./../components/CategorySelector";
     import LangSelect from "./../components/LangSelect";
     import {eventBus} from './../store/bus.js'
-    import {get, call} from 'vuex-pathify'
+    import throttle from 'lodash/throttle'
+    import {get, call, sync} from 'vuex-pathify'
     import CitySelector from "./CitySelector";
+    import ClickOutside from 'vue-click-outside'
 
     export default {
+        data(){
+            return {
+                searchFocused: false
+            }
+        },
+        directives: {
+            ClickOutside
+        },
         components: {
             CitySelector,
             CategorySelector,
             LangSelect
         },
         computed: {
-            cities: get('cities/list'),
-            selectedCity: get('settings/cityId')
+            cityId: get('settings/cityId'),
+            searchHighlights: get('map/searchHighlights'),
+            query: sync('map/search')
         },
         methods: {
-            selectCity: call('settings/select'),
+            closeSearch() {
+                this.searchFocused = false
+            },
+            search: throttle(call('map/search'), 1000),
             mainPageMobOpened() {
                 eventBus.$emit('mainPageMobOpened');
             }
@@ -145,6 +170,55 @@
 
 <style lang="scss">
     @import "./../styles/mixins.scss";
+
+    .search-sub {
+        position: absolute;
+        left: 0;
+        top: 80px;
+        border: 1px solid $stroke;
+        border-top: none;
+        background: #FFFFFF;
+        width: 500px;
+        padding: 8px 0;
+        z-index: 3;
+        @media all and (max-width: 768px){
+            top: 50px;
+            width: calc(100% + 1px);
+            border-color: rgba(123, 149, 167, 0.3);
+        }
+        &__item {
+            height: 50px;
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+        }
+        &__icon {
+            width: 20px;
+            i {
+                color: $stroke;
+                opacity: 0.5;
+                font-size: 12px;
+            }
+        }
+        &__info {
+            width: calc(100% - 20px);
+        }
+        &__title {
+            font-size: 14px;
+            line-height: 18px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        &__address {
+            font-size: 12px;
+            line-height: 18px;
+            opacity: 0.9;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
 
     .main-filter {
         background: $white;
@@ -270,6 +344,10 @@
                     line-height: 20px;
                     color: #333333;
                     border-bottom: 1px dashed #333333;
+                    @media all and (max-width: 768px) {
+                        font-siZE: 14px;
+                        line-height: 18px;
+                    }
                 }
 
                 svg {
@@ -285,6 +363,9 @@
                 top: 100%;
                 background: #ffffff;
                 display: flex;
+                @media all and (max-width: 768px) {
+                    margin: 10px 0 0;
+                }
             }
 
             &-list {
@@ -292,6 +373,10 @@
                 max-height: 480px;
                 overflow-x: hidden;
                 overflow-y: auto;
+                @media all and (max-width: 768px) {
+                    padding: 8px 0;
+                    max-height: 144px;
+                }
 
                 &::-webkit-scrollbar {
                     width: 10px;
@@ -316,6 +401,12 @@
                 white-space: nowrap;
                 background: transparent;
                 transition: background 0.3s;
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                    line-height: 22px;
+                    min-width: 200px;
+                    padding: 0 8px;
+                }
 
                 &__title {
                     font-size: 14px;
@@ -340,7 +431,7 @@
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
-
+            position: relative;
             .input {
                 margin-right: 10px;
                 @media all and (max-width: 1200px) {
