@@ -48,7 +48,7 @@
                 <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
                     <img :src="require('@/assets/logo.svg')" alt/>
                 </nuxt-link>
-                <city-selector :cities="cities" :value="selectedCity" @input="selectCity"/>
+                <city-selector/>
             </div>
             <div class="main-filter__search">
                 <form class="input">
@@ -130,12 +130,7 @@
             CategorySelector,
             LangSelect
         },
-        computed: {
-            cities: get('cities/list'),
-            selectedCity: get('settings/cityId')
-        },
         methods: {
-            selectCity: call('settings/select'),
             mainPageMobOpened() {
                 eventBus.$emit('mainPageMobOpened');
             }

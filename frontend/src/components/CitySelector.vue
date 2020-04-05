@@ -18,6 +18,7 @@
 
 <script>
     import ClickOutside from 'vue-click-outside'
+    import {call, get} from "vuex-pathify";
 
     export default {
         name: "CitySelector",
@@ -26,26 +27,25 @@
                 opened: false
             }
         },
-        props: [
-            'cities',
-            'value'
-        ],
         directives: {
             ClickOutside
         },
         computed: {
             selectedCityTitle() {
-                const city = this.cities.find(city => city.id === this.value)
+                const city = this.cities.find(city => city.id === this.selectedCity)
                 if (city) {
                     return city.name
                 }
-            }
+            },
+            cities: get('cities/list'),
+            selectedCity: get('settings/cityId')
         },
         methods: {
             select(id) {
-              this.$emit('input', id);
+              this.selectCity(id)
               this.close()
             },
+            selectCity: call('settings/select'),
             close() {
                 this.opened = false;
             }
