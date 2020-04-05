@@ -264,6 +264,9 @@
     export default {
         components: {PostSubmitMessage, Username, LangSelect},
         layout: 'main',
+        props: [
+            'mobileOpened'
+        ],
         head() {
             return {
                 title: this.object.title

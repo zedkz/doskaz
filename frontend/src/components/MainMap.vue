@@ -79,7 +79,6 @@
                 }
             },
             coordinatesAndZoom(val, prev) {
-                console.log(val)
                 if(!val) {
                    return;
                 }
