@@ -52,7 +52,7 @@
             </div>
             <div class="main-filter__search">
                 <form class="input">
-                    <input type="text" placeholder="Тип объекта, название или улица"  @focus="searchFocused = true" @blur="searchFocused = false"/>
+                    <input type="text" placeholder="Тип объекта, название или улица"  @focus="searchFocused = true" @blur="searchFocused = false" @input="search({query: $event.target.value, cityId})" v-model="query"/>
                     <button alt="search">
                         <svg
                                 width="24"
@@ -111,43 +111,16 @@
                         </svg>
                     </button>
                 </div>
-                <div class="search-sub" v-if="searchFocused">
-                    <div class="search-sub__item">
+                <div class="search-sub" v-if="searchHighlights.length">
+                    <nuxt-link :to="{name: 'objects-id', params: {id: item.id}}" class="search-sub__item" v-for="item in searchHighlights" :key="item.id">
                         <div class="search-sub__icon">
-                            <i class="fa fa-music"></i>
+                            <i class="fa" :class="item.icon"></i>
                         </div>
                         <div class="search-sub__info">
-                            <span class="search-sub__title">Шанырак, магазин</span>
-                            <span class="search-sub__address">Кудайбердыулы 58</span>
+                            <span class="search-sub__title">{{ item.title }}, {{ item.category }}</span>
+                            <span class="search-sub__address">{{ item.address }}</span>
                         </div>
-                    </div>
-                    <div class="search-sub__item">
-                        <div class="search-sub__icon">
-                            <i class="fa fa-futbol"></i>
-                        </div>
-                        <div class="search-sub__info">
-                            <span class="search-sub__title">Шанырак, магазин</span>
-                            <span class="search-sub__address">Кудайбердыулы 58</span>
-                        </div>
-                    </div>
-                    <div class="search-sub__item">
-                        <div class="search-sub__icon">
-                            <i class="fa fa-bus"></i>
-                        </div>
-                        <div class="search-sub__info">
-                            <span class="search-sub__title">Шанырак, магазин</span>
-                            <span class="search-sub__address">Кудайбердыулы 58</span>
-                        </div>
-                    </div>
-                    <div class="search-sub__item">
-                        <div class="search-sub__icon">
-                            <i class="fa fa-futbol"></i>
-                        </div>
-                        <div class="search-sub__info">
-                            <span class="search-sub__title">Шанырак, магазин</span>
-                            <span class="search-sub__address">Кудайбердыулы 58</span>
-                        </div>
-                    </div>
+                    </nuxt-link>
                 </div>
             </div>
         </div>
@@ -159,7 +132,8 @@
     import CategorySelector from "./../components/CategorySelector";
     import LangSelect from "./../components/LangSelect";
     import {eventBus} from './../store/bus.js'
-    import {get, call} from 'vuex-pathify'
+    import throttle from 'lodash/throttle'
+    import {get, call, sync} from 'vuex-pathify'
     import CitySelector from "./CitySelector";
 
     export default {
@@ -173,7 +147,13 @@
             CategorySelector,
             LangSelect
         },
+        computed: {
+            cityId: get('settings/cityId'),
+            searchHighlights: get('map/searchHighlights'),
+            query: sync('map/search')
+        },
         methods: {
+            search: throttle(call('map/search'), 1000),
             mainPageMobOpened() {
                 eventBus.$emit('mainPageMobOpened');
             }

@@ -9,7 +9,8 @@ export const state = () => ({
         'full_accessible',
         'partial_accessible',
         'not_accessible',
-    ]
+    ],
+    searchHighlights: []
 })
 
 export const mutations = make.mutations(state)
@@ -29,5 +30,15 @@ export const actions = {
         } else {
             commit('SET_ACCESSIBILITY_LEVELS', state.accessibilityLevels.filter(item => item !== accessibilityLevel))
         }
+    },
+    async search({commit}, {cityId, query}) {
+        const {data} = await this.$axios.get('/api/objects/search', {
+            params: {
+                cityId,
+                query
+            }
+        });
+
+        commit('SET_SEARCH_HIGHLIGHTS', data)
     }
 }

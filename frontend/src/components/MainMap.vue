@@ -95,7 +95,6 @@
                 const serializedParams = queryString.stringify({
                     categories: this.selectedCategories,
                     accessibilityLevels: this.accessibilityLevels,
-                    search: this.search
                 }, {arrayFormat: 'index'})
 
                 return '/api/objects/ymaps?bbox=%b&zoom=%z'.concat(serializedParams ? `&${serializedParams}` : '')
