@@ -265,7 +265,7 @@ final class ObjectsApiController extends AbstractController
             ->fetch();
 
         if (!$object) {
-            return new NotFoundHttpException();
+            throw new NotFoundHttpException();
         }
 
         /**
