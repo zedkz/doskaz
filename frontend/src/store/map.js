@@ -3,6 +3,7 @@ import {make} from 'vuex-pathify'
 export const state = () => ({
     coordinates: null,
     zoom: 14,
+    coordinatesAndZoom: null,
     selectedCategories: [],
     search: '',
     accessibilityLevels: [
@@ -13,7 +14,9 @@ export const state = () => ({
     searchHighlights: []
 })
 
-export const mutations = make.mutations(state)
+export const mutations = {
+    ...make.mutations(state),
+}
 
 
 export const actions = {
@@ -40,5 +43,8 @@ export const actions = {
         });
 
         commit('SET_SEARCH_HIGHLIGHTS', data)
+    },
+    setCoordinatesAndZoom({commit}, payload) {
+        commit('SET_COORDINATES_AND_ZOOM', payload)
     }
 }

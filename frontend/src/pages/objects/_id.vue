@@ -295,11 +295,15 @@
                 }
             }
         },
-        async asyncData({$axios, store, params}) {
+        async asyncData({$axios, store, params, query}) {
             const [{data: object}] = await Promise.all([
                 $axios.get(`/api/objects/${params.id}`),
                 store.dispatch('objectAdding/init')
             ])
+            store.commit('map/SET_COORDINATES_AND_ZOOM', {
+                coordinates: object.coordinates,
+                zoom: process.server ? 19: query.zoom
+            })
             return {object}
         },
         mounted() {
@@ -308,7 +312,8 @@
         computed: {
             ...sync('map', [
                 'coordinates',
-                'zoom'
+                'zoom',
+                'coordinatesAndZoom'
             ]),
             overallAccessibility() {
                 return accessibilityValues[this.object.overallScore]
@@ -385,18 +390,28 @@
             }
         },
         watch: {
-            'object.coordinates': {
+            /*'object.coordinates': {
                 handler(coordinates) {
-                    this.coordinates = coordinates
+                  //  this.coordinates = coordinates
+                    this.coordinatesAndZoom = {
+                        zoom: this.$route.query.zoom,
+                        coordinates: coordinates
+                    }
+                 //   this.zoom = 17;
                 },
-                immediate: true
-            },
+                immediate: false
+            },*/
             '$route.query.t'() {
-                this.coordinates = [...this.object.coordinates]
+                this.coordinatesAndZoom = {
+                    coordinates: this.object.coordinates,
+                    zoom: this.$route.query.zoom
+                }
+              //  this.coordinates = [...this.object.coordinates]
             }
         },
         destroyed() {
-            this.coordinates = null
+            this.coordinates = null;
+            this.coordinatesAndZoom = null;
         },
         methods: {
             mainPageMobOpened() {

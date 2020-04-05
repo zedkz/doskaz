@@ -50,9 +50,9 @@
                 </nuxt-link>
                 <city-selector/>
             </div>
-            <div class="main-filter__search">
+            <div class="main-filter__search" v-click-outside="closeSearch">
                 <form class="input">
-                    <input type="text" placeholder="Тип объекта, название или улица"  @focus="searchFocused = true" @blur="searchFocused = false" @input="search({query: $event.target.value, cityId})" v-model="query"/>
+                    <input type="text" placeholder="Тип объекта, название или улица"  @focus="searchFocused = true" @input="search({query: $event.target.value, cityId})" v-model="query"/>
                     <button alt="search">
                         <svg
                                 width="24"
@@ -111,8 +111,8 @@
                         </svg>
                     </button>
                 </div>
-                <div class="search-sub" v-if="searchHighlights.length">
-                    <nuxt-link :to="{name: 'objects-id', params: {id: item.id}}" class="search-sub__item" v-for="item in searchHighlights" :key="item.id">
+                <div class="search-sub" v-if="searchHighlights.length && searchFocused">
+                    <nuxt-link :to="{name: 'objects-id', params: {id: item.id}, query: {zoom: 19}}" class="search-sub__item" v-for="item in searchHighlights" :key="item.id">
                         <div class="search-sub__icon">
                             <i class="fa" :class="item.icon"></i>
                         </div>
@@ -135,12 +135,16 @@
     import throttle from 'lodash/throttle'
     import {get, call, sync} from 'vuex-pathify'
     import CitySelector from "./CitySelector";
+    import ClickOutside from 'vue-click-outside'
 
     export default {
         data(){
             return {
                 searchFocused: false
             }
+        },
+        directives: {
+            ClickOutside
         },
         components: {
             CitySelector,
@@ -153,6 +157,9 @@
             query: sync('map/search')
         },
         methods: {
+            closeSearch() {
+                this.searchFocused = false
+            },
             search: throttle(call('map/search'), 1000),
             mainPageMobOpened() {
                 eventBus.$emit('mainPageMobOpened');
