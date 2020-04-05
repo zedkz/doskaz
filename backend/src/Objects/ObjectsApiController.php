@@ -1444,6 +1444,7 @@ final class ObjectsApiController extends AbstractController
             ->from('objects')
             ->join('objects', 'object_categories', 'object_categories', 'object_categories.id = objects.category_id')
             ->andWhere("ST_CONTAINS(($cityGeometry), objects.point_value::geometry)")
+            ->andWhere('SIMILARITY(concat(objects.title, \' \', objects.address, \' \', object_categories.title), :search) > 0')
             ->setParameter('search', $request->query->get('query', ''))
             ->setParameter('id', $cityId)
             ->setMaxResults(10)
