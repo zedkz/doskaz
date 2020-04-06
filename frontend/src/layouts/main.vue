@@ -83,7 +83,7 @@
                     </div>
                     <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
-                            <a href="">Войти</a>
+                            <nuxt-link :to="{name: 'login'}">Войти</nuxt-link>
                         </div>
                     </div>
                     <div class="main-page__mobile-item">
@@ -92,9 +92,9 @@
                             <nuxt-link :to="{name: 'about'}"><span>О проекте</span></nuxt-link>
                             <nuxt-link :to="{name: 'blog-category'}"><span>Блог</span></nuxt-link>
                             <nuxt-link :to="{name: 'contacts'}"><span>Контакты</span></nuxt-link>
-                            <button class="button button_blue" type="button" @click="popupOpen = true">
-                                <span>Люди с нарушением слуха</span>
-                                <img :src="require(`~/assets/icons/categories/${category}.svg`)" v-if="category"/>
+                            <button class="button button_blue" type="button" @click="popupOpen = true" v-if="currentCategory">
+                                <span>{{ currentCategory.title }}</span>
+                                <img :src="require(`~/assets/icons/categories/${currentCategory.key}.svg`)"/>
                             </button>
                             <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
                                 <span>Добавить объект</span>
@@ -165,7 +165,7 @@
     import LangSelect from "./../components/LangSelect";
     import CitySelector from "./../components/CitySelector";
     import {eventBus} from './../store/bus'
-    import {sync} from 'vuex-pathify'
+    import {sync, get} from 'vuex-pathify'
 
     export default {
         data() {
@@ -183,6 +183,7 @@
             CitySelector
         },
         computed: {
+            currentCategory: get('disabilitiesCategorySettings/currentCategory'),
             popupOpen: sync('disabilitiesCategorySettings/popupOpen'),
             category: sync('disabilitiesCategorySettings/category'),
         },
