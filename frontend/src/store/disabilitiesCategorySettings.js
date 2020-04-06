@@ -3,17 +3,17 @@ import {make} from 'vuex-pathify'
 export const state = function () {
     return {
         categories: [
-            {key: 'movement', title: 'Люди, передвигающиеся на кресло-коляске'},
-            {key: 'vision', title: 'Люди с инвалидностью по зрению'},
-            {key: 'limb', title: 'Люди с нарушением опорно-двигательного аппарата'},
-            {key: 'hearing', title: 'Люди с инвалидностью по слуху'},
-            {key: 'temporal', title: 'Временно травмированные люди'},
-            {key: 'babyCarriage', title: 'Люди с детскими колясками'},
-            {key: 'missingLimbs', title: 'Люди с отсутствующими конечностями'},
-            {key: 'pregnant', title: 'Беременные женщины'},
-            {key: 'intellectual', title: 'Люди с интелектуальной инвалидностью'},
-            {key: 'agedPeople', title: 'Пожилые люди'},
-            {key: 'justView', title: 'Просто посмотреть'},
+            {key: 'movement', title: 'Люди, передвигающиеся на кресло-коляске', category: 'movement'},
+            {key: 'vision', title: 'Люди с инвалидностью по зрению', category: 'vision'},
+            {key: 'limb', title: 'Люди с нарушением опорно-двигательного аппарата', category: 'limb'},
+            {key: 'hearing', title: 'Люди с инвалидностью по слуху', category: 'hearing'},
+            {key: 'temporal', title: 'Временно травмированные люди', category: 'limb'},
+            {key: 'babyCarriage', title: 'Люди с детскими колясками', category: 'movement'},
+            {key: 'missingLimbs', title: 'Люди с отсутствующими конечностями', category: 'limb'},
+            {key: 'pregnant', title: 'Беременные женщины', category: 'limb'},
+            {key: 'intellectual', title: 'Люди с интелектуальной инвалидностью', category: 'intellectual'},
+            {key: 'agedPeople', title: 'Пожилые люди', category: 'limb'},
+            {key: 'justView', title: 'Просто посмотреть', category: 'movement'},
         ],
         popupOpen: false,
         category: null

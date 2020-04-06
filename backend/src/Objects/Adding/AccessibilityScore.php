@@ -25,7 +25,7 @@ class AccessibilityScore
         self::SCORE_NOT_PROVIDED
     ];
 
-    private const SCORE_CATEGORIES = [
+    public const SCORE_CATEGORIES = [
         'movement',
         'limb',
         'vision',
