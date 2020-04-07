@@ -23,7 +23,8 @@ export const state = function () {
 export const mutations = make.mutations(state)
 
 export const getters = {
-    currentCategory: state => state.categories.find(category => category.key === state.category)
+    currentCategory: state => state.categories.find(category => category.key === state.category),
+    currentCategoryValue: (state, getters) => getters.currentCategory ? getters.currentCategory.category : undefined
 }
 
 export const actions = {
