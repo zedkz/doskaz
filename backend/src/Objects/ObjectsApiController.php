@@ -360,8 +360,8 @@ final class ObjectsApiController extends AbstractController
                 (float)$object['lat'], (float)$object['long']
             ],
             'overallScore' => $object["overall_score_$disabilitiesCategory"],
-            'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) {
-                return $accessibilityScore->movement;
+            'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) use($disabilitiesCategory) {
+                return $accessibilityScore->{$disabilitiesCategory};
             }, $scoresByZone),
             'icon' => $object['sub_category_icon'] ? $object['sub_category_icon'] : $object['category_icon'],
             'photos' => array_map(function ($photo) use ($connection, $urlBuilder, $baseUrl) {
