@@ -264,6 +264,9 @@
     export default {
         components: {PostSubmitMessage, Username, LangSelect},
         layout: 'main',
+        props: [
+            'mobileOpened'
+        ],
         head() {
             return {
                 title: this.object.title
@@ -295,16 +298,22 @@
                 }
             }
         },
-        async asyncData({$axios, store, params, query}) {
-            const [{data: object}] = await Promise.all([
-                $axios.get(`/api/objects/${params.id}`),
-                store.dispatch('objectAdding/init')
-            ])
-            store.commit('map/SET_COORDINATES_AND_ZOOM', {
-                coordinates: object.coordinates,
-                zoom: process.server ? 19: query.zoom
-            })
-            return {object}
+        async asyncData({$axios, store, params, query, error}) {
+            try {
+                const {data: object} = await $axios.get(`/api/objects/${params.id}`)
+                await store.dispatch('objectAdding/init')
+                store.commit('map/SET_COORDINATES_AND_ZOOM', {
+                    coordinates: object.coordinates,
+                    zoom: process.server ? 19: query.zoom
+                })
+                return {object}
+            } catch (e) {
+                if(e.response && e.response.status) {
+                    return error({ statusCode: e.response.status })
+                }
+                return error({})
+            }
+
         },
         mounted() {
             this.visibleDetail = this.detailsZones[0].key
@@ -390,27 +399,14 @@
             }
         },
         watch: {
-            /*'object.coordinates': {
-                handler(coordinates) {
-                  //  this.coordinates = coordinates
-                    this.coordinatesAndZoom = {
-                        zoom: this.$route.query.zoom,
-                        coordinates: coordinates
-                    }
-                 //   this.zoom = 17;
-                },
-                immediate: false
-            },*/
             '$route.query.t'() {
                 this.coordinatesAndZoom = {
                     coordinates: this.object.coordinates,
                     zoom: this.$route.query.zoom
                 }
-              //  this.coordinates = [...this.object.coordinates]
             }
         },
         destroyed() {
-            this.coordinates = null;
             this.coordinatesAndZoom = null;
         },
         methods: {

@@ -25,6 +25,7 @@ use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\ClientException;
 use TheCodingMachine\Gotenberg\RequestException;
 use TheCodingMachine\Gotenberg\URLRequest;
+use Webmozart\Assert\Assert;
 
 /**
  * @Route(path="/api/objects")
@@ -57,6 +58,8 @@ final class ObjectsApiController extends AbstractController
         $zoom = $request->query->get('zoom');
 
         $accessibilityLevels = $request->query->get('accessibilityLevels', []);
+        $disabilitiesCategory = $request->query->get('disabilitiesCategory', AccessibilityScore::SCORE_CATEGORIES[0]);
+        Assert::oneOf($disabilitiesCategory, AccessibilityScore::SCORE_CATEGORIES);
 
         $clusteringLevels = [
             0 => 1,
@@ -105,9 +108,8 @@ final class ObjectsApiController extends AbstractController
                 'precision' => $precision
             ]);
 
-
         if (count($accessibilityLevels)) {
-            $q1->andWhere('overall_score_movement IN (:levels)')
+            $q1->andWhere("overall_score_$disabilitiesCategory IN (:levels)")
                 ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
         }
 
@@ -134,7 +136,7 @@ final class ObjectsApiController extends AbstractController
             ->select([
                 'objects.id',
                 'categories.icon',
-                'overall_score_movement',
+                "overall_score_$disabilitiesCategory as score",
                 'ST_X(ST_AsText(point_value)) as long',
                 'ST_Y(ST_AsText(point_value)) as lat',
             ])
@@ -155,7 +157,7 @@ final class ObjectsApiController extends AbstractController
             ]);
 
         if (count($accessibilityLevels)) {
-            $q2->andWhere('overall_score_movement IN (:levels)')
+            $q2->andWhere("overall_score_$disabilitiesCategory IN (:levels)")
                 ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
         }
 
@@ -193,7 +195,7 @@ final class ObjectsApiController extends AbstractController
                     ]
                 ],
                 'properties' => [
-                    'color' => $colors[$item['overall_score_movement']],
+                    'color' => $colors[$item['score']],
                     'icon' => $item['icon'],
                 ]
             ];
@@ -265,7 +267,7 @@ final class ObjectsApiController extends AbstractController
             ->fetch();
 
         if (!$object) {
-            return new NotFoundHttpException();
+            throw new NotFoundHttpException();
         }
 
         /**
@@ -1444,7 +1446,8 @@ final class ObjectsApiController extends AbstractController
             ->from('objects')
             ->join('objects', 'object_categories', 'object_categories', 'object_categories.id = objects.category_id')
             ->andWhere("ST_CONTAINS(($cityGeometry), objects.point_value::geometry)")
-            ->andWhere('SIMILARITY(concat(objects.title, \' \', objects.address, \' \', object_categories.title), :search) > 0')
+            ->andWhere('SIMILARITY(CONCAT(objects.title, \' \', objects.address, \' \', object_categories.title), :search) > 0')
+            ->andWhere('deleted_at IS NULL')
             ->setParameter('search', $request->query->get('query', ''))
             ->setParameter('id', $cityId)
             ->setMaxResults(10)
