@@ -83,7 +83,17 @@
                     </div>
                     <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
-                            <nuxt-link :to="{name: 'login'}">Войти</nuxt-link>
+                            <nuxt-link :to="{name: 'login'}" v-if="!user">Войти</nuxt-link>
+
+                            <template v-if="user">
+                                <username :value="name"/>
+                                <nuxt-link :to="{name: 'profile-achievements'}">Достижения</nuxt-link>
+                                <nuxt-link :to="{name: 'profile-objects'}">Мои объекты</nuxt-link>
+                                <nuxt-link :to="{name: 'profile-tickets'}">Мои тикеты</nuxt-link>
+                                <nuxt-link :to="{name: 'profile-tasks'}">Мои задания</nuxt-link>
+                                <nuxt-link :to="{name: 'profile-comments'}">Мои комментарии</nuxt-link>
+                            </template>
+
                         </div>
                     </div>
                     <div class="main-page__mobile-item">
@@ -166,6 +176,7 @@
     import CitySelector from "./../components/CitySelector";
     import {eventBus} from './../store/bus'
     import {sync, get} from 'vuex-pathify'
+    import Username from "../components/Username";
 
     export default {
         data() {
@@ -174,6 +185,7 @@
             };
         },
         components: {
+            Username,
             LoginForm,
             IntroForm,
             StartCategoryForm,
@@ -186,6 +198,8 @@
             currentCategory: get('disabilitiesCategorySettings/currentCategory'),
             popupOpen: sync('disabilitiesCategorySettings/popupOpen'),
             category: sync('disabilitiesCategorySettings/category'),
+            user: get('authentication/user'),
+            name: get('authentication/name'),
         },
         created() {
             eventBus.$on('mainPageMobOpened', this.mobileOpenedTrue)
