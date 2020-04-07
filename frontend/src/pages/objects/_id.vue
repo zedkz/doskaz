@@ -300,7 +300,11 @@
         },
         async asyncData({$axios, store, params, query, error}) {
             try {
-                const {data: object} = await $axios.get(`/api/objects/${params.id}`)
+                const {data: object} = await $axios.get(`/api/objects/${params.id}`, {
+                    params: {
+                        disabilitiesCategory: store.getters['disabilitiesCategorySettings/currentCategoryValue']
+                    }
+                })
                 await store.dispatch('objectAdding/init')
                 store.commit('map/SET_COORDINATES_AND_ZOOM', {
                     coordinates: object.coordinates,
@@ -396,7 +400,8 @@
                     type: 'text/html',
                     href: video.url
                 }));
-            }
+            },
+            userCategory: get('disabilitiesCategorySettings/currentCategory'),
         },
         watch: {
             '$route.query.t'() {
@@ -404,6 +409,9 @@
                     coordinates: this.object.coordinates,
                     zoom: this.$route.query.zoom
                 }
+            },
+            userCategory() {
+                this.reloadObject()
             }
         },
         destroyed() {
@@ -427,7 +435,11 @@
                 this.activeItem = tabItem
             },
             async reloadObject() {
-                const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`)
+                const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`, {
+                    params: {
+                        disabilitiesCategory: this.$store.getters['disabilitiesCategorySettings/currentCategoryValue']
+                    }
+                })
                 this.object = object;
             },
             viewPhoto(photo) {

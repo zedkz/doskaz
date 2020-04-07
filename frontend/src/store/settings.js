@@ -26,7 +26,8 @@ export const actions = {
     },
     saveSettings({state}) {
         this.app.$cookies.set('settings', state, {
-            maxAge: 3600 * 24 * 365
+            maxAge: 3600 * 24 * 365,
+            path: '/'
         });
     }
 }

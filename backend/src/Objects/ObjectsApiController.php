@@ -235,6 +235,10 @@ final class ObjectsApiController extends AbstractController
      */
     public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request)
     {
+
+        $disabilitiesCategory = $request->query->get('disabilitiesCategory', AccessibilityScore::SCORE_CATEGORIES[0]);
+        Assert::oneOf($disabilitiesCategory, AccessibilityScore::SCORE_CATEGORIES);
+
         $object = $connection->createQueryBuilder()
             ->select([
                 'objects.title',
@@ -355,7 +359,7 @@ final class ObjectsApiController extends AbstractController
             'coordinates' => [
                 (float)$object['lat'], (float)$object['long']
             ],
-            'overallScore' => $object['overall_score_movement'],
+            'overallScore' => $object["overall_score_$disabilitiesCategory"],
             'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) {
                 return $accessibilityScore->movement;
             }, $scoresByZone),
