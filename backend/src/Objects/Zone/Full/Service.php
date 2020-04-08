@@ -49,26 +49,16 @@ class Service extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        if($this->isMatches([12], Attribute::no()) || $this->isMatches([12], Attribute::unknown())) {
+            return AccessibilityScore::notAccessible();
+        }
+
+        $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $hearing = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
 
-        if ($this->isMatchesAll(Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        }
-
-        if ($this->isMatches($this->remap([12]), Attribute::yes())) {
-            $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        }
-
-        if ($this->isMatchesPartial($this->remap([4, 6, 7, 8, 9, 11, 12, 13]), Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        }
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
     }
 }

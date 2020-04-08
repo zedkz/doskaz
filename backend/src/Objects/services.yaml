@@ -45,3 +45,6 @@ services:
             - { name: domain_events.listener }
 
     App\Objects\PhotosHistory\PhotosHistoryRepository:
+
+    App\Objects\Command\RecalculateAccessibilityScore:
+        tags: ['console.command']

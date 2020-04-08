@@ -55,4 +55,12 @@ final class MapObjectRepository
             'createdBy' => $userId
         ]);
     }
+
+    /**
+     * @return MapObject[]
+     */
+    public function findAll(): array
+    {
+        return $this->repository->findAll();
+    }
 }
