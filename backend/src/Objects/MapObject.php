@@ -14,7 +14,11 @@ use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="objects")
+ * @ORM\Table(
+ *     name="objects",
+ *     indexes={
+ *         @ORM\Index(name="idx_point_value", columns={"point_value"}, flags={"spatial"}),
+ * })
  */
 class MapObject implements EventProducer
 {

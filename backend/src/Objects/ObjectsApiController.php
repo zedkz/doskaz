@@ -96,7 +96,7 @@ final class ObjectsApiController extends AbstractController
                 'ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS lat'
             ])
             ->from('objects')
-            ->andWhere('ST_CONTAINS(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326), point_value::GEOMETRY)')
+            ->andWhere('ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326) && point_value')
             ->andWhere('objects.deleted_at IS NULL')
             ->groupBy('hash')
             ->having('COUNT(*) > 1')
@@ -137,12 +137,12 @@ final class ObjectsApiController extends AbstractController
                 'objects.id',
                 'categories.icon',
                 "overall_score_$disabilitiesCategory as score",
-                'ST_X(ST_AsText(point_value)) as long',
-                'ST_Y(ST_AsText(point_value)) as lat',
+                'ST_X(point_value::geometry) as long',
+                'ST_Y(point_value::geometry) as lat',
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'categories', 'categories.id = objects.category_id')
-            ->andWhere('ST_CONTAINS(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326), point_value::GEOMETRY)')
+            ->andWhere('ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326) && point_value')
             ->andWhere('objects.deleted_at IS NULL')
             ->andWhere('ST_GEOHASH(point_value, :precision) NOT IN (:ids)')
             ->setParameters([
