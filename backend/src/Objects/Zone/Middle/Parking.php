@@ -37,24 +37,17 @@ class Parking extends Zone
         $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
 
-        if ($this->isMatches([1, 2, 5, 6, 7, 8, 9], Attribute::no())) {
-            $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial([1, 2, 5, 6, 7, 8, 9], Attribute::yes())) {
+
+        if($this->isMatches([10], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        }
-
-        if ($this->isMatches([1, 2, 5, 6, 7, 8], Attribute::no())) {
-            $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial([1, 2, 5, 6, 7, 8], Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        }
-
-        if ($this->isMatchesAll(Attribute::no())) {
-            $hearing = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        } else {
+            $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+            $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+            $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+            $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         }
 
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);

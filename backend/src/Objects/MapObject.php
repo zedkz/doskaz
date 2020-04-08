@@ -234,4 +234,8 @@ class MapObject implements EventProducer
     public function createdBy(): ?int {
         return $this->createdBy;
     }
+
+    public function recalculateAccessibilityScore() {
+        $this->overallScore = $this->zones->overallScore();
+    }
 }

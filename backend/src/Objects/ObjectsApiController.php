@@ -800,6 +800,13 @@ final class ObjectsApiController extends AbstractController
                                 ]
                             ],
                             [
+                                'title' => 'Поручни около унитаза:',
+                                'attributes' => [
+                                    ['key' => 30, 'subTitle' => '— с двух сторон унитаза'],
+                                    ['key' => 33, 'subTitle' => 'Свободное пространство 0,75 х 1,2 м'],
+                                ]
+                            ],
+                            [
                                 'title' => 'Другое оборудование',
                                 'attributes' => [
                                     ['key' => 9, 'subTitle' => 'Крючки для одежды'],

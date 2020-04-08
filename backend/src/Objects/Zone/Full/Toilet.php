@@ -13,7 +13,7 @@ class Toilet extends Zone
     protected static function attributesKeys(): array
     {
         return array_map(function ($key) {
-            return 'attribute'.$key;
+            return 'attribute' . $key;
         }, range(1, 33));
     }
 
@@ -68,30 +68,20 @@ class Toilet extends Zone
         if ($this->isMatchesAll(Attribute::notProvided())) {
             return AccessibilityScore::notProvided();
         }
+        if ($this->isMatchesAll(Attribute::yes())) {
+            return AccessibilityScore::fullAccessible();
+        }
 
         $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        $hearing = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+        $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
 
-        if ($this->isMatchesAll(Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        }
-
-        if ($this->isMatches($this->remap([20]), Attribute::yes())) {
-            $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        }
-
-        if ($this->isMatches($this->remap([3, 4, 7, 10, 11, 12, 13, 16, 18, 19, 20, 21, 31, 32, 33]), Attribute::no())) {
+        if ($this->isMatches([30, 33], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         }
-        if ($this->isMatches($this->remap([3, 4, 18, 19, 20, 31, 32, 33]), Attribute::no())) {
-            $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        }
+
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
     }
 }

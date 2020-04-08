@@ -13,7 +13,8 @@
     "dotenv": "^8.2.0",
     "nuxt-start": "^2.11.0",
     "vue-click-outside": "^1.0.7",
-    "vue-imask": "^6.0.3"
+    "vue-imask": "^6.0.3",
+    "@nuxtjs/redirect-module": "^0.3.1"
   },
   "devDependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",

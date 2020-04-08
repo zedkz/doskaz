@@ -13,7 +13,7 @@ class Movement extends Zone
     protected static function attributesKeys(): array
     {
         return array_map(function ($key) {
-            return 'attribute'.$key;
+            return 'attribute' . $key;
         }, range(1, 37));
     }
 
@@ -29,26 +29,6 @@ class Movement extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-
-        if ($this->isMatches([2, 3, 4, 5, 7, 8, 9, 10, 22, 23, 24, 25, 26, 27, 32], Attribute::no())) {
-            $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial([2, 3, 4, 5, 7, 8, 9, 10, 22, 23, 24, 25, 26, 27, 32], Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        }
-
-        if ($this->isMatches([2, 3, 4, 5, 8, 9, 10, 36, 37], Attribute::no())) {
-            $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial([], Attribute::yes())) {
-            $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        }
-
-        return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
+        return AccessibilityScore::partialAccessible();
     }
 }
