@@ -5,7 +5,8 @@ export default {
     loading: false,
     modules: [
         '@nuxtjs/axios',
-        'cookie-universal-nuxt'
+        'cookie-universal-nuxt',
+        '@nuxtjs/redirect-module'
     ],
     proxy: {
         '/pipeline': {
@@ -24,6 +25,10 @@ export default {
     axios: {
         proxy: true
     },
+    redirect: [
+        {from: '^/kurs', to: 'https://oft.kz/kurs'},
+        {from: '^/kurs-obrashenie', to: 'https://oft.kz/kurs-obrashenie'}
+    ],
     plugins: [
         {src: '~plugins/no-ssr.js', ssr: false},
         {src: '~plugins/authenticated.js'}
