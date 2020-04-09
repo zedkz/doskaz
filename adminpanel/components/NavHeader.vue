@@ -12,7 +12,7 @@
                         {{ $store.state.authentication.user.name || $store.state.authentication.user.phone ||
                         $store.state.authentication.user.email }}
                     </template>
-                    <b-dropdown-item href="#">Выход</b-dropdown-item>
+                    <b-dropdown-item @click="logout">Выход</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
         </b-navbar>
@@ -20,8 +20,13 @@
 </template>
 
 <script>
+    import {call} from 'vuex-pathify'
+
     export default {
-        name: "NavHeader"
+        name: "NavHeader",
+        methods: {
+            logout: call('authentication/logout')
+        }
     }
 </script>
 
