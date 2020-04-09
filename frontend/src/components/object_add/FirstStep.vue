@@ -20,16 +20,6 @@
                 </div>
             </div>
         </field>
-        <field :error="validationErrors.address">
-            <div class="col">
-                <label class="add-object__label">Адрес</label>
-            </div>
-            <div class="col --long">
-                <div class="input">
-                    <input type="text" placeholder="улица Айманова, 11" v-model.trim="address"/>
-                </div>
-            </div>
-        </field>
         <field :error="validationErrors.point">
             <div class="col"><label class="add-object__label --title">Точка на карте</label></div>
             <div class="col --long">
@@ -50,6 +40,16 @@
                         <ymap-marker :coords="point" v-if="point" marker-id="point"></ymap-marker>
                     </yandex-map>
                 </client-only>
+            </div>
+        </field>
+        <field :error="validationErrors.address">
+            <div class="col">
+                <label class="add-object__label">Адрес</label>
+            </div>
+            <div class="col --long">
+                <div class="input">
+                    <input type="text" placeholder="улица Айманова, 11" v-model.trim="address"/>
+                </div>
             </div>
         </field>
         <div class="add-object__line --lrg">
@@ -104,6 +104,14 @@
                 <div class="add-object__info-text">
                     Выберите подкатегорию объекта из списка.<br>Если категория в списке отсутствует, выберите подкатегорию “Другое”.
                 </div>
+            </div>
+        </field>
+        <field :error="validationErrors.description">
+            <div class="col">
+                <label class="add-object__label">Описание</label>
+            </div>
+            <div class="col --long">
+                <textarea class="add-object__textarea" :value="description" @input="updateData({path: 'first.description', value: $event.target.value})"></textarea>
             </div>
         </field>
         <field>
@@ -200,7 +208,8 @@
                 'categoryId',
                 'videos',
                 'photos',
-                'otherNames'
+                'otherNames',
+                'description'
             ]),
             ...get('objectAdding', [
                 'categories'

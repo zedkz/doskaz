@@ -6,6 +6,8 @@ namespace App\Objects\Adding;
 use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\MapObjectRepository;
+use App\RegionalCoordinators\RegionalCoordinatorCitiesFinder;
+use App\RegionalCoordinators\RegionalCoordinatorRepository;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +27,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return array
      */
-    public function list(Connection $connection, Request $request)
+    public function list(Connection $connection, Request $request, RegionalCoordinatorRepository $regionalCoordinatorRepository, RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder)
     {
         $this->denyAccessUnlessGranted(AdminpanelPermission::ADDING_REQUESTS_ACCESS);
 
@@ -42,6 +44,19 @@ class AdminController extends AbstractController
             ->leftJoin('adding_requests', 'object_categories', 'object_categories', "(adding_requests.data->'first'->'categoryId')::INTEGER = object_categories.id")
             ->andWhere('adding_requests.deleted_at is null');
 
+
+        if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
+            $cities = $coordinatorCitiesFinder->find($this->getUser()->id());
+            $requestsQuery->andWhere('
+                EXISTS(
+                    SELECT 1
+                    FROM cities_geometry
+                    WHERE cities_geometry.id IN (:cities)
+                    AND cities_geometry.geometry && ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float)
+                    LIMIT 1
+                )
+            ')->setParameter('cities', $cities, Connection::PARAM_INT_ARRAY);
+        }
 
         $requestsData = (clone $requestsQuery)
             ->setMaxResults(20)

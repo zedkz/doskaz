@@ -35,7 +35,7 @@
             },
             options() {
                 return [
-                    {value: 'unknown', text: 'Не знаю'},
+                    {value: 'unknown', text: 'Неизвестно'},
                     {value: 'not_provided', text: 'Не предусмотрено'},
                     {value: 'no', text: 'Нет'},
                     {value: 'yes', text: 'Да'},

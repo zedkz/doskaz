@@ -1,12 +1,13 @@
 <template>
-    <textarea v-model="val" class="form-control" rows="5"></textarea>
+    <textarea v-model="val" class="form-control" rows="5" :class="{'is-invalid': error}"></textarea>
 </template>
 
 <script>
     export default {
         name: "TextareaInput",
         props: [
-            'value'
+            'value',
+            'error'
         ],
         computed: {
             val: {

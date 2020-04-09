@@ -5,6 +5,8 @@ namespace App\Objects;
 
 use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Infrastructure\Doctrine\Flusher;
+use App\RegionalCoordinators\RegionalCoordinatorCitiesFinder;
+use App\RegionalCoordinators\RegionalCoordinatorRepository;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +24,11 @@ class AdminController extends AbstractController
      * @Route(methods={"GET"})
      * @param Request $request
      * @param Connection $connection
+     * @param RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder
+     * @param RegionalCoordinatorRepository $regionalCoordinatorRepository
      * @return array
      */
-    public function list(Request $request, Connection $connection)
+    public function list(Request $request, Connection $connection, RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder, RegionalCoordinatorRepository $regionalCoordinatorRepository)
     {
         $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         $queryBuilder = $connection->createQueryBuilder()
@@ -38,6 +42,19 @@ class AdminController extends AbstractController
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'object_categories', 'objects.category_id = object_categories.id')
             ->andWhere('objects.deleted_at IS NULL');
+
+        if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
+            $cities = $coordinatorCitiesFinder->find($this->getUser()->id());
+            $queryBuilder->andWhere('
+                EXISTS(
+                    SELECT 1
+                    FROM cities_geometry
+                    WHERE cities_geometry.id IN (:cities)
+                    AND cities_geometry.geometry && objects.point_value
+                    LIMIT 1
+                )
+            ')->setParameter('cities', $cities, Connection::PARAM_INT_ARRAY);
+        }
 
         $objects = (clone $queryBuilder)
             ->setMaxResults($request->query->getInt('limit', 20))

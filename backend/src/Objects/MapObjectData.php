@@ -55,8 +55,13 @@ class MapObjectData implements DataObject
     public $zones;
 
     /**
+     * @var string|null
+     * @Assert\NotBlank()
+     */
+    public $otherNames;
+
+    /**
      * MapObjectData constructor.
-     * @param $id
      * @param $title
      * @param $address
      * @param $description
@@ -65,8 +70,10 @@ class MapObjectData implements DataObject
      * @param array $videos
      * @param FileReferenceCollection $photos
      * @param Zones $zones
+     * @param $id
+     * @param null $otherNames
      */
-    public function __construct($title, $address, $description, $categoryId, $point, array $videos, FileReferenceCollection $photos, Zones $zones, $id = null)
+    public function __construct($title, $address, $description, $categoryId, $point, array $videos, FileReferenceCollection $photos, Zones $zones, $id = null, $otherNames = null)
     {
         $this->id = $id;
         $this->title = $title;
@@ -77,5 +84,6 @@ class MapObjectData implements DataObject
         $this->videos = $videos;
         $this->photos = $photos;
         $this->zones = $zones;
+        $this->otherNames = $otherNames;
     }
 }

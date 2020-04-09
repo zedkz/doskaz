@@ -25,7 +25,7 @@
             ...connectField(),
             options() {
                 return [
-                    {value: 'unknown', title: 'Не знаю'},
+                    {value: 'unknown', title: 'Неизвестно'},
                     {value: 'not_provided', title: 'Не предусмотрено'},
                     {value: 'no', title: 'Нет'},
                     {value: 'yes', title: 'Да'},

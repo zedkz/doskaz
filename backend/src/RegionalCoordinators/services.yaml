@@ -10,3 +10,5 @@ services:
 
   App\RegionalCoordinators\RegionalCoordinatorAdminPermissionsVoter:
     tags: ['security.voter']
+
+  App\RegionalCoordinators\RegionalCoordinatorCitiesFinder:

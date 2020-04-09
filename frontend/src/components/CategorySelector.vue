@@ -264,10 +264,9 @@
                 background-color: $tr;
                 background-position: center;
                 background-repeat: no-repeat;
-                @media all and (max-width: 768px){
+                @media all and (max-width: 1336px){
                     width: 30px;
                     height: 30px;
-                    background-size: 16px;
                 }
             }
 

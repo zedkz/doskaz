@@ -11,6 +11,10 @@ export const actions = {
         const {data: user} = await this.$axios.get('/api/admin/profile');
         commit('SET_USER', user);
     },
+    async logout() {
+        await this.$axios.delete('/api/token');
+        window.location.href = '/'
+    }
 };
 
 export const getters = {

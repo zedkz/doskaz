@@ -12,6 +12,7 @@
         <b-tabs content-class="mt-3" v-model="tab">
             <b-tab title="Общая информация" active>
                 <input-field path="title" label="Наименование" :required="true"/>
+                <input-field path="otherNames" label="Другие наименования" :required="false"/>
                 <textarea-field label="Описание" path="description"/>
                 <select2-field label="Категория" v-model="categoryId" :options="categoryOptions" :required="true"/>
                 <select2-field label="Подкатегория" path="categoryId" :required="true"

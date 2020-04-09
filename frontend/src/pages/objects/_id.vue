@@ -54,7 +54,7 @@
                     <div class="object-side__tab-content-b">
                         <div class="object-side__tab-content" :class="{active: !$route.query.tab}"
                              id="tab-description">
-                            <p class="text" v-html="object.description"></p>
+                            <p class="text">{{ object.description }}</p>
                             <div class="text__verification-b">
                                 <span class="text__verification-link" v-on:click="moreDetailsShow = true">Подробная информация</span>
                                 <p class="text__verification" v-if="object.verificationStatus === 'full_verified'">
