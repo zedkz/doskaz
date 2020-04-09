@@ -23,7 +23,8 @@ class RegionalCoordinatorCitiesFinder
             ->select('cities_geometry.id')
             ->from('cities')
             ->join('cities', 'cities_geometry', 'cities_geometry', 'st_intersects(cities.bbox, cities_geometry.geometry)')
-            ->andWhere('cities.id in (select jsonb_array_elements_text(cities)::int from regional_coordinators where user_id = 5)')
+            ->andWhere('cities.id in (select jsonb_array_elements_text(cities)::int from regional_coordinators where user_id = :userId)')
+            ->setParameter('userId', $userId)
             ->execute()
             ->fetchAll(\PDO::FETCH_COLUMN);
     }
