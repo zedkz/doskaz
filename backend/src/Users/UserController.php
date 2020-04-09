@@ -104,7 +104,7 @@ final class UserController extends AbstractController
                 'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
                 'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
             ]);
-        }, $usersQb->setMaxResults(20)->setFirstResult($request->query->getInt('offset'))->orderBy('id', 'desc')->execute()->fetchAll());
+        }, $usersQb->setMaxResults($request->query->getInt('limit', 20))->setFirstResult($request->query->getInt('offset'))->orderBy('id', 'desc')->execute()->fetchAll());
 
         return [
             'items' => $items,

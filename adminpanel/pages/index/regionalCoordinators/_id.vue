@@ -15,7 +15,11 @@
         async asyncData({$axios}) {
             const [{data: cities}, {data: {items: users}}] = await Promise.all([
                 $axios.get('/api/cities'),
-                $axios.get('/api/users'),
+                $axios.get('/api/users', {
+                    params: {
+                        limit: 1000
+                    }
+                }),
             ])
             return {cities, users}
         },
