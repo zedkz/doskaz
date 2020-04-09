@@ -46,12 +46,12 @@ class AdminController extends AbstractController
         if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
             $cities = $coordinatorCitiesFinder->find($this->getUser()->id());
             $queryBuilder->andWhere('
-                exists(
-                    select 1
-                    from cities_geometry
-                    where cities_geometry.id in (:cities)
+                EXISTS(
+                    SELECT 1
+                    FROM cities_geometry
+                    WHERE cities_geometry.id IN (:cities)
                     AND cities_geometry.geometry && objects.point_value
-                    limit 1
+                    LIMIT 1
                 )
             ')->setParameter('cities', $cities, Connection::PARAM_INT_ARRAY);
         }
