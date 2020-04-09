@@ -18,6 +18,12 @@ class FirstStep
      * @var string
      * @Assert\NotBlank()
      */
+    public $description;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     */
     public $otherNames;
 
     /**

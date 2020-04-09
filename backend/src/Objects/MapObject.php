@@ -65,6 +65,12 @@ class MapObject implements EventProducer
     private $description;
 
     /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $otherNames;
+
+    /**
      * @var Zones
      * @ORM\Column(type=Zones::class, nullable=true, options={"jsonb" = true}, nullable=true)
      */
@@ -127,7 +133,8 @@ class MapObject implements EventProducer
         ?string $description,
         FileReferenceCollection $photos,
         array $videos,
-        ?int $createdBy = null
+        ?int $createdBy = null,
+        ?string $otherNames = null
     )
     {
         $this->uuid = Uuid::uuid4();
@@ -142,6 +149,7 @@ class MapObject implements EventProducer
         $this->videos = $videos;
         $this->photos = $photos;
         $this->createdBy = $createdBy;
+        $this->otherNames = $otherNames;
 
         $this->remember(new MapObjectCreated($this->uuid, $createdBy));
         if (!$this->photos->isEmpty()) {
@@ -189,7 +197,8 @@ class MapObject implements EventProducer
             $this->videos,
             $this->photos,
             $this->zones,
-            $this->id
+            $this->id,
+            $this->otherNames
         );
     }
 
@@ -206,6 +215,7 @@ class MapObject implements EventProducer
         $this->photos = $mapObjectData->photos;
         $this->zones = $mapObjectData->zones;
         $this->overallScore = $this->zones->overallScore();
+        $this->otherNames = $mapObjectData->otherNames;
         $this->updatedAt = new \DateTimeImmutable();
     }
 
@@ -220,7 +230,8 @@ class MapObject implements EventProducer
             $mapObjectData->description,
             $mapObjectData->photos,
             $mapObjectData->videos,
-            $userId
+            $userId,
+            $mapObjectData->otherNames
         );
         return $self;
     }

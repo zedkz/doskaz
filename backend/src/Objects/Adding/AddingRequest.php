@@ -83,10 +83,11 @@ class AddingRequest
             $data->first->categoryId,
             $data->toZones(),
             $data->first->address,
-            '',
+            $data->first->description,
             $data->first->photos,
             $data->first->videos,
-            $this->userId
+            $this->userId,
+            $data->first->otherNames
         );
     }
 

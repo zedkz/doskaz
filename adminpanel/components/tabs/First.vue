@@ -1,10 +1,12 @@
 <template>
     <div>
         <input-field :path="`${path}.name`" label="Наименование" :required="true"/>
+        <input-field :path="`${path}.otherNames`" label="Другие наименования" :required="true"/>
         <input-field :path="`${path}.address`" label="Адрес" :required="true"/>
         <map-point-field :path="`${path}.point`" label="Точка на карте" :required="true" @address="updateAddress"/>
         <select2-field label="Категория" v-model="categoryId" :options="categoryOptions"/>
         <select2-field label="Подкатегория" :path="`${path}.categoryId`" :required="true" :options="subCategoryOptions"/>
+        <textarea-field label="Описание" :path="`${path}.description`" :required="true"></textarea-field>
         <field-wrapper label="Ссылки на видео">
             <div v-for="(video, index) in videos" :key="index">
                 <a :href="video" target="_blank">{{video}}</a>
@@ -28,10 +30,11 @@
     import {get} from 'vuex-pathify'
     import flatMap from 'lodash/flatMap'
     import FieldWrapper from "../crud/FieldWrapper";
+    import TextareaField from "../crud/fields/TextareaField";
 
     export default {
         name: "First",
-        components: {FieldWrapper, Select2Field, InputField, MapPointField},
+        components: {TextareaField, FieldWrapper, Select2Field, InputField, MapPointField},
         props: [
             'path'
         ],
