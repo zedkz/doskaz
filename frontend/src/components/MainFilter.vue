@@ -301,6 +301,9 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-end;
+            @media all and (max-width: 1336px) {
+                padding-right: 30px;
+            }
             &.--desktop {
                 @media all and (max-width: 1023px) {
                     display: none;
@@ -310,6 +313,12 @@
 
         &__logo {
             display: block;
+            @media all and (max-width: 1336px) {
+                img {
+                    width: 146px;
+                    height: auto;
+                }
+            }
             &.--mob {
                 display: none;
                 img {
@@ -432,14 +441,27 @@
             justify-content: flex-start;
             align-items: center;
             position: relative;
+            @media all and (max-width: 1336px) {
+                padding-right: 30px;
+                padding-top: 24px;
+                padding-bottom: 24px;
+            }
             .input {
                 margin-right: 10px;
-                @media all and (max-width: 1200px) {
-                    height: 50px;
+                @media all and (max-width: 1336px) {
+                    height: 40px;
                 }
 
                 input {
                     width: calc(100% - 40px);
+                }
+                button {
+                    svg {
+                        @media all and (max-width: 1336px) {
+                            width: 20px;
+                            height:20px;
+                        }
+                    }
                 }
             }
 
@@ -456,6 +478,10 @@
                     align-items: center;
                     background: $tr;
                     cursor: pointer;
+                    @media all and (max-width: 1336px) {
+                        height: 40px;
+                        width: 40px;
+                    }
                 }
             }
         }
