@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Storage;
 
 use App\Blog\Image;
+use Hoa\Mime\Mime;
 use League\Flysystem\FilesystemInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@ final class StorageController extends AbstractController
 
     public function __construct(FilesystemInterface $defaultStorage)
     {
-     //   $this->adapter = $adapter;
+        //   $this->adapter = $adapter;
         $this->filesystem = $defaultStorage;
     }
 
@@ -38,10 +39,18 @@ final class StorageController extends AbstractController
     {
         $name = bin2hex(random_bytes(16));
         $this->filesystem->assertAbsent($name);
+
         $this->filesystem->writeStream($name, $request->getContent(true));
 
+
+        $mime = $this->filesystem->getMimetype($name);
+
+        $extensions = Mime::getExtensionsFromMime($mime);
+        $nameWithExtension = $name.'.'.$extensions[0];
+        $this->filesystem->rename($name, $nameWithExtension);
+
         return [
-            'path' => "/storage/{$name}"
+            'path' => "/storage/{$nameWithExtension}"
         ];
     }
 

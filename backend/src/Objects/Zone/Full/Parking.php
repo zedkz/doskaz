@@ -39,7 +39,7 @@ class Parking extends Zone
     protected static function attributesKeys(): array
     {
         return array_map(function ($key) {
-            return 'attribute'.$key;
+            return 'attribute' . $key;
         }, range(1, 24));
     }
 
@@ -63,25 +63,18 @@ class Parking extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+        $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+        $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
 
-        if ($this->isMatches($this->remap([1, 2, 7, 8, 9, 11]), Attribute::no())) {
+
+        if ($this->isMatches([10, 17], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial($this->remap([1, 2, 7, 8, 9, 11]), Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        }
-        if ($this->isMatches($this->remap([1, 2, 7, 8, 9]), Attribute::no())) {
             $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        } elseif ($this->isMatchesPartial($this->remap([1, 2, 7, 8, 9]), Attribute::yes())) {
-            $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);

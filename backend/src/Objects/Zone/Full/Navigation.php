@@ -13,7 +13,7 @@ class Navigation extends Zone
     protected static function attributesKeys(): array
     {
         return array_map(function ($key) {
-            return 'attribute'.$key;
+            return 'attribute' . $key;
         }, range(1, 22));
     }
 
@@ -57,24 +57,10 @@ class Navigation extends Zone
         if ($this->isMatchesAll(Attribute::notProvided())) {
             return AccessibilityScore::notProvided();
         }
-
-        $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-
-        if ($this->isMatches($this->remap([3, 4, 5, 6, 7]), Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        if ($this->isMatchesAll(Attribute::yes())) {
+            return AccessibilityScore::fullAccessible();
         }
 
-        if ($this->isMatchesAllExcept($this->remap([12]), Attribute::yes())) {
-            $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        }
-
-        return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
+        return AccessibilityScore::partialAccessible();
     }
 }

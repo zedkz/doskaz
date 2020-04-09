@@ -14,7 +14,11 @@ use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="objects")
+ * @ORM\Table(
+ *     name="objects",
+ *     indexes={
+ *         @ORM\Index(name="idx_point_value", columns={"point_value"}, flags={"spatial"}),
+ * })
  */
 class MapObject implements EventProducer
 {
@@ -233,5 +237,9 @@ class MapObject implements EventProducer
 
     public function createdBy(): ?int {
         return $this->createdBy;
+    }
+
+    public function recalculateAccessibilityScore() {
+        $this->overallScore = $this->zones->overallScore();
     }
 }
