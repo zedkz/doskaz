@@ -8,7 +8,6 @@ use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\ObjectResolver\ValidationException;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,8 +78,9 @@ class RegionalCoordinatorController extends AbstractController
 
     /**
      * @Route(path="/{id}", methods={"GET"})
-     * @param $userId
+     * @param $id
      * @param Connection $connection
+     * @return RegionalCoordinatorData
      */
     public function show($id, Connection $connection)
     {
@@ -109,6 +109,7 @@ class RegionalCoordinatorController extends AbstractController
      * @param RegionalCoordinator $coordinator
      * @param RegionalCoordinatorData $coordinatorData
      * @param Flusher $flusher
+     * @throws ValidationException
      */
     public function update(RegionalCoordinator $coordinator, RegionalCoordinatorData $coordinatorData, Flusher $flusher, RegionalCoordinatorRepository $regionalCoordinatorRepository)
     {
@@ -127,6 +128,8 @@ class RegionalCoordinatorController extends AbstractController
      * @param RegionalCoordinatorRepository $regionalCoordinatorRepository
      * @param Connection $connection
      * @return RegionalCoordinatorData
+     * @throws ValidationException
+     * @throws \Exception
      */
     public function create(RegionalCoordinatorData $coordinatorData, Flusher $flusher, RegionalCoordinatorRepository $regionalCoordinatorRepository, Connection $connection)
     {
