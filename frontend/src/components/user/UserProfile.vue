@@ -111,7 +111,7 @@
                 isAvatarLoaded: false,
                 defaultAvatarType: 0,
                 popupAvatar: false,
-                popupAvatarLevel: true
+                popupAvatarLevel: false
             }
         },
         computed: {
