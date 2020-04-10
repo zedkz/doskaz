@@ -215,7 +215,7 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        @media all and (max-width: 1400px){
+        @media all and (max-width: 1336px){
             max-height: 254px;
         }
         @media all and (max-width: 768px){

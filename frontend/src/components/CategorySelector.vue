@@ -105,6 +105,9 @@
     .category-selector {
         height: calc(100% - 225px);
         @media all and (max-width: 1023px) {
+            height: calc(100% - 180px);
+        }
+        @media all and (max-width: 1023px) {
             height: calc(100% - 155px);
         }
         @media all and (max-width: 768px){
