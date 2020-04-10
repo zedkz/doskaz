@@ -54,7 +54,7 @@ export default {
             {type: "text/javascript", src: "https://ulogin.ru/js/ulogin.js"}
         ],
         link: [
-            {rel: 'icon', type: 'image/png', href: '/favicon.png'}
+            {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
         ]
     }
 }

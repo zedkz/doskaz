@@ -14,6 +14,7 @@ RUN ["mkdir", "/app"]
 WORKDIR /app
 COPY --from=build /frontend/package*.json /app/
 RUN ["npm", "install", "--prod"]
+COPY --from=build /frontend/src/static /app/src/static
 COPY --from=build /frontend/.nuxt /app/.nuxt
 COPY --from=build /frontend/nuxt.config.js /app/
 EXPOSE 3000
