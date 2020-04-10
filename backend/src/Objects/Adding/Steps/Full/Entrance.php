@@ -3,6 +3,7 @@
 
 namespace App\Objects\Adding\Steps\Full;
 
+use App\Objects\Adding\AccessibilityScore;
 use App\Objects\AttributesMap;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,4 +19,9 @@ class Entrance
      * @var string|null
      */
     public $comment;
+
+    /**
+     * @var AccessibilityScore|null
+     */
+    public $overriddenScore;
 }
