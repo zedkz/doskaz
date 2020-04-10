@@ -100,15 +100,15 @@ final class MiddleFormRequestData implements DataObject, Form
     public function toZones(): Zones
     {
         return new MiddleFormZones(
-            new Parking($this->parking->attributes),
-            new Entrance($this->entrance1->attributes),
-            $this->entrance2 ? new Entrance($this->entrance2->attributes) : null,
-            $this->entrance3 ? new Entrance($this->entrance3->attributes) : null,
-            new Movement($this->movement->attributes),
-            new Service($this->service->attributes),
-            new Toilet($this->toilet->attributes),
-            new Navigation($this->navigation->attributes),
-            new ServiceAccessibility($this->serviceAccessibility->attributes)
+            new Parking($this->parking->attributes, $this->parking->overriddenScore),
+            new Entrance($this->entrance1->attributes, $this->entrance1->overriddenScore),
+            $this->entrance2 ? new Entrance($this->entrance2->attributes, $this->entrance2->overriddenScore) : null,
+            $this->entrance3 ? new Entrance($this->entrance3->attributes, $this->entrance3->overriddenScore) : null,
+            new Movement($this->movement->attributes, $this->movement->overriddenScore),
+            new Service($this->service->attributes, $this->service->overriddenScore),
+            new Toilet($this->toilet->attributes, $this->toilet->overriddenScore),
+            new Navigation($this->navigation->attributes, $this->navigation->overriddenScore),
+            new ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore)
         );
     }
 }

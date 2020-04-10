@@ -209,8 +209,7 @@ export const actions = {
         })
         if (resp.status === 400) {
             commit('SET_ERRORS', resp.data.errors.violations)
-        }
-        else {
+        } else {
             commit('SET_ERRORS', [])
         }
         commit('SET_IS_LOADING', false);
@@ -226,6 +225,10 @@ export const actions = {
             commit('SET_IS_LOADING', false)
             window.scrollTo({top: 0})
         } else {
+            this.app.$cookies.set('objectAdditionSubmitted', true, {
+                maxAge: 60,
+                path: '/'
+            });
             return this.$router.push('/')
         }
     }

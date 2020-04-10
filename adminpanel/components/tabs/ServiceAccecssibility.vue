@@ -1,10 +1,10 @@
 <template>
     <div>
-        <attributes-list :form="form" zone="serviceAccessibility" :value="attributes" @input="update"/>
+        <attributes-list :form="form" zone="serviceAccessibility" :value="value.attributes" @input="update"/>
         <textarea-field label="Комментарий" :path="`${path}.comment`" :disabled="true"/>
         <h4>Оценка доступности</h4>
         <hr/>
-        <accessibility-score :value="{attributes}" :type="`accessibility_${form}`"/>
+        <accessibility-score :allow-override="true" :value="value" @input="overrideScore" :type="`accessibility_${form}`"/>
     </div>
 </template>
 
@@ -21,13 +21,16 @@
         props: ['path', 'form'],
         computed: {
             item: get('crud/edit/item'),
-            attributes() {
-                return _.get(this.item, `${this.path}.attributes`)
-            },
+            value() {
+                return _.get(this.item, this.path)
+            }
         },
         methods: {
             update(val) {
                 this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: `${this.path}.attributes`})
+            },
+            overrideScore(val) {
+                this.$store.commit('crud/edit/SET_PROPERTY_BY_PATH', {value: val, path: this.path})
             }
         }
     }

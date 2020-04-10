@@ -3,6 +3,7 @@
 
 namespace App\Objects\Adding\Steps;
 
+use App\Objects\Adding\AccessibilityScore;
 use App\Objects\AttributesMap;
 use App\Objects\Zone\Middle\Navigation;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,4 +20,9 @@ class NavigationStep
      * @var string|null
      */
     public $comment;
+
+    /**
+     * @var AccessibilityScore|null
+     */
+    public $overriddenScore;
 }

@@ -2,15 +2,18 @@
     <div>
         <Sidebar :posts="posts"></Sidebar>
         <post-submit-message/>
+        <post-addition-message/>
     </div>
 </template>
 
 <script>
     import Sidebar from "@/components/Sidebar.vue";
     import PostSubmitMessage from "../components/complaint/PostSubmitMessage";
+    import PostAdditionMessage from "../components/object_add/PostAdditionMessage";
     export default {
         layout: 'main',
         components: {
+            PostAdditionMessage,
             PostSubmitMessage,
             Sidebar
         },

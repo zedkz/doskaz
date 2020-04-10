@@ -93,13 +93,13 @@ final class SmallFormRequestData implements DataObject, Form
     public function toZones(): Zones
     {
         return new SmallFormZones(
-            new \App\Objects\Zone\Small\Parking($this->parking->attributes),
-            new \App\Objects\Zone\Small\Entrance($this->entrance1->attributes),
-            new \App\Objects\Zone\Small\Movement($this->movement->attributes),
-            new \App\Objects\Zone\Small\Service($this->service->attributes),
-            new \App\Objects\Zone\Small\Toilet($this->toilet->attributes),
-            new \App\Objects\Zone\Small\Navigation($this->navigation->attributes),
-            new \App\Objects\Zone\Small\ServiceAccessibility($this->serviceAccessibility->attributes)
+            new \App\Objects\Zone\Small\Parking($this->parking->attributes, $this->parking->overriddenScore),
+            new \App\Objects\Zone\Small\Entrance($this->entrance1->attributes, $this->entrance1->overriddenScore),
+            new \App\Objects\Zone\Small\Movement($this->movement->attributes, $this->movement->overriddenScore),
+            new \App\Objects\Zone\Small\Service($this->service->attributes, $this->service->overriddenScore),
+            new \App\Objects\Zone\Small\Toilet($this->toilet->attributes, $this->toilet->overriddenScore),
+            new \App\Objects\Zone\Small\Navigation($this->navigation->attributes, $this->navigation->overriddenScore),
+            new \App\Objects\Zone\Small\ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore)
         );
     }
 }

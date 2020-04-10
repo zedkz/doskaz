@@ -89,15 +89,15 @@ final class FullFormRequestData implements DataObject, Form
     public function toZones(): Zones
     {
         return new FullFormZones(
-            new \App\Objects\Zone\Full\Parking($this->parking->attributes),
-            new \App\Objects\Zone\Full\Entrance($this->entrance1->attributes),
-            $this->entrance2 ? new \App\Objects\Zone\Full\Entrance($this->entrance2->attributes) : null,
-            $this->entrance3 ? new \App\Objects\Zone\Full\Entrance($this->entrance3->attributes) : null,
-            new \App\Objects\Zone\Full\Movement($this->movement->attributes),
-            new \App\Objects\Zone\Full\Service($this->service->attributes),
-            new \App\Objects\Zone\Full\Toilet($this->toilet->attributes),
-            new \App\Objects\Zone\Full\Navigation($this->navigation->attributes),
-            new \App\Objects\Zone\Full\ServiceAccessibility($this->serviceAccessibility->attributes)
+            new \App\Objects\Zone\Full\Parking($this->parking->attributes, $this->parking->overriddenScore),
+            new \App\Objects\Zone\Full\Entrance($this->entrance1->attributes, $this->entrance1->overriddenScore),
+            $this->entrance2 ? new \App\Objects\Zone\Full\Entrance($this->entrance2->attributes, $this->entrance2->overriddenScore) : null,
+            $this->entrance3 ? new \App\Objects\Zone\Full\Entrance($this->entrance3->attributes, $this->entrance3->overriddenScore) : null,
+            new \App\Objects\Zone\Full\Movement($this->movement->attributes, $this->movement->overriddenScore),
+            new \App\Objects\Zone\Full\Service($this->service->attributes, $this->service->overriddenScore),
+            new \App\Objects\Zone\Full\Toilet($this->toilet->attributes, $this->toilet->overriddenScore),
+            new \App\Objects\Zone\Full\Navigation($this->navigation->attributes, $this->navigation->overriddenScore),
+            new \App\Objects\Zone\Full\ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore)
         );
     }
 }

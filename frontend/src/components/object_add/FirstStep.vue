@@ -171,6 +171,7 @@
         methods: {
             mapInitialized(map) {
                 this.map = map;
+                this.map.setBounds(this.selectedCity.bounds)
             },
             click(e) {
                 this.point = e.get('coords');
@@ -214,6 +215,7 @@
             ...get('objectAdding', [
                 'categories'
             ]),
+            selectedCity: get('cities/selectedCity'),
             errors: get('objectAdding/validationErrors'),
             validationErrors() {
                 return this.errors.first || {}

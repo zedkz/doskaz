@@ -52,6 +52,9 @@ export default {
         script: [
             {type: "text/javascript", src: "https://code.jquery.com/jquery-1.11.0.min.js"},
             {type: "text/javascript", src: "https://ulogin.ru/js/ulogin.js"}
+        ],
+        link: [
+            {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
         ]
-    },
+    }
 }
