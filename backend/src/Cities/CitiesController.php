@@ -8,6 +8,7 @@ use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -45,10 +46,22 @@ class CitiesController
             ->execute()
             ->fetchAll();
 
-        return  array_map(function($city) use ($connection) {
+        return array_map(function ($city) use ($connection) {
             return array_replace($city, [
                 'bounds' => $connection->convertToPHPValue($city['bounds'], 'json')
             ]);
         }, $cities);
+    }
+
+    /**
+     * @Route(path="/detect", methods={"GET"})
+     * @param Request $request
+     * @return array
+     */
+    public function detect(Request $request)
+    {
+        return [
+            $request->headers->all()
+        ];
     }
 }
