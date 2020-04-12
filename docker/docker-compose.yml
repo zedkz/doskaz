@@ -19,6 +19,7 @@ services:
     volumes:
       - doskaz_storage:/var/www/html/storage
       - doskaz_storage:/var/www/html/public/storage
+      - geoip_data:/geoip_data:ro
     depends_on:
       - database
 
@@ -107,11 +108,24 @@ services:
   gotenberg:
     image: thecodingmachine/gotenberg:6
 
+  geoip_updater:
+    image: crazymax/geoip-updater:latest
+    environment:
+      - TZ=Asia/Almaty
+      - EDITION_IDS=GeoLite2-City
+      - LICENSE_KEY=MAXMIND_LICENSE_KEY
+      - DOWNLOAD_PATH=/data
+      - SCHEDULE=0 0 * * 0
+    volumes:
+      - geoip_data:/data
+
 volumes:
   doskaz_db:
     external: true
   doskaz_storage:
     external: true
+  geoip_data:
+    driver: local
 
 networks:
   web:

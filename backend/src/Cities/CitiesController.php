@@ -4,6 +4,9 @@
 namespace App\Cities;
 
 use Doctrine\DBAL\Connection;
+use GeoIp2\Database\Reader;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
@@ -56,12 +59,42 @@ class CitiesController
     /**
      * @Route(path="/detect", methods={"GET"})
      * @param Request $request
+     * @param Connection $connection
      * @return array
+     * @throws InvalidDatabaseException
      */
-    public function detect(Request $request)
+    public function detect(Request $request, Connection $connection)
     {
+        $dbPath = '/geoip_data/GeoLite2-City.mmdb';
+        if (file_exists($dbPath)) {
+            $reader = new Reader($dbPath, ['ru']);
+            try {
+                $record = $reader->city($request->getClientIp());
+
+                $id = $connection->createQueryBuilder()
+                    ->select('id')
+                    ->from('cities_geometry')
+                    ->andWhere('cities_geometry.geometry && ST_MAKEPOINT(:x, :y)')
+                    ->setParameter('x', $record->location->longitude)
+                    ->setParameter('y', $record->location->latitude)
+                    ->execute()
+                    ->fetchColumn();
+
+                if ($id) {
+                    return [
+                        'id' => $id
+                    ];
+                }
+            } catch (AddressNotFoundException | InvalidDatabaseException $exception) {
+            }
+        }
         return [
-            $request->headers->all()
+            'id' => $connection->createQueryBuilder()
+                ->select('id')
+                ->from('cities')
+                ->orderBy('priority', 'asc')
+                ->execute()
+                ->fetchColumn()
         ];
     }
 }

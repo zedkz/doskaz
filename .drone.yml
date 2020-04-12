@@ -29,6 +29,8 @@ steps:
         from_secret: oauth_google_redirect_uri
       OPENCAGE_API_KEY:
         from_secret: opencage_api_key
+      MAXMIND_LICENSE_KEY:
+        from_secret: maxmind_license_key
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
@@ -85,6 +87,8 @@ steps:
         from_secret: oauth_google_redirect_uri
       OPENCAGE_API_KEY:
         from_secret: opencage_api_key
+      MAXMIND_LICENSE_KEY:
+        from_secret: maxmind_license_key
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
