@@ -345,9 +345,15 @@
                     align-items: flex-start;
                     margin-top: 30px;
                     transition: opacity 0.3s;
+                    @media all and (max-width: 1366px){
+                        display: none;
+                    }
 
                     &:first-child {
                         margin-top: 0;
+                        @media all and (max-width: 1366px){
+                            display: flex;
+                        }
                     }
 
                     &:nth-last-child(1) {
