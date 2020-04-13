@@ -278,7 +278,7 @@
                 font-size: 16px;
                 line-height: 20px;
                 color: #333333;
-                @media all and (max-width: 768px) {
+                @media all and (max-width: 1366px) {
                     font-size: 14px;
                 }
             }
@@ -343,7 +343,9 @@
                 &:nth-child(odd) {
                     margin-left: 0;
                 }
-
+                @media all and (max-width: 1366px) {
+                    width: calc(50% - 20px);
+                }
                 @media all and (max-width: 768px) {
                     width: auto;
                     display: block;
@@ -422,6 +424,9 @@
                 line-height: 20px;
                 color: #333333;
                 padding: 0 10px;
+                @media all and (max-width: 1366px) {
+                    font-size: 14px;
+                }
                 @media all and (max-width: 768px) {
                     font-size: 12px;
                     line-height: 14px;

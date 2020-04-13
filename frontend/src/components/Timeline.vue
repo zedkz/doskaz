@@ -217,6 +217,7 @@
         align-items: flex-start;
         @media all and (max-width: 1366px){
             max-height: 254px;
+            padding: 20px 0 20px 30px;
         }
         @media all and (max-width: 768px){
             display: none;
