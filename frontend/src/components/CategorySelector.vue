@@ -104,11 +104,11 @@
 
     .category-selector {
         height: calc(100% - 225px);
-        @media all and (max-width: 1023px) {
-            height: calc(100% - 180px);
+        @media all and (max-width: 1366px) {
+            height: calc(100% - 170px);
         }
         @media all and (max-width: 1023px) {
-            height: calc(100% - 155px);
+            height: calc(100% - 130px);
         }
         @media all and (max-width: 768px){
             height: 50px;
@@ -267,7 +267,7 @@
                 background-color: $tr;
                 background-position: center;
                 background-repeat: no-repeat;
-                @media all and (max-width: 1336px){
+                @media all and (max-width: 1366px){
                     width: 30px;
                     height: 30px;
                 }

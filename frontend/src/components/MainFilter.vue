@@ -301,7 +301,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-end;
-            @media all and (max-width: 1336px) {
+            @media all and (max-width: 1366px) {
                 padding-right: 30px;
             }
             &.--desktop {
@@ -313,7 +313,7 @@
 
         &__logo {
             display: block;
-            @media all and (max-width: 1336px) {
+            @media all and (max-width: 1366px) {
                 img {
                     width: 146px;
                     height: auto;
@@ -441,14 +441,14 @@
             justify-content: flex-start;
             align-items: center;
             position: relative;
-            @media all and (max-width: 1336px) {
+            @media all and (max-width: 1366px) {
                 padding-right: 30px;
                 padding-top: 24px;
                 padding-bottom: 24px;
             }
             .input {
                 margin-right: 10px;
-                @media all and (max-width: 1336px) {
+                @media all and (max-width: 1366px) {
                     height: 40px;
                 }
 
@@ -457,7 +457,7 @@
                 }
                 button {
                     svg {
-                        @media all and (max-width: 1336px) {
+                        @media all and (max-width: 1366px) {
                             width: 20px;
                             height:20px;
                         }
@@ -478,7 +478,7 @@
                     align-items: center;
                     background: $tr;
                     cursor: pointer;
-                    @media all and (max-width: 1336px) {
+                    @media all and (max-width: 1366px) {
                         height: 40px;
                         width: 40px;
                     }

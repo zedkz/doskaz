@@ -134,7 +134,7 @@
             width: 100%;
             flex: 1 0 auto;
             margin-bottom: 10px;
-            @media all and (max-width: 1336px){
+            @media all and (max-width: 1366px){
                 max-height: calc(100% - 254px);
                 padding: 15px 0 15px 30px;
             }
