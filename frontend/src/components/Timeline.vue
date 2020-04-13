@@ -215,8 +215,9 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        @media all and (max-width: 1336px){
+        @media all and (max-width: 1366px){
             max-height: 254px;
+            padding: 20px 0 20px 30px;
         }
         @media all and (max-width: 768px){
             display: none;
@@ -306,6 +307,9 @@
             flex: 1 0 auto;
             max-height: calc(100% - 41px);
             width: 100%;
+            @media all and (max-width: 1366px){
+                margin-top: 20px;
+            }
         }
 
         &__tab {
@@ -341,9 +345,15 @@
                     align-items: flex-start;
                     margin-top: 30px;
                     transition: opacity 0.3s;
+                    @media all and (max-width: 1366px){
+                        display: none;
+                    }
 
                     &:first-child {
                         margin-top: 0;
+                        @media all and (max-width: 1366px){
+                            display: flex;
+                        }
                     }
 
                     &:nth-last-child(1) {
@@ -390,6 +400,11 @@
                         background-repeat: no-repeat;
                         background-size: cover;
                         margin-right: 30px;
+                        @media all and (max-width: 1366px){
+                            width: 140px;
+                            height: 90px;
+                            margin-right: 20px;
+                        }
                     }
 
                     &__info {
@@ -398,14 +413,24 @@
                         max-width: calc(100% - 180px);
                         position: relative;
                         top: -8px;
+                        @media all and (max-width: 1366px){
+                            max-width: calc(100% - 160px);
+                        }
                     }
 
                     &__title {
                         margin-bottom: 2px;
+                        @media all and (max-width: 1366px){
+                            font-size: 16px;
+                        }
                     }
 
                     &__text {
-                        margin-bottom: 0px;
+                        margin-bottom: 0;
+                        @media all and (max-width: 1366px){
+                            font-size: 14px;
+                            line-height: 20px;
+                        }
                     }
 
                     &__date {

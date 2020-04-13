@@ -5,6 +5,9 @@
     "cocur/slugify": {
         "version": "v3.2"
     },
+    "composer/ca-bundle": {
+        "version": "1.2.7"
+    },
     "crocodile2u/imgproxy-php": {
         "version": "v1.1.3"
     },
@@ -84,6 +87,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "geoip2/geoip2": {
+        "version": "v2.10.0"
+    },
     "goodwix/doctrine-json-odm": {
         "version": "v0.2.6"
     },
@@ -162,6 +168,12 @@
     },
     "league/oauth2-google": {
         "version": "3.0.1"
+    },
+    "maxmind-db/reader": {
+        "version": "v1.6.0"
+    },
+    "maxmind/web-service-common": {
+        "version": "v0.6.0"
     },
     "monolog/monolog": {
         "version": "1.25.2"

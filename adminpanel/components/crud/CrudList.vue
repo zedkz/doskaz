@@ -24,7 +24,7 @@
                     <component v-for="(action, index) in customActions" :key="index" :is="action" :item="data.item"/>
                 </template>
                 <template v-for="customSlot in customSlots" v-slot:[customSlot.slot]="data">
-                    <component :is="customSlot.type" :options="customSlot.options" :value="data.item[customSlot.key]"/>
+                    <component :is="customSlot.type" :options="customSlot.options" :value="data.item[customSlot.key]" :item="data.item"/>
                 </template>
             </b-table>
             <b-pagination align="center" v-model="currentPage" :total-rows="pagesCount"/>

@@ -104,11 +104,11 @@
 
     .category-selector {
         height: calc(100% - 225px);
-        @media all and (max-width: 1023px) {
-            height: calc(100% - 180px);
+        @media all and (max-width: 1366px) {
+            height: calc(100% - 170px);
         }
         @media all and (max-width: 1023px) {
-            height: calc(100% - 155px);
+            height: calc(100% - 130px);
         }
         @media all and (max-width: 768px){
             height: 50px;
@@ -267,7 +267,7 @@
                 background-color: $tr;
                 background-position: center;
                 background-repeat: no-repeat;
-                @media all and (max-width: 1336px){
+                @media all and (max-width: 1366px){
                     width: 30px;
                     height: 30px;
                 }
@@ -278,7 +278,7 @@
                 font-size: 16px;
                 line-height: 20px;
                 color: #333333;
-                @media all and (max-width: 768px) {
+                @media all and (max-width: 1366px) {
                     font-size: 14px;
                 }
             }
@@ -343,7 +343,9 @@
                 &:nth-child(odd) {
                     margin-left: 0;
                 }
-
+                @media all and (max-width: 1366px) {
+                    width: calc(50% - 20px);
+                }
                 @media all and (max-width: 768px) {
                     width: auto;
                     display: block;
@@ -422,6 +424,9 @@
                 line-height: 20px;
                 color: #333333;
                 padding: 0 10px;
+                @media all and (max-width: 1366px) {
+                    font-size: 14px;
+                }
                 @media all and (max-width: 768px) {
                     font-size: 12px;
                     line-height: 14px;

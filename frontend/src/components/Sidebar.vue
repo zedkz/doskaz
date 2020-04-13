@@ -67,7 +67,10 @@
         padding-left: 40px;
         padding-right: 30px;
         z-index: 5;
-
+        @media all and (max-width: 1366px) {
+            width: 565px;
+            padding-left: 30px;
+        }
         @media all and (max-width: 1023px) {
             width: 670px;
             padding-left: 0;
@@ -134,7 +137,7 @@
             width: 100%;
             flex: 1 0 auto;
             margin-bottom: 10px;
-            @media all and (max-width: 1336px){
+            @media all and (max-width: 1366px){
                 max-height: calc(100% - 254px);
                 padding: 15px 0 15px 30px;
             }

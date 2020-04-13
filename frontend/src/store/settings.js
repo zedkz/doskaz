@@ -9,12 +9,17 @@ export const state = () => ({
 export const mutations = make.mutations(state);
 
 export const actions = {
-    async init({state, rootState, commit}) {
-        const settings = defaults(this.app.$cookies.get('settings') || {}, {
-            cityId: rootState.cities.list[0].id
-        })
+    async init({state, rootState, commit, dispatch}) {
+        const settings = defaults(this.app.$cookies.get('settings') || {}, {})
+        if (!settings.cityId) {
+            const {data: {id}} = await this.$axios.get('/api/cities/detect')
+            settings.cityId = id;
+        }
+
         commit('SET_CITY_ID', settings.cityId)
         commit('SET_USER_CATEGORY', settings.userCategory)
+        dispatch('saveSettings');
+
     },
     select({commit, dispatch}, cityId) {
         commit('SET_CITY_ID', cityId)

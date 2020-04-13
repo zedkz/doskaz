@@ -16,6 +16,10 @@ services:
       - traefik.http.routers.doskaz_app.tls.certresolver=le
       - traefik.http.routers.app_rss.tls=true
       - traefik.http.routers.app_rss.tls.certresolver=le
+    networks:
+      default:
+        aliases:
+          - 'doskaz.vps3.zed.kz'
 
   frontend:
     labels:

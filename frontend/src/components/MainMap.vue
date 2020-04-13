@@ -62,6 +62,9 @@
                 });
             },
             applyFilter: debounce(function (val) {
+                if (!this.objectManager) {
+                    return;
+                }
                 this.objectManager.setUrlTemplate(val)
                 this.objectManager.reloadData()
             }, 800, {leading: true})
@@ -71,21 +74,29 @@
                 this.applyFilter(val)
             },
             cityBounds(val) {
+                if (!this.map) {
+                    return;
+                }
                 this.map.setBounds(val)
             },
             coordinates(val) {
-                if(val) {
+                if (!this.map) {
+                    return;
+                }
+                if (val) {
                     this.map.panTo(val)
                 }
             },
             coordinatesAndZoom(val, prev) {
-                if(!val) {
-                   return;
+                if (!this.map) {
+                    return;
                 }
-                if(val.zoom && val.zoom !== (prev || {}).zoom) {
+                if (!val) {
+                    return;
+                }
+                if (val.zoom && val.zoom !== (prev || {}).zoom) {
                     this.map.setCenter(val.coordinates, val.zoom)
-                }
-                else {
+                } else {
                     this.map.panTo(val.coordinates)
                 }
             }
@@ -108,7 +119,7 @@
                 const serializedParams = queryString.stringify({
                     categories: this.selectedCategories,
                     accessibilityLevels: this.accessibilityLevels,
-                    disabilitiesCategory: this.userCategory ? this.userCategory.category: undefined
+                    disabilitiesCategory: this.userCategory ? this.userCategory.category : undefined
 
                 }, {arrayFormat: 'index'})
 
