@@ -89,6 +89,7 @@ steps:
         from_secret: opencage_api_key
       MAXMIND_LICENSE_KEY:
         from_secret: maxmind_license_key
+      ROBOTS_ALLOW: 'true'
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
