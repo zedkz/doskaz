@@ -301,7 +301,8 @@ final class ObjectsApiController extends AbstractController
             'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore()
         ];
 
-        $baseUrl = $request->getSchemeAndHttpHost();
+      //  $baseUrl = $request->getSchemeAndHttpHost();
+        $baseUrl = '';
         $reviews = $connection->createQueryBuilder()
             ->select([
                 'object_reviews.created_at as "createdAt"',
