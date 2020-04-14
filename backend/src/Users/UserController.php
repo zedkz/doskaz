@@ -195,7 +195,7 @@ final class UserController extends AbstractController
             $user['email'],
             $user['phone'],
             $connection->convertToPHPValue($user['roles'], 'json'),
-            $user['avatar'] ? $request->getSchemeAndHttpHost() . $user['avatar'] : null,
+            $user['avatar'] ? $user['avatar'] : null,
             $fullName->first,
             $fullName->last,
             $fullName->middle,
