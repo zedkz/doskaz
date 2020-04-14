@@ -11,7 +11,7 @@
         <post-rejection-dialog
                 v-else
                 @closed="close"
-                @want-to-help="$router.push({name: 'objects-id-review', params: {id: $route.params.id}})"
+                @want-to-help="$router.push(this.localePath({name: 'objects-id-review', params: {id: $route.params.id}}))"
         />
     </div>
 </template>
@@ -33,12 +33,12 @@
         },
         methods: {
             close() {
-                this.$router.push({name: 'objects-id', params: {id: this.$route.params.id}})
+                this.$router.push(this.localePath({name: 'objects-id', params: {id: this.$route.params.id}}))
             },
             async confirm() {
                 await this.$axios.post(`/api/objects/${this.$route.params.id}/verification/confirm`)
                 this.$emit('verified')
-                return this.$router.push({name: 'objects-id', params: {id: this.$route.params.id}})
+                return this.$router.push(this.localePath({name: 'objects-id', params: {id: this.$route.params.id}}))
             },
             async reject() {
                 await this.$axios.post(`/api/objects/${this.$route.params.id}/verification/reject`);

@@ -55,7 +55,7 @@
                     <span>{{ profile.phone || 'Ваш телефон' }}</span>
                 </div>
                 <div class="user-profile__edit" v-if="$route.name !== 'profile-edit'">
-                    <nuxt-link :to="{name: 'profile-edit'}">
+                    <nuxt-link :to="localePath({name: 'profile-edit'})">
                         <span>Редактировать анкету</span>
                     </nuxt-link>
                 </div>

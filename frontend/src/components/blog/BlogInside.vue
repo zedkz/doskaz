@@ -1,12 +1,12 @@
 <template>
   <div class="blog__inside">
     <div class="breadcrumbs">
-      <nuxt-link :to="{ name: 'blog-category' }" class="breadcrumbs__link">Блог</nuxt-link>
+      <nuxt-link :to="localePath({name: 'blog-category'})" class="breadcrumbs__link">Блог</nuxt-link>
       <nuxt-link
-        :to="{
+        :to="localePath({
           name: 'blog-category',
           params: { category: $route.params.cat }
-        }"
+        })"
         class="breadcrumbs__link"
         >{{ post.categoryTitle }}
       </nuxt-link>
@@ -53,13 +53,13 @@
               :key="post.id"
             >
               <nuxt-link
-                :to="{
+                :to="localePath({
                   name: 'blog-cat-slug',
                   params: {
                     cat: post.categorySlug,
                     slug: post.slug
                   }
-                }"
+                })"
                 class="blog__material-link"
               >
                 <img :src="post.image" :alt="post.title" />

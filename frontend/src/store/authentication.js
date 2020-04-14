@@ -39,7 +39,7 @@ export const actions = {
 
         if (status === 201) {
             commit('SET_CREATED', true)
-            await this.$router.push('/login?popup=true')
+            await this.$router.push(this.app.localePath('/login?popup=true'))
         } else {
             const redirect = this.app.$cookies.get('redirect') || '/';
             this.app.$cookies.remove('redirect');
@@ -52,7 +52,7 @@ export const actions = {
 
         if (status === 201) {
             commit('SET_CREATED', true)
-            await this.$router.push('/login?popup=true')
+            await this.$router.push(this.app.localePath('/login?popup=true'))
         } else {
             const redirect = this.app.$cookies.get('redirect') || '/';
             this.app.$cookies.remove('redirect');
@@ -62,7 +62,7 @@ export const actions = {
     async logout({dispatch}) {
         await this.$axios.delete('/api/token');
         dispatch('deAuthenticate')
-        await this.$router.push('/')
+        await this.$router.push(this.app.localePath('/'))
     }
 }
 

@@ -13,6 +13,7 @@
     "@nuxtjs/robots": "^2.4.2",
     "cookie-universal-nuxt": "^2.1.1",
     "dotenv": "^8.2.0",
+    "nuxt-i18n": "^6.8.1",
     "nuxt-start": "^2.11.0",
     "vue-click-outside": "^1.0.7",
     "vue-imask": "^6.0.3"

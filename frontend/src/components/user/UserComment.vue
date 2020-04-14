@@ -3,7 +3,7 @@
         <div class="user-comments__image" v-bind:style="{'background-image': 'url(' + item.image + ')'}"></div>
         <div class="user-comments__description">
             <p class="user-comments__text">{{item.text}}</p>
-            <div class="user-comments__info">{{relativeDate}}&nbsp;{{objectType}}&nbsp;<nuxt-link :to="link"><strong>{{item.title}}</strong></nuxt-link></div>
+            <div class="user-comments__info">{{relativeDate}}&nbsp;{{objectType}}&nbsp;<nuxt-link :to="localePath(link)"><strong>{{item.title}}</strong></nuxt-link></div>
         </div>
     </div>
 </template>
@@ -19,7 +19,7 @@
         ],
         methods: {
           openLink() {
-              this.$router.push(this.link)
+              this.$router.push(this.localePath(this.link))
           }
         },
         computed: {

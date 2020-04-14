@@ -229,7 +229,7 @@ export const actions = {
                 maxAge: 60,
                 path: '/'
             });
-            return this.$router.push('/')
+            return this.$router.push(this.localePath('/'))
         }
     }
 }

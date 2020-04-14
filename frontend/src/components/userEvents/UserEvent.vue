@@ -9,7 +9,7 @@
                 <a>
                     <username :value="event.data.username"/>
                 </a> прокомментировал(а) ваш объект
-                <nuxt-link :to="{name: 'objects-id', params: {id: event.data.id}}">{{ event.data.title }}</nuxt-link>
+                <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>
             </div>
         </template>
         <template v-if="event.type === 'blog_comment_replied'">
@@ -19,7 +19,7 @@
                     <username :value="event.data.username"/>
                 </a> ответил(а) ваш комментарий к посту
                 <nuxt-link
-                        :to="{name: 'blog-cat-slug', params: {category: event.data.categorySlug, slug: event.data.slug}}">
+                        :to="localePath({name: 'blog-cat-slug', params: {category: event.data.categorySlug, slug: event.data.slug}})">
                     {{ event.data.title }}
                 </nuxt-link>
             </div>

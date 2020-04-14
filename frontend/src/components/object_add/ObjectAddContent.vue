@@ -46,7 +46,7 @@
             />
             <div class="add-object__button-b" v-if="['middle', 'full'].includes(formVariant)">
                 <nuxt-link
-                        :to="{name: 'index'}"
+                        :to="localePath({name: 'index'})"
                         type="button"
                         class="add-object__button --cancel"
                         v-show="activeStepIndex === 0"

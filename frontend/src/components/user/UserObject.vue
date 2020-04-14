@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link :to="objectLink" class="user-object">
+    <nuxt-link :to="localePath(objectLink)" class="user-object">
         <div class="user-object__image">
             <div class="image" v-bind:style="{'background-image': 'url(' + objectImg + ')'}"></div>
             <div class="type" v-bind:style="{'background-image': 'url(' + scores[status].icon + ')'}"></div>
