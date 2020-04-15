@@ -84,7 +84,7 @@
             <div class="popup__scroll">
                 <div class="popup__in --md">
                     <a class="popup__close" @click="show = false"></a>
-                    <h5 class="popup__title">Регистрация с помощью социальных сетей временно не доступна!</h5>
+                    <h5 class="popup__title">Регистрация с помощью социальных сетей временно недоступна!</h5>
                     <p class="popup__text">
                         Приносим извинения за неудобства.
                     </p>
