@@ -1,5 +1,5 @@
 <template>
-    <div class="error-page" v-bind:style="{'background-image': 'url(' + require('./../assets/img/page-error-bg.png') + ')'}">
+    <div class="error-page" v-bind:style="{'background-image': 'url(' + require('./../assets/img/page-under-construction.png') + ')'}">
         <div class="main-header --light">
             <div class="main-header__content">
                 <nuxt-link :to="localePath({name: 'index'})" class="main-header__logo">
@@ -11,22 +11,11 @@
             </div>
         </div>
         <div class="container">
-            <div class="error-page__content" v-if="error.statusCode == '404'">
-                <h2 class="error-page__title">Ошибка 404</h2>
-                <p class="error-page__text">К сожалению, страницы, на которую вы хотели попасть, нет на нашем сайте. Возможно, вы ввели неправильный адрес или она была удалена.</p>
-                <p class="error-page__text">Попробуйте вернуться на главную страницу или воспользуйтесь поиском.</p>
-                <div class="error-page__search">
-                    <div class="input --search">
-                        <input type="search" placeholder="Найти">
-                    </div>
-                </div>
-            </div>
-            <div class="error-page__content" v-if="error.statusCode == '500'">
-                <h2 class="error-page__title">Ошибка 500</h2>
-                <p class="error-page__text">Что-то пошло не так!</p>
-                <p class="error-page__text">Какие-то технические неполадки. Мы обязательно это починим! А пока вернитесь на предыдущую страницу</p>
+            <div class="error-page__content">
+                <h2 class="error-page__title">Ведутся работы</h2>
+                <p class="error-page__text">К сожалению, версия на казахском языке пока ещё в работе.</p>
                 <div class="error-page__link-b">
-                    <a href="" class="error-page__link">Вернуться назад</a>
+                    <nuxt-link :to="switchLocalePath('ru')" class="error-page__link">Вернуться на главную</nuxt-link>
                 </div>
             </div>
         </div>
@@ -36,9 +25,13 @@
 <script>
     import LangSelect from "./../components/LangSelect";
     export default {
-        props: ['error'],
         components: {
             LangSelect
+        },
+        mounted() {
+            if(this.$route.name.endsWith('ru')) {
+                return this.$router.push(this.localePath('/'))
+            }
         }
     }
 </script>

@@ -15,7 +15,7 @@
             </div>
             <div class="spacer"></div>
             <nuxt-link
-                    :to="{name: 'profile'}"
+                    :to="localePath({name: 'profile'})"
                     v-if="isAuthenticated"
                     class="timeline__tab-link timeline__tab-link_user"
                     :class="{'isActive': activeTab===2}"
@@ -36,7 +36,7 @@
         </div>
         <div class="timeline__tabs">
             <div class="timeline__tab timeline__tab_blog" :class="{'isActive': activeTab===0}">
-                <nuxt-link :to="`/blog/${post.categorySlug}/${post.slug}`" class="item" v-for="post in postsShow"
+                <nuxt-link :to="localePath(`/blog/${post.categorySlug}/${post.slug}`)" class="item" v-for="post in postsShow"
                            :key="post.id">
                     <div
                             class="item__img"
@@ -54,7 +54,7 @@
                     </div>
                 </nuxt-link>
                 <div class="item item_link">
-                    <nuxt-link :to="{name: 'blog-category'}">
+                    <nuxt-link :to="localePath({name: 'blog-category'})">
                         <span>Перейти в раздел</span>
                     </nuxt-link>
                 </div>
@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 <div class="link">
-                    <nuxt-link :to="{name: 'profile'}">
+                    <nuxt-link :to="localePath({name: 'profile'})">
                         <span>Перейти в профиль</span>
                     </nuxt-link>
                 </div>
@@ -171,7 +171,7 @@
                 this.activeTab = tab;
             },
             showLoginForm() {
-                this.$router.push({'name': 'login'})
+                this.$router.push(this.localePath({'name': 'login'}))
             }
         },
         computed: {

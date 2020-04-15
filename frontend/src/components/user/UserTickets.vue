@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="filter">
-                <nuxt-link :to="{name: 'complaint'}" class="button --complaint">Подать жалобу</nuxt-link>
+                <nuxt-link :to="localePath({name: 'complaint'})" class="button --complaint">Подать жалобу</nuxt-link>
             </div>
         </div>
         <div class="user-objects__content">
@@ -102,7 +102,7 @@
         watch: {
             filter: {
                 handler(v) {
-                    this.$router.push({...this.$route, query: v})
+                    this.$router.push(this.localePath({...this.$route, query: v}))
                 },
                 deep: true
             }

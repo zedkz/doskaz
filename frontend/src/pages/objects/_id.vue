@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar-wrapper" :class="{opened: mobileOpened}">
         <div class="mob-menu">
-            <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
+            <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
                 <img :src="require('@/assets/logo.svg')" alt/>
             </nuxt-link>
             <div class="burger-wrapper" @click="mainPageMobOpened()">
@@ -13,7 +13,7 @@
         <div class="sidebar">
             <div class="object-side">
                 <div class="object-side__top">
-                    <nuxt-link :to="{name: 'index'}" class="object-side__close"></nuxt-link>
+                    <nuxt-link :to="localePath({name: 'index'})" class="object-side__close"></nuxt-link>
                     <div class="object-side__breadcrumb-b">
                         <div class="object-side__breadcrumb-icon">
                             <i class="fa" :class="object.icon"></i>
@@ -43,7 +43,7 @@
                 <div class="object-side__content">
                     <div class="object-side__tab-link-wrapper">
                         <div class="object-side__tab-link-b">
-                            <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index"
+                            <nuxt-link v-for="(tab, index) in tabs" :to="localePath(tab.link)" :key="index"
                                        class="object-side__tab-link"
                                        :class="{active: $route.query.tab === tab.link.query.tab}">
                                 {{ tab.title }}
@@ -65,8 +65,8 @@
                                     Объект частично верифицирован</p>
                             </div>
                             <div class="object-side__button-b">
-                                <nuxt-link :to="{name: 'complaint', query: {objectId: $route.params.id}}" class="object-side__button --complaint">Подать жалобу</nuxt-link>
-                                <nuxt-link :to="{name: 'objects-id-verify', params: {id: $route.params.id}}"
+                                <nuxt-link :to="localePath({name: 'complaint', query: {objectId: $route.params.id}})" class="object-side__button --complaint">Подать жалобу</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'objects-id-verify', params: {id: $route.params.id}})"
                                            class="object-side__button --check">Подтвердить данные
                                 </nuxt-link>
                             </div>
@@ -199,7 +199,7 @@
             </div>
             <nuxt-link
                     v-if="$route.query.tab === 'reviews'"
-                    :to="reviewsLink"
+                    :to="localePath(reviewsLink)"
                     class="object-side__review-add">Оставить отзыв
             </nuxt-link>
         </div>

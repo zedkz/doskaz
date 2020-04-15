@@ -7,8 +7,12 @@ export default {
         '@nuxtjs/axios',
         'cookie-universal-nuxt',
         '@nuxtjs/redirect-module',
-        '@nuxtjs/robots'
+        '@nuxtjs/robots',
+        'nuxt-i18n'
     ],
+    router: {
+        middleware: 'languageUnderConstruction'
+    },
     proxy: {
         '/pipeline': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
@@ -78,5 +82,13 @@ export default {
     ] : {
         UserAgent: '*',
         Disallow: '/'
+    },
+    i18n: {
+        strategy: 'prefix_except_default',
+        defaultLocale: 'ru',
+        locales: [
+            {code: 'kz', name: 'Qazaq'},
+            {code: 'ru', name: 'Русский'},
+        ]
     }
 }

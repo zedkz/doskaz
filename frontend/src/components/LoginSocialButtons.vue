@@ -1,6 +1,6 @@
 <template>
     <div class="buttons" id="ulogin">
-        <a class="button button_google" data-uloginbutton="google">
+        <a class="button button_google" @click="show = true">
             <svg
                     width="20"
                     height="20"
@@ -36,7 +36,7 @@
             </svg>
             <span>Войти через Google</span>
         </a>
-        <button class="button" data-uloginbutton="facebook">
+        <button class="button" @click="show = true">
             <svg
                     width="10"
                     height="20"
@@ -50,7 +50,7 @@
                 />
             </svg>
         </button>
-        <button class="button" data-uloginbutton="vkontakte">
+        <button class="button" @click="show = true">
             <svg
                     width="20"
                     height="20"
@@ -64,7 +64,7 @@
                 />
             </svg>
         </button>
-        <button class="button" data-uloginbutton="twitter">
+        <button class="button" @click="show = true">
             <svg
                     width="20"
                     height="18"
@@ -78,6 +78,26 @@
                 />
             </svg>
         </button>
+
+
+        <div class="popup__wrapper" v-if="show">
+            <div class="popup__scroll">
+                <div class="popup__in --md">
+                    <a class="popup__close" @click="show = false"></a>
+                    <h5 class="popup__title">Регистрация с помощью социальных сетей временно недоступна!</h5>
+                    <p class="popup__text">
+                        Приносим извинения за неудобства.
+                    </p>
+                    <div class="popup__buttons" style="justify-content: center">
+                        <button class="popup__button --yes" style="text-align: center; padding: 14px 0 16px 14px"  @click="show = false">
+                        <span style="margin: 0">
+                            Ок
+                        </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -86,15 +106,12 @@
 
     export default {
         name: "LoginSocialButtons",
-        mounted() {
-            window.uloginCallback = (token) => {
-                this.authenticate(token)
+        data() {
+            return {
+                show: false
             }
-            uLogin.customInit('ulogin', {
-                redirect_uri: '',
-                callback: 'uloginCallback',
-                display: 'buttons'
-            })
+        },
+        mounted() {
         },
         methods: {
             authenticate: call('authentication/uloginAuthenticate')

@@ -147,7 +147,7 @@
         },
         methods: {
             loginFormClose() {
-                this.$router.push({name: 'index'})
+                this.$router.push(this.localePath({name: 'index'}))
             },
             async authenticate(provider) {
                 return  window.location.href = provider.url
