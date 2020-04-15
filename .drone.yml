@@ -31,6 +31,11 @@ steps:
         from_secret: opencage_api_key
       MAXMIND_LICENSE_KEY:
         from_secret: maxmind_license_key
+      OAUTH_FACEBOOK_CLIENT_ID: '219015122740356'
+      OAUTH_FACEBOOK_REDIRECT_URI: https://doskaz.vps3.zed.kz/oauth/callback
+      OAUTH_FACEBOOK_CLIENT_SECRET:
+        from_secret: oauth_facebook_client_secret
+
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
@@ -90,6 +95,10 @@ steps:
       MAXMIND_LICENSE_KEY:
         from_secret: maxmind_license_key
       ROBOTS_ALLOW: 'true'
+      OAUTH_FACEBOOK_CLIENT_ID: '219015122740356'
+      OAUTH_FACEBOOK_REDIRECT_URI: https://doskaz.kz/oauth/callback
+      OAUTH_FACEBOOK_CLIENT_SECRET:
+        from_secret: oauth_facebook_client_secret
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock

@@ -28,7 +28,7 @@ export const actions = {
             commit('SET_CREATED', true)
             await this.$router.push('/login?popup=true')
         } else {
-            const redirect = this.app.$cookies.get('redirect') || '/';
+            const redirect = this.app.$cookies.get('redirect') || this.app.localePath('/');
             this.app.$cookies.remove('redirect');
             window.location.href = redirect
         }

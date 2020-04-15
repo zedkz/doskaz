@@ -86,6 +86,10 @@ export default {
     i18n: {
         strategy: 'prefix_except_default',
         defaultLocale: 'ru',
+        parsePages: false,
+        pages: {
+            'oauth/callback': false
+        },
         locales: [
             {code: 'kz', name: 'Qazaq'},
             {code: 'ru', name: 'Русский'},

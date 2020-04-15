@@ -4,10 +4,13 @@
 namespace App\Users\Security\Oauth;
 
 use App\Infrastructure\Doctrine\Flusher;
+use App\Users\FullName;
 use App\Users\Security\UserAuthenticator;
 use App\Users\User;
 use App\Users\UserRepository;
 use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\FacebookUser;
+use League\OAuth2\Client\Provider\GoogleUser;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -56,7 +59,6 @@ final class OauthController extends AbstractController
         if (!$this->oauthProviderLocator->has($providerKey)) {
             throw new NotFoundHttpException(sprintf('Provider %s not found', $providerKey));
         }
-
         /**
          * @var AbstractProvider $provider
          */
@@ -64,26 +66,21 @@ final class OauthController extends AbstractController
         $accessToken = $provider->getAccessToken('authorization_code', [
             'code' => $oauthData->code
         ]);
-
         /**
-         * @var ResourceOwnerInterface $resourceOwner
+         * @var ResourceOwnerInterface|FacebookUser|GoogleUser $resourceOwner
          */
         $resourceOwner = $provider->getResourceOwner($accessToken);
-
-        $credentials = $credentialsRepository->findByNetworkAndIdentifier('google', (string)$resourceOwner->getId());
+        $credentials = $credentialsRepository->findByNetworkAndIdentifier($providerKey, (string)$resourceOwner->getId());
         if ($credentials) {
             $user = $userRepository->find($credentials->id());
             return $authenticator->authenticate($request, $user);
         }
-
-        $user = new User($resourceOwner->getName(), $resourceOwner->getEmail());
+        $name = new FullName($resourceOwner->getFirstName(), $resourceOwner->getLastName());
+        $user = new User($name, null);
         $userRepository->add($user);
-
-        $credentials = new OauthCredentials($user->id(), 'google', (string)$resourceOwner->getId());
+        $credentials = new OauthCredentials($user->id(), $providerKey, (string)$resourceOwner->getId(), $resourceOwner->getName());
         $credentialsRepository->add($credentials);
-
         $flusher->flush();
-
         return $authenticator->authenticate($request, $user)->setStatusCode(Response::HTTP_CREATED);
     }
 }

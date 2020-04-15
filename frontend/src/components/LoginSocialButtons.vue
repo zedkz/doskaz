@@ -1,6 +1,6 @@
 <template>
     <div class="buttons" id="ulogin">
-        <a class="button button_google" @click="show = true">
+        <a class="button button_google" @click="openPopup('google')">
             <svg
                     width="20"
                     height="20"
@@ -36,7 +36,7 @@
             </svg>
             <span>Войти через Google</span>
         </a>
-        <button class="button" @click="show = true">
+        <button class="button" @click="openPopup('facebook')">
             <svg
                     width="10"
                     height="20"
@@ -89,7 +89,8 @@
                         Приносим извинения за неудобства.
                     </p>
                     <div class="popup__buttons" style="justify-content: center">
-                        <button class="popup__button --yes" style="text-align: center; padding: 14px 0 16px 14px"  @click="show = false">
+                        <button class="popup__button --yes" style="text-align: center; padding: 14px 0 16px 14px"
+                                @click="show = false">
                         <span style="margin: 0">
                             Ок
                         </span>
@@ -103,6 +104,7 @@
 
 <script>
     import {call} from "vuex-pathify"
+    import open from 'oauth-open'
 
     export default {
         name: "LoginSocialButtons",
@@ -113,8 +115,30 @@
         },
         mounted() {
         },
+        computed: {
+            providers() {
+                return {
+                    facebook: {
+                        width: 580,
+                        height: 400
+                    },
+                    google: {
+                        width: 452,
+                        height: 633
+                    }
+                }
+            }
+        },
         methods: {
-            authenticate: call('authentication/uloginAuthenticate')
+            openPopup(provider) {
+                open(`/api/oauth/${provider}/redirect`, this.providers[provider], (err, code) => {
+                    if (err) {
+                        return;
+                    }
+                    this.oauthAuthenticate({code: code.code, provider})
+                })
+            },
+            oauthAuthenticate: call('authentication/oauthAuthenticate'),
         }
     }
 </script>

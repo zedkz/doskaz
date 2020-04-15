@@ -35,16 +35,22 @@ class OauthCredentials
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $name;
+
     public function id()
     {
         return $this->id;
     }
 
-    public function __construct(int $id, string $network, string $identifier)
+    public function __construct(int $id, string $network, string $identifier, string $fullName = null)
     {
         $this->id = $id;
         $this->network = $network;
         $this->identifier = $identifier;
+        $this->name = $fullName;
         $this->createdAt = new \DateTimeImmutable();
     }
 }
