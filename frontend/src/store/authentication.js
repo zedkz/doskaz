@@ -41,20 +41,7 @@ export const actions = {
             commit('SET_CREATED', true)
             await this.$router.push(this.app.localePath('/login?popup=true'))
         } else {
-            const redirect = this.app.$cookies.get('redirect') || '/';
-            this.app.$cookies.remove('redirect');
-            window.location.href = redirect
-        }
-    },
-    async uloginAuthenticate({dispatch}, token) {
-        const {status} = await this.$axios.post('/api/token/ulogin', {token});
-        await dispatch('loadUser');
-
-        if (status === 201) {
-            commit('SET_CREATED', true)
-            await this.$router.push(this.app.localePath('/login?popup=true'))
-        } else {
-            const redirect = this.app.$cookies.get('redirect') || '/';
+            const redirect = this.app.$cookies.get('redirect') || this.app.localePath('/');
             this.app.$cookies.remove('redirect');
             window.location.href = redirect
         }

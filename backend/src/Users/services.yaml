@@ -46,9 +46,6 @@ services:
     App\Users\MigrateFullName:
         tags: ['console.command']
 
-    App\Users\Security\UloginAuthenticate:
-        tags: ['controller.service_arguments']
-
     App\Users\UserAbilityVoter:
         tags: ['security.voter']
 
