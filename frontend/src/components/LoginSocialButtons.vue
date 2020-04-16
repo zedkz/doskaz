@@ -50,7 +50,7 @@
                 />
             </svg>
         </button>
-        <button class="button" @click="show = true">
+        <button class="button" @click="openPopup('vkontakte')">
             <svg
                     width="20"
                     height="20"
@@ -125,6 +125,10 @@
                     google: {
                         width: 452,
                         height: 633
+                    },
+                    vkontakte: {
+                        width: 668,
+                        height: 380
                     }
                 }
             }

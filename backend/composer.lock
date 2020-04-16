@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1726608d3b0905eb052ca427309c7d13",
+    "content-hash": "3542269aa4eed7a05e388b6297eed8ad",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -235,6 +235,51 @@
                 "url"
             ],
             "time": "2019-04-19T10:51:11+00:00"
+        },
+        {
+            "name": "deniro21/oauth2-vkontakte",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deniro21/oauth2-vkontakte.git",
+                "reference": "5ec12b6c527893e948d5e2d924c96dd583b608f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deniro21/oauth2-vkontakte/zipball/5ec12b6c527893e948d5e2d924c96dd583b608f3",
+                "reference": "5ec12b6c527893e948d5e2d924c96dd583b608f3",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": "^2.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "J4k\\OAuth2\\Client\\Provider\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Wall",
+                    "email": "jw@jack.gd"
+                }
+            ],
+            "description": "Vkontakte provider for league/oauth2-client",
+            "keywords": [
+                "league",
+                "package"
+            ],
+            "time": "2019-05-29T17:11:24+00:00"
         },
         {
             "name": "doctrine/annotations",

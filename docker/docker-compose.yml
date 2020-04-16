@@ -12,6 +12,9 @@ services:
       - OAUTH_FACEBOOK_CLIENT_ID
       - OAUTH_FACEBOOK_CLIENT_SECRET
       - OAUTH_FACEBOOK_REDIRECT_URI
+      - OAUTH_VK_CLIENT_ID
+      - OAUTH_VK_CLIENT_SECRET
+      - OAUTH_VK_REDIRECT_URI
       - OPENCAGE_API_KEY
     build:
       context: ../backend

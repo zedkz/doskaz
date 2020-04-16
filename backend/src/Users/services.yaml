@@ -22,6 +22,13 @@ services:
         tags:
             - {name: 'oauth.provider', key: 'facebook'}
 
+    J4k\OAuth2\Client\Provider\Vkontakte:
+        lazy: true
+        arguments:
+            - {clientId: '%env(OAUTH_VK_CLIENT_ID)%', clientSecret: '%env(OAUTH_VK_CLIENT_SECRET)%', redirectUri: '%env(resolve:OAUTH_VK_REDIRECT_URI)%', graphApiVersion: 'v2.10', scopes: []}
+        tags:
+            - {name: 'oauth.provider', key: 'vkontakte'}
+
     App\Users\Security\Oauth\OauthController:
         tags: [ 'controller.service_arguments' ]
         arguments:

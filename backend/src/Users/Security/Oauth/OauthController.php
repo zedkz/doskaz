@@ -78,7 +78,7 @@ final class OauthController extends AbstractController
         $name = new FullName($resourceOwner->getFirstName(), $resourceOwner->getLastName());
         $user = new User($name, null);
         $userRepository->add($user);
-        $credentials = new OauthCredentials($user->id(), $providerKey, (string)$resourceOwner->getId(), $resourceOwner->getName());
+        $credentials = new OauthCredentials($user->id(), $providerKey, (string)$resourceOwner->getId(), $name->firstAndLast());
         $credentialsRepository->add($credentials);
         $flusher->flush();
         return $authenticator->authenticate($request, $user)->setStatusCode(Response::HTTP_CREATED);

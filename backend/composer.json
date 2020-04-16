@@ -10,6 +10,7 @@
         "ext-pdo": "*",
         "cocur/slugify": "^3.2",
         "crocodile2u/imgproxy-php": "^1.1",
+        "deniro21/oauth2-vkontakte": "^1.1",
         "geoip2/geoip2": "~2.0",
         "goodwix/doctrine-json-odm": "^0.2.6",
         "guzzlehttp/guzzle": "~6.0",

@@ -35,7 +35,10 @@ steps:
       OAUTH_FACEBOOK_REDIRECT_URI: https://doskaz.vps3.zed.kz/oauth/callback
       OAUTH_FACEBOOK_CLIENT_SECRET:
         from_secret: oauth_facebook_client_secret
-
+      OAUTH_VK_CLIENT_SECRET:
+        from_secret: oauth_vk_client_secret
+      OAUTH_VK_CLIENT_ID: '7413491'
+      OAUTH_VK_REDIRECT_URI: https://doskaz.kz/oauth/callback
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
@@ -99,6 +102,10 @@ steps:
       OAUTH_FACEBOOK_REDIRECT_URI: https://doskaz.kz/oauth/callback
       OAUTH_FACEBOOK_CLIENT_SECRET:
         from_secret: oauth_facebook_client_secret
+      OAUTH_VK_CLIENT_SECRET:
+        from_secret: oauth_vk_client_secret
+      OAUTH_VK_CLIENT_ID: '7413491'
+      OAUTH_VK_REDIRECT_URI: https://doskaz.kz/oauth/callback
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
