@@ -23,5 +23,5 @@ monolog:
             channels: ["php"]
         stdout:
             type: stream
-            level: info
+            level: error
             path: 'php://stdout'
