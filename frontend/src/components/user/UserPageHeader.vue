@@ -2,19 +2,19 @@
     <div class="user-page__header" v-bind:style="{'background-image': 'url(' + require('./../../assets/user-bg.png') + ')'}">
         <div class="menu">
             <div class="menu__content">
-                <nuxt-link :to="{name: 'profile-achievements'}" class="menu__item" active-class="isActive">
+                <nuxt-link :to="localePath({name: 'profile-achievements'})" class="menu__item" active-class="isActive">
                     <span>Достижения</span>
                 </nuxt-link>
-                <nuxt-link :to="{name: 'profile-objects'}" class="menu__item" active-class="isActive">
+                <nuxt-link :to="localePath({name: 'profile-objects'})" class="menu__item" active-class="isActive">
                     <span>Мои объекты</span>
                 </nuxt-link>
-                <nuxt-link :to="{name: 'profile-tickets'}" class="menu__item" active-class="isActive">
+                <nuxt-link :to="localePath({name: 'profile-tickets'})" class="menu__item" active-class="isActive">
                     <span>Мои тикеты</span>
                 </nuxt-link>
-                <nuxt-link :to="{name: 'profile-tasks'}" class="menu__item" active-class="isActive">
+                <nuxt-link :to="localePath({name: 'profile-tasks'})" class="menu__item" active-class="isActive">
                     <span>Мои задания</span>
                 </nuxt-link>
-                <nuxt-link :to="{name: 'profile-comments'}" class="menu__item" active-class="isActive">
+                <nuxt-link :to="localePath({name: 'profile-comments'})" class="menu__item" active-class="isActive">
                     <span>Мои комментарии</span>
                 </nuxt-link>
                 <a class="menu__item --logout" @click="logout()">

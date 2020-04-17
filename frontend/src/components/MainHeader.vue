@@ -1,7 +1,7 @@
 <template>
   <div class="main-header">
     <div class="main-header__content" :class="{ opened: mobileOpened }">
-      <nuxt-link :to="{name: 'index'}" class="main-header__logo">
+      <nuxt-link :to="localePath({name: 'index'})" class="main-header__logo">
         <img :src="require('@/assets/logo.svg')" alt />
       </nuxt-link>
 
@@ -14,13 +14,13 @@
             <a href="#">
               <span>Помощь</span>
             </a>
-            <nuxt-link :to="{name: 'about'}">
+            <nuxt-link :to="localePath({name: 'about'})">
               <span>О проекте</span>
             </nuxt-link>
-            <nuxt-link :to="{name: 'contacts'}">
+            <nuxt-link :to="localePath({name: 'contacts'})">
               <span>Контакты</span>
             </nuxt-link>
-            <nuxt-link :to="{name: 'blog-category'}">
+            <nuxt-link :to="localePath({name: 'blog-category'})">
               <span>Блог</span>
             </nuxt-link>
           </div>

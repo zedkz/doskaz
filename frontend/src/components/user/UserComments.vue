@@ -75,7 +75,7 @@
                     return this.$route.query.sort || 'date'
                 },
                 set(v) {
-                    this.$router.push({...this.$route, query: {sort: v}})
+                    this.$router.push(this.localePath({...this.$route, query: {sort: v}}))
                 }
             }
         }

@@ -54,11 +54,11 @@
                 map.geoObjects.add(yamap);
                 yamap.objects.events.add(['click'], e => {
                     const isSame = this.$route.name === 'objects-id' && this.$route.params.id === e.get('objectId')
-                    this.$router.push({
+                    this.$router.push(this.localePath({
                         name: 'objects-id', params: {id: e.get('objectId')}, query: isSame ? {
                             t: now()
                         } : undefined
-                    })
+                    }))
                 });
             },
             applyFilter: debounce(function (val) {

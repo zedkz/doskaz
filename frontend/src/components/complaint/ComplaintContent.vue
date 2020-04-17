@@ -1070,7 +1070,7 @@
                     maxAge: 60
                 })
 
-                return this.$router.push(objectId ? {name: 'objects-id', params: {id: objectId}}: {name: 'index'})
+                return this.$router.push(this.localePath(objectId ? {name: 'objects-id', params: {id: objectId}}: {name: 'index'}))
             }
         },
         computed: {

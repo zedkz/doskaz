@@ -6,8 +6,6 @@
 
     <StartCategoryForm />
 
-    <ObjectModal></ObjectModal>
-
     <div class="main-page__map">
       <MainMap />
     </div>

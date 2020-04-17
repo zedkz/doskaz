@@ -1,7 +1,6 @@
 <template>
     <div class="main-page" :class="{ opened: mobileOpened }">
         <IntroForm/>
-        <ObjectModal></ObjectModal>
         <div class="main-page__map">
             <client-only>
                 <MainMap/>
@@ -14,7 +13,7 @@
             </button>
         </div>
         <div class="main-page__actions --desktop">
-            <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
+            <nuxt-link :to="localePath({name: 'objects-add'})" class="button button_green" type="button" name="add_object">
                 <svg
                         width="20"
                         height="20"
@@ -30,7 +29,7 @@
                     />
                 </svg>
             </nuxt-link>
-            <nuxt-link :to="{name: 'complaint'}" class="button button_red">
+            <nuxt-link :to="localePath({name: 'complaint'})" class="button button_red">
                 <svg
                         width="19"
                         height="21"
@@ -68,7 +67,7 @@
             <div class="main-page__mobile-left">
                 <div class="main-page__mobile-in">
                     <div class="main-page__mobile-item --md">
-                        <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
+                        <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
                             <img :src="require('@/assets/logo.svg')" alt/>
                         </nuxt-link>
                     <span class="main-page__mobile-close" @click="mobileOpenedFalse">
@@ -83,15 +82,15 @@
                     </div>
                     <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
-                            <nuxt-link :to="{name: 'login'}" v-if="!user">Войти</nuxt-link>
+                            <nuxt-link :to="localePath({name: 'login'})" v-if="!user">Войти</nuxt-link>
 
                             <template v-if="user">
                                 <username :value="name"/>
-                                <nuxt-link :to="{name: 'profile-achievements'}">Достижения</nuxt-link>
-                                <nuxt-link :to="{name: 'profile-objects'}">Мои объекты</nuxt-link>
-                                <nuxt-link :to="{name: 'profile-tickets'}">Мои тикеты</nuxt-link>
-                                <nuxt-link :to="{name: 'profile-tasks'}">Мои задания</nuxt-link>
-                                <nuxt-link :to="{name: 'profile-comments'}">Мои комментарии</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-achievements'})">Достижения</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-objects'})">Мои объекты</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-tickets'})">Мои тикеты</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-tasks'})">Мои задания</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-comments'})">Мои комментарии</nuxt-link>
                             </template>
 
                         </div>
@@ -99,14 +98,14 @@
                     <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
                             <a href="#"><span>Помощь</span></a>
-                            <nuxt-link :to="{name: 'about'}"><span>О проекте</span></nuxt-link>
-                            <nuxt-link :to="{name: 'blog-category'}"><span>Блог</span></nuxt-link>
-                            <nuxt-link :to="{name: 'contacts'}"><span>Контакты</span></nuxt-link>
+                            <nuxt-link :to="localePath({name: 'about'})"><span>О проекте</span></nuxt-link>
+                            <nuxt-link :to="localePath({name: 'blog-category'})"><span>Блог</span></nuxt-link>
+                            <nuxt-link :to="localePath({name: 'contacts'})"><span>Контакты</span></nuxt-link>
                             <button class="button button_blue" type="button" @click="popupOpen = true" v-if="currentCategory">
                                 <span>{{ currentCategory.title }}</span>
                                 <img :src="require(`~/assets/icons/categories/${currentCategory.key}.svg`)"/>
                             </button>
-                            <nuxt-link :to="{name: 'objects-add'}" class="button button_green" type="button" name="add_object">
+                            <nuxt-link :to="localePath({name: 'objects-add'})" class="button button_green" type="button" name="add_object">
                                 <span>Добавить объект</span>
                                 <svg
                                         width="20"
@@ -123,7 +122,7 @@
                                     />
                                 </svg>
                             </nuxt-link>
-                            <nuxt-link :to="{name: 'complaint'}" class="button button_red">
+                            <nuxt-link :to="localePath({name: 'complaint'})" class="button button_red">
                                 <span>Добавить жалобу</span>
                                 <svg
                                         width="19"

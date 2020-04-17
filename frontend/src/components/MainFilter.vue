@@ -2,15 +2,15 @@
     <div class="main-filter">
         <div class="main-filter__mobile-top">
             <div class="main-filter__header">
-                <nuxt-link :to="{name: 'index'}" class="main-filter__logo --mob">
+                <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo --mob">
                     <img :src="require('@/assets/logo.svg')" alt/>
                 </nuxt-link>
 
                 <div class="main-filter__menu --desktop">
                     <a href="#"><span>Помощь</span></a>
-                    <nuxt-link :to="{name: 'about'}"><span>О проекте</span></nuxt-link>
-                    <nuxt-link :to="{name: 'blog-category'}"><span>Блог</span></nuxt-link>
-                    <nuxt-link :to="{name: 'contacts'}"><span>Контакты</span></nuxt-link>
+                    <nuxt-link :to="localePath({name: 'about'})"><span>О проекте</span></nuxt-link>
+                    <nuxt-link :to="localePath({name: 'blog-category'})"><span>Блог</span></nuxt-link>
+                    <nuxt-link :to="localePath({name: 'contacts'})"><span>Контакты</span></nuxt-link>
                 </div>
 
                 <div class="spacer"></div>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="main-filter__title --desktop">
-                <nuxt-link :to="{name: 'index'}" class="main-filter__logo">
+                <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
                     <img :src="require('@/assets/logo.svg')" alt/>
                 </nuxt-link>
                 <city-selector/>
@@ -112,7 +112,7 @@
                     </button>
                 </div>
                 <div class="search-sub" v-if="searchHighlights.length && searchFocused">
-                    <nuxt-link :to="{name: 'objects-id', params: {id: item.id}, query: {zoom: 19}}" class="search-sub__item" v-for="item in searchHighlights" :key="item.id">
+                    <nuxt-link :to="localePath({name: 'objects-id', params: {id: item.id}, query: {zoom: 19}})" class="search-sub__item" v-for="item in searchHighlights" :key="item.id">
                         <div class="search-sub__icon">
                             <i class="fa" :class="item.icon"></i>
                         </div>

@@ -51,14 +51,14 @@
                 this.close()
             },
             close() {
-                this.$router.push({
+                this.$router.push(this.localePath({
                     name: 'objects-id', params: {
                         id: this.$route.params.id
                     },
                     query: {
                         tab: 'reviews'
                     }
-                })
+                }))
             }
         }
     }

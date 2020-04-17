@@ -15,14 +15,14 @@
                 <div class="blog__category">
                     <span class="blog__category-title">Категории</span>
                     <nuxt-link
-                            :to="{name: 'blog-category', query: {period: $route.query.period}}"
+                            :to="localePath({name: 'blog-category', query: {period: $route.query.period}})"
                             class="blog__category-link"
                             :class="{isActive: !activeCategory}">
                         <span>Все категории</span>
                     </nuxt-link>
 
                     <nuxt-link
-                            :to="{name: 'blog-category', params: {category: category.slug }, query: {period: $route.query.period}}"
+                            :to="localePath({name: 'blog-category', params: {category: category.slug }, query: {period: $route.query.period}})"
                             class="blog__category-link"
                             v-for="category in categories"
                             :class="{isActive: activeCategory === category.slug}"
@@ -62,7 +62,7 @@
                     <div class="blog__item">
                         <h3 class=""></h3>
                         <nuxt-link
-                                :to="{name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}}"
+                                :to="localePath({name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}})"
                                 class="blog__item-title">{{ post.title }}
                         </nuxt-link>
                         <img class="blog__item-img" v-if="post.image" :src="post.image" :alt="post.title">
@@ -74,7 +74,7 @@
                             </div>
                             <div>
                                 <nuxt-link
-                                        :to="{name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}}"
+                                        :to="localePath({name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}})"
                                         class="blog__item-link">Подробнее
                                 </nuxt-link>
                             </div>

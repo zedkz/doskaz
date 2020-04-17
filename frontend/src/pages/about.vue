@@ -81,7 +81,7 @@
                             <img :src="require('@/assets/icons/about/erekshe.svg')"/>
                         </a>
                     </div>
-                    <p class="about__link-text">Проект реализуется консорциумом общественных организаций. Смотрите страницу «<nuxt-link :to="{name: 'contacts'}">Контакты</nuxt-link>».</p>
+                    <p class="about__link-text">Проект реализуется консорциумом общественных организаций. Смотрите страницу «<nuxt-link :to="localePath({name: 'contacts'})">Контакты</nuxt-link>».</p>
                 </div>
                 <div class="about__link-item">
                     <h3 class="title --md">Финансирование</h3>
