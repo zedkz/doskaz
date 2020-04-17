@@ -15,6 +15,28 @@ services:
         tags:
             - {name: 'oauth.provider', key: 'google'}
 
+    League\OAuth2\Client\Provider\Facebook:
+        lazy: true
+        arguments:
+            - {clientId: '%env(OAUTH_FACEBOOK_CLIENT_ID)%', clientSecret: '%env(OAUTH_FACEBOOK_CLIENT_SECRET)%', redirectUri: '%env(resolve:OAUTH_FACEBOOK_REDIRECT_URI)%', graphApiVersion: 'v2.10'}
+        tags:
+            - {name: 'oauth.provider', key: 'facebook'}
+
+    J4k\OAuth2\Client\Provider\Vkontakte:
+        lazy: true
+        arguments:
+            - {clientId: '%env(OAUTH_VK_CLIENT_ID)%', clientSecret: '%env(OAUTH_VK_CLIENT_SECRET)%', redirectUri: '%env(resolve:OAUTH_VK_REDIRECT_URI)%', graphApiVersion: 'v2.10', scopes: []}
+        tags:
+            - {name: 'oauth.provider', key: 'vkontakte'}
+
+    Aego\OAuth2\Client\Provider\Mailru:
+        lazy: true
+        arguments:
+            - {clientId: '%env(OAUTH_MAILRU_CLIENT_ID)%', clientSecret: '%env(OAUTH_MAILRU_CLIENT_SECRET)%', redirectUri: '%env(resolve:OAUTH_MAILRU_REDIRECT_URI)%'}
+        tags:
+            - {name: 'oauth.provider', key: 'mailru'}
+
+
     App\Users\Security\Oauth\OauthController:
         tags: [ 'controller.service_arguments' ]
         arguments:
@@ -38,9 +60,6 @@ services:
 
     App\Users\MigrateFullName:
         tags: ['console.command']
-
-    App\Users\Security\UloginAuthenticate:
-        tags: ['controller.service_arguments']
 
     App\Users\UserAbilityVoter:
         tags: ['security.voter']

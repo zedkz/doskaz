@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4dfbacb10f5abbd58101eb10b717307",
+    "content-hash": "17892f8cbf4b63961b28b2be2d6397fb",
     "packages": [
+        {
+            "name": "aego/oauth2-mailru",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rakeev/oauth2-mailru.git",
+                "reference": "718b7b5db469cd98e4382051c6d8a540622ba11b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rakeev/oauth2-mailru/zipball/718b7b5db469cd98e4382051c6d8a540622ba11b",
+                "reference": "718b7b5db469cd98e4382051c6d8a540622ba11b",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": "^2.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aego\\OAuth2\\Client\\Provider\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Rakeev",
+                    "email": "alexey@rakeev.name"
+                }
+            ],
+            "description": "Mail.ru provider for league/oauth2-client",
+            "time": "2017-03-25T09:47:46+00:00"
+        },
         {
             "name": "clue/stream-filter",
             "version": "v1.4.1",
@@ -235,6 +275,51 @@
                 "url"
             ],
             "time": "2019-04-19T10:51:11+00:00"
+        },
+        {
+            "name": "deniro21/oauth2-vkontakte",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deniro21/oauth2-vkontakte.git",
+                "reference": "5ec12b6c527893e948d5e2d924c96dd583b608f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deniro21/oauth2-vkontakte/zipball/5ec12b6c527893e948d5e2d924c96dd583b608f3",
+                "reference": "5ec12b6c527893e948d5e2d924c96dd583b608f3",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": "^2.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "J4k\\OAuth2\\Client\\Provider\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Wall",
+                    "email": "jw@jack.gd"
+                }
+            ],
+            "description": "Vkontakte provider for league/oauth2-client",
+            "keywords": [
+                "league",
+                "package"
+            ],
+            "time": "2019-05-29T17:11:24+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2742,6 +2827,57 @@
                 "single sign on"
             ],
             "time": "2018-11-22T18:33:57+00:00"
+        },
+        {
+            "name": "league/oauth2-facebook",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/oauth2-facebook.git",
+                "reference": "bcbcd540fb66ae16b4f82671c8ae7752b6a89556"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-facebook/zipball/bcbcd540fb66ae16b4f82671c8ae7752b6a89556",
+                "reference": "bcbcd540fb66ae16b4f82671c8ae7752b6a89556",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": "^2.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\OAuth2\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sammy Kaye Powers",
+                    "email": "me@sammyk.me",
+                    "homepage": "http://www.sammyk.me"
+                }
+            ],
+            "description": "Facebook OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+            "keywords": [
+                "Authentication",
+                "authorization",
+                "client",
+                "facebook",
+                "oauth",
+                "oauth2"
+            ],
+            "time": "2017-07-22T01:25:00+00:00"
         },
         {
             "name": "league/oauth2-google",

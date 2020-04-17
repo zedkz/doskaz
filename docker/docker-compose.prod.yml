@@ -29,3 +29,6 @@ services:
 
   gotenberg:
     restart: unless-stopped
+
+  geoip_updater:
+    restart: unless-stopped

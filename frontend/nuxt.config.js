@@ -63,8 +63,7 @@ export default {
             }
         ],
         script: [
-            {type: "text/javascript", src: "https://code.jquery.com/jquery-1.11.0.min.js"},
-            {type: "text/javascript", src: "https://ulogin.ru/js/ulogin.js"}
+            {type: "text/javascript", src: "https://code.jquery.com/jquery-1.11.0.min.js"}
         ],
         link: [
             {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
@@ -86,6 +85,10 @@ export default {
     i18n: {
         strategy: 'prefix_except_default',
         defaultLocale: 'ru',
+        parsePages: false,
+        pages: {
+            'oauth/callback': false
+        },
         locales: [
             {code: 'kz', name: 'Qazaq'},
             {code: 'ru', name: 'Русский'},

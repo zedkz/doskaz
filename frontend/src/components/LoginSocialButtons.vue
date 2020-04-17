@@ -1,6 +1,6 @@
 <template>
     <div class="buttons" id="ulogin">
-        <a class="button button_google" @click="show = true">
+        <a class="button button_google" @click="openPopup('google')">
             <svg
                     width="20"
                     height="20"
@@ -36,7 +36,7 @@
             </svg>
             <span>Войти через Google</span>
         </a>
-        <button class="button" @click="show = true">
+        <button class="button" @click="openPopup('facebook')">
             <svg
                     width="10"
                     height="20"
@@ -50,7 +50,7 @@
                 />
             </svg>
         </button>
-        <button class="button" @click="show = true">
+        <button class="button" @click="openPopup('vkontakte')">
             <svg
                     width="20"
                     height="20"
@@ -64,18 +64,9 @@
                 />
             </svg>
         </button>
-        <button class="button" @click="show = true">
-            <svg
-                    width="20"
-                    height="18"
-                    viewBox="0 0 20 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                        d="M9.69998 4.49996C9.69998 4.69996 9.69998 4.79996 9.69998 4.89996C9.69998 4.69996 9.69998 4.59996 9.69998 4.49996ZM19.2 2.69996C18 3.19996 17.8 3.09996 18.4 2.39996C18.8 1.89996 19.4 0.999959 19.4 0.799959C19.4 0.799959 19.2 0.799959 18.9 0.999959C18.6 1.19996 18.1 1.39996 17.6 1.49996L16.8 1.79996L16.1 1.29996C15.7 0.999959 15.2 0.699959 14.9 0.599959C14.2 0.399959 13.1 0.399959 12.4 0.699959C10.7 1.29996 9.59997 2.99996 9.69998 4.99996V5.69996L8.99998 5.59996C6.39998 5.29996 4.19998 4.09996 2.19998 2.09996L1.29998 1.09996L0.999976 1.79996C0.499976 3.49996 0.799976 5.19996 1.89998 6.29996C2.49998 6.99996 2.39998 7.09996 1.39998 6.69996C0.999976 6.59996 0.699976 6.49996 0.699976 6.49996C0.599976 6.59996 0.899976 7.99996 1.19998 8.59996C1.59998 9.39996 2.29998 10.1 3.19998 10.5L3.89998 10.9H3.09998C2.29998 10.9 2.29998 10.9 2.39998 11.2C2.69998 12.2 3.79998 13.2 5.09998 13.7L5.89998 14L5.09998 14.5C3.99998 15.2 2.59998 15.6 1.29998 15.6C0.699975 15.6 0.0999756 15.7 0.0999756 15.7C0.0999756 15.9 1.79998 16.7 2.89998 17C5.99998 18 9.59998 17.6 12.3 15.9C14.2 14.7 16.2 12.3 17.1 9.99996C17.6 8.79996 18.1 6.49996 18.1 5.39996C18.1 4.69996 18.1 4.59996 18.9 3.79996C19.4 3.29996 19.8 2.79996 19.9 2.59996C20 2.39996 20 2.39996 19.2 2.69996ZM9.69998 4.19996C9.69998 4.09996 9.69998 4.09996 9.69998 4.19996V4.19996Z"
-                        fill="#1DA1F2"
-                />
+        <button class="button" @click="openPopup('mailru')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.64553 3.94637C11.1701 3.94637 12.6013 4.62384 13.6592 5.67085C13.6592 5.17814 14.0015 4.77781 14.4682 4.77781H14.6237C15.3705 4.77781 15.526 5.48608 15.526 5.70164V13.5234C15.4638 14.0469 16.055 14.2932 16.3972 13.9545C17.6729 12.6612 19.1664 7.33374 15.6194 4.22352C12.2591 1.35965 7.7787 1.82156 5.41404 3.45366C2.89382 5.17814 1.24479 8.99663 2.83159 12.5688C4.54286 16.4796 9.42773 17.6498 12.3524 16.4796C13.8148 15.8946 14.4993 17.8654 12.9747 18.5121C10.6723 19.4975 4.23172 19.4051 1.21367 14.2317C-0.808726 10.7519 -0.715385 4.62384 4.69843 1.45203C8.80545 -0.980718 14.2504 -0.303243 17.5173 3.08413C20.9399 6.62547 20.7532 13.2462 17.3929 15.833C15.8683 17.0031 13.6281 15.8638 13.6592 14.1701L13.6281 13.6158C12.5702 14.6628 11.1701 15.2479 9.64553 15.2479C6.62748 15.2479 3.95169 12.5996 3.95169 9.64331C3.98281 6.62547 6.62748 3.94637 9.64553 3.94637ZM13.4725 9.42775C13.3481 7.24136 11.699 5.9172 9.73887 5.9172H9.64553C7.3431 5.9172 6.09855 7.70327 6.09855 9.73569C6.09855 12.0145 7.62313 13.431 9.64553 13.431C11.8857 13.431 13.3792 11.7989 13.4725 9.88967V9.42775Z" fill="#FAA61A"/>
             </svg>
         </button>
 
@@ -89,7 +80,8 @@
                         Приносим извинения за неудобства.
                     </p>
                     <div class="popup__buttons" style="justify-content: center">
-                        <button class="popup__button --yes" style="text-align: center; padding: 14px 0 16px 14px"  @click="show = false">
+                        <button class="popup__button --yes" style="text-align: center; padding: 14px 0 16px 14px"
+                                @click="show = false">
                         <span style="margin: 0">
                             Ок
                         </span>
@@ -103,6 +95,7 @@
 
 <script>
     import {call} from "vuex-pathify"
+    import open from 'oauth-open'
 
     export default {
         name: "LoginSocialButtons",
@@ -113,8 +106,38 @@
         },
         mounted() {
         },
+        computed: {
+            providers() {
+                return {
+                    facebook: {
+                        width: 580,
+                        height: 400
+                    },
+                    google: {
+                        width: 452,
+                        height: 633
+                    },
+                    vkontakte: {
+                        width: 668,
+                        height: 380
+                    },
+                    mailru: {
+                        width: 446,
+                        height: 295
+                    }
+                }
+            }
+        },
         methods: {
-            authenticate: call('authentication/uloginAuthenticate')
+            openPopup(provider) {
+                open(`/api/oauth/${provider}/redirect`, this.providers[provider], (err, code) => {
+                    if (err) {
+                        return;
+                    }
+                    this.oauthAuthenticate({code: code.code, provider})
+                })
+            },
+            oauthAuthenticate: call('authentication/oauthAuthenticate'),
         }
     }
 </script>
