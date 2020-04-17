@@ -131,8 +131,8 @@
                         height: 380
                     },
                     mailru: {
-                        width: 668,
-                        height: 380
+                        width: 446,
+                        height: 295
                     }
                 }
             }
