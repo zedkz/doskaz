@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-use Doctrine\DBAL\Connection;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
@@ -33,68 +32,45 @@ class CitiesController
      *         )
      *     }
      * )
-     * @param Connection $connection
-     * @return array[]
+     * @param CityFinder $cityFinder
+     * @return City[]
      */
-    public function index(Connection $connection)
+    public function index(CityFinder $cityFinder)
     {
-        $cities = $connection->createQueryBuilder()
-            ->select([
-                'id',
-                'name',
-                'json_build_array(json_build_array(ST_YMIN(bbox), ST_XMIN(bbox)), json_build_array(ST_YMAX(bbox), ST_XMAX(bbox))) as bounds'
-
-            ])->from('cities')
-            ->orderBy('priority', 'asc')
-            ->execute()
-            ->fetchAll();
-
-        return array_map(function ($city) use ($connection) {
-            return array_replace($city, [
-                'bounds' => $connection->convertToPHPValue($city['bounds'], 'json')
-            ]);
-        }, $cities);
+        return $cityFinder->findAll();
     }
 
     /**
      * @Route(path="/detect", methods={"GET"})
      * @param Request $request
-     * @param Connection $connection
-     * @return array
+     * @param CityFinder $cityFinder
+     * @return City
      * @throws InvalidDatabaseException
+     * @Route(methods={"GET"})
+     * @Get(
+     *     path="/api/cities/detect",
+     *     summary="Определение города",
+     *     tags={"Города"},
+     *     responses={
+     *         @Response(
+     *             response="200",
+     *             description="",
+     *             @JsonContent(ref="#/components/schemas/City")
+     *         )
+     *     }
+     * )
      */
-    public function detect(Request $request, Connection $connection)
+    public function detect(Request $request, CityFinder $cityFinder)
     {
         $dbPath = '/geoip_data/GeoLite2-City.mmdb';
         if (file_exists($dbPath)) {
             $reader = new Reader($dbPath, ['ru']);
             try {
                 $record = $reader->city($request->getClientIp());
-
-                $id = $connection->createQueryBuilder()
-                    ->select('id')
-                    ->from('cities_geometry')
-                    ->andWhere('cities_geometry.geometry && ST_MAKEPOINT(:x, :y)')
-                    ->setParameter('x', $record->location->longitude)
-                    ->setParameter('y', $record->location->latitude)
-                    ->execute()
-                    ->fetchColumn();
-
-                if ($id) {
-                    return [
-                        'id' => $id
-                    ];
-                }
+                return $cityFinder->findByCoordinates($record->location->latitude, $record->location->longitude) ?? $cityFinder->first();
             } catch (AddressNotFoundException | InvalidDatabaseException $exception) {
             }
         }
-        return [
-            'id' => $connection->createQueryBuilder()
-                ->select('id')
-                ->from('cities')
-                ->orderBy('priority', 'asc')
-                ->execute()
-                ->fetchColumn()
-        ];
+        return $cityFinder->first();
     }
 }
