@@ -1,4 +1,7 @@
 {
+    "aego/oauth2-mailru": {
+        "version": "2.0"
+    },
     "clue/stream-filter": {
         "version": "v1.4.1"
     },

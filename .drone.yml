@@ -39,6 +39,10 @@ steps:
         from_secret: oauth_vk_client_secret
       OAUTH_VK_CLIENT_ID: '7413491'
       OAUTH_VK_REDIRECT_URI: https://doskaz.vps3.zed.kz/oauth/callback
+      OAUTH_MAILRU_CLIENT_ID: '772142'
+      OAUTH_MAILRU_CLIENT_SECRET:
+        from_secret: oauth_mailru_client_secret_test
+      OAUTH_MAILRU_REDIRECT_URI: https://doskaz.vps3.zed.kz/oauth/callback
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
@@ -106,6 +110,10 @@ steps:
         from_secret: oauth_vk_client_secret
       OAUTH_VK_CLIENT_ID: '7413491'
       OAUTH_VK_REDIRECT_URI: https://doskaz.kz/oauth/callback
+      OAUTH_MAILRU_CLIENT_ID: '772140'
+      OAUTH_MAILRU_CLIENT_SECRET:
+        from_secret: oauth_mailru_client_secret_prod
+      OAUTH_MAILRU_REDIRECT_URI: https://doskaz.kz/oauth/callback
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock

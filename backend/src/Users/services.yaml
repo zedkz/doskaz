@@ -29,6 +29,14 @@ services:
         tags:
             - {name: 'oauth.provider', key: 'vkontakte'}
 
+    Aego\OAuth2\Client\Provider\Mailru:
+        lazy: true
+        arguments:
+            - {clientId: '%env(OAUTH_MAILRU_CLIENT_ID)%', clientSecret: '%env(OAUTH_MAILRU_CLIENT_SECRET)%', redirectUri: '%env(resolve:OAUTH_MAILRU_REDIRECT_URI)%'}
+        tags:
+            - {name: 'oauth.provider', key: 'mailru'}
+
+
     App\Users\Security\Oauth\OauthController:
         tags: [ 'controller.service_arguments' ]
         arguments:

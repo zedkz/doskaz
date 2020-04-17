@@ -64,7 +64,7 @@
                 />
             </svg>
         </button>
-        <button class="button" @click="show = true">
+        <button class="button" @click="openPopup('mailru')">
             <svg
                     width="20"
                     height="18"
@@ -127,6 +127,10 @@
                         height: 633
                     },
                     vkontakte: {
+                        width: 668,
+                        height: 380
+                    },
+                    mailru: {
                         width: 668,
                         height: 380
                     }
