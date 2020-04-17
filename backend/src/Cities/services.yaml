@@ -17,3 +17,5 @@ services:
     OpenCage\Geocoder\Geocoder:
         arguments:
             - '%env(OPENCAGE_API_KEY)%'
+
+    App\Cities\CityFinder:
