@@ -43,7 +43,7 @@
                 <div class="object-side__content">
                     <div class="object-side__tab-link-wrapper">
                         <div class="object-side__tab-link-b">
-                            <nuxt-link v-for="(tab, index) in tabs" :to="localePath(tab.link)" :key="index"
+                            <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index"
                                        class="object-side__tab-link"
                                        :class="{active: $route.query.tab === tab.link.query.tab}">
                                 {{ tab.title }}
