@@ -49,19 +49,6 @@ final class UserAuthenticator
         );
 
         $response->headers->setCookie($accessTokenCookie);
-
-        $xsrfCookie = new Cookie(
-            AccessTokenAuthenticator::XSRF_TOKEN_COOKIE,
-            (new Base62())->encode(random_bytes(128)),
-            $accessToken->expiresAt(),
-            '/',
-            null,
-            $request->isSecure(),
-            false
-        );
-
-        $response->headers->setCookie($xsrfCookie);
-
         return $response;
     }
 }

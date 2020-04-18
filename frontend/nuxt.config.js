@@ -35,6 +35,7 @@ export default {
         {from: '^/kurs-obrashenie', to: 'https://oft.kz/kurs-obrashenie'}
     ],
     plugins: [
+        {src: '~plugins/csrf.js', mode: 'server'},
         {src: '~plugins/no-ssr.js', ssr: false},
         {src: '~plugins/authenticated.js'}
     ],

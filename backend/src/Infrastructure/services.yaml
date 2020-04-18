@@ -12,6 +12,10 @@ services:
         arguments:
             $isDebug: '%kernel.debug%'
 
+    App\Infrastructure\Api\CheckCsrfTokenListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 10 }
+
     App\Infrastructure\Api\ExceptionNormalizer:
         arguments:
             - '%kernel.debug%'

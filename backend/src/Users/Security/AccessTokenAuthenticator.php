@@ -16,7 +16,6 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 final class AccessTokenAuthenticator extends AbstractGuardAuthenticator
 {
     public const COOKIE_NAME = 'ACCESS_TOKEN';
-    public const XSRF_TOKEN_COOKIE = 'XSRF-TOKEN';
 
     private $accessTokenRepository;
     private $connection;
@@ -37,15 +36,7 @@ final class AccessTokenAuthenticator extends AbstractGuardAuthenticator
         if (!$this->accessTokenRepository->find($request->cookies->get(self::COOKIE_NAME))) {
             return false;
         }
-
         return true;
-        if (in_array($request->getMethod(), ['GET', 'HEAD', 'OPTIONS'])) {
-            return true;
-        }
-
-        return $request->headers->has('X-XSRF-TOKEN')
-            && $request->cookies->has(self::XSRF_TOKEN_COOKIE)
-            && $request->cookies->get(self::XSRF_TOKEN_COOKIE) === $request->headers->get('X-XSRF-TOKEN');
     }
 
     public function getCredentials(Request $request)
