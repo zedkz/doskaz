@@ -36,7 +36,7 @@ export default {
     ],
     plugins: [
         {src: '~plugins/csrf.js', mode: 'server'},
-        {src: '~plugins/no-ssr.js', ssr: false},
+        {src: '~plugins/no-ssr.js', mode: 'client'},
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
