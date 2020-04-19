@@ -66,3 +66,7 @@ services:
 
     App\Users\AdminPermissionsVoter:
         tags: ['security.voter']
+
+    App\Users\Security\Oauth\OauthService:
+        arguments:
+            - !tagged_locator { tag: 'oauth.provider', index_by: 'key' }
