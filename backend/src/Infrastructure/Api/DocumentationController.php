@@ -4,6 +4,7 @@
 namespace App\Infrastructure\Api;
 
 use OpenApi\Annotations\Info;
+use OpenApi\Annotations\SecurityScheme;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Info(title="doskaz api", version="1")
+ * @SecurityScheme(securityScheme="clientAuth", type="http", scheme="bearer", bearerFormat="token")
  */
 class DocumentationController extends AbstractController
 {

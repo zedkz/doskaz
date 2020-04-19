@@ -50,7 +50,28 @@ final class OauthController extends AbstractController
     }
 
     /**
+     * @param OauthService $oauthService
+     * @param Request $request
+     * @param OauthData $oauthData
+     * @param UserAuthenticator $authenticator
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
+     * @throws \Exception
      * @Route(path="/api/token/oauth", methods={"POST"})
+     */
+    public function oauthAuthenticate(OauthService $oauthService, Request $request, OauthData $oauthData, UserAuthenticator $authenticator)
+    {
+        try {
+            ['user' => $user, 'created' => $created] = $oauthService->userByProviderAndCode($oauthData->provider, $oauthData->code);
+            return $authenticator->authenticate($request, $user)->setStatusCode($created ? Response::HTTP_CREATED : Response::HTTP_OK);
+        } catch (ProviderNotFound $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        } catch (InvalidCode $exception) {
+            throw new BadRequestHttpException($exception->getMessage(), $exception);
+        }
+    }
+
+    /**
+     * @Route(path="/api/accessToken/oauth", methods={"POST"})
      * @param OauthService $oauthService
      * @param Request $request
      * @param OauthData $oauthData
@@ -58,7 +79,7 @@ final class OauthController extends AbstractController
      * @return Response
      * @throws \Exception
      * @Post(
-     *     path="/api/token/oauth",
+     *     path="/api/accessToken/oauth",
      *     summary="Получение токена доступа на основе oauth кода",
      *     tags={"Токены"},
      *     @RequestBody(
@@ -73,7 +94,7 @@ final class OauthController extends AbstractController
      *     @\OpenApi\Annotations\Response(response="200", description="Аутентифицирован существующий пользователь", @JsonContent(@Property(type="string", property="token"))),
      * )
      */
-    public function oauthAuthenticate(OauthService $oauthService, Request $request, OauthData $oauthData, UserAuthenticator $authenticator)
+    public function oauthAccessTokenAuthenticate(OauthService $oauthService, Request $request, OauthData $oauthData, UserAuthenticator $authenticator)
     {
         try {
             ['user' => $user, 'created' => $created] = $oauthService->userByProviderAndCode($oauthData->provider, $oauthData->code);
