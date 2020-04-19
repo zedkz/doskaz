@@ -1,7 +1,8 @@
 const crypto = require('crypto');
 
-export default function ({app, req}) {
+export default function ({app}) {
     app.$cookies.set('XSRF-TOKEN', crypto.randomBytes(16).toString('hex'), {
-        path: '/'
+        path: '/',
+        maxAge: 60 * 60 * 24 * 365
     });
 }
