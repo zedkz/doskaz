@@ -50,6 +50,7 @@ services:
       - BACKUP_KEEP_MONTHS=6
       - HEALTHCHECK_PORT=80
       - POSTGRES_EXTRA_OPTS=-Z9
+    restart: unless-stopped
 
 volumes:
   pgbackups_data:
