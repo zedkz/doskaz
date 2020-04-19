@@ -11,7 +11,9 @@ use Imgproxy\UrlBuilder;
 use OpenApi\Annotations\ExternalDocumentation;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
+use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use Safe\Exceptions\FilesystemException;
@@ -232,6 +234,94 @@ final class ObjectsApiController extends AbstractController
      * @param UrlBuilder $urlBuilder
      * @param Request $request
      * @return array|NotFoundHttpException
+     * @Get(
+     *     path="/api/objects/{id}",
+     *     summary="Информация о объекте",
+     *     tags={"Объекты"},
+     *     @Parameter(name="id", in="path", required=true, description="id объекта", @Schema(type="integer"), example=172709),
+     *     @Parameter(name="disabilitiesCategory", in="query", required=false, description="Категория пользователя", @Schema(type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_CATEGORIES)),
+     *     @Response(response=404, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             properties={
+     *                 @Property(property="title", type="string"),
+     *                 @Property(property="address", type="string"),
+     *                 @Property(property="description", type="string"),
+     *                 @Property(property="category", type="string"),
+     *                 @Property(property="subCategory", type="string"),
+     *                 @Property(property="coordinates", type="array", @Items(type="number", format="float"), example={52.2957528444857, 76.9407562711638}),
+     *                 @Property(property="overallScore", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                 @Property(
+     *                     property="scoreByZones",
+     *                     type="object",
+     *                     @Property(property="parking", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="entrance", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="movement", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="service", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="toilet", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="navigation", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="serviceAccessibility", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                 ),
+     *                 @Property(property="icon", type="string", example="fa-credit-card"),
+     *                 @Property(
+     *                     property="photos",
+     *                     type="array",
+     *                     @Items(
+     *                         @Property(property="previewUrl", type="string"),
+     *                         @Property(property="viewUrl", type="string"),
+     *                         @Property(property="date", type="string", format="date-time"),
+     *                     )
+     *                 ),
+     *                 @Property(property="videos", type="array", @Items(type="string")),
+     *                 @Property(
+     *                     property="reviews",
+     *                     type="array",
+     *                     @Items(
+     *                         type="object",
+     *                         @Property(type="string", property="author"),
+     *                         @Property(type="string", property="text"),
+     *                         @Property(type="string", property="date", format="date-time"),
+     *                     ),
+     *                 ),
+     *                 @Property(
+     *                     property="history",
+     *                     type="array",
+     *                     @Items(
+     *                         type="object",
+     *                         @Property(type="string", property="name"),
+     *                         @Property(type="string", property="date", format="date-time"),
+     *                         @Property(
+     *                             type="object",
+     *                             property="data",
+     *                             @Property(property="type", type="string", enum={"review_created", "verification_rejected", "verification_confirmed"})
+     *                         ),
+     *                     ),
+     *                 ),
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     @Property(property="form", type="string", enum={"small", "middle", "full"}),
+     *                     @Property(
+     *                         property="zones",
+     *                         type="object",
+     *                         @Property(property="parking", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="entrance1", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="entrance2", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="entrance3", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="movement", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="service", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="toilet", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="navigation", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="serviceAccessibility", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                     )
+     *                 ),
+     *                 @Property(property="verificationStatus", type="string", enum=App\Objects\Verification\Verification::STATUSES)
+     *             }
+     *         )
+     *     )
+     * )
      */
     public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request)
     {

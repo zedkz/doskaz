@@ -18,7 +18,7 @@ class AccessibilityScore
 
     public const SCORE_PARTIAL_ACCESSIBLE = 'partial_accessible';
 
-    private const SCORE_VARIANTS = [
+    public const SCORE_VARIANTS = [
         self::SCORE_NOT_ACCESSIBLE,
         self::SCORE_PARTIAL_ACCESSIBLE,
         self::SCORE_FULL_ACCESSIBLE,

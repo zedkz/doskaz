@@ -21,6 +21,12 @@ class Verification implements EventProducer
     private const STATUS_FULL_VERIFIED = 'full_verified';
     private const STATUS_PARTIAL_VERIFIED = 'partial_verified';
 
+    public const STATUSES = [
+        self::STATUS_NOT_VERIFIED,
+        self::STATUS_FULL_VERIFIED,
+        self::STATUS_PARTIAL_VERIFIED
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid")
