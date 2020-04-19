@@ -128,37 +128,6 @@
                                         </template>
                                     </p>
                                 </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">11 августа</span>
-                                    <p class="object-side__history-text"><b>Алдияр Тулебаев</b> изменил описание объекта
-                                    </p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">10 августа</span>
-                                    <p class="object-side__history-text"><b>Елена Михеева</b> прокомментировала объект
-                                    </p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">9 августа</span>
-                                    <p class="object-side__history-text"><b>Алия Серикпаева</b> прокомментировала объект
-                                    </p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал
-                                        фотографии
-                                        объекта</p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал описание
-                                        объекта</p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал зоны
-                                        доступности объекта</p>
-                                </li>
                             </ul>
                         </div>
                     </div>
