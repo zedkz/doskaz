@@ -35,6 +35,7 @@ export default {
         {from: '^/kurs-obrashenie', to: 'https://oft.kz/kurs-obrashenie'}
     ],
     plugins: [
+        {src: '~plugins/axios.js'},
         {src: '~plugins/csrf.js', mode: 'server'},
         {src: '~plugins/no-ssr.js', mode: 'client'},
         {src: '~plugins/authenticated.js'}
