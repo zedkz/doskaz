@@ -8,7 +8,7 @@ use Throwable;
 
 final class ValidationException extends \Exception
 {
-    private $constraintViolationList;
+    private ConstraintViolationListInterface $constraintViolationList;
 
     public function __construct(ConstraintViolationListInterface $constraintViolationList, $message = "", $code = 0, Throwable $previous = null)
     {
@@ -16,7 +16,7 @@ final class ValidationException extends \Exception
         parent::__construct($message, $code, $previous);
     }
 
-    public function constrainViolationList(): ConstraintViolationListInterface
+    public function constraintViolationList(): ConstraintViolationListInterface
     {
         return $this->constraintViolationList;
     }
