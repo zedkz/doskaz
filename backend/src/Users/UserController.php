@@ -561,6 +561,8 @@ final class UserController extends AbstractController
      *                     @Property(property="text", type="string", description="Текст комментария"),
      *                     @Property(property="objectId", type="integer", nullable=true, description="Id объекта (если type == object)"),
      *                     @Property(property="postId", type="integer", nullable=true, description="Id поста (если type == post)"),
+     *                     @Property(property="slug", type="string", nullable=true, description=""),
+     *                     @Property(property="categorySlug", type="string", nullable=true, description=""),
      *                 )
      *             ),
      *         )
@@ -628,7 +630,9 @@ final class UserController extends AbstractController
                 'type' => $item['type'],
                 'image' => null,
                 'objectId' => null,
-                'postId' => null
+                'postId' => null,
+                'slug' => null,
+                'categorySlug' => null
             ];
 
             if (array_key_exists($item['id'], $postComments)) {
