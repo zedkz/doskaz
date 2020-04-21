@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-final class AccessTokenAuthenticator extends AbstractGuardAuthenticator
+final class CookieAccessTokenAuthenticator extends AbstractGuardAuthenticator
 {
     public const COOKIE_NAME = 'ACCESS_TOKEN';
 

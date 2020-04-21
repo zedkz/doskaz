@@ -13,7 +13,7 @@ class CheckCsrfTokenListener
     {
         $request = $event->getRequest();
 
-        if (in_array($request->getPathInfo(), ['/api/accessToken/oauth'])) {
+        if (in_array($request->getPathInfo(), ['/api/accessToken/oauth', '/api/accessToken/phone'])) {
             return;
         }
 

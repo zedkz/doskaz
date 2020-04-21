@@ -40,7 +40,7 @@ final class UserAuthenticator
         ], 204);
 
         $accessTokenCookie = new Cookie(
-            AccessTokenAuthenticator::COOKIE_NAME,
+            CookieAccessTokenAuthenticator::COOKIE_NAME,
             $accessToken->value(),
             $accessToken->expiresAt(),
             '/',

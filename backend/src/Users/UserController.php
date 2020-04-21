@@ -19,6 +19,10 @@ use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
 use Imgproxy\UrlBuilder;
+use OpenApi\Annotations\Get;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -156,6 +160,40 @@ final class UserController extends AbstractController
     /**
      * @Route(path="/profile", methods={"GET"})
      * @IsGranted("ROLE_USER")
+     * @Get(
+     *     path="/api/profile",
+     *     tags={"Пользователи"},
+     *     summary="Профиль пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @\OpenApi\Annotations\Response(
+     *         response="200",
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="email", type="string", nullable=true),
+     *             @Property(property="phone", type="string", nullable=true),
+     *             @Property(property="avatar", type="string", nullable=true),
+     *             @Property(property="firstName", type="string", nullable=true),
+     *             @Property(property="lastName", type="string", nullable=true),
+     *             @Property(property="middleName", type="string", nullable=true),
+     *             @Property(
+     *                 property="currentTask",
+     *                 type="object",
+     *                 nullable=true,
+     *                 @Property(type="number", property="progress"),
+     *                 @Property(type="string", property="title"),
+     *             ),
+     *             @Property(
+     *                 property="level",
+     *                 type="object",
+     *                 @Property(property="current", type="number", description="Текущий уровень"),
+     *                 @Property(property="currentPoints", type="number", description="Текущее количество баллов"),
+     *                 @Property(property="progressToNext", type="number", description="Количество баллов оставшееся до получения следующего уровня"),
+     *                 @Property(property="nextLevelThreshold", type="number", description="Количество баллов необходимых для достижения следующего уровня"),
+     *             )
+     *         )
+     *     ),
+     * )
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
      * @param Request $request
@@ -191,10 +229,8 @@ final class UserController extends AbstractController
 
 
         return new ProfileData(
-            $user['name'],
             $user['email'],
             $user['phone'],
-            $connection->convertToPHPValue($user['roles'], 'json'),
             $user['avatar'] ? $user['avatar'] : null,
             $fullName->first,
             $fullName->last,
