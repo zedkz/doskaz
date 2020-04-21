@@ -15,7 +15,9 @@ security:
             pattern: ^/api
             guard:
                 authenticators:
-                    - App\Users\Security\AccessTokenAuthenticator
+                    - App\Users\Security\CookieAccessTokenAuthenticator
+                    - App\Users\Security\BearerTokenAuthenticator
+                entry_point: App\Users\Security\CookieAccessTokenAuthenticator
             anonymous: true
             stateless: true
 

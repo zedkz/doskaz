@@ -48,7 +48,8 @@ services:
     App\Users\Security\AccessTokenRepository:
     App\Users\Security\UserAuthenticator:
     App\Users\Security\Oauth\OauthCredentialsRepository:
-    App\Users\Security\AccessTokenAuthenticator:
+    App\Users\Security\CookieAccessTokenAuthenticator:
+    App\Users\Security\BearerTokenAuthenticator:
     App\Users\Security\PhoneAuth\AuthController:
         lazy: true
         arguments:

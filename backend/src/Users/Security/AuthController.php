@@ -24,7 +24,7 @@ final class AuthController extends AbstractController
      */
     public function logout(Request $request, AccessTokenRepository $accessTokenRepository, Flusher $flusher)
     {
-        $token = $accessTokenRepository->find($request->cookies->get(AccessTokenAuthenticator::COOKIE_NAME));
+        $token = $accessTokenRepository->find($request->cookies->get(CookieAccessTokenAuthenticator::COOKIE_NAME));
         if (!$token) {
             return;
         }
