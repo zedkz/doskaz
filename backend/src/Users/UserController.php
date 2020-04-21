@@ -19,13 +19,16 @@ use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
 use Imgproxy\UrlBuilder;
+use OpenApi\Annotations\Delete;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Put;
 use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -349,11 +352,25 @@ final class UserController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route(path="/profile/chooseAvatarPreset/{presetNumber}", methods={"POST"}, requirements={"presetNumber" = "\d+"})
+     * @Route(path="/profile/chooseAvatarPreset/{presetNumber}", methods={"POST", "PUT"}, requirements={"presetNumber" = "\d+"})
      * @param $presetNumber
      * @param UserRepository $repository
      * @param Flusher $flusher
      * @return array
+     * @Put(
+     *     path="/api/profile/chooseAvatarPreset/{presetNumber}",
+     *     tags={"Пользователи"},
+     *     summary="Выбор аватара",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(name="presetNumber", in="path", description="asd", @Schema(type="int", enum={1, 2,3,4,5,6})),
+     *     @Response(response=401, description=""),
+     *     @Response(response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="avatar", type="string", example="/static/presets/av5.svg")
+     *         )
+     *     )
+     * )
      */
     public function chooseAvatarPreset($presetNumber, UserRepository $repository, Flusher $flusher): array
     {
@@ -384,6 +401,14 @@ final class UserController extends AbstractController
      * @Route(path="/profile/avatar", methods={"DELETE"})
      * @param UserRepository $repository
      * @param Flusher $flusher
+     * @Delete(
+     *     path="/api/profile/avatar",
+     *     tags={"Пользователи"},
+     *     summary="Удаление аватара",
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @Response(response=204, description=""),
+     * )
      */
     public function removeAvatar(UserRepository $repository, Flusher $flusher)
     {

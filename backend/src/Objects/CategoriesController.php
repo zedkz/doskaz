@@ -17,6 +17,10 @@ class CategoriesController extends AbstractController
 {
     /**
      * @Route(methods={"GET"})
+     * @param Connection $connection
+     * @return array
+     */
+    /*
      * @Get(
      *     path="/api/objectCategories",
      *     tags={"Объекты"},
@@ -29,8 +33,6 @@ class CategoriesController extends AbstractController
      *         )
      *     }
      * )
-     * @param Connection $connection
-     * @return array
      */
     public function list(Connection $connection)
     {

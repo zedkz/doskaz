@@ -37,6 +37,7 @@ final class PostsController extends AbstractController
     /**
      * @Route(path="/list", methods={"GET"})
      * @param Request $request
+     * @param CategoryRepository $categoryRepository
      * @param PostsFinder $postsFinder
      * @return array
      */

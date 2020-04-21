@@ -39,7 +39,8 @@ final class ObjectsApiController extends AbstractController
      * @param Request $request
      * @param Connection $connection
      * @return JsonResponse
-     *
+     */
+    /*
      * @Get(
      *     path="/api/objects/ymaps",
      *     summary="Объекты для яндекс-карты",
@@ -234,6 +235,8 @@ final class ObjectsApiController extends AbstractController
      * @param UrlBuilder $urlBuilder
      * @param Request $request
      * @return array|NotFoundHttpException
+     */
+    /*
      * @Get(
      *     path="/api/objects/{id}",
      *     summary="Информация о объекте",

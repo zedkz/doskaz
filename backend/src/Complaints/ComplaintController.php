@@ -44,6 +44,8 @@ final class ComplaintController extends AbstractController
     /**
      * @Route(path="/validate", methods={"POST"})
      * @param ComplaintData $complaintData
+     */
+    /*
      * @Post(path="/api/complaints/validate",
      *     tags={"Жалобы"},
      *     summary="Валидация жалобы",
@@ -63,7 +65,8 @@ final class ComplaintController extends AbstractController
      * @param ComplaintData $complaintData
      * @param ComplaintRepository $complaintRepository
      * @param Flusher $flusher
-     *
+     */
+    /*
      * @Post(path="/api/complaints",
      *     tags={"Жалобы"},
      *     summary="Подача жалобы",
