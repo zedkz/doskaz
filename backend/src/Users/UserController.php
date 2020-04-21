@@ -536,6 +536,36 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/comments",
+     *     tags={"Пользователи"},
+     *     summary="Комментарии пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer", description="Количество страниц"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="type", type="string", enum={"post", "object"}, description="вид комментария"),
+     *                     @Property(property="image", type="string", description="Изображение", nullable=true),
+     *                     @Property(property="title", type="string", description="Название комментируемого материала"),
+     *                     @Property(property="text", type="string", description="Текст комментария"),
+     *                     @Property(property="objectId", type="integer", nullable=true, description="Id объекта (если type == object)"),
+     *                     @Property(property="postId", type="integer", nullable=true, description="Id поста (если type == post)"),
+     *                 )
+     *             ),
+     *         )
+     *     )
+     * )
      */
     public function comments(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
@@ -564,6 +594,7 @@ final class UserController extends AbstractController
                 'blog_comments.id',
                 'blog_comments.text',
                 'blog_posts.title',
+                'blog_posts.id as "postId"',
                 'blog_posts.slug_value as slug',
                 'blog_categories.slug_value as "categorySlug"',
                 'blog_posts.image'
@@ -575,7 +606,6 @@ final class UserController extends AbstractController
             ->setParameter('ids', array_column($items, 'id'), Connection::PARAM_STR_ARRAY)
             ->execute()
             ->fetchAll(\PDO::FETCH_UNIQUE);
-
 
         $objectReviews = $connection->createQueryBuilder()
             ->select([
@@ -595,7 +625,10 @@ final class UserController extends AbstractController
         $mappedItems = array_map(function ($item) use ($connection, $postComments, $objectReviews, $request, $urlBuilder) {
             $result = [
                 'date' => $connection->convertToPHPValue($item['date'], 'datetimetz_immutable'),
-                'type' => $item['type']
+                'type' => $item['type'],
+                'image' => null,
+                'objectId' => null,
+                'postId' => null
             ];
 
             if (array_key_exists($item['id'], $postComments)) {
@@ -604,6 +637,7 @@ final class UserController extends AbstractController
                 $result['categorySlug'] = $postComment['categorySlug'];
                 $result['title'] = $postComment['title'];
                 $result['text'] = $postComment['text'];
+                $result['postId'] = $postComment['postId'];
 
                 /**
                  * @var $image Image|null
