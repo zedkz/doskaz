@@ -541,7 +541,7 @@ final class UserController extends AbstractController
      *     tags={"Пользователи"},
      *     summary="Комментарии пользователя",
      *     security={{"clientAuth": {}}},
-     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "popularity desc"}, nullable=true), description="Сортировка"),
      *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
      *     @Response(response=401, description=""),
      *     @Response(
