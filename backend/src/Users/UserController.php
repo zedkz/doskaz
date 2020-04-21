@@ -424,6 +424,37 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/objects",
+     *     tags={"Пользователи"},
+     *     summary="Объекты пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(in="query", name="overallScore", @Schema(type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS, nullable=true), description="Оценка доступности"),
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer", description="Количество страниц"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="id", type="integer"),
+     *                     @Property(property="title", type="string"),
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="overallScore", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS, description="Общая оценка доступности"),
+     *                     @Property(property="reviewsCount", type="integer", description="Количество отзывов"),
+     *                     @Property(property="complaintsCount", type="integer", description="Количество жалоб"),
+     *                     @Property(property="image", type="string", description="Изображение", nullable=true),
+     *                 )
+     *             ),
+     *         )
+     *     )
+     * )
      */
     public function objects(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
@@ -461,8 +492,7 @@ final class UserController extends AbstractController
             ->andWhere('object_id = objects.id')
             ->getSQL();
 
-        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
-
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
         $objects = (clone $qb)
             ->addSelect('reviews."reviewsCount"')
             ->addSelect('complaints."complaintsCount"')
@@ -477,7 +507,6 @@ final class UserController extends AbstractController
         return [
             'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
             'items' => array_map(function ($object) use ($connection, $request, $urlBuilder) {
-
                 $image = null;
                 /**
                  * @var $photos FileReferenceCollection
