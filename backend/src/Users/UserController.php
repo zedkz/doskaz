@@ -513,7 +513,7 @@ final class UserController extends AbstractController
                  */
                 $photos = $connection->convertToPHPValue($object['photos'], FileReferenceCollection::class);
                 if ($photos->count()) {
-                    $image = $request->getSchemeAndHttpHost() . $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 220, 160)->toString();
+                    $image = $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 220, 160)->toString();
                 }
 
                 return [
@@ -649,7 +649,7 @@ final class UserController extends AbstractController
                  */
                 $image = $connection->convertToPHPValue($postComment['image'], Image::class);
                 if ($image) {
-                    $result['image'] = $request->getSchemeAndHttpHost() . $image->resize(140, 100);
+                    $result['image'] = $image->resize(140, 100);
                 }
             }
 
@@ -664,7 +664,7 @@ final class UserController extends AbstractController
                  */
                 $photos = $connection->convertToPHPValue($objectReview['photos'], FileReferenceCollection::class);
                 if ($photos->count()) {
-                    $result['image'] = $request->getSchemeAndHttpHost() . $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
+                    $result['image'] = $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
                 }
             }
 
@@ -718,7 +718,7 @@ final class UserController extends AbstractController
                 $image = null;
                 $photos = $connection->convertToPHPValue($item['photos'], 'json');
                 if (count($photos)) {
-                    $image = $request->getSchemeAndHttpHost() . $urlBuilder->build('local://' . $photos[0], 220, 160)->toString();
+                    $image = $urlBuilder->build('local://' . $photos[0], 220, 160)->toString();
                 }
 
                 return [
