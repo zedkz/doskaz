@@ -571,6 +571,7 @@ final class UserController extends AbstractController
      */
     public function comments(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
         $perPage = 10;
 
         $qb = $connection->createQueryBuilder()
@@ -586,7 +587,7 @@ final class UserController extends AbstractController
         $items = (clone $qb)
             ->setMaxResults($perPage)
             ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
-            ->orderBy($request->query->get('sort', 'date'), 'desc')
+            ->orderBy($field, $sort)
             ->execute()
             ->fetchAll();
 

@@ -49,6 +49,7 @@
     import Dropdown from "../Dropdown";
 
     export default {
+        name: 'UserComments',
         props: [
             'pages',
             'items'
@@ -66,13 +67,13 @@
         computed: {
             options() {
                 return [
-                    {value: 'date', title: 'дате добавления'},
-                    {value: 'popularity', title: 'популярности'}
+                    {value: 'date desc', title: 'дате добавления'},
+                    {value: 'popularity desc', title: 'популярности'}
                 ]
             },
             filterValue: {
                 get() {
-                    return this.$route.query.sort || 'date'
+                    return this.$route.query.sort || 'date desc'
                 },
                 set(v) {
                     this.$router.push(this.localePath({...this.$route, query: {sort: v}}))
