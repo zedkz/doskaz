@@ -235,8 +235,6 @@ final class ObjectsApiController extends AbstractController
      * @param UrlBuilder $urlBuilder
      * @param Request $request
      * @return array|NotFoundHttpException
-     */
-    /*
      * @Get(
      *     path="/api/objects/{id}",
      *     summary="Информация о объекте",
@@ -328,7 +326,6 @@ final class ObjectsApiController extends AbstractController
      */
     public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request)
     {
-
         $disabilitiesCategory = $request->query->get('disabilitiesCategory', AccessibilityScore::SCORE_CATEGORIES[0]);
         Assert::oneOf($disabilitiesCategory, AccessibilityScore::SCORE_CATEGORIES);
 
@@ -1515,6 +1512,13 @@ final class ObjectsApiController extends AbstractController
      * @throws ClientException
      * @throws FilesystemException
      * @throws RequestException
+     * @Get(
+     *     path="/api/objects/{id}/pdf",
+     *     summary="Экспорт данных в pdf",
+     *     tags={"Объекты"},
+     *     @Parameter(name="id", in="path", required=true, description="id объекта", @Schema(type="integer"), example=172709),
+     *     @Response(response=200, description="PDF файл")
+     * )
      */
     public function pdf(Request $request, MapObject $mapObject, Client $client)
     {
@@ -1532,6 +1536,27 @@ final class ObjectsApiController extends AbstractController
      * @param Request $request
      * @param Connection $connection
      * @return array|mixed[]
+     * @Get(
+     *     path="/api/objects/search",
+     *     summary="Поиск объекта",
+     *     tags={"Объекты"},
+     *     @Parameter(name="cityId", in="query", required=true, description="id города", @Schema(type="integer"), example=9103),
+     *     @Parameter(name="query", in="query", required=true, description="Текст поиска", @Schema(type="string")),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *              type="array",
+     *              @Items(
+     *                  @Property(type="integer", property="id", description="Id объекта"),
+     *                  @Property(type="string", property="title", description="Наименование объекта"),
+     *                  @Property(type="string", property="address", description="Адрес объекта"),
+     *                  @Property(type="string", property="category", description="Категория объекта"),
+     *                  @Property(type="string", property="icon", description="Иконка объекта"),
+     *              )
+     *         )
+     *     )
+     * )
      */
     public function search(Request $request, Connection $connection)
     {
