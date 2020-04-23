@@ -6,6 +6,10 @@ namespace App\Objects\Verification;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\MapObject;
 use App\Objects\MapObjectRepository;
+use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Post;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,9 +23,21 @@ class VerificationController extends AbstractController
     /**
      * @Route(path="/api/objects/{id}/verification/{status}", requirements={"id" = "\d+"}, methods={"POST"})
      * @param $status
-     * @param MapObject $mapObject
+     * @param $id
      * @param Flusher $flusher
      * @param VerificationRepository $verificationRepository
+     * @param MapObjectRepository $mapObjectRepository
+     * @Post(
+     *     path="/api/objects/{id}/verification/{status}",
+     *     tags={"Объекты"},
+     *     summary="Верификация объекта",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(name="id", in="path", required=true, description="id объекта", @Schema(type="integer"), example=172709),
+     *     @Parameter(name="status", in="path", required=true, description="", @Schema(type="integer", enum={"confirm", "reject"})),
+     *     @Response(response=404, description=""),
+     *     @Response(response=204, description=""),
+     *     @Response(response=401, description=""),
+     * )
      */
     public function verify($status, $id, Flusher $flusher, VerificationRepository $verificationRepository, MapObjectRepository $mapObjectRepository)
     {
