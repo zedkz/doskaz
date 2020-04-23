@@ -8,7 +8,8 @@ export default {
         'cookie-universal-nuxt',
         '@nuxtjs/redirect-module',
         '@nuxtjs/robots',
-        'nuxt-i18n'
+        'nuxt-i18n',
+        '@nuxtjs/sitemap'
     ],
     router: {
         middleware: 'languageUnderConstruction'
@@ -80,6 +81,7 @@ export default {
         {Allow: '*.jpeg'},
         {Allow: '*.png'},
         {Allow: '*.pdf'},
+        {Sitemap: 'https://doskaz.kz/sitemap.xml'},
     ] : {
         UserAgent: '*',
         Disallow: '/'
@@ -95,5 +97,16 @@ export default {
             {code: 'kz', name: 'Qazaq'},
             {code: 'ru', name: 'Русский'},
         ]
-    }
+    },
+    sitemap: {
+        gzip: true,
+        exclude: [
+            '/oauth/**',
+            '/profile',
+            '/complaint',
+            '/profile/**',
+            '/objects/pdf',
+            '/kz/**'
+        ]
+    },
 }
