@@ -33,7 +33,7 @@ class VerificationController extends AbstractController
      *     summary="Верификация объекта",
      *     security={{"clientAuth": {}}},
      *     @Parameter(name="id", in="path", required=true, description="id объекта", @Schema(type="integer"), example=172709),
-     *     @Parameter(name="status", in="path", required=true, description="", @Schema(type="integer", enum={"confirm", "reject"})),
+     *     @Parameter(name="status", in="path", required=true, description="", @Schema(type="string", enum={"confirm", "reject"})),
      *     @Response(response=404, description=""),
      *     @Response(response=204, description=""),
      *     @Response(response=401, description=""),
