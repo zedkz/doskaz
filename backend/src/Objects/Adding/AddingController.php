@@ -217,6 +217,185 @@ class AddingController extends AbstractController
     /**
      * @Route(path="/requests/validate", methods={"POST"})
      * @param Form $addingRequestData
+     * @Post(
+     *     path="/api/objects/requests/validate",
+     *     tags={"Запросы на добавление объектов"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Валидация запроса на добавление объекта",
+     *     @RequestBody(
+     *         @JsonContent(
+     *             @Property(property="form", type="string", enum={"small", "middle", "full"}, description="Вид формы (простая, средняя, сложная)"),
+     *             @Property(
+     *                 property="first",
+     *                 type="object",
+     *                 description="Общая информация",
+     *                 @Property(property="name", type="string", description="Наименование"),
+     *                 @Property(property="description", type="string", description="Описание"),
+     *                 @Property(property="otherNames", type="string", description="Другие наименования"),
+     *                 @Property(property="address", type="string", description="Адрес"),
+     *                 @Property(property="categoryId", type="integer", description="Id подкатегории"),
+     *                 @Property(property="point", type="array", @Items(type="number", format="float"), example={52.253724266066, 76.9443852187141}, description="Координаты"),
+     *                 @Property(property="videos", type="array", @Items(type="string"), description="Ссылки на видео", example={}),
+     *                 @Property(property="photos", type="array", @Items(type="string"), description="Ссылки на фото", example={}),
+     *             ),
+     *             @Property(
+     *                 property="parking",
+     *                 description="Зона парковки",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="entrance1",
+     *                 description="Входная группа 1",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="entrance2",
+     *                 description="Входная группа 2",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="entrance3",
+     *                 description="Входная группа 3",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="movement",
+     *                 description="Пути передвижения",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="service",
+     *                 description="Зона оказания услуги",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="toilet",
+     *                 description="Туалет",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="navigation",
+     *                 description="Навигация",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="serviceAccessibility",
+     *                 description="Доступность услуги",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             )
+     *         )
+     *     ),
+     *     @Response(response=401, description=""),
+     *     @Response(response=204, description="")
+     * )
      */
     public function validate(Form $addingRequestData) {
 
