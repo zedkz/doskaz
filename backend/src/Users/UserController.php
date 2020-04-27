@@ -362,7 +362,7 @@ final class UserController extends AbstractController
      *     tags={"Пользователи"},
      *     summary="Выбор аватара",
      *     security={{"clientAuth": {}}},
-     *     @Parameter(name="presetNumber", in="path", description="asd", @Schema(type="int", enum={1, 2,3,4,5,6})),
+     *     @Parameter(name="presetNumber", in="path", description="Номер пресета", @Schema(type="int", enum={1, 2,3,4,5,6})),
      *     @Response(response=401, description=""),
      *     @Response(response=200,
      *         description="",
