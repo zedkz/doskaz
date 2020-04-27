@@ -67,7 +67,7 @@
             };
         },
         mounted() {
-            this.$axios.get(`/api/blogPosts/${this.id}/comments`).then(res => {
+            this.$axios.get(`/api/blog/posts/${this.id}/comments`).then(res => {
                 this.comments = res.data;
             }).catch(e => console.log(e.response));
         },
@@ -75,7 +75,7 @@
             sortedComment() {
                 if (this.comments_sort == "сначала старые") {
                     this.$axios
-                        .get(`/api/blogPosts/${this.id}/comments`, {
+                        .get(`/api/blog/posts/${this.id}/comments`, {
                             params: {sortOrder: "asc"}
                         })
                         .then(res => {
@@ -83,7 +83,7 @@
                         });
                 } else if (this.comments_sort == "сначала новые") {
                     this.$axios
-                        .get(`/api/blogPosts/${this.id}/comments`, {
+                        .get(`/api/blog/posts/${this.id}/comments`, {
                             params: {sortOrder: "desc"}
                         })
                         .then(res => {
@@ -91,7 +91,7 @@
                         });
                 } else if (this.comments_sort == "популярные") {
                     this.$axios
-                        .get(`/api/blogPosts/${this.id}/comments`, {
+                        .get(`/api/blog/posts/${this.id}/comments`, {
                             params: {sortBy: "popularity"}
                         })
                         .then(res => {
@@ -107,13 +107,13 @@
             },
             sendComment() {
                 this.$axios
-                    .post(`/api/blogPosts/${this.id}/comments`, {
+                    .post(`/api/blog/posts/${this.id}/comments`, {
                         text: this.commentText,
                         parentId: this.commentId
                     })
                     .then(res => {
                         console.log(res);
-                        this.$axios.get(`/api/blogPosts/${this.id}/comments`).then(res => {
+                        this.$axios.get(`/api/blog/posts/${this.id}/comments`).then(res => {
                             this.comments = res.data;
                         });
                         this.commentId = null;
