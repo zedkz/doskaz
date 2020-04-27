@@ -303,6 +303,11 @@
                 font-size: 21px;
             }
             .vi {
+                &-add-object {
+                    &__title {
+                        font-size: 29px !important;
+                    }
+                }
                 &-set {
                     &__title {
                         font-size: 19px
@@ -366,6 +371,11 @@
                 font-size: 18px;
             }
             .vi {
+                &-add-object {
+                    &__title {
+                        font-size: 26px !important;
+                    }
+                }
                 &-set {
                     &__title {
                         font-size: 16px
@@ -447,6 +457,21 @@
                 border-color: #FFFFFF;
             }
             .vi {
+                &-add-object {
+                    &__link.--active {
+                        border-color: #FFFFFF;
+                        &:before {
+                            border-top-color: #FFFFFF;
+                        }
+                        &:after {
+                            border-top-color: #000000;
+                        }
+                    }
+                    &__textarea {
+                        background: #000000;
+                        color: #FFFFFF;
+                    }
+                }
                 &-set {
                     &__link {
                         &:hover, &.--active {
@@ -537,6 +562,11 @@
                     font-size: 22px;
                 }
                 .vi {
+                    &-add-object {
+                        &__title {
+                            font-size: 31px !important;
+                        }
+                    }
                     &-set {
                         &__title {
                             font-size: 21px
@@ -596,6 +626,11 @@
                     font-size: 20px;
                 }
                 .vi {
+                    &-add-object {
+                        &__title {
+                            font-size: 28px !important;
+                        }
+                    }
                     &-set {
                         &__title {
                             font-size: 18px
@@ -654,6 +689,11 @@
                     font-size: 17px;
                 }
                 .vi {
+                    &-add-object {
+                        &__title {
+                            font-size: 25px !important;
+                        }
+                    }
                     &-set {
                         &__title {
                             font-size: 15px
@@ -706,6 +746,24 @@
                         font-size: 17px;
                     }
                 }
+            }
+        }
+        .photo-input {
+            border: 1px solid;
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 140px;
+            height: 140px;
+            margin: 0 40px 30px 0;
+            background: transparent;
+            cursor: pointer;
+            &__wrapper {
+                display: flex;
+                justify-content: flex-start;
             }
         }
         &-container {
@@ -864,6 +922,48 @@
                 }
                 &-wrapper {
                     display: flex;
+                }
+            }
+        }
+        &-object {
+            &__tab {
+                &-link {
+                    position: relative;
+                    padding: 0 20px;
+                    z-index: 1;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                    border-bottom: none;
+                    line-height: 56px;
+                    &.--active {
+                        border-color: #000000;
+                        border-bottom: none;
+                        &:after {
+                            content: '';
+                            height: 2px;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            background: #FFFFFF;
+                            position: absolute;
+                        }
+                    }
+                    &-b {
+                        position: relative;
+                        display: flex;
+                        justify-content: flex-start;
+                        width: 100%;
+                        &:after {
+                            content: '';
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            height: 2px;
+                            background: #000000;
+                            position: absolute;
+                        }
+                    }
                 }
             }
         }
