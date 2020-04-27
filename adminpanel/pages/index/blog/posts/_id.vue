@@ -1,7 +1,7 @@
 <template>
     <crud-edit
         title="Редактирование записи блога"
-        api-path="/api/blogPosts"
+        api-path="/api/admin/blog/posts"
         :fields="fields"
     />
 </template>
@@ -32,7 +32,7 @@
                     {
                         key: 'categoryId', label: 'Категория', type: Selection, required: true, options: {
                             async asyncOptions() {
-                                const {data: {items}} = await self.$axios.get('/api/blogCategories', {
+                                const {data: {items}} = await self.$axios.get('/api/admin/blog/categories', {
                                     params: {limit: 999}
                                 });
                                 return items.map(item => ({value: item.id, title: item.title}))

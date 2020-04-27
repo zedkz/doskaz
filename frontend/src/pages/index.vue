@@ -19,7 +19,7 @@
         },
         async asyncData({$axios}) {
             const [{data: {items: posts}}] = await Promise.all([
-                $axios.get('/api/blogPosts/list')
+                $axios.get('/api/blog/posts')
             ])
             return {posts}
         },

@@ -31,3 +31,9 @@ services:
 
     App\Blog\Comments\CommentController:
         tags: ['controller.service_arguments']
+
+    App\Blog\Posts\PostsAdminController:
+        tags: ['controller.service_arguments']
+
+    App\Blog\Categories\CategoriesAdminController:
+        tags: ['controller.service_arguments']

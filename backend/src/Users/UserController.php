@@ -362,7 +362,7 @@ final class UserController extends AbstractController
      *     tags={"Пользователи"},
      *     summary="Выбор аватара",
      *     security={{"clientAuth": {}}},
-     *     @Parameter(name="presetNumber", in="path", description="asd", @Schema(type="int", enum={1, 2,3,4,5,6})),
+     *     @Parameter(name="presetNumber", in="path", description="Номер пресета", @Schema(type="int", enum={1, 2,3,4,5,6})),
      *     @Response(response=401, description=""),
      *     @Response(response=200,
      *         description="",
@@ -685,6 +685,34 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/complaints",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Жалобы пользователя",
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="id", type="integer"),
+     *                     @Property(property="type", type="string", enum={"complaint1", "complaint2"}, description="Вид жалобы (жалоба на отсутствие пандуса, жалоба на отсутствие доступа)"),
+     *                     @Property(property="title", type="string"),
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="image", type="string", nullable=true),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function complaints(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
@@ -695,7 +723,7 @@ final class UserController extends AbstractController
             ->andWhere('complainant_id = :userId')
             ->setParameter('userId', $this->getUser()->id());
 
-        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
 
 
         $items = (clone $qb)->select([
@@ -775,6 +803,62 @@ final class UserController extends AbstractController
      * @Route(path="/profile/events", methods={"GET"})
      * @param UserEventsFinder $eventsFinder
      * @return array
+     * @Get(
+     *     path="/api/profile/events",
+     *     summary="Лог событий",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="type", type="string", enum={"object_reviewed", "level_reached", "blog_comment_replied", "award_issued", "object_created"}),
+     *                     @Property(
+     *                         property="data",
+     *                         type="object",
+     *                         oneOf={
+     *                             @Schema(
+     *                                 title="award_issued",
+     *                                 @Property(property="title", type="string", description="Наименование награды"),
+     *                                 @Property(property="type", type="string", description="Вид", enum={"bronze", "silver", "gold"}),
+     *                             ),
+     *                             @Schema(
+     *                                 title="level_reached",
+     *                                 @Property(property="level", type="integer", description="Уровень"),
+     *                                 @Property(property="pointsUntilNextLevel", type="integer", description="Баллов до следующего уровня"),
+     *                                 @Property(property="unlockedAbility", type="string", nullable=true, description="Разблокированная возможность", enum={"status_change", "avatar_upload"}),
+     *                             ),
+     *                             @Schema(
+     *                                 title="object_reviewed",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование объекта"),
+     *                             ),
+     *                             @Schema(
+     *                                 title="blog_comment_replied",
+     *                                 @Property(property="id", type="integer", description="id поста"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                             ),
+     *                             @Schema(
+     *                                 title="object_created",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                             ),
+     *                         },
+     *                     ),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function events(UserEventsFinder $eventsFinder)
     {

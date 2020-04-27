@@ -25,7 +25,7 @@
         },
         async asyncData({$axios, params, query, error}) {
             try {
-                const {data: {post, similar}} = await $axios.get(`/api/blogPosts/bySlug/${params.slug}`);
+                const {data: {post, similar}} = await $axios.get(`/api/blog/posts/bySlug/${params.slug}`);
                 return {post, similar}
             } catch (e) {
                 if (e.response.status) {

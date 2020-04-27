@@ -102,7 +102,7 @@ export default {
     sortedComment() {
       if (this.comments_sort == "сначала старые") {
         this.$axios
-          .get(`/api/blogPosts/${this.post.id}/comments`, {
+          .get(`/api/blog/posts/${this.post.id}/comments`, {
             params: { sortOrder: "asc" }
           })
           .then(res => {
@@ -110,14 +110,14 @@ export default {
           });
       } else if (this.comments_sort == "сначала новые") {
         this.$axios
-          .get(`/api/blogPosts/${this.post.id}/comments`, {
+          .get(`/api/blog/posts/${this.post.id}/comments`, {
             params: { sortOrder: "desc" }
           })
           .then(res => {
             this.comments = res.data;
           });
       } else if (this.comments_sort == "популярные") {
-        this.$axios.get(`/api/blogPosts/${this.post.id}/comments`, {
+        this.$axios.get(`/api/blog/posts/${this.post.id}/comments`, {
             params: { sortBy: "popularity" }
           })
           .then(res => {
@@ -133,13 +133,13 @@ export default {
     },
     sendComment() {
       this.$axios
-        .post(`/api/blogPosts/${this.post.id}/comments`, {
+        .post(`/api/blog/posts/${this.post.id}/comments`, {
           text: this.commentText,
           parentId: this.$store.getters.getId
         })
         .then(res => {
           console.log(res);
-          this.$axios.get(`/api/blogPosts/${this.post.id}/comments`).then(res => {
+          this.$axios.get(`/api/blog/posts/${this.post.id}/comments`).then(res => {
             this.comments = res.data;
           });
           this.commentText = "";

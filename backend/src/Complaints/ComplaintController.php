@@ -7,10 +7,13 @@ use App\Cities\Cities;
 use App\Cities\FindCityIdByLocation;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use OpenApi\Annotations\Get;
 use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Post;
 use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Safe\Exceptions\FilesystemException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -144,6 +147,17 @@ final class ComplaintController extends AbstractController
      * @throws ClientException
      * @throws FilesystemException
      * @throws RequestException
+     * @Get(
+     *     path="/api/complaints/{id}/pdf",
+     *     tags={"Жалобы"},
+     *     summary="Экспорт в pdf",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(name="id", in="path", description="Id жалобы", @Schema(type="integer")),
+     *     @Response(response=200, description=""),
+     *     @Response(response=401, description=""),
+     *     @Response(response=403, description=""),
+     *     @Response(response=404, description=""),
+     * )
      */
     public function pdfExport($id, Connection $connection)
     {

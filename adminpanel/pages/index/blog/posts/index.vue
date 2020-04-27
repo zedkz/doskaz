@@ -1,7 +1,7 @@
 <template>
     <crud-list
         title="Записи блога"
-        api-path="/api/blogPosts"
+        api-path="/api/admin/blog/posts"
         :table-fields="fields"
     />
 </template>

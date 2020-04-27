@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="/api/blogPosts")
+ * @Route(path="/api/blog/posts")
  */
 class CommentController extends AbstractController
 {
@@ -29,14 +29,8 @@ class CommentController extends AbstractController
      * @param Connection $connection
      * @param Request $request
      * @return CommentsListData
-     */
-    /*
-     * @param Post $post
-     * @param Connection $connection
-     * @param Request $request
-     * @return CommentsListData
      * @Get(
-     *     path="/api/blogPosts/{id}/comments",
+     *     path="/api/blog/posts/{id}/comments",
      *     tags={"Блог"},
      *     summary="Комментарии к посту",
      *     @Parameter(
@@ -120,13 +114,11 @@ class CommentController extends AbstractController
      * @param CommentData $commentData
      * @param CommentRepository $commentRepository
      * @param Flusher $flusher
-     */
-
-    /*
      * @\OpenApi\Annotations\Post(
-     *     path="/api/blogPosts/{id}/comments",
+     *     path="/api/blog/posts/{id}/comments",
      *     tags={"Блог"},
      *     summary="Создать комментарий к посту",
+     *     security={{"clientAuth": {}}},
      *     @Parameter(
      *          name="id",
      *          in="path",
