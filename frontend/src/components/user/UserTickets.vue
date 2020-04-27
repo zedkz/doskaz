@@ -87,15 +87,15 @@
         data() {
             return {
                 filter: {
-                    sort: 'date_desc'
+                    sort: 'date desc'
                 }
             }
         },
         computed: {
             sortOptions() {
                 return [
-                    {value: 'date_desc', title: 'дате добавления'},
-                    {value: 'date_asc', title: 'сначала старые'},
+                    {value: 'date desc', title: 'дате добавления'},
+                    {value: 'date asc', title: 'сначала старые'},
                 ]
             },
         },

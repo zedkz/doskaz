@@ -685,6 +685,34 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/complaints",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Жалобы пользователя",
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="id", type="integer"),
+     *                     @Property(property="type", type="string", enum={"complaint1", "complaint2"}, description="Вид жалобы (жалоба на отсутствие пандуса, жалоба на отсутствие доступа)"),
+     *                     @Property(property="title", type="string"),
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="image", type="string", nullable=true),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function complaints(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
@@ -695,7 +723,7 @@ final class UserController extends AbstractController
             ->andWhere('complainant_id = :userId')
             ->setParameter('userId', $this->getUser()->id());
 
-        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
 
 
         $items = (clone $qb)->select([
