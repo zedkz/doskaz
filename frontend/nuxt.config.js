@@ -1,4 +1,6 @@
 require('dotenv').config();
+import axios from 'axios'
+
 
 export default {
     srcDir: 'src/',
@@ -9,7 +11,8 @@ export default {
         '@nuxtjs/redirect-module',
         '@nuxtjs/robots',
         'nuxt-i18n',
-        '@nuxtjs/sitemap'
+        '@nuxtjs/sitemap',
+        '@nuxtjs/feed'
     ],
     router: {
         middleware: 'languageUnderConstruction'
@@ -107,6 +110,37 @@ export default {
             '/profile/**',
             '/objects/pdf',
             '/kz/**'
-        ]
+        ],
+        routes: () => {
+            return [
+                
+            ]
+        }
     },
+    feed: [
+        {
+            path: '/blog/feed.xml',
+            type: 'rss2',
+            async create(feed) {
+                feed.options = {
+                    title: 'Доступный Казахстан - Блог',
+                    link: 'https://doskaz.kz/feed.xml',
+                    description: ''
+                }
+                const {data: {items: posts}} = await axios.get(`${process.env.BACKEND_DOMAIN}/api/blog/posts`);
+                posts.forEach(post => {
+                    const url = `https://doskaz.kz/blog/${post.categorySlug}/${post.slug}`
+                    feed.addItem({
+                        title: post.title,
+                        id: url,
+                        link: url,
+                        description: post.annotation,
+                        content: post.content,
+                        date: new Date(post.publishedAt),
+                        image: post.image
+                    })
+                })
+            }
+        }
+    ]
 }
