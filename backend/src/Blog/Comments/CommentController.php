@@ -29,12 +29,6 @@ class CommentController extends AbstractController
      * @param Connection $connection
      * @param Request $request
      * @return CommentsListData
-     */
-    /*
-     * @param Post $post
-     * @param Connection $connection
-     * @param Request $request
-     * @return CommentsListData
      * @Get(
      *     path="/api/blogPosts/{id}/comments",
      *     tags={"Блог"},
@@ -120,9 +114,6 @@ class CommentController extends AbstractController
      * @param CommentData $commentData
      * @param CommentRepository $commentRepository
      * @param Flusher $flusher
-     */
-
-    /*
      * @\OpenApi\Annotations\Post(
      *     path="/api/blogPosts/{id}/comments",
      *     tags={"Блог"},

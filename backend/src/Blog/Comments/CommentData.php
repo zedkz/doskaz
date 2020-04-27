@@ -18,7 +18,7 @@ class CommentData implements DataObject
 {
     /**
      * @var UuidInterface|null
-     * @Property(readOnly=true, example=1)
+     * @Property(readOnly=true, type="string")
      */
     public $id;
 
@@ -55,7 +55,7 @@ class CommentData implements DataObject
 
     /**
      * @var UuidInterface|null
-     * @Property(nullable=true, example=null, description="Id родительского комментария")
+     * @Property(nullable=true, type="string", example=null, description="Id родительского комментария")
      */
     public $parentId;
 
