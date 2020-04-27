@@ -37,6 +37,7 @@ final class ComplaintController extends AbstractController
 
     /**
      * ComplaintController constructor.
+     * @param $projectDir
      */
     public function __construct($projectDir)
     {
@@ -68,8 +69,6 @@ final class ComplaintController extends AbstractController
      * @param ComplaintData $complaintData
      * @param ComplaintRepository $complaintRepository
      * @param Flusher $flusher
-     */
-    /*
      * @Post(path="/api/complaints",
      *     tags={"Жалобы"},
      *     summary="Подача жалобы",

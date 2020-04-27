@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Complaints;
 
+use OpenApi\Annotations\Items;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Schema;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,6 +28,7 @@ final class ComplaintType2 extends ComplaintContent
 
     /**
      * @var string[]
+     * @Property(type="array", @Items(type="string"))
      */
     public $options;
 

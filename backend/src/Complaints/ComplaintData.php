@@ -36,6 +36,7 @@ final class ComplaintData implements DataObject
 
     /**
      * @var int|string|null
+     * @Property(nullable=true, type="integer", description="Id объекта", example=0)
      */
     public $objectId;
 
