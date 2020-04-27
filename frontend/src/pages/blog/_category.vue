@@ -23,8 +23,8 @@
         watchQuery: ['page', 'search', 'period'],
         async asyncData({$axios, params, query, error}) {
             try {
-                const [{data: {items: categories}}, {data: {items: posts, pages}}] = await Promise.all([
-                    $axios.get('/api/blogCategories', {params: {limit: 100}}),
+                const [{data: categories}, {data: {items: posts, pages}}] = await Promise.all([
+                    $axios.get('/api/blog/categories'),
                     $axios.get('/api/blog/posts', {
                         params: {
                             page: query.page || 1,

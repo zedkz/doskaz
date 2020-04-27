@@ -33,7 +33,7 @@
                     {
                         key: 'categoryId', label: 'Категория', type: Selection, required: true, options: {
                             async asyncOptions() {
-                                const {data: {items}} = await self.$axios.get('/api/blogCategories', {
+                                const {data: {items}} = await self.$axios.get('/api/admin/blog/categories', {
                                     params: {limit: 999}
                                 });
                                 return [{value: null, title: 'Не выбрано'}].concat(items.map(item => ({value: item.id, title: item.title})))

@@ -1,7 +1,7 @@
 <template>
     <crud-edit
         title="Создание категории блога"
-        api-path="/api/blogCategories"
+        api-path="/api/admin/blog/categories"
         :fields="fields"
         edit-base-path="/blog/categories"
     />

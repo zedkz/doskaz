@@ -1,7 +1,7 @@
 <template>
     <crud-list
         title="Категории блога"
-        api-path="/api/blogCategories"
+        api-path="/api/admin/blog/categories"
         :table-fields="fields"
     />
 </template>
