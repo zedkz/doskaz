@@ -29,7 +29,8 @@ class BlogCommentRepliedDataFormatter implements DataFormatter
     public function format(Data $data): array
     {
         $post = $this->connection->createQueryBuilder()
-            ->select('blog_posts.slug_value as slug')
+            ->addSelect('blog_posts.id')
+            ->addSelect('blog_posts.slug_value as slug')
             ->addSelect('blog_categories.slug_value as "categorySlug"')
             ->addSelect('blog_posts.title')
             ->from('blog_posts')

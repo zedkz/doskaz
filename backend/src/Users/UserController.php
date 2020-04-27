@@ -803,6 +803,62 @@ final class UserController extends AbstractController
      * @Route(path="/profile/events", methods={"GET"})
      * @param UserEventsFinder $eventsFinder
      * @return array
+     * @Get(
+     *     path="/api/profile/events",
+     *     summary="Лог событий",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="type", type="string", enum={"object_reviewed", "level_reached", "blog_comment_replied", "award_issued", "object_created"}),
+     *                     @Property(
+     *                         property="data",
+     *                         type="object",
+     *                         oneOf={
+     *                             @Schema(
+     *                                 title="award_issued",
+     *                                 @Property(property="title", type="string", description="Наименование награды"),
+     *                                 @Property(property="type", type="string", description="Вид", enum={"bronze", "silver", "gold"}),
+     *                             ),
+     *                             @Schema(
+     *                                 title="level_reached",
+     *                                 @Property(property="level", type="integer", description="Уровень"),
+     *                                 @Property(property="pointsUntilNextLevel", type="integer", description="Баллов до следующего уровня"),
+     *                                 @Property(property="unlockedAbility", type="string", nullable=true, description="Разблокированная возможность", enum={"status_change", "avatar_upload"}),
+     *                             ),
+     *                             @Schema(
+     *                                 title="object_reviewed",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование объекта"),
+     *                             ),
+     *                             @Schema(
+     *                                 title="blog_comment_replied",
+     *                                 @Property(property="id", type="integer", description="id поста"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                             ),
+     *                             @Schema(
+     *                                 title="object_created",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                             ),
+     *                         },
+     *                     ),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function events(UserEventsFinder $eventsFinder)
     {
