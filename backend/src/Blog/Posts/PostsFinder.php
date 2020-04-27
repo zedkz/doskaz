@@ -27,6 +27,7 @@ final class PostsFinder
             ->addSelect('blog_posts.content')
             ->addSelect('blog_posts.slug_value as slug')
             ->addSelect('blog_categories.slug_value as "categorySlug"')
+            ->addSelect('blog_categories.id as "categoryId"')
             ->addSelect('content')
             ->addSelect('image')
             ->addSelect('blog_categories.title as category_title')
@@ -57,6 +58,7 @@ final class PostsFinder
             'content' => $data['content'],
             'slug' => $data['slug'],
             'categorySlug' => $data['categorySlug'],
+            'categoryId' => $data['categoryId'],
             'categoryTitle' => $data['category_title'],
             'publishedAt' => $this->connection->convertToPHPValue($data['published_at'], 'datetimetz_immutable'),
             'image' => $image ? $image->resize(710) : null,
@@ -81,6 +83,10 @@ final class PostsFinder
                 case 'category':
                     $queryBuilder->andWhere('blog_categories.slug_value = :categorySlug')
                         ->setParameter('categorySlug', $filterValue);
+                    break;
+                case 'categoryId':
+                    $queryBuilder->andWhere('blog_posts.category_id = :categoryId')
+                        ->setParameter('categoryId', $filterValue);
                     break;
                 case 'period':
                     switch ($filterValue) {
@@ -142,6 +148,41 @@ final class PostsFinder
             'similar' => array_map(function ($item) {
                 $post = $this->mapItem($item);
                 return [
+                    'title' => $post['title'],
+                    'image' => $post['previewImage'],
+                    'slug' => $post['slug'],
+                    'categorySlug' => $post['categorySlug']
+                ];
+            }, $similarPosts)
+        ];
+    }
+
+    public function findOneById($id): ?array
+    {
+        $item = $this->initializeQuery()
+            ->andWhere('blog_posts.id = :id')
+            ->setParameter('id', $id)
+            ->execute()->fetch();
+
+        if (!$item) {
+            return null;
+        }
+
+        $similarPosts = $this->initializeQuery()
+            ->andWhere('blog_posts.id != :id')
+            ->orderBy('similarity(:title, blog_posts.title)', 'desc')
+            ->setParameter('title', $item['title'])
+            ->setParameter('id', $item['id'])
+            ->setMaxResults(3)
+            ->execute()->fetchAll();
+
+        return [
+            'post' => $this->mapItem($item),
+            'similar' => array_map(function ($item) {
+                $post = $this->mapItem($item);
+                return [
+                    'id' => $post['id'],
+                    'categoryId' => $item['categoryId'],
                     'title' => $post['title'],
                     'image' => $post['previewImage'],
                     'slug' => $post['slug'],

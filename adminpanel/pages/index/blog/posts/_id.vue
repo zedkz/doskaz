@@ -1,7 +1,7 @@
 <template>
     <crud-edit
         title="Редактирование записи блога"
-        api-path="/api/blogPosts"
+        api-path="/api/admin/blog/posts"
         :fields="fields"
     />
 </template>

@@ -25,7 +25,7 @@
             try {
                 const [{data: {items: categories}}, {data: {items: posts, pages}}] = await Promise.all([
                     $axios.get('/api/blogCategories', {params: {limit: 100}}),
-                    $axios.get('/api/blogPosts/list', {
+                    $axios.get('/api/blog/posts', {
                         params: {
                             page: query.page || 1,
                             category: params.category,

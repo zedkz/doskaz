@@ -118,6 +118,7 @@ class CommentController extends AbstractController
      *     path="/api/blogPosts/{id}/comments",
      *     tags={"Блог"},
      *     summary="Создать комментарий к посту",
+     *     security={{"clientAuth": {}}},
      *     @Parameter(
      *          name="id",
      *          in="path",
