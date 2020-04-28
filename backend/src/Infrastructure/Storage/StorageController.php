@@ -6,6 +6,12 @@ namespace App\Infrastructure\Storage;
 use App\Blog\Image;
 use Hoa\Mime\Mime;
 use League\Flysystem\FilesystemInterface;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\MediaType;
+use OpenApi\Annotations\Post;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,6 +40,25 @@ final class StorageController extends AbstractController
      * @param Request $request
      * @return array
      * @throws \Exception
+     * @Post(
+     *     path="/api/storage/upload",
+     *     summary="Загрузка файла",
+     *     tags={"Storage"},
+     *     security={{"clientAuth": {}}},
+     *     @RequestBody(
+     *         description="файл для загрузки",
+     *         @MediaType(
+     *             mediaType="application/octet-stream"
+     *         )
+     *     ),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="path", type="string")
+     *         )
+     *     )
+     * )
      */
     public function upload(Request $request)
     {
