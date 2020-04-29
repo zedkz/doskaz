@@ -60,34 +60,37 @@
                     </nuxt-link>
                 </div>
             </div>
-            <div class="popup__wrapper" v-show="popupAvatar">
+            <div class="popup__wrapper" v-show="popupAvatar && !profile.abilities.includes('avatar_upload')">
                 <div class="popup__scroll">
                     <div class="popup__in">
                         <span class="popup__close" v-on:click="popupAvatar = false"></span>
-                        <p class="popup__title">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7 уровне
+                        <p class="popup__title">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7
+                            уровне
                             :)</p>
                         <div class="user-profile__avatar-list">
-                         <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
+                         <span v-for="(preset, index) in avatarPresets"
+                               v-bind:style="{'background-image': 'url(' + preset + ')'}"
                                v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="popup__wrapper" v-show="popupAvatarLevel">
+            <div class="popup__wrapper" v-show="popupAvatar && profile.abilities.includes('avatar_upload')">
                 <div class="popup__scroll">
                     <div class="popup__in --lrg">
-                        <span class="popup__close" v-on:click="popupAvatarLevel = false"></span>
+                        <span class="popup__close" v-on:click="popupAvatar = false"></span>
                         <h3 class="popup__title">Обновление фотографии</h3>
                         <div class="user-profile__avatar-list">
                         <span class="user-profile__avatar">
                             <span class="user-profile__avatar-file">
-                                <input type="file">
+                                <input type="file" @change="uploadAvatar" accept="image/jpeg, image/png">
                                 <img :src="require('@/assets/icons/avatar-img.svg')"/>
                             </span>
                         </span>
-                        <span v-for="(preset, index) in avatarPresets" v-bind:style="{'background-image': 'url(' + preset + ')'}"
-                              v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
+                            <span v-for="(preset, index) in avatarPresets"
+                                  v-bind:style="{'background-image': 'url(' + preset + ')'}"
+                                  v-on:click="chooseAvatarPreset(index+1)" class="user-profile__avatar"></span>
                         </div>
                     </div>
                 </div>
@@ -151,7 +154,12 @@
                 await this.loadUser();
                 this.popupAvatar = false;
             },
-            ...call('authentication', ['loadUser'])
+            ...call('authentication', ['loadUser']),
+            async uploadAvatar(e) {
+                await this.$axios.post('/api/profile/avatar', e.target.files[0])
+                await this.loadUser();
+                this.popupAvatar = false
+            }
         }
     };
 </script>
@@ -164,27 +172,31 @@
         padding: 40px 40px 35px;
         width: 100%;
         position: relative;
+
         &__mob-title {
             font-size: 18px;
             line-height: 20px;
             font-weight: 700;
             display: none;
             margin: 0 0 12px;
-            @media all and (max-width: 768px){
+            @media all and (max-width: 768px) {
                 display: block;
             }
         }
+
         @media all and (max-width: 1280px) {
             padding: 30px;
         }
         @media all and (max-width: 1024px) {
             padding: 20px;
         }
+
         &__mob-info {
-            @media all and (max-width: 768px){
+            @media all and (max-width: 768px) {
                 width: calc(100% - 100px);
             }
         }
+
         &__avatar {
             width: 120px;
             height: 120px;
@@ -201,6 +213,7 @@
                 border-radius: 50%;
                 background-color: #F1F9FD;
                 overflow: hidden;
+
                 input[type=file] {
                     position: absolute;
                     left: 0;
@@ -212,6 +225,7 @@
                     z-index: 2;
                     opacity: 0;
                 }
+
                 img {
                     position: absolute;
                     left: 50%;
@@ -230,10 +244,11 @@
         }
 
         &__content {
-            @media all and (max-width: 768px){
+            @media all and (max-width: 768px) {
                 display: flex;
                 justify-content: baseline;
             }
+
             &.--verified:before {
                 content: "";
                 background-image: url("data:image/svg+xml,%3Csvg width='50' height='70' viewBox='0 0 50 70' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0H50V70L25 60L0 70V0Z' fill='%237AB73F'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13 30.6733L25.5712 43L38 30.638L34.5812 27L25.5712 35.936L16.49 27.0353L13 30.6733Z' fill='white'/%3E%3C/svg%3E%0A");
@@ -243,13 +258,13 @@
                 width: 50px;
                 height: 70px;
                 z-index: 1;
-                @media all and (max-width: 1023px){
+                @media all and (max-width: 1023px) {
                     width: 36px;
                     height: 50px;
                     background-size: 36px;
                     left: 20px;
                 }
-                @media all and (max-width: 768px){
+                @media all and (max-width: 768px) {
                     width: 22px;
                     height: 30px;
                     background-size: 22px;
@@ -266,18 +281,20 @@
             z-index: 1;
             width: 60px;
             height: 60px;
+
             img {
                 width: 100%;
                 height: auto;
                 display: block;
             }
-            @media all and (max-width: 1023px){
+
+            @media all and (max-width: 1023px) {
                 right: 20px;
                 top: 20px;
                 width: 50px;
                 height: 50px;
             }
-            @media all and (max-width: 768px){
+            @media all and (max-width: 768px) {
                 right: auto;
                 left: 78px;
                 width: 20px;
@@ -405,6 +422,7 @@
                 line-height: 20px;
                 margin-top: 12px;
             }
+
             a {
                 color: #5b6067;
                 transition: opacity 0.3s;
