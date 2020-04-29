@@ -46,7 +46,7 @@
                     <username :value="name" placeholder="Ваше имя"/>
                 </div>
                 <div class="user-profile__title">
-                    <span>Всем привет! Я с вами :)</span>
+                    <span>{{ profile.status || 'Всем привет! Я с вами :)' }}</span>
                 </div>
                 <div class="user-profile__email">
                     <span>{{ profile.email || 'Ваша эл. почта' }}</span>

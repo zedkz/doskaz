@@ -77,13 +77,13 @@
                 </div>
             </div>
         </div>
-        <div class="user-page__line disabled">
+        <div class="user-page__line" :class="{disabled: !profile.abilities.includes('status_change')}">
             <div class="col --label">
                 <label class="user-page__label">Отображаемый статус</label>
             </div>
             <div class="col">
-                <div class="input disabled" :class="{error: !!violations.status}">
-                    <input type="text" readonly placeholder="Будет доступен с 5 уровня">
+                <div class="input" :class="{error: !!violations.status}">
+                    <input type="text" v-model.trim="profile.status" :readonly="!profile.abilities.includes('status_change')" :placeholder="profile.abilities.includes('status_change') ? '' : 'Будет доступен с 5 уровня'">
                 </div>
             </div>
         </div>

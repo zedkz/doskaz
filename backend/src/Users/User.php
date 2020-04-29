@@ -63,6 +63,12 @@ class User implements EventProducer
      */
     private $updatedAt;
 
+    /**
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $status;
+
     public function __construct(?FullName $fullName, ?string $email = null)
     {
         $this->name = '';
@@ -80,11 +86,12 @@ class User implements EventProducer
         $this->roles = $data->roles;
     }
 
-    public function updateProfile(FullName $fullName, ?string $email)
+    public function updateProfile(FullName $fullName, ?string $email, ?string $status)
     {
         $this->fullName = $fullName;
         $this->email = empty($email) ? null : $email;
         $this->updatedAt = new \DateTimeImmutable();
+        $this->status = $status;
         $this->remember(new UserProfileUpdated($this->id));
     }
 

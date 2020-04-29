@@ -198,6 +198,7 @@ final class UserController extends AbstractController
      *                     enum={"status_change", "avatar_upload"}
      *                 )
      *             ),
+     *             @Property(property="status", type="string", nullable=true, description="Отображаемый статус"),
      *             @Property(
      *                 property="level",
      *                 type="object",
@@ -219,7 +220,7 @@ final class UserController extends AbstractController
     public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskDataProvider $currentTaskProvider, LevelRepository $levelRepository)
     {
         $user = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name')
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name', 'status')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
             ->andWhere('users.id = :id')
@@ -261,7 +262,8 @@ final class UserController extends AbstractController
                 'objects' => $connection->createQueryBuilder()->select('COUNT(*) FROM objects WHERE created_by = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
                 'complaints' => $connection->createQueryBuilder()->select('COUNT(*) FROM complaints WHERE complainant_id = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
             ],
-            $connection->executeQuery('SELECT key FROM unlocked_abilities WHERE user_id = :userId', ['userId' => $user['id']])->fetchAll(\PDO::FETCH_COLUMN)
+            $connection->executeQuery('SELECT key FROM unlocked_abilities WHERE user_id = :userId', ['userId' => $user['id']])->fetchAll(\PDO::FETCH_COLUMN),
+            $user['status']
         );
     }
 
@@ -286,6 +288,7 @@ final class UserController extends AbstractController
      *             @Property(property="lastName", type="string", nullable=true),
      *             @Property(property="middleName", type="string", nullable=true),
      *             @Property(property="email", type="string", nullable=true),
+     *             @Property(property="status", type="string", nullable=true, description="Отображаемый статус"),
      *             @Property(property="phoneChangeToken", type="string", nullable=true, description="firebase IdToken для смены номера телефона"),
      *         )
      *     ),
@@ -351,7 +354,7 @@ final class UserController extends AbstractController
                     throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Неверный id токен', '', [], '', 'phoneChangeToken', '')]));
                 }
             }
-            $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email);
+            $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email, $profileData->status);
         });
     }
 

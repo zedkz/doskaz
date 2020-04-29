@@ -34,4 +34,9 @@ class UpdateUserProfileData implements DataObject
      * @var string|null
      */
     public $phoneChangeToken;
+
+    /**
+     * @var string|null
+     */
+    public ?string $status;
 }
