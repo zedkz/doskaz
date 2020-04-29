@@ -190,6 +190,15 @@ final class UserController extends AbstractController
      *                 @Property(type="string", property="title"),
      *             ),
      *             @Property(
+     *                 property="abilities",
+     *                 type="array",
+     *                 description="Разблокированные возможности",
+     *                 @Items(
+     *                     type="string",
+     *                     enum={"status_change", "avatar_upload"}
+     *                 )
+     *             ),
+     *             @Property(
      *                 property="level",
      *                 type="object",
      *                 @Property(property="current", type="number", description="Текущий уровень"),
@@ -252,10 +261,7 @@ final class UserController extends AbstractController
                 'objects' => $connection->createQueryBuilder()->select('COUNT(*) FROM objects WHERE created_by = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
                 'complaints' => $connection->createQueryBuilder()->select('COUNT(*) FROM complaints WHERE complainant_id = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
             ],
-            new UserAbilities(
-                $this->isGranted(UserAbility::AVATAR_UPLOAD),
-                $this->isGranted(UserAbility::STATUS_CHANGE),
-            )
+            $connection->executeQuery('SELECT key FROM unlocked_abilities WHERE user_id = :userId', ['userId' => $user['id']])->fetchAll(\PDO::FETCH_COLUMN)
         );
     }
 
