@@ -15,27 +15,6 @@
                     :key="item.id"
                     :item="item"
             />
-            <div class="user-comments__item">
-                <div class="user-comments__image"></div>
-                <div class="user-comments__description">
-                    <p class="user-comments__text">asdasdasdas</p>
-                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
-                </div>
-            </div>
-            <div class="user-comments__item">
-                <div class="user-comments__image"></div>
-                <div class="user-comments__description">
-                    <p class="user-comments__text">asdasdasdas</p>
-                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
-                </div>
-            </div>
-            <div class="user-comments__item">
-                <div class="user-comments__image"></div>
-                <div class="user-comments__description">
-                    <p class="user-comments__text">asdasdasdas</p>
-                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
-                </div>
-            </div>
         </div>
         <div class="user-comments__pagination">
             <pagination :pages="pages" v-if="pages > 1"/>
