@@ -86,3 +86,5 @@ services:
         arguments:
             - '%env(FIREBASE_API_KEY)%'
         lazy: true
+
+    App\Infrastructure\Storage\Storage:

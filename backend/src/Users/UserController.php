@@ -12,8 +12,10 @@ use App\Infrastructure\Firebase\Exception;
 use App\Infrastructure\Firebase\InvalidIdToken;
 use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
+use App\Infrastructure\Storage\Storage;
 use App\Levels\LevelRepository;
 use App\Tasks\CurrentTaskDataProvider;
+use App\UserAbilities\UnlockedAbility;
 use App\UserEvents\UserEventsFinder;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
@@ -23,7 +25,9 @@ use OpenApi\Annotations\Delete;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\MediaType;
 use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Post;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Put;
 use OpenApi\Annotations\RequestBody;
@@ -32,6 +36,7 @@ use OpenApi\Annotations\Schema;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -872,5 +877,43 @@ final class UserController extends AbstractController
     public function events(UserEventsFinder $eventsFinder)
     {
         return $eventsFinder->execute($this->getUser()->id(), 1, 'date', 'desc');
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/avatar")
+     * @param Request $request
+     * @param Connection $connection
+     * @param UserRepository $userRepository
+     * @param Storage $storage
+     * @throws \Doctrine\DBAL\DBALException
+     * @Post(
+     *     path="/api/profile/avatar",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Загрузка аватара",
+     *     @Response(response=401, description=""),
+     *     @Response(response=403, description=""),
+     *     @Response(response=204, description=""),
+     *     @RequestBody(
+     *         description="файл для загрузки",
+     *         @MediaType(
+     *             mediaType="application/octet-stream"
+     *         )
+     *     ),
+     * )
+     */
+    public function avatar(Request $request, Connection $connection, UserRepository $userRepository, Storage $storage, Flusher $flusher)
+    {
+        $id = $this->getUser()->id();
+        $abilities = $connection->executeQuery('SELECT key FROM unlocked_abilities WHERE user_id = :userId', ['userId' => $id])->fetchAll(\PDO::FETCH_COLUMN);
+
+        if (!in_array(UnlockedAbility::ABILITY_AVATAR_UPLOAD, $abilities)) {
+            throw new AccessDeniedHttpException('Access Denied');
+        }
+        $user = $userRepository->find($id);
+        $avatarPath = $storage->uploadFile($request->getContent(true));
+        $user->changeAvatar('/storage/' . $avatarPath);
+        $flusher->flush();
     }
 }
