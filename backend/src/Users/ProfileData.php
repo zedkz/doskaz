@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ProfileData
 {
+    public $id;
+
     /**
      * @var string|null
      */
@@ -61,8 +63,9 @@ class ProfileData
      * @param array $abilities
      * @param string|null $status
      */
-    public function __construct($email, $phone, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask, $level, $stats, array $abilities, ?string $status)
+    public function __construct($id, $email, $phone, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask, $level, $stats, array $abilities, ?string $status)
     {
+        $this->id = $id;
         $this->email = $email;
         $this->phone = $phone;
         $this->avatar = $avatar;

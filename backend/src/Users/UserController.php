@@ -250,6 +250,7 @@ final class UserController extends AbstractController
 
 
         return new ProfileData(
+            $user['id'],
             $user['email'],
             $user['phone'],
             $user['avatar'] ? $user['avatar'] : null,

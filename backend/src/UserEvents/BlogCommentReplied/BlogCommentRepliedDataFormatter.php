@@ -40,13 +40,12 @@ class BlogCommentRepliedDataFormatter implements DataFormatter
             ->execute()
             ->fetch();
 
-        return array_merge([
-            'username' => $this->connection->createQueryBuilder()
-                ->select('full_name->>\'firstAndLast\'')
-                ->from('users')
-                ->andWhere('id = :userId')
-                ->setParameter('userId', $data->userId)
-                ->execute()->fetchColumn(),
-        ], $post);
+        return array_merge( $this->connection->createQueryBuilder()
+            ->select('full_name->>\'firstAndLast\' as username, id as "userId"')
+            ->from('users')
+            ->andWhere('id = :userId')
+            ->setParameter('userId', $data->userId)
+            ->execute()->fetch()
+            , $post);
     }
 }
