@@ -18,7 +18,7 @@
             <div class="list">
 
                 <user-event v-for="event in events" :key="event.id" :event="event"/>
-                <div class="list__item">
+              <!--  <div class="list__item">
                     <div class="list__date">
                         <span>12 августа</span>
                     </div>
@@ -80,7 +80,7 @@
                         <span>23 июля</span>
                     </div>
                     <div class="list__icon list__icon_achievment">
-                        <img src="@/assets/img/user/award-gold.svg"/> <!-- здесь так же надо выводить нужную картинку -->
+                        <img src="@/assets/img/user/award-gold.svg"/> &lt;!&ndash; здесь так же надо выводить нужную картинку &ndash;&gt;
                     </div>
                     <div class="list__text">Вам выдана награда за активное участие в развитии портала</div>
                 </div>
@@ -95,7 +95,7 @@
                         <a href="#">Аптека №234</a> проверен и верифицирован модератором
                         <a href="#">Валерия Осинская</a>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

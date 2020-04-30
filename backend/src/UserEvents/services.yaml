@@ -29,6 +29,12 @@ services:
   App\UserEvents\AwardIssued\AwardIssuedDataFormatter:
     tags: ['user_events.data_formatter']
 
+  App\UserEvents\ObjectAdded\RememberWhenObjectAdded:
+    tags: ['domain_events.listener']
+
+  App\UserEvents\ObjectAdded\ObjectAddedDataFormatter:
+    tags: ['user_events.data_formatter']
+
   App\UserEvents\UserEventsFinder:
     arguments:
       $formatters: !tagged user_events.data_formatter

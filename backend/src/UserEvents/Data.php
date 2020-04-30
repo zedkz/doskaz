@@ -7,6 +7,7 @@ namespace App\UserEvents;
 use App\UserEvents\AwardIssued\AwardIssuedData;
 use App\UserEvents\BlogCommentReplied\BlogCommentRepliedData;
 use App\UserEvents\LevelReached\LevelReachedData;
+use App\UserEvents\ObjectAdded\ObjectAddedData;
 use App\UserEvents\ObjectReviewed\ObjectReviewedData;
 use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
@@ -21,6 +22,7 @@ abstract class Data
         'object_reviewed' => ObjectReviewedData::class,
         'level_reached' => LevelReachedData::class,
         'blog_comment_replied' => BlogCommentRepliedData::class,
-        'award_issued' => AwardIssuedData::class
+        'award_issued' => AwardIssuedData::class,
+        'object_added' => ObjectAddedData::class
     ];
 }
