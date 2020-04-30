@@ -26,7 +26,7 @@ class UserEventsFinder
     public function execute(int $userId, int $page, string $orderField, string $orderDirection): array
     {
         $qb = $this->connection->createQueryBuilder()
-            ->select('id', 'data', 'date')
+            ->select('id', 'data', 'date', 'user_id as "userId"')
             ->from('user_events')
             ->andWhere('user_id = :userId')
             ->setParameter('userId', $userId);
@@ -42,6 +42,7 @@ class UserEventsFinder
             $data = $this->connection->convertToPHPValue($item['data'], Data::class);
 
             $result = [
+                'userId' => $item['userId'],
                 'date' => $this->connection->convertToPHPValue($item['date'], 'datetimetz_immutable'),
                 'type' => array_flip(Data::DISCRIMINATOR_MAP)[get_class($data)]
             ];
@@ -57,5 +58,38 @@ class UserEventsFinder
         return [
             'items' => $items
         ];
+    }
+
+    public function findAll(int $limit): array
+    {
+        $qb = $this->connection->createQueryBuilder()
+            ->select('user_events.id', 'user_events.data', 'user_events.date', 'user_events.user_id as "userId"', 'users.full_name->>\'firstAndLast\' as username')
+            ->from('user_events')
+            ->leftJoin('user_events', 'users', 'users', 'users.id = user_events.user_id');
+
+        $items = (clone $qb)->orderBy('date', 'desc')
+            ->setMaxResults($limit)
+            ->execute()
+            ->fetchAll();
+
+        $items = array_map(function ($item) {
+            $data = $this->connection->convertToPHPValue($item['data'], Data::class);
+
+            $result = [
+                'username' => $item['username'],
+                'userId' => $item['userId'],
+                'date' => $this->connection->convertToPHPValue($item['date'], 'datetimetz_immutable'),
+                'type' => array_flip(Data::DISCRIMINATOR_MAP)[get_class($data)]
+            ];
+
+            foreach ($this->formatters as $formatter) {
+                if ($formatter->supports($data)) {
+                    $result['data'] = $formatter->format($data);
+                }
+            }
+            return $result;
+        }, $items);
+
+        return $items;
     }
 }

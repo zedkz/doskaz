@@ -32,3 +32,6 @@ services:
   App\UserEvents\UserEventsFinder:
     arguments:
       $formatters: !tagged user_events.data_formatter
+
+  App\UserEvents\UserEventsController:
+    tags: ['controller.service_arguments']

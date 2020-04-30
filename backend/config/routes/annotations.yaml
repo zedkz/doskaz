@@ -34,7 +34,10 @@ regionalCoordinators:
     resource: ../../src/RegionalCoordinators
     type: annotation
 
-
 apiDocs:
     resource: ../../src/Infrastructure/Api
+    type: annotation
+
+events:
+    resource: ../../src/UserEvents
     type: annotation
