@@ -4,6 +4,7 @@
 namespace App\UserEvents\AwardIssued;
 
 
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
 use Doctrine\DBAL\Connection;
@@ -29,7 +30,7 @@ class AwardIssuedDataFormatter implements DataFormatter
      * @param Data|AwardIssuedData $data
      * @return array
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
         return $this->connection->createQueryBuilder()
             ->select([

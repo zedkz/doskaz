@@ -4,6 +4,7 @@
 namespace App\UserEvents\ObjectAdded;
 
 
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
 use Doctrine\DBAL\Connection;
@@ -25,10 +26,11 @@ class ObjectAddedDataFormatter implements DataFormatter
 
     /**
      * @param Data|ObjectAddedData $data
+     * @param Context $context
      * @return array|string[]
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
         return $this->connection
             ->executeQuery("

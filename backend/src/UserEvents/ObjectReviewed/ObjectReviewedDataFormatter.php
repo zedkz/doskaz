@@ -4,6 +4,7 @@
 namespace App\UserEvents\ObjectReviewed;
 
 
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use Doctrine\DBAL\Connection;
 
@@ -28,7 +29,7 @@ class ObjectReviewedDataFormatter implements \App\UserEvents\DataFormatter
      * @param Data|ObjectReviewedData $data
      * @return array
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
         $object = $this->connection->createQueryBuilder()
             ->select('title, id')

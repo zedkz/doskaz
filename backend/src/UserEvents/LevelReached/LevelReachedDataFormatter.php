@@ -5,6 +5,7 @@ namespace App\UserEvents\LevelReached;
 
 
 use App\UserAbilities\UnlockedAbilityRepository;
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -13,12 +14,9 @@ class LevelReachedDataFormatter implements DataFormatter
 {
     private UnlockedAbilityRepository $unlockedAbilityRepository;
 
-    private TokenStorageInterface $tokenStorage;
-
-    public function __construct(UnlockedAbilityRepository $unlockedAbilityRepository, TokenStorageInterface $tokenStorage)
+    public function __construct(UnlockedAbilityRepository $unlockedAbilityRepository)
     {
         $this->unlockedAbilityRepository = $unlockedAbilityRepository;
-        $this->tokenStorage = $tokenStorage;
     }
 
     public function supports(Data $data): bool
@@ -30,9 +28,9 @@ class LevelReachedDataFormatter implements DataFormatter
      * @param Data|LevelReachedData $data
      * @return array
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
-        $unlockedAbility = $this->unlockedAbilityRepository->findAbilityForLevel($this->tokenStorage->getToken()->getUser()->id(), $data->level);
+        $unlockedAbility = $this->unlockedAbilityRepository->findAbilityForLevel($context->userId, $data->level);
 
         return [
             'level' => $data->level,

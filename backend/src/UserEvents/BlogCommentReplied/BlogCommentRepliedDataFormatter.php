@@ -4,6 +4,7 @@
 namespace App\UserEvents\BlogCommentReplied;
 
 
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
 use Doctrine\DBAL\Connection;
@@ -24,9 +25,10 @@ class BlogCommentRepliedDataFormatter implements DataFormatter
 
     /**
      * @param Data|BlogCommentRepliedData $data
+     * @param Context $context
      * @return array
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
         $post = $this->connection->createQueryBuilder()
             ->addSelect('blog_posts.id')
