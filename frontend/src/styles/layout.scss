@@ -1,15 +1,6 @@
 @import "./mixins.scss";
 
 //main styles
-* {
-  outline: none;
-  color: $black;
-  -webkit-appearance: none;
-  font-family: "Lato", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-}
 
 @font-face {
   font-family: 'Lato';
@@ -107,6 +98,16 @@
   url('../styles/fonts/NotoSerif-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
+}
+
+* {
+  outline: none;
+  color: $black;
+  -webkit-appearance: none;
+  font-family: "Lato", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 h3 {
