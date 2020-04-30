@@ -862,9 +862,10 @@ final class UserController extends AbstractController
      *                                 @Property(property="title", type="string", description="Наименование поста"),
      *                             ),
      *                             @Schema(
-     *                                 title="object_created",
+     *                                 title="object_added",
      *                                 @Property(property="id", type="integer", description="id объекта"),
      *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                                 @Property(property="categoryTitle", type="string", description="Наименование подкатегории"),
      *                             ),
      *                         },
      *                     ),
