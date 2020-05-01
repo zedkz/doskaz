@@ -49,7 +49,7 @@ class UserEventsFinder
 
             foreach ($this->formatters as $formatter) {
                 if ($formatter->supports($data)) {
-                    $result['data'] = $formatter->format($data);
+                    $result['data'] = $formatter->format($data, new Context($item['userId']));
                 }
             }
             return $result;
