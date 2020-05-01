@@ -776,10 +776,35 @@ final class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route(path="/profile/tasks", methods={"GET"})
      * @param Request $request
      * @param Connection $connection
      * @return mixed[]
+     * @Get(
+     *     path="/api/profile/tasks",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Задания пользователя",
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer", description="Количество страниц"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="completedAt", type="string", format="date-time", nullable=true),
+     *                     @Property(property="title", type="string", description="Название задачи"),
+     *                     @Property(property="points", type="integer", description="Количество баллов за выполнение задачи", example=5),
+     *                 )
+     *             ),
+     *         )
+     *     ),
+     *     @Response(response=401, description=""),
+     * )
      */
     public function tasks(Request $request, Connection $connection)
     {
@@ -798,7 +823,7 @@ final class UserController extends AbstractController
         $qb = $connection->createQueryBuilder()
             ->select(
                 'completed_at as "completedAt"',
-                'type',
+                'type as title',
                 'points'
             )
             ->from("($query)", 'tasks')
