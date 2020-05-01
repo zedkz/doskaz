@@ -113,6 +113,15 @@
                                      }})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                             </template>
+                            <template v-if="event.type === 'award_issued'">
+                                 <span v-if="userId === event.userId">
+                                     Вы получили награду <b>"{{ event.data.title }}"</b>
+                                </span>
+                                <span v-else>
+                                     <username tag="b" :value="event.username"/>
+                                      получает награду <b>"{{ event.data.title }}"</b>
+                                </span>
+                            </template>
                         </div>
                     </div>
                   <!--  <div class="item">
@@ -185,7 +194,7 @@
 </template>
 
 <script>
-    import UserTabs from "./../components/UserTabs";
+    import UserTabs from "~/components/UserTabs";
     import {format} from 'date-fns'
     import {ru} from 'date-fns/locale'
     import {get} from 'vuex-pathify'
@@ -229,7 +238,6 @@
                 return this.posts.slice(0, 3)
             },
             userId() {
-                console.log(this.user)
                 return this.user ? this.user.id : null
             }
         }
