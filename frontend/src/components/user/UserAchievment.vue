@@ -2,10 +2,9 @@
   <div class="user-achievment">
     <template v-if="addNew===undefined">
       <div class="user-achievment__icon">
-        <img src="@/assets/img/user/award-gold.svg" alt="" v-if="award-type == 'gold'"/>
-        <img src="@/assets/img/user/award-silver.svg" alt="" v-if="award-type == silver"/>
-        <img src="@/assets/img/user/award-bronze.svg" alt="" v-if="award-type == 'bronze'"/><!-- не понял почему не работает -->
-        <img src="@/assets/img/user/award-gold.svg"/>
+        <img src="~/assets/img/user/award-gold.svg" alt="" v-if="awardType === 'gold'"/>
+        <img src="~/assets/img/user/award-silver.svg" alt="" v-if="awardType === 'silver'"/>
+        <img src="~/assets/img/user/award-bronze.svg" alt="" v-if="awardType === 'bronze'"/>
       </div>
       <div class="user-achievment__text">
         <span>{{text}}</span>
@@ -24,7 +23,7 @@
 
 <script>
 export default {
-  props: ["text", "addNew", "award-type"]
+  props: ["text", "addNew", "awardType"]
 };
 </script>
 

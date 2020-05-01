@@ -918,4 +918,36 @@ final class UserController extends AbstractController
         $user->changeAvatar('/storage/' . $avatarPath);
         $flusher->flush();
     }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/awards", methods={"GET"})
+     * @Get(
+     *     path="/api/profile/awards",
+     *     tags={"Пользователи"},
+     *     summary="Награды пользователя",
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="id", type="string", example="0eea2236-fa6f-4068-aebf-94c478fa3d38"),
+     *             @Property(property="title", type="string", example="Добавлено 3 объекта"),
+     *             @Property(property="type", type="string", enum={"bronze", "silver", "gold"}),
+     *         )
+     *     ),
+     * )
+     * @param Connection $connection
+     * @return mixed[]
+     */
+    public function awards(Connection $connection) {
+        return$connection->createQueryBuilder()
+            ->addSelect('id', 'title', 'type')
+            ->from('awards')
+            ->orderBy('issued_at', 'desc')
+            ->where('awards.user_id = :userId')
+            ->setParameter('userId', $this->getUser()->id())
+            ->execute()
+            ->fetchAll();
+    }
 }
