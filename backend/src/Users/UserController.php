@@ -926,6 +926,7 @@ final class UserController extends AbstractController
      *     path="/api/profile/awards",
      *     tags={"Пользователи"},
      *     summary="Награды пользователя",
+     *     security={{"clientAuth": {}}},
      *     @Response(response=401, description=""),
      *     @Response(
      *         response=200,
