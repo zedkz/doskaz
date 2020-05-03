@@ -169,7 +169,7 @@
             <nuxt-link
                     v-if="$route.query.tab === 'reviews'"
                     :to="localePath(reviewsLink)"
-                    class="object-side__review-add">Оставить отзыв
+                    class="object-side__review-add">{{ $t('objects.review.linkButtonTitle') }}
             </nuxt-link>
         </div>
 
@@ -192,10 +192,10 @@
     import chunk from 'lodash/chunk'
     import {format} from 'date-fns'
     import ru from 'date-fns/locale/ru'
-    import Username from "../../components/Username";
-    import PostSubmitMessage from "../../components/complaint/PostSubmitMessage";
-    import LangSelect from "./../../components/LangSelect";
-    import {eventBus} from './../../store/bus.js'
+    import Username from "~/components/Username";
+    import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
+    import LangSelect from "~/components/LangSelect";
+    import {eventBus} from '~/store/bus.js'
 
     const accessibilityValues = {
         full_accessible: {
@@ -322,19 +322,19 @@
             },
             tabs() {
                 return [
-                    {title: 'Описание', link: {...this.$route, query: {tab: undefined}}},
-                    {title: 'Фото', link: {...this.$route, query: {tab: 'photos'}}, counter: this.object.photos.length},
+                    {title: this.$t('objects.tabTitles.description'), link: {...this.$route, query: {tab: undefined}}},
+                    {title: this.$t('objects.tabTitles.photos'), link: {...this.$route, query: {tab: 'photos'}}, counter: this.object.photos.length},
                     {
-                        title: 'Видео',
+                        title: this.$t('objects.tabTitles.videos'),
                         link: {...this.$route, query: {tab: 'videos'}},
                         counter: this.object.videos.length
                     },
                     {
-                        title: 'Отзывы',
+                        title: this.$t('objects.tabTitles.reviews'),
                         link: {...this.$route, query: {tab: 'reviews'}},
                         counter: this.object.reviews.length
                     },
-                    {title: 'История', link: {...this.$route, query: {tab: 'history'}}},
+                    {title: this.$t('objects.tabTitles.history'), link: {...this.$route, query: {tab: 'history'}}},
                 ]
             },
             attributesList: get('objectAdding/attributesList[:form]'),
