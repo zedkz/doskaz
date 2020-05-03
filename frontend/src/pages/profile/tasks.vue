@@ -1,6 +1,6 @@
 <template>
     <div>
-        <UserTasks :pages="pages" :items="items"/>
+        <user-tasks :pages="pages" :items="items"/>
         <div class="popup__wrapper" v-if="addTaskPopup">
             <div class="popup__scroll">
                 <div class="popup__in">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import UserTasks from "@/components/user/UserTasks";
+    import UserTasks from "~/components/user/UserTasks";
 
     export default {
         data() {

@@ -811,11 +811,12 @@ final class UserController extends AbstractController
         $perPage = 10;
 
         $query = "
-               select completed_at, 'Заполните профиль' as type, 4 as points
+               select completed_at, 'Заполните профиль' as type, 4 as points, users.created_at
                   from profile_completion_tasks
+                  join users on users.id = profile_completion_tasks.user_id
                   where user_id = :userId
-                  union all select completed_at, 'Добавьте 1 объект' as type, reward as points from daily_tasks where user_id = :userId
-                  union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points from daily_verification_tasks where user_id = :userId
+               union all select completed_at, 'Добавьте 1 объект' as type, reward as points, created_at from daily_tasks where user_id = :userId
+               union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points, created_at from daily_verification_tasks where user_id = :userId
         ";
 
         [$field, $sort] = explode('_', $request->query->get('sort', 'completedAt_desc'));
@@ -823,6 +824,7 @@ final class UserController extends AbstractController
         $qb = $connection->createQueryBuilder()
             ->select(
                 'completed_at as "completedAt"',
+                'created_at as "createdAt"',
                 'type as title',
                 'points'
             )
