@@ -1,5 +1,12 @@
 export default {
     usernameDefault: 'Без имени',
+    login: {
+        pageTitle: 'Вход',
+        popupTitle: 'Доступный Казахстан — сделайте свой город ближе',
+        phoneLoginAdvice: 'Или войдите с помощью телефона',
+        profileFillingAdvice: 'Продолжите регистрацию и заполните свой профиль',
+        profileLinkTitle: 'Перейти в мой профиль'
+    },
     blog: {
         title: 'Блог',
         similarPosts: 'Похожие материалы'

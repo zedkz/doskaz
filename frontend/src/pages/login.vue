@@ -5,13 +5,15 @@
 </template>
 
 <script>
-    import LoginForm from "@/components/LoginForm";
+    import LoginForm from "~/components/LoginForm";
+
     export default {
         layout: 'main',
-        name: "login",
         components: {LoginForm},
-        head: {
-           title: 'Вход'
+        head() {
+            return {
+                title: this.$t('login.pageTitle')
+            }
         }
     }
 </script>
