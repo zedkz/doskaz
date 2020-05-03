@@ -29,6 +29,9 @@ export default {
         },
         '/static': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
+        },
+        '/storage': {
+            target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
     },
     axios: {
@@ -39,6 +42,7 @@ export default {
         {from: '^/kurs-obrashenie', to: 'https://oft.kz/kurs-obrashenie'}
     ],
     plugins: [
+        {src: '~plugins/i18n.js'},
         {src: '~plugins/axios.js'},
         {src: '~plugins/csrf.js', mode: 'server'},
         {src: '~plugins/no-ssr.js', mode: 'client'},
@@ -96,9 +100,11 @@ export default {
         pages: {
             'oauth/callback': false
         },
+        lazy: true,
+        langDir: 'lang/',
         locales: [
-            {code: 'kz', name: 'Qazaq'},
-            {code: 'ru', name: 'Русский'},
+            {code: 'kz', name: 'Qazaq', file: 'ru.js'},
+            {code: 'ru', name: 'Русский', file: 'ru.js'},
         ]
     },
     sitemap: {

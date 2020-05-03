@@ -6,7 +6,7 @@
             <formatted-date element="div" class="user-tasks__item-date" format="d MMMM" :date="tasksItemDate"/>
             <div class="user-tasks__item-text">{{ tasksItemText }}</div>
         </div>
-        <div class="user-tasks__item-points">{{ tasksItemPoints }}</div>
+        <div class="user-tasks__item-points">{{ $tc('profile.tasks.pointsCount', tasksItemPoints) }}</div>
     </div>
 </template>
 

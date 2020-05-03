@@ -31,7 +31,7 @@
                     :tasksItemStatus="task.completedAt ? '--done' : '--new'"
                     :tasksItemDate="task.createdAt"
                     :tasksItemText="task.title"
-                    :tasksItemPoints="`${task.points} баллов`"
+                    :tasksItemPoints="task.points"
             />
             <!--<UserTasksItem
                     tasksItemStatus="&#45;&#45;current"
