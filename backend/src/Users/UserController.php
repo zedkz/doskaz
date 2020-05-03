@@ -797,6 +797,7 @@ final class UserController extends AbstractController
      *                 @Items(
      *                     type="object",
      *                     @Property(property="completedAt", type="string", format="date-time", nullable=true),
+     *                     @Property(property="createdAt", type="string", format="date-time", nullable=true),
      *                     @Property(property="title", type="string", description="Название задачи"),
      *                     @Property(property="points", type="integer", description="Количество баллов за выполнение задачи", example=5),
      *                 )
