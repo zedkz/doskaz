@@ -134,8 +134,6 @@
 <script>
     import PhoneAuthForm from "./PhoneAuthForm";
     import PhoneAuthFormPoints from "./PhoneAuthFormPoints";
-    import openPopup from '@/oauth/popup';
-    import providers from '@/oauth/providers';
     import LoginSocialButtons from "./LoginSocialButtons";
 
     export default {
@@ -148,21 +146,8 @@
         methods: {
             loginFormClose() {
                 this.$router.push(this.localePath({name: 'index'}))
-            },
-            async authenticate(provider) {
-                return  window.location.href = provider.url
-                /*await openPopup(provider.url, provider.popupOptions);
-                await this.$store.dispatch('authentication/loadUser');
-                const redirect = this.$cookies.get('redirect') || '/';
-                this.$cookies.remove('redirect');
-                await this.$router.push(redirect)*/
             }
         },
-        computed: {
-            providers() {
-                return providers
-            }
-        }
     };
 </script>
 
