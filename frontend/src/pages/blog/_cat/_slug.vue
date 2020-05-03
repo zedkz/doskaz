@@ -2,7 +2,7 @@
     <BlogInside :post="post" :similarPosts="similar"/>
 </template>
 <script>
-    import BlogInside from "@/components/blog/BlogInside";
+    import BlogInside from "~/components/blog/BlogInside";
     import get from "lodash/get";
 
     export default {
