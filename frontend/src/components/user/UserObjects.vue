@@ -88,7 +88,7 @@
         watch: {
             filter: {
                 handler(v) {
-                    this.$router.push(this.localePath({...this.$route, query: v}))
+                    this.$router.push({...this.$route, query: v})
                 },
                 deep: true
             }
