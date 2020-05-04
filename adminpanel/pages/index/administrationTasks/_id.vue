@@ -71,23 +71,20 @@
                 zoom: 5,
                 coords: [47.74887674893552, 67.04712168264118],
                 errors: {},
-                form: {
-                    name: null,
-                    pointsReward: 0,
-                    cityId: null,
-                    categoryId: null,
-                    subCategoryId: null,
-                    area: null
-                }
             }
         },
         components: {FieldWrapper, yandexMap},
-        async asyncData({$axios}) {
-            const [{data: cities}, {data: categories}] = await Promise.all([
+        async asyncData({$axios, params}) {
+            const [
+                {data: item},
+                {data: cities},
+                {data: categories}
+            ] = await Promise.all([
+                $axios.get(`/api/admin/administrationTasks/${params.id}`),
                 $axios.get('/api/cities'),
                 $axios.get('/api/objects/categories'),
             ])
-            return {cities, categories}
+            return {form: item, cities, categories}
         },
         computed: {
             cityOptions() {
@@ -118,9 +115,7 @@
         methods: {
             mapWasInitialized(map) {
                 this.mapInstance = map
-                const polygon = new ymaps.Polygon([
-                    [[44.631319535644,67.9598788994],[47.057073991514,68.46524999315],[49.776726703144,64.9276523369],[50.060469184795,77.3202304619],[47.341612540884,76.0018710869],[46.399844331743,72.6620273369],[44.568525221681,73.2772617119],[44.631319535644,67.9598788994]]
-                ], {
+                const polygon = new ymaps.Polygon(this.form.area ? [this.form.area] : [], {
                     editorDrawingCursor: "crosshair",
                     editorMaxPoints: 5,
                     fillColor: '#00FF00',
@@ -140,7 +135,7 @@
             },
             async submit() {
                 this.errors = {};
-                const {status, data} = await this.$axios.post('/api/admin/administrationTasks', this.form, {
+                const {status, data} = await this.$axios.put(`/api/admin/administrationTasks/${this.$route.params.id}`, this.form, {
                     validateStatus: status => status <= 400
                 })
                 if (status === 400) {

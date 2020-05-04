@@ -14,6 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 class AdministrationTask
 {
     /**
+     * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;
@@ -32,6 +33,11 @@ class AdministrationTask
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
     private ?\DateTimeImmutable $closedAt;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $name;
 
     /**
      * @ORM\Column(type="integer")
@@ -58,11 +64,41 @@ class AdministrationTask
      */
     private ?int $subCategoryId;
 
-    public function __construct(int $points)
+    public function __construct(string $name, int $points, ?int $cityId, ?int $categoryId, ?int $subCategoryId, ?array $area)
     {
+        $this->name = $name;
+        $this->points = $points;
+        $this->cityId = $cityId;
+        $this->categoryId = $categoryId;
+        $this->subCategoryId = $subCategoryId;
         $this->id = Uuid::uuid4();
+
+        if ($area && count($area)) {
+            $this->area = 'SRID=4326;POLYGON((' . implode(', ', array_map(function ($x) {
+                    return implode(' ', [$x[1], $x[0]]);
+                }, $area)) . '))';
+
+            // $this->area
+        }
+
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function update(string $name, int $points, ?int $cityId, ?int $categoryId, ?int $subCategoryId, ?array $area)
+    {
+        $this->name = $name;
         $this->points = $points;
+        $this->cityId = $cityId;
+        $this->categoryId = $categoryId;
+        $this->subCategoryId = $subCategoryId;
+        if ($area && count($area)) {
+            $this->area = 'SRID=4326;POLYGON((' . implode(', ', array_map(function ($x) {
+                    return implode(' ', [$x[1], $x[0]]);
+                }, $area)) . '))';
+        } else {
+            $this->area = null;
+        }
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

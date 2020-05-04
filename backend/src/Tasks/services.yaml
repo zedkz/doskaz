@@ -12,3 +12,6 @@ services:
   App\Tasks\CurrentTaskDataProvider:
 
   App\Tasks\Administration\AdministrationTaskController:
+    tags: ['controller.service_arguments']
+
+  App\Tasks\Administration\AdministrationTaskRepository:
