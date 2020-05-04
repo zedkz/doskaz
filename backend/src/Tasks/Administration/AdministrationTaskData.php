@@ -33,4 +33,6 @@ class AdministrationTaskData implements DataObject
     public ?int $subCategoryId;
 
     public ?array $area;
+
+    public ?\DateTimeImmutable $closedAt;
 }

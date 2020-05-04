@@ -9,6 +9,11 @@
             </div>
         </div>
         <b-card>
+
+            <b-alert :show="true" v-if="form.closedAt">
+                Задача закрыта <date-formatted element="span" :date="form.closedAt" format="yyyy-MM-dd в HH:mm"/>
+            </b-alert>
+
             <field-wrapper :required="true" label="Наименование" :error="errors.name">
                 <input type="text" class="form-control" v-model.trim="form.name"/>
             </field-wrapper>
@@ -55,7 +60,11 @@
                 </yandex-map>
             </field-wrapper>
 
-            <button type="button" class="btn btn-primary" @click.prevent="submit">Сохранить</button>
+            <template v-if="!form.closedAt">
+                <button type="button" class="btn btn-primary" @click.prevent="submit">Сохранить</button>
+                <button type="button" class="btn btn-warning" @click.prevent="close">Закрыть</button>
+            </template>
+
         </b-card>
     </div>
 </template>
@@ -64,6 +73,8 @@
     import FieldWrapper from "../../../components/crud/FieldWrapper";
     import {yandexMap, ymapMarker} from 'vue-yandex-maps'
     import mapValidationErrors from "~/mapValidationErrors";
+    import FormattedDate from "../../../components/crud/list-fields/FormattedDate";
+    import DateFormatted from "../../../components/FormattedDate";
 
     export default {
         data() {
@@ -73,7 +84,7 @@
                 errors: {},
             }
         },
-        components: {FieldWrapper, yandexMap},
+        components: {DateFormatted, FormattedDate, FieldWrapper, yandexMap},
         async asyncData({$axios, params}) {
             const [
                 {data: item},
@@ -141,6 +152,11 @@
                 if (status === 400) {
                     this.errors = mapValidationErrors(data.errors.violations)
                 }
+            },
+            async close() {
+                await this.$axios.post(`/api/admin/administrationTasks/${this.$route.params.id}/close`)
+                const {data} = await this.$axios.get(`/api/admin/administrationTasks/${this.$route.params.id}`)
+                this.form = data;
             }
         },
         watch: {

@@ -47,6 +47,7 @@ class AdministrationTaskController extends AbstractController
             ->addSelect('city_id')
             ->addSelect('category_id')
             ->addSelect('sub_category_id')
+            ->addSelect('closed_at')
             ->addSelect('ST_ASGEOJSON(ST_FlipCoordinates(area))::JSON->\'coordinates\'->0 AS area')
             ->from('administration_tasks')
             ->andWhere('id = :id')
@@ -67,6 +68,7 @@ class AdministrationTaskController extends AbstractController
         $taskData->categoryId = $data['category_id'];
         $taskData->subCategoryId = $data['sub_category_id'];
         $taskData->area = $connection->convertToPHPValue($data['area'], 'json');
+        $taskData->closedAt = $connection->convertToPHPValue($data['closed_at'], 'datetimetz_immutable');
         return $taskData;
     }
 
@@ -79,6 +81,17 @@ class AdministrationTaskController extends AbstractController
     public function update(AdministrationTask $administrationTask, AdministrationTaskData $data, Flusher $flusher)
     {
         $administrationTask->update($data->name, $data->pointsReward, $data->cityId, $data->categoryId, $data->subCategoryId, $data->area);
+        $flusher->flush();
+    }
+
+    /**
+     * @Route(path="/{id}/close", methods={"POST"})
+     * @param AdministrationTask $administrationTask
+     * @param Flusher $flusher
+     */
+    public function close(AdministrationTask $administrationTask, Flusher $flusher)
+    {
+        $administrationTask->close();
         $flusher->flush();
     }
 }

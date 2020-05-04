@@ -106,4 +106,8 @@ class AdministrationTask
     {
         return $this->id;
     }
+
+    public function close() {
+        $this->closedAt = new \DateTimeImmutable();
+    }
 }
