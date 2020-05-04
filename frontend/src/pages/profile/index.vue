@@ -5,7 +5,7 @@
 <script>
     export default {
         mounted() {
-            this.$router.push(this.localePath({name: 'profile-objects'}))
+            this.$router.push(this.localePath({name: 'profile-achievements'}))
         }
     }
 </script>
