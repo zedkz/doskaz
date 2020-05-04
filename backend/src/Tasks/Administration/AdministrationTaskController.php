@@ -7,6 +7,7 @@ use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -93,5 +94,36 @@ class AdministrationTaskController extends AbstractController
     {
         $administrationTask->close();
         $flusher->flush();
+    }
+
+    /**
+     * @Route(methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     * @return array
+     */
+    public function list(Request $request, Connection $connection)
+    {
+        $qb = $connection->createQueryBuilder()
+            ->from('administration_tasks')
+            ->andWhere('closed_at IS NULL');
+
+        $items = (clone $qb)
+            ->addSelect('administration_tasks.id')
+            ->addSelect('administration_tasks.name as "taskName"')
+            ->addSelect('cities.name as "cityName"')
+            ->addSelect('administration_tasks.closed_at as "closedAt"')
+            ->addSelect('administration_tasks.points')
+            ->leftJoin('administration_tasks', 'cities', 'cities', 'cities.id = administration_tasks.city_id')
+            ->setMaxResults($request->query->getInt('limit', 20))
+            ->setFirstResult($request->query->getInt('offset', 0))
+            ->orderBy('administration_tasks.created_at', 'desc')
+            ->execute()
+            ->fetchAll();
+
+        return [
+            'count' => (clone $qb)->select('COUNT(*)')->execute()->fetchColumn(),
+            'items' => $items
+        ];
     }
 }
