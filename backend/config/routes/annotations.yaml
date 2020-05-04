@@ -41,3 +41,7 @@ apiDocs:
 events:
     resource: ../../src/UserEvents
     type: annotation
+
+tasks:
+    resource: ../../src/Tasks
+    type: annotation

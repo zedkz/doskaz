@@ -14,6 +14,7 @@ abstract class AdminpanelPermission
     public const COMPLAINTS_ACCESS = 'complaints_access';
     public const REGIONAL_REPRESENTATIVES_ACCESS = 'regional_representatives_access';
     public const REGIONAL_COORDINATORS_ACCESS = 'regional_coordinators_access';
+    public const ADMINISTRATION_TASKS_ACCESS = 'administration_tasks_access';
 
     public const ALL = [
         self::ACCESS,
@@ -24,5 +25,6 @@ abstract class AdminpanelPermission
         self::COMPLAINTS_ACCESS,
         self::REGIONAL_REPRESENTATIVES_ACCESS,
         self::REGIONAL_COORDINATORS_ACCESS,
+        self::ADMINISTRATION_TASKS_ACCESS,
     ];
 }

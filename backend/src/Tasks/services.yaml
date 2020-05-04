@@ -10,3 +10,5 @@ services:
 
   App\Tasks\CurrentTaskProvider:
   App\Tasks\CurrentTaskDataProvider:
+
+  App\Tasks\Administration\AdministrationTaskController:

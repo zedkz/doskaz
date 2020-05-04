@@ -64,6 +64,7 @@
                     {path: '/objects', key: 'objects_access', icon: 'fa fa-map-marker-alt', title: 'Объекты'},
                     {path: '/regionalRepresentatives', key: 'regional_representatives_access', icon: 'fa fa-id-card', title: 'Региональные представители'},
                     {path: '/regionalCoordinators', key: 'regional_coordinators_access', icon: 'fa fa-id-card', title: 'Региональные координаторы'},
+                    {path: '/administrationTasks', key: 'administration_tasks_access', icon: 'fa fa-id-card', title: 'Задания от администрации'},
                 ].filter(item => this.can(item.key))
             }
         },
