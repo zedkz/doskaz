@@ -27,6 +27,9 @@ class AdministrationTaskController extends AbstractController
         $task = new AdministrationTask($data->name, $data->pointsReward, $data->cityId, $data->categoryId, $data->subCategoryId, $data->area);
         $administrationTaskRepository->add($task);
         $flusher->flush();
+        return [
+            'id' => $task->id()
+        ];
     }
 
     /**

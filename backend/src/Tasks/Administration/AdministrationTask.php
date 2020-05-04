@@ -101,4 +101,9 @@ class AdministrationTask
         }
         $this->updatedAt = new \DateTimeImmutable();
     }
+
+    public function id(): UuidInterface
+    {
+        return $this->id;
+    }
 }
