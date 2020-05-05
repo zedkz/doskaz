@@ -10,10 +10,13 @@ export const state = () => ({
 export const mutations = make.mutations(state);
 
 export const actions = {
-    async loadUser({commit}) {
+    async loadUser({commit, rootState}) {
         const {data: user} = await this.$axios.get('/api/profile', {
             validateStatus(status) {
                 return status < 500
+            },
+            params: {
+                cityId: rootState.settings.cityId
             }
         });
         commit('SET_USER', user);

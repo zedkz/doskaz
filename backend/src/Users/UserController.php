@@ -257,7 +257,7 @@ final class UserController extends AbstractController
             $fullName->first,
             $fullName->last,
             $fullName->middle,
-            $currentTaskProvider->forUser($user['id']),
+            $currentTaskProvider->forUser($user['id'], $request->query->getInt('cityId', 0)),
             [
                 'current' => $level->value(),
                 'currentPoints' => $level->points(),
