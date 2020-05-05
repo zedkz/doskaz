@@ -87,6 +87,7 @@ class AdministrationTaskController extends AbstractController
 
     /**
      * @Route(path="/{id}/close", methods={"POST"})
+     * @Route(path="/{id}", methods={"DELETE"})
      * @param AdministrationTask $administrationTask
      * @param Flusher $flusher
      */

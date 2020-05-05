@@ -19,8 +19,32 @@ class UserAdministrationTask
      */
     private UuidInterface $id;
 
-    public function __construct()
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $userId;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $taskId;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $points;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    private \DateTimeImmutable $createdAt;
+
+    public function __construct(int $userId, UuidInterface $taskId, int $points)
     {
         $this->id = Uuid::uuid4();
+        $this->userId = $userId;
+        $this->taskId = $taskId;
+        $this->points = $points;
+        $this->createdAt = new \DateTimeImmutable();
     }
 }

@@ -2,6 +2,7 @@ imports:
   - { resource: './ProfileCompletion/services.yaml' }
   - { resource: './Daily/services.yaml' }
   - { resource: './DailyVerification/services.yaml' }
+  - { resource: './Administration/services.yaml' }
 
 services:
   _defaults:
@@ -10,8 +11,3 @@ services:
 
   App\Tasks\CurrentTaskProvider:
   App\Tasks\CurrentTaskDataProvider:
-
-  App\Tasks\Administration\AdministrationTaskController:
-    tags: ['controller.service_arguments']
-
-  App\Tasks\Administration\AdministrationTaskRepository:
