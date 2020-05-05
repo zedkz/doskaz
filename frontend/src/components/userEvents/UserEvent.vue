@@ -19,7 +19,7 @@
                     <username :value="event.data.username"/>
                 </a> ответил(а) ваш комментарий к посту
                 <nuxt-link
-                        :to="localePath({name: 'blog-cat-slug', params: {category: event.data.categorySlug, slug: event.data.slug}})">
+                        :to="localePath({name: 'blog-cat-slug', params: {cat: event.data.categorySlug, slug: event.data.slug}})">
                     {{ event.data.title }}
                 </nuxt-link>
             </div>
