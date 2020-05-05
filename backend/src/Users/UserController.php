@@ -176,6 +176,7 @@ final class UserController extends AbstractController
      *     tags={"Пользователи"},
      *     summary="Профиль пользователя",
      *     security={{"clientAuth": {}}},
+     *     @Parameter(in="query", name="cityId", @Schema(type="integer", nullable=true), description="id города"),
      *     @Response(response=401, description=""),
      *     @\OpenApi\Annotations\Response(
      *         response="200",
