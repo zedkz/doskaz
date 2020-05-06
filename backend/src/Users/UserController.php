@@ -666,6 +666,8 @@ final class UserController extends AbstractController
      *     tags={"Пользователи"},
      *     security={{"clientAuth": {}}},
      *     summary="Задания пользователя",
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"createdAt desc", "createdAt asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
      *     @Response(
      *         response=200,
      *         description="",
@@ -689,7 +691,7 @@ final class UserController extends AbstractController
      */
     public function tasks(Request $request, UserTasksFinder $userTasksFinder)
     {
-       return $userTasksFinder->findForUser($this->getUser()->id(), $request->query->getInt('page', 1), $request->query->get('sort', 'completedAt desc'));
+        return $userTasksFinder->findForUser($this->getUser()->id(), $request->query->getInt('page', 1), $request->query->get('sort', 'createdAt desc'));
     }
 
     /**
@@ -819,8 +821,9 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @return mixed[]
      */
-    public function awards(Connection $connection) {
-        return$connection->createQueryBuilder()
+    public function awards(Connection $connection)
+    {
+        return $connection->createQueryBuilder()
             ->addSelect('id', 'title', 'type')
             ->from('awards')
             ->orderBy('issued_at', 'desc')

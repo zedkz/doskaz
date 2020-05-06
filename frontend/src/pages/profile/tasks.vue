@@ -26,8 +26,14 @@
         components: {
             UserTasks
         },
-        async asyncData({$axios}) {
-            const {data} = await $axios.get('/api/profile/tasks')
+        watchQuery: true,
+        async asyncData({$axios, query}) {
+            const {data} = await $axios.get('/api/profile/tasks', {
+                params: {
+                    ...query,
+                    page: query.page || 1
+                }
+            })
             return data;
         }
     };
