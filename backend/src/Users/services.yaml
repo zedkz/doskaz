@@ -71,3 +71,6 @@ services:
     App\Users\Security\Oauth\OauthService:
         arguments:
             - !tagged_locator { tag: 'oauth.provider', index_by: 'key' }
+
+    App\Users\AdminController:
+        tags: ['controller.service_arguments']
