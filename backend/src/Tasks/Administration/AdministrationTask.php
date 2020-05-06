@@ -107,7 +107,13 @@ class AdministrationTask
         return $this->id;
     }
 
-    public function close() {
+    public function close()
+    {
         $this->closedAt = new \DateTimeImmutable();
+    }
+
+    public function completeForUser(int $userId, UuidInterface $objectId): UserAdministrationTask
+    {
+        return new UserAdministrationTask($userId, $this->id, $this->points, $objectId);
     }
 }

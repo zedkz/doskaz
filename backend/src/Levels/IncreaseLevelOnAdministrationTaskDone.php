@@ -5,10 +5,12 @@ namespace App\Levels;
 
 
 use App\Infrastructure\DomainEvents\EventListener;
+use App\Tasks\Administration\AdministrationTaskDone;
+use App\Tasks\Daily\DailyTaskDone;
 use App\Tasks\DailyVerification\DailyVerificationTaskDone;
 use App\Tasks\ProfileCompletion\ProfileCompletionTaskDone;
 
-class IncreaseLevelOnVerificationTaskDone implements EventListener
+class IncreaseLevelOnAdministrationTaskDone implements EventListener
 {
     private LevelRepository $levelRepository;
 
@@ -18,7 +20,7 @@ class IncreaseLevelOnVerificationTaskDone implements EventListener
     }
 
     /**
-     * @param $event DailyVerificationTaskDone
+     * @param $event AdministrationTaskDone
      */
     public function handle($event)
     {
@@ -29,6 +31,6 @@ class IncreaseLevelOnVerificationTaskDone implements EventListener
 
     public function supports($event): bool
     {
-        return $event instanceof DailyVerificationTaskDone;
+        return $event instanceof AdministrationTaskDone;
     }
 }
