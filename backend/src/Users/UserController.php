@@ -15,11 +15,13 @@ use App\Infrastructure\ObjectResolver\ValidationException;
 use App\Infrastructure\Storage\Storage;
 use App\Levels\LevelRepository;
 use App\Tasks\CurrentTaskDataProvider;
+use App\Tasks\UserTasksFinder;
 use App\UserAbilities\UnlockedAbility;
 use App\UserEvents\UserEventsFinder;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Imgproxy\UrlBuilder;
 use OpenApi\Annotations\Delete;
 use OpenApi\Annotations\Get;
@@ -104,6 +106,7 @@ final class UserController extends AbstractController
      * @param CurrentTaskDataProvider $currentTaskProvider
      * @param LevelRepository $levelRepository
      * @return ProfileData
+     * @throws DBALException
      */
     public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskDataProvider $currentTaskProvider, LevelRepository $levelRepository)
     {
@@ -116,12 +119,6 @@ final class UserController extends AbstractController
             ->setMaxResults(1)
             ->execute()
             ->fetch();
-
-        /*return array_replace($user, [
-            'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable'),
-            'avatar' => $request->getSchemeAndHttpHost() . '/static/ava.png'
-        ]);*/
 
         /**
          * @var $fullName FullName
@@ -662,7 +659,7 @@ final class UserController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route(path="/profile/tasks", methods={"GET"})
      * @param Request $request
-     * @param Connection $connection
+     * @param UserTasksFinder $userTasksFinder
      * @return mixed[]
      * @Get(
      *     path="/api/profile/tasks",
@@ -690,39 +687,9 @@ final class UserController extends AbstractController
      *     @Response(response=401, description=""),
      * )
      */
-    public function tasks(Request $request, Connection $connection)
+    public function tasks(Request $request, UserTasksFinder $userTasksFinder)
     {
-        $perPage = 10;
-
-        $query = "
-               select completed_at, 'Заполните профиль' as type, 4 as points, users.created_at
-                  from profile_completion_tasks
-                  join users on users.id = profile_completion_tasks.user_id
-                  where user_id = :userId
-               union all select completed_at, 'Добавьте 1 объект' as type, reward as points, created_at from daily_tasks where user_id = :userId
-               union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points, created_at from daily_verification_tasks where user_id = :userId
-        ";
-
-        [$field, $sort] = explode('_', $request->query->get('sort', 'completedAt_desc'));
-
-        $qb = $connection->createQueryBuilder()
-            ->select(
-                'completed_at as "completedAt"',
-                'created_at as "createdAt"',
-                'type as title',
-                'points'
-            )
-            ->from("($query)", 'tasks')
-            ->setParameter('userId', $this->getUser()->id());
-
-        return [
-            'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
-            'items' => $qb->orderBy('"' . $field . '"', $sort)
-                ->setMaxResults($perPage)
-                ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
-                ->execute()
-                ->fetchAll()
-        ];
+       return $userTasksFinder->findForUser($this->getUser()->id(), $request->query->getInt('page', 1), $request->query->get('sort', 'completedAt desc'));
     }
 
     /**
@@ -799,7 +766,7 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UserRepository $userRepository
      * @param Storage $storage
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      * @Post(
      *     path="/api/profile/avatar",
      *     tags={"Пользователи"},
