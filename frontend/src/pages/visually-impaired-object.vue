@@ -443,44 +443,6 @@
                 }
             }
             &__tab {
-                &-link {
-                    position: relative;
-                    padding: 0 20px;
-                    z-index: 1;
-                    box-sizing: border-box;
-                    cursor: pointer;
-                    border: 2px solid transparent;
-                    border-bottom: none;
-                    line-height: 56px;
-                    &.--active {
-                        border-color: #000000;
-                        border-bottom: none;
-                        &:after {
-                            content: '';
-                            height: 2px;
-                            left: 0;
-                            bottom: 0;
-                            right: 0;
-                            background: #FFFFFF;
-                            position: absolute;
-                        }
-                    }
-                    &-b {
-                        position: relative;
-                        display: flex;
-                        justify-content: flex-start;
-                        width: 100%;
-                        &:after {
-                            content: '';
-                            left: 0;
-                            bottom: 0;
-                            right: 0;
-                            height: 2px;
-                            background: #000000;
-                            position: absolute;
-                        }
-                    }
-                }
                 &-content {
                     padding: 40px 0;
                 }
@@ -532,12 +494,12 @@
                 display: inline-block;
                 position: relative;
                 cursor: pointer;
-                &:first-child {
-                    margin: 0;
-                }
                 &-list {
                     max-width: 33.33%;
                     min-width: 33.33%;
+                    &:first-child {
+                        margin: 0 0 0 -20px;
+                    }
                 }
                 &-item {
                     height: 60px;

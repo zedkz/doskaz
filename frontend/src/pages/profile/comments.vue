@@ -1,5 +1,5 @@
 <template>
-    <UserComments :pages="pages" :items="items"/>
+    <user-comments :pages="pages" :items="items"/>
 </template>
 
 <script>

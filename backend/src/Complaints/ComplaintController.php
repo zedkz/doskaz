@@ -7,10 +7,14 @@ use App\Cities\Cities;
 use App\Cities\FindCityIdByLocation;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use OpenApi\Annotations\Get;
 use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Post;
+use OpenApi\Annotations\Property;
 use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Safe\Exceptions\FilesystemException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,6 +38,7 @@ final class ComplaintController extends AbstractController
 
     /**
      * ComplaintController constructor.
+     * @param $projectDir
      */
     public function __construct($projectDir)
     {
@@ -44,6 +49,8 @@ final class ComplaintController extends AbstractController
     /**
      * @Route(path="/validate", methods={"POST"})
      * @param ComplaintData $complaintData
+     */
+    /*
      * @Post(path="/api/complaints/validate",
      *     tags={"Жалобы"},
      *     summary="Валидация жалобы",
@@ -63,7 +70,6 @@ final class ComplaintController extends AbstractController
      * @param ComplaintData $complaintData
      * @param ComplaintRepository $complaintRepository
      * @param Flusher $flusher
-     *
      * @Post(path="/api/complaints",
      *     tags={"Жалобы"},
      *     summary="Подача жалобы",
@@ -96,6 +102,19 @@ final class ComplaintController extends AbstractController
      * @Route(path="/authorities", methods={"GET"})
      * @param Connection $connection
      * @return mixed[]
+     * @Get(
+     *     path="/api/complaints/authorities",
+     *     summary="Список органов обращения",
+     *     tags={"Жалобы"},
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="id", type="integer"),
+     *             @Property(property="name", type="string"),
+     *         )
+     *     )
+     * )
      */
     public function complaintAuthorities(Connection $connection)
     {
@@ -141,6 +160,17 @@ final class ComplaintController extends AbstractController
      * @throws ClientException
      * @throws FilesystemException
      * @throws RequestException
+     * @Get(
+     *     path="/api/complaints/{id}/pdf",
+     *     tags={"Жалобы"},
+     *     summary="Экспорт в pdf",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(name="id", in="path", description="Id жалобы", @Schema(type="integer")),
+     *     @Response(response=200, description=""),
+     *     @Response(response=401, description=""),
+     *     @Response(response=403, description=""),
+     *     @Response(response=404, description=""),
+     * )
      */
     public function pdfExport($id, Connection $connection)
     {

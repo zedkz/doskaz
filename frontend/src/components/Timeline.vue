@@ -61,7 +61,70 @@
             </div>
             <div class="timeline__tab timeline__tab_events" :class="{'isActive': activeTab===1}">
                 <div class="scroll">
-                    <div class="item">
+                    <div class="item" v-for="(event, index) in events" :key="index">
+                        <div class="item__date">
+                            <span>{{ event.date | date }}</span>
+                        </div>
+                        <div class="item__text">
+                            <template v-if="event.type === 'object_added'">
+                                <span v-if="userId === event.userId">
+                                   Вы добавили объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                                <span v-else>
+                                    <username tag="b" :value="event.username"/>
+                                    добавил(а) объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                            </template>
+                            <template v-if="event.type === 'object_reviewed'">
+                                <span v-if="userId === event.userId">
+                                    <username tag="b" :value="event.data.username"/>
+                                    прокомментировал(а) ваш объект
+                                    <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                                <span v-else-if="event.data.userId === userId">
+                                    Вы прокомментировали объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                                <span v-else>
+                                    <username tag="b" :value="event.data.username"/>
+                                    прокомментировал(а) объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                            </template>
+                            <template v-if="event.type === 'level_reached'">
+                                <span v-if="userId === event.userId">
+                                     Вы получаете уровень {{ event.data.level }}
+                                </span>
+                                <span v-else>
+                                    <username tag="b" :value="event.username"/>
+                                    получает уровень {{ event.data.level }}
+                                </span>
+                            </template>
+                            <template v-if="event.type === 'blog_comment_replied'">
+                                <span v-if="userId === event.data.userId">
+                                     Вы оставили ответ на комментарий к записи <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
+                                         cat: event.data.categorySlug,
+                                         slug: event.data.slug,
+                                     }})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                                <span v-else>
+                                     <username tag="b" :value="event.data.username"/>
+                                      отвечает на комментарий к записи <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
+                                         cat: event.data.categorySlug,
+                                         slug: event.data.slug,
+                                     }})"><b>{{ event.data.title }}</b></nuxt-link>
+                                </span>
+                            </template>
+                            <template v-if="event.type === 'award_issued'">
+                                 <span v-if="userId === event.userId">
+                                     Вы получили награду <b>"{{ event.data.title }}"</b>
+                                </span>
+                                <span v-else>
+                                     <username tag="b" :value="event.username"/>
+                                      получает награду <b>"{{ event.data.title }}"</b>
+                                </span>
+                            </template>
+                        </div>
+                    </div>
+                  <!--  <div class="item">
                         <div class="item__date">
                             <span>12 августа</span>
                         </div>
@@ -115,18 +178,7 @@
                 <b>Суши-бар Saya Sushi</b>
               </span>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="item__date">
-                            <span>12 августа</span>
-                        </div>
-                        <div class="item__text">
-              <span>
-                <b>Арай Молдахметова</b> прокомментировала ваш объект
-                <b>Суши-бар Saya Sushi</b>
-              </span>
-                        </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="link">
                     <nuxt-link :to="localePath({name: 'profile'})">
@@ -142,7 +194,7 @@
 </template>
 
 <script>
-    import UserTabs from "./../components/UserTabs";
+    import UserTabs from "~/components/UserTabs";
     import {format} from 'date-fns'
     import {ru} from 'date-fns/locale'
     import {get} from 'vuex-pathify'
@@ -150,7 +202,7 @@
     import UserAvatar from "./UserAvatar";
 
     export default {
-        props: ['posts'],
+        props: ['posts', 'events'],
         data() {
             return {
                 activeTab: 0
@@ -184,6 +236,9 @@
             name: get('authentication/name'),
             postsShow() {
                 return this.posts.slice(0, 3)
+            },
+            userId() {
+                return this.user ? this.user.id : null
             }
         }
     };

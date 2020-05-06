@@ -19,14 +19,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="/api/blogPosts")
+ * @Route(path="/api/blog/posts")
  */
 class CommentController extends AbstractController
 {
     /**
      * @Route(path="/{id}/comments", requirements={"id" = "\d+"}, methods={"GET"})
+     * @param Post $post
+     * @param Connection $connection
+     * @param Request $request
+     * @return CommentsListData
      * @Get(
-     *     path="/api/blogPosts/{id}/comments",
+     *     path="/api/blog/posts/{id}/comments",
      *     tags={"Блог"},
      *     summary="Комментарии к посту",
      *     @Parameter(
@@ -61,10 +65,6 @@ class CommentController extends AbstractController
      *         @Response(response="404", description="Post not found")
      *     }
      * )
-     * @param Post $post
-     * @param Connection $connection
-     * @param Request $request
-     * @return CommentsListData
      */
     public function commentsListController(Post $post, Connection $connection, Request $request): CommentsListData
     {
@@ -110,10 +110,15 @@ class CommentController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      * @Route(path="/{id}/comments", requirements={"id" = "\d+"}, methods={"POST"})
+     * @param Post $post
+     * @param CommentData $commentData
+     * @param CommentRepository $commentRepository
+     * @param Flusher $flusher
      * @\OpenApi\Annotations\Post(
-     *     path="/api/blogPosts/{id}/comments",
+     *     path="/api/blog/posts/{id}/comments",
      *     tags={"Блог"},
      *     summary="Создать комментарий к посту",
+     *     security={{"clientAuth": {}}},
      *     @Parameter(
      *          name="id",
      *          in="path",
@@ -133,10 +138,6 @@ class CommentController extends AbstractController
      *         @Response(response="400", description="Bad request"),
      *     }
      * )
-     * @param Post $post
-     * @param CommentData $commentData
-     * @param CommentRepository $commentRepository
-     * @param Flusher $flusher
      */
     public function reply(Post $post, CommentData $commentData, CommentRepository $commentRepository, Flusher $flusher)
     {

@@ -9,7 +9,7 @@
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.lastName}">
-                    <input type="text" v-model="profile.lastName">
+                    <input type="text" v-model.trim="profile.lastName">
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.firstName}">
-                    <input type="text" v-model="profile.firstName">
+                    <input type="text" v-model.trim="profile.firstName">
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.middleName}">
-                    <input type="text" v-model="profile.middleName">
+                    <input type="text" v-model.trim="profile.middleName">
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.email}">
-                    <input type="email" v-model="profile.email">
+                    <input type="email" v-model.trim="profile.email">
                     <span class="error-msg">{{ violations.email }}</span>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
             <div class="col --flex">
                 <div class="input --flex-col --sm " :class="{error: !!smsError}">
-                    <input type="text" v-model="smsCode">
+                    <input type="text" v-model.trim="smsCode">
                     <span class="error-msg">{{ smsError }}</span>
                 </div>
                 <div class="--flex-col">
@@ -77,13 +77,13 @@
                 </div>
             </div>
         </div>
-        <div class="user-page__line disabled">
+        <div class="user-page__line" :class="{disabled: !profile.abilities.includes('status_change')}">
             <div class="col --label">
                 <label class="user-page__label">Отображаемый статус</label>
             </div>
             <div class="col">
-                <div class="input disabled" :class="{error: !!violations.status}">
-                    <input type="text" readonly placeholder="Будет доступен с 5 уровня">
+                <div class="input" :class="{error: !!violations.status}">
+                    <input type="text" v-model.trim="profile.status" :readonly="!profile.abilities.includes('status_change')" :placeholder="profile.abilities.includes('status_change') ? '' : 'Будет доступен с 5 уровня'">
                 </div>
             </div>
         </div>

@@ -12,17 +12,24 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Post;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Schema;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class OauthController extends AbstractController
 {
-    private $oauthProviderLocator;
+    private ServiceLocator $oauthProviderLocator;
 
     public function __construct(ServiceLocator $oauthProviderLocator)
     {
@@ -43,44 +50,59 @@ final class OauthController extends AbstractController
     }
 
     /**
-     * @Route(path="/api/token/oauth", methods={"POST"})
+     * @param OauthService $oauthService
      * @param Request $request
      * @param OauthData $oauthData
-     * @param OauthCredentialsRepository $credentialsRepository
-     * @param UserRepository $userRepository
-     * @param Flusher $flusher
+     * @param UserAuthenticator $authenticator
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
+     * @throws \Exception
+     * @Route(path="/api/token/oauth", methods={"POST"})
+     */
+    public function oauthAuthenticate(OauthService $oauthService, Request $request, OauthData $oauthData, UserAuthenticator $authenticator)
+    {
+        try {
+            ['user' => $user, 'created' => $created] = $oauthService->userByProviderAndCode($oauthData->provider, $oauthData->code);
+            return $authenticator->authenticate($request, $user)->setStatusCode($created ? Response::HTTP_CREATED : Response::HTTP_OK);
+        } catch (ProviderNotFound $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        } catch (InvalidCode $exception) {
+            throw new BadRequestHttpException($exception->getMessage(), $exception);
+        }
+    }
+
+    /**
+     * @Route(path="/api/accessToken/oauth", methods={"POST"})
+     * @param OauthService $oauthService
+     * @param Request $request
+     * @param OauthData $oauthData
      * @param UserAuthenticator $authenticator
      * @return Response
      * @throws \Exception
+     * @Post(
+     *     path="/api/accessToken/oauth",
+     *     summary="Получение токена доступа на основе oauth кода",
+     *     tags={"Токены"},
+     *     @RequestBody(
+     *         @JsonContent(
+     *             @Property(type="string", property="provider", enum={"google", "facebook", "vkontakte", "mailru"}),
+     *             @Property(type="string", property="code"),
+     *         )
+     *     ),
+     *     @\OpenApi\Annotations\Response(response="404", description="Provider not found"),
+     *     @\OpenApi\Annotations\Response(response="400", description="Invalid code"),
+     *     @\OpenApi\Annotations\Response(response="201", description="Аутентифицирован новый пользователь", @JsonContent(@Property(type="string", property="token"))),
+     *     @\OpenApi\Annotations\Response(response="200", description="Аутентифицирован существующий пользователь", @JsonContent(@Property(type="string", property="token"))),
+     * )
      */
-    public function oauthAuthenticate(Request $request, OauthData $oauthData, OauthCredentialsRepository $credentialsRepository, UserRepository $userRepository, Flusher $flusher, UserAuthenticator $authenticator)
+    public function oauthAccessTokenAuthenticate(OauthService $oauthService, Request $request, OauthData $oauthData, UserAuthenticator $authenticator)
     {
-        $providerKey = $oauthData->provider;
-        if (!$this->oauthProviderLocator->has($providerKey)) {
-            throw new NotFoundHttpException(sprintf('Provider %s not found', $providerKey));
+        try {
+            ['user' => $user, 'created' => $created] = $oauthService->userByProviderAndCode($oauthData->provider, $oauthData->code);
+            return $authenticator->authenticate($request, $user)->setStatusCode($created ? Response::HTTP_CREATED : Response::HTTP_OK);
+        } catch (ProviderNotFound $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        } catch (InvalidCode $exception) {
+            throw new BadRequestHttpException($exception->getMessage(), $exception);
         }
-        /**
-         * @var AbstractProvider $provider
-         */
-        $provider = $this->oauthProviderLocator->get($providerKey);
-        $accessToken = $provider->getAccessToken('authorization_code', [
-            'code' => $oauthData->code
-        ]);
-        /**
-         * @var ResourceOwnerInterface|FacebookUser|GoogleUser $resourceOwner
-         */
-        $resourceOwner = $provider->getResourceOwner($accessToken);
-        $credentials = $credentialsRepository->findByNetworkAndIdentifier($providerKey, (string)$resourceOwner->getId());
-        if ($credentials) {
-            $user = $userRepository->find($credentials->id());
-            return $authenticator->authenticate($request, $user);
-        }
-        $name = new FullName($resourceOwner->getFirstName(), $resourceOwner->getLastName());
-        $user = new User($name, null);
-        $userRepository->add($user);
-        $credentials = new OauthCredentials($user->id(), $providerKey, (string)$resourceOwner->getId(), $name->firstAndLast());
-        $credentialsRepository->add($credentials);
-        $flusher->flush();
-        return $authenticator->authenticate($request, $user)->setStatusCode(Response::HTTP_CREATED);
     }
 }

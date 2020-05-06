@@ -2,7 +2,7 @@
     <div class="sidebar" v-bind:class="{ 'isMinified': isMinified }">
         <MainFilter/>
 
-        <Timeline :posts="posts"></Timeline>
+        <Timeline :posts="posts" :events="events"></Timeline>
 
         <div class="sidebar__minified" v-on:click="sidebarMinify()">
             <svg
@@ -28,8 +28,10 @@
     import Timeline from "./../components/Timeline.vue";
 
     export default {
+        name: 'sidebar',
         props: [
             'posts',
+            'events'
         ],
         data() {
             return {

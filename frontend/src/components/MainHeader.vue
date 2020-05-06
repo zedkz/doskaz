@@ -17,11 +17,11 @@
             <nuxt-link :to="localePath({name: 'about'})">
               <span>О проекте</span>
             </nuxt-link>
-            <nuxt-link :to="localePath({name: 'contacts'})">
-              <span>Контакты</span>
-            </nuxt-link>
             <nuxt-link :to="localePath({name: 'blog-category'})">
               <span>Блог</span>
+            </nuxt-link>
+            <nuxt-link :to="localePath({name: 'contacts'})">
+              <span>Контакты</span>
             </nuxt-link>
           </div>
 

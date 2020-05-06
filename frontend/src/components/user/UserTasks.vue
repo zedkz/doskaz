@@ -26,35 +26,37 @@
         </div>
         <div class="user-tasks__content">
             <UserTasksItem
-                    tasksItemStatus="--new"
-                    tasksItemDate="6 июля"
-                    tasksItemText="Добавьте 15 объектов в городе"
-                    tasksItemPoints="20 баллов"
+                    v-for="(task, index) in items"
+                    :key="index"
+                    :tasksItemStatus="task.completedAt ? '--done' : '--new'"
+                    :tasksItemDate="task.createdAt"
+                    :tasksItemText="task.title"
+                    :tasksItemPoints="task.points"
             />
-            <UserTasksItem
-                    tasksItemStatus="--current"
+            <!--<UserTasksItem
+                    tasksItemStatus="&#45;&#45;current"
                     tasksItemDate="29 июня"
                     tasksItemText="Добавьте 5 объектов в Северном промышленном районе"
                     tasksItemPoints="15 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="--done"
+                    tasksItemStatus="&#45;&#45;done"
                     tasksItemDate="25 июня"
                     tasksItemText="Добавьте свой первый объект в городе"
                     tasksItemPoints="20 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="--done"
+                    tasksItemStatus="&#45;&#45;done"
                     tasksItemDate="15 июня"
                     tasksItemText="Добавьте 5 объектов в городе"
                     tasksItemPoints="10 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="--done"
+                    tasksItemStatus="&#45;&#45;done"
                     tasksItemDate="14 июня"
                     tasksItemText="Заполните профиль"
                     tasksItemPoints="50 баллов"
-            />
+            />-->
         </div>
 
         <div class="user-tickets__pagination">
@@ -68,6 +70,7 @@
     import Pagination from "../Pagination";
 
     export default {
+        name: 'UserTasks',
         props: [
             'pages',
             'items'

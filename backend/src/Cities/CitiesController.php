@@ -46,7 +46,6 @@ class CitiesController
      * @param CityFinder $cityFinder
      * @return City
      * @throws InvalidDatabaseException
-     * @Route(methods={"GET"})
      * @Get(
      *     path="/api/cities/detect",
      *     summary="Определение города",

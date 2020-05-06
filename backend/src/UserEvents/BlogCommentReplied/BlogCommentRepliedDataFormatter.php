@@ -4,6 +4,7 @@
 namespace App\UserEvents\BlogCommentReplied;
 
 
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
 use Doctrine\DBAL\Connection;
@@ -24,12 +25,14 @@ class BlogCommentRepliedDataFormatter implements DataFormatter
 
     /**
      * @param Data|BlogCommentRepliedData $data
+     * @param Context $context
      * @return array
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
         $post = $this->connection->createQueryBuilder()
-            ->select('blog_posts.slug_value as slug')
+            ->addSelect('blog_posts.id')
+            ->addSelect('blog_posts.slug_value as slug')
             ->addSelect('blog_categories.slug_value as "categorySlug"')
             ->addSelect('blog_posts.title')
             ->from('blog_posts')
@@ -39,13 +42,12 @@ class BlogCommentRepliedDataFormatter implements DataFormatter
             ->execute()
             ->fetch();
 
-        return array_merge([
-            'username' => $this->connection->createQueryBuilder()
-                ->select('full_name->>\'firstAndLast\'')
-                ->from('users')
-                ->andWhere('id = :userId')
-                ->setParameter('userId', $data->userId)
-                ->execute()->fetchColumn(),
-        ], $post);
+        return array_merge( $this->connection->createQueryBuilder()
+            ->select('full_name->>\'firstAndLast\' as username, id as "userId"')
+            ->from('users')
+            ->andWhere('id = :userId')
+            ->setParameter('userId', $data->userId)
+            ->execute()->fetch()
+            , $post);
     }
 }

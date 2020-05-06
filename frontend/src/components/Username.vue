@@ -21,7 +21,7 @@
         },
         computed: {
             valueOrDefault() {
-                return this.value || this.placeholder || 'Без имени'
+                return this.value || this.placeholder || this.$t('usernameDefault')
             }
         }
     }

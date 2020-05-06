@@ -1,4 +1,6 @@
 require('dotenv').config();
+import axios from 'axios'
+
 
 export default {
     srcDir: 'src/',
@@ -8,7 +10,9 @@ export default {
         'cookie-universal-nuxt',
         '@nuxtjs/redirect-module',
         '@nuxtjs/robots',
-        'nuxt-i18n'
+        'nuxt-i18n',
+        '@nuxtjs/sitemap',
+        '@nuxtjs/feed'
     ],
     router: {
         middleware: 'languageUnderConstruction'
@@ -25,6 +29,9 @@ export default {
         },
         '/static': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
+        },
+        '/storage': {
+            target: process.env.BACKEND_DOMAIN || 'http://localhost',
         }
     },
     axios: {
@@ -35,7 +42,10 @@ export default {
         {from: '^/kurs-obrashenie', to: 'https://oft.kz/kurs-obrashenie'}
     ],
     plugins: [
-        {src: '~plugins/no-ssr.js', ssr: false},
+        {src: '~plugins/i18n.js'},
+        {src: '~plugins/axios.js'},
+        {src: '~plugins/csrf.js', mode: 'server'},
+        {src: '~plugins/no-ssr.js', mode: 'client'},
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
@@ -78,6 +88,7 @@ export default {
         {Allow: '*.jpeg'},
         {Allow: '*.png'},
         {Allow: '*.pdf'},
+        {Sitemap: 'https://doskaz.kz/sitemap.xml'},
     ] : {
         UserAgent: '*',
         Disallow: '/'
@@ -89,9 +100,53 @@ export default {
         pages: {
             'oauth/callback': false
         },
+        lazy: true,
+        langDir: 'lang/',
         locales: [
-            {code: 'kz', name: 'Qazaq'},
-            {code: 'ru', name: 'Русский'},
+            {code: 'kz', name: 'Qazaq', file: 'ru.js'},
+            {code: 'ru', name: 'Русский', file: 'ru.js'},
         ]
-    }
+    },
+    sitemap: {
+        gzip: true,
+        exclude: [
+            '/oauth/**',
+            '/profile',
+            '/complaint',
+            '/profile/**',
+            '/objects/pdf',
+            '/kz/**'
+        ],
+        routes: () => {
+            return [
+                
+            ]
+        }
+    },
+    feed: [
+        {
+            path: '/blog/feed.xml',
+            type: 'rss2',
+            async create(feed) {
+                feed.options = {
+                    title: 'Доступный Казахстан - Блог',
+                    link: 'https://doskaz.kz/feed.xml',
+                    description: ''
+                }
+                const {data: {items: posts}} = await axios.get(`${process.env.BACKEND_DOMAIN}/api/blog/posts`);
+                posts.forEach(post => {
+                    const url = `https://doskaz.kz/blog/${post.categorySlug}/${post.slug}`
+                    feed.addItem({
+                        title: post.title,
+                        id: url,
+                        link: url,
+                        description: post.annotation,
+                        content: post.content,
+                        date: new Date(post.publishedAt),
+                        image: post.image
+                    })
+                })
+            }
+        }
+    ]
 }

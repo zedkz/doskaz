@@ -48,7 +48,8 @@ services:
     App\Users\Security\AccessTokenRepository:
     App\Users\Security\UserAuthenticator:
     App\Users\Security\Oauth\OauthCredentialsRepository:
-    App\Users\Security\AccessTokenAuthenticator:
+    App\Users\Security\CookieAccessTokenAuthenticator:
+    App\Users\Security\BearerTokenAuthenticator:
     App\Users\Security\PhoneAuth\AuthController:
         lazy: true
         arguments:
@@ -66,3 +67,7 @@ services:
 
     App\Users\AdminPermissionsVoter:
         tags: ['security.voter']
+
+    App\Users\Security\Oauth\OauthService:
+        arguments:
+            - !tagged_locator { tag: 'oauth.provider', index_by: 'key' }

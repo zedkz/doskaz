@@ -12,16 +12,12 @@ class ProfileData
 {
     public $id;
 
-    public $name;
-
     /**
      * @var string|null
      */
     public $email;
 
     public $phone;
-
-    public $roles;
 
     public $avatar;
 
@@ -47,16 +43,16 @@ class ProfileData
     public $stats;
 
     /**
-     * @var UserAbilities
+     * @var array
      */
     public $abilities;
 
+    public ?string $status;
+
     /**
      * ProfileData constructor.
-     * @param $name
      * @param $email
      * @param $phone
-     * @param $roles
      * @param $avatar
      * @param $firstName
      * @param $lastName
@@ -64,14 +60,14 @@ class ProfileData
      * @param CurrentTaskData|null $currentTask
      * @param $level
      * @param $stats
-     * @param UserAbilities $abilities
+     * @param array $abilities
+     * @param string|null $status
      */
-    public function __construct($name, $email, $phone, $roles, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask, $level, $stats, UserAbilities $abilities)
+    public function __construct($id, $email, $phone, $avatar, $firstName, $lastName, $middleName, ?CurrentTaskData $currentTask, $level, $stats, array $abilities, ?string $status)
     {
-        $this->name = $name;
+        $this->id = $id;
         $this->email = $email;
         $this->phone = $phone;
-        $this->roles = $roles;
         $this->avatar = $avatar;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -80,5 +76,6 @@ class ProfileData
         $this->level = $level;
         $this->stats = $stats;
         $this->abilities = $abilities;
+        $this->status = $status;
     }
 }

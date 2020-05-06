@@ -6,6 +6,7 @@ namespace App\Users\Security;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Users\User;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tuupola\Base62;
@@ -28,17 +29,18 @@ final class UserAuthenticator
      * @return Response
      * @throws \Exception
      */
-    public function authenticate(Request $request, User $user): Response
+    public function authenticate(Request $request, User $user): JsonResponse
     {
         $accessToken = new AccessToken($user->id());
         $this->accessTokenRepository->add($accessToken);
         $this->flusher->flush();
 
-
-        $response = new Response('', 204);
+        $response = new JsonResponse([
+            'token' => $accessToken->value()
+        ], 204);
 
         $accessTokenCookie = new Cookie(
-            AccessTokenAuthenticator::COOKIE_NAME,
+            CookieAccessTokenAuthenticator::COOKIE_NAME,
             $accessToken->value(),
             $accessToken->expiresAt(),
             '/',
@@ -49,19 +51,6 @@ final class UserAuthenticator
         );
 
         $response->headers->setCookie($accessTokenCookie);
-
-        $xsrfCookie = new Cookie(
-            AccessTokenAuthenticator::XSRF_TOKEN_COOKIE,
-            (new Base62())->encode(random_bytes(128)),
-            $accessToken->expiresAt(),
-            '/',
-            null,
-            $request->isSecure(),
-            false
-        );
-
-        $response->headers->setCookie($xsrfCookie);
-
         return $response;
     }
 }

@@ -7,6 +7,11 @@ namespace App\RegionalRepresentatives;
 use App\Blog\Image;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use OpenApi\Annotations\Get;
+use OpenApi\Annotations\Items;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +25,28 @@ class RegionalRepresentativeController extends AbstractController
      * @Route(path="/api/regionalRepresentatives", methods={"GET"})
      * @param Connection $connection
      * @return array
+     * @Get(
+     *     path="/api/regionalRepresentatives",
+     *     tags={"Региональные координаторы"},
+     *     summary="Список региональных координаторов",
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             type="array",
+     *             @Items(
+     *                 type="object",
+     *                 @Property(property="id", type="string"),
+     *                 @Property(property="name", type="string"),
+     *                 @Property(property="email", type="string"),
+     *                 @Property(property="phone", type="string"),
+     *                 @Property(property="department", type="string"),
+     *                 @Property(property="cityId", type="integer"),
+     *                 @Property(property="image", type="string"),
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function index(Connection $connection)
     {

@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="blog__category">
-                    <a href="/blog/rss" class="subscribe-link">Подписаться на рассылку</a>
+                    <a href="/blog/feed.xml" class="subscribe-link">Подписаться на рассылку</a>
                 </div>
             </div>
             <ul class="blog__list">

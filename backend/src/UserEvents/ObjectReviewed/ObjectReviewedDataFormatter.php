@@ -4,6 +4,7 @@
 namespace App\UserEvents\ObjectReviewed;
 
 
+use App\UserEvents\Context;
 use App\UserEvents\Data;
 use Doctrine\DBAL\Connection;
 
@@ -28,7 +29,7 @@ class ObjectReviewedDataFormatter implements \App\UserEvents\DataFormatter
      * @param Data|ObjectReviewedData $data
      * @return array
      */
-    public function format(Data $data): array
+    public function format(Data $data, Context $context): array
     {
         $object = $this->connection->createQueryBuilder()
             ->select('title, id')
@@ -38,13 +39,12 @@ class ObjectReviewedDataFormatter implements \App\UserEvents\DataFormatter
             ->execute()
             ->fetch();
 
-        return array_merge([
-            'username' => $this->connection->createQueryBuilder()
-                ->select('full_name->>\'firstAndLast\'')
-                ->from('users')
-                ->andWhere('id = :userId')
-                ->setParameter('userId', $data->reviewerId)
-                ->execute()->fetchColumn(),
-        ], $object);
+        return array_merge($this->connection->createQueryBuilder()
+            ->select('full_name->>\'firstAndLast\' as username, id as "userId"')
+            ->from('users')
+            ->andWhere('id = :userId')
+            ->setParameter('userId', $data->reviewerId)
+            ->execute()->fetch(),
+            $object);
     }
 }

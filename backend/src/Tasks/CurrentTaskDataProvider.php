@@ -11,14 +11,14 @@ class CurrentTaskDataProvider
     /**
      * @var Connection
      */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    public function forUser(int $userId): ?CurrentTaskData
+    public function forUser(int $userId, int $cityId = 0): ?CurrentTaskData
     {
         $progress = $this->connection->createQueryBuilder()
             ->select([
@@ -32,6 +32,22 @@ class CurrentTaskDataProvider
 
         if ($progress !== 100) {
             return new CurrentTaskData($progress, 'Заполните профиль');
+        }
+
+        $administrationTask = $this->connection->createQueryBuilder()
+            ->select('*')
+            ->from('administration_tasks')
+            ->andWhere('administration_tasks.closed_at IS NULL')
+            ->andWhere('NOT EXISTS(select 1 from user_administration_tasks where user_administration_tasks.user_id = :userId and user_administration_tasks.task_id = administration_tasks.id)')
+            ->setParameter('userId', $userId)
+            ->andWhere('administration_tasks.city_id = :cityId OR city_id is NULL')
+            ->setParameter('cityId', $cityId)
+            ->addOrderBy('city_id', 'desc nulls last')
+            ->execute()
+            ->fetch();
+
+        if($administrationTask) {
+            return new CurrentTaskData(0, $administrationTask['name']);
         }
 
         $task = $this->connection->createQueryBuilder()

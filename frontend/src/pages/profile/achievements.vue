@@ -1,77 +1,78 @@
 <template>
-  <div>
-    <UserAchievments :events="items"/>
-    <div class="popup__wrapper" v-if="newLevelPopup">
-        <div class="popup__scroll">
-            <div class="popup__in">
-                <span class="popup__close" v-on:click="newLevelPopup = false"></span>
-                <h5 class="popup__title">Новый уровень!</h5>
-                <p class="popup__text">Поздравляем, вы получили 5 уровень!<br>Теперь вы можете редактировать свой статус
-                </p>
-                <div class="popup__new-level"
-                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/newLevel.svg') + ')'}"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="popup__wrapper" v-if="newPointsPopup">
-        <div class="popup__scroll">
-            <div class="popup__in">
-                <span class="popup__close" v-on:click="newPointsPopup = false"></span>
-                <h5 class="popup__title">Вам начислено 10 баллов!</h5>
-                <p class="popup__text">Вы закончили еженедельное задание<br>«Добавь 5 объектов в районе»</p>
-                <div class="popup__new-points">10</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="popup__wrapper" v-if="addAwardPopup">
-        <div class="popup__scroll">
-            <div class="popup__in">
-                <span class="popup__close" v-on:click="addAwardPopup = false"></span>
-                <h5 class="popup__title">Добавить награду</h5>
-                <div class="popup__award-wrapper">
-                    <form>
-                        <div class="popup__award-list">
-                            <div class="popup__award">
-                                <div class="popup__award-icon"
-                                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-gold.svg') + ')'}"></div>
-                                <input id="award-gold" type="radio" class="popup__award-input" name="award">
-                                <label for="award-gold">золотая</label>
-                            </div>
-                            <div class="popup__award">
-                                <div class="popup__award-icon"
-                                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-silver.svg') + ')'}"></div>
-                                <input id="award-silver" type="radio" class="popup__award-input" name="award">
-                                <label for="award-silver">серебряная</label>
-                            </div>
-                            <div class="popup__award">
-                                <div class="popup__award-icon"
-                                     v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-bronze.svg') + ')'}"></div>
-                                <input id="award-bronze" type="radio" class="popup__award-input" name="award">
-                                <label for="award-bronze">бронзовая</label>
-                            </div>
-                        </div>
-                    </form>
+    <div>
+        <UserAchievments :events="items" :awards="awards"/>
+        <div class="popup__wrapper" v-if="newLevelPopup">
+            <div class="popup__scroll">
+                <div class="popup__in">
+                    <span class="popup__close" v-on:click="newLevelPopup = false"></span>
+                    <h5 class="popup__title">Новый уровень!</h5>
+                    <p class="popup__text">Поздравляем, вы получили 5 уровень!<br>Теперь вы можете редактировать свой
+                        статус
+                    </p>
+                    <div class="popup__new-level"
+                         v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/newLevel.svg') + ')'}"></div>
                 </div>
-                <div class="select">
-                    <select>
-                        <option disabled selected>Выберите категорию</option>
-                        <option>Категория1</option>
-                        <option>Категория2</option>
-                        <option>Категория3</option>
-                        <option>Категория4</option>
-                    </select>
+            </div>
+        </div>
+
+        <div class="popup__wrapper" v-if="newPointsPopup">
+            <div class="popup__scroll">
+                <div class="popup__in">
+                    <span class="popup__close" v-on:click="newPointsPopup = false"></span>
+                    <h5 class="popup__title">Вам начислено 10 баллов!</h5>
+                    <p class="popup__text">Вы закончили еженедельное задание<br>«Добавь 5 объектов в районе»</p>
+                    <div class="popup__new-points">10</div>
                 </div>
-                <button type="button" class="user-page__button">Добавить</button>
+            </div>
+        </div>
+
+        <div class="popup__wrapper" v-if="addAwardPopup">
+            <div class="popup__scroll">
+                <div class="popup__in">
+                    <span class="popup__close" v-on:click="addAwardPopup = false"></span>
+                    <h5 class="popup__title">Добавить награду</h5>
+                    <div class="popup__award-wrapper">
+                        <form>
+                            <div class="popup__award-list">
+                                <div class="popup__award">
+                                    <div class="popup__award-icon"
+                                         v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-gold.svg') + ')'}"></div>
+                                    <input id="award-gold" type="radio" class="popup__award-input" name="award">
+                                    <label for="award-gold">золотая</label>
+                                </div>
+                                <div class="popup__award">
+                                    <div class="popup__award-icon"
+                                         v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-silver.svg') + ')'}"></div>
+                                    <input id="award-silver" type="radio" class="popup__award-input" name="award">
+                                    <label for="award-silver">серебряная</label>
+                                </div>
+                                <div class="popup__award">
+                                    <div class="popup__award-icon"
+                                         v-bind:style="{'background-image': 'url(' + require('~/assets/img/user/award-bronze.svg') + ')'}"></div>
+                                    <input id="award-bronze" type="radio" class="popup__award-input" name="award">
+                                    <label for="award-bronze">бронзовая</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="select">
+                        <select>
+                            <option disabled selected>Выберите категорию</option>
+                            <option>Категория1</option>
+                            <option>Категория2</option>
+                            <option>Категория3</option>
+                            <option>Категория4</option>
+                        </select>
+                    </div>
+                    <button type="button" class="user-page__button">Добавить</button>
+                </div>
             </div>
         </div>
     </div>
-  </div>
 </template>
 
 <script>
-    import UserAchievments from "@/components/user/UserAchievments";
+    import UserAchievments from "~/components/user/UserAchievments";
 
     export default {
         data() {
@@ -82,8 +83,11 @@
             };
         },
         async asyncData({$axios}) {
-          const {data: {items}} = await $axios.get('/api/profile/events')
-          return {items}
+            const [{data: awards}, {data: {items}}] = await Promise.all([
+                $axios.get('/api/profile/awards'),
+                $axios.get('/api/profile/events')
+            ])
+            return {awards, items}
         },
         computed: {
             currentPage() {
@@ -110,7 +114,7 @@
             position: relative;
             display: flex;
             align-items: flex-end;
-            @media all and (max-width: 768px){
+            @media all and (max-width: 768px) {
                 display: none;
             }
 
@@ -150,6 +154,7 @@
                         padding: 0 10px;
                         font-size: 14px;
                     }
+
                     span {
                         color: #ffffff;
                     }
@@ -199,6 +204,7 @@
                 top: 0;
                 width: 100%;
             }
+
             & > div {
                 margin-top: 10px;
 
@@ -218,7 +224,7 @@
             @media all and (max-width: 1024px) {
                 max-width: calc(100% - 216px);
             }
-            @media all and (max-width: 768px){
+            @media all and (max-width: 768px) {
                 max-width: 100%;
                 width: 100%;
                 margin: 0;

@@ -10,15 +10,16 @@ use OpenApi\Annotations\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route(path="/api/objectCategories")
- */
+
 class CategoriesController extends AbstractController
 {
     /**
-     * @Route(methods={"GET"})
+     * @Route(path="/api/objectCategories", methods={"GET"})
+     * @Route(path="/api/objects/categories", methods={"GET"})
+     * @param Connection $connection
+     * @return array
      * @Get(
-     *     path="/api/objectCategories",
+     *     path="/api/objects/categories",
      *     tags={"Объекты"},
      *     summary="Список категорий объектов",
      *     responses={
@@ -29,8 +30,6 @@ class CategoriesController extends AbstractController
      *         )
      *     }
      * )
-     * @param Connection $connection
-     * @return array
      */
     public function list(Connection $connection)
     {

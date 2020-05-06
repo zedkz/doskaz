@@ -43,7 +43,7 @@
                 <div class="object-side__content">
                     <div class="object-side__tab-link-wrapper">
                         <div class="object-side__tab-link-b">
-                            <nuxt-link v-for="(tab, index) in tabs" :to="localePath(tab.link)" :key="index"
+                            <nuxt-link v-for="(tab, index) in tabs" :to="tab.link" :key="index"
                                        class="object-side__tab-link"
                                        :class="{active: $route.query.tab === tab.link.query.tab}">
                                 {{ tab.title }}
@@ -128,37 +128,6 @@
                                         </template>
                                     </p>
                                 </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">11 августа</span>
-                                    <p class="object-side__history-text"><b>Алдияр Тулебаев</b> изменил описание объекта
-                                    </p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">10 августа</span>
-                                    <p class="object-side__history-text"><b>Елена Михеева</b> прокомментировала объект
-                                    </p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">9 августа</span>
-                                    <p class="object-side__history-text"><b>Алия Серикпаева</b> прокомментировала объект
-                                    </p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал
-                                        фотографии
-                                        объекта</p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал описание
-                                        объекта</p>
-                                </li>
-                                <li class="object-side__history-item">
-                                    <span class="object-side__history-date">6 августа</span>
-                                    <p class="object-side__history-text">Модератор <b>Volkorn</b> верифицировал зоны
-                                        доступности объекта</p>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -200,7 +169,7 @@
             <nuxt-link
                     v-if="$route.query.tab === 'reviews'"
                     :to="localePath(reviewsLink)"
-                    class="object-side__review-add">Оставить отзыв
+                    class="object-side__review-add">{{ $t('objects.review.linkButtonTitle') }}
             </nuxt-link>
         </div>
 
@@ -223,10 +192,10 @@
     import chunk from 'lodash/chunk'
     import {format} from 'date-fns'
     import ru from 'date-fns/locale/ru'
-    import Username from "../../components/Username";
-    import PostSubmitMessage from "../../components/complaint/PostSubmitMessage";
-    import LangSelect from "./../../components/LangSelect";
-    import {eventBus} from './../../store/bus.js'
+    import Username from "~/components/Username";
+    import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
+    import LangSelect from "~/components/LangSelect";
+    import {eventBus} from '~/store/bus.js'
 
     const accessibilityValues = {
         full_accessible: {
@@ -353,19 +322,19 @@
             },
             tabs() {
                 return [
-                    {title: 'Описание', link: {...this.$route, query: {tab: undefined}}},
-                    {title: 'Фото', link: {...this.$route, query: {tab: 'photos'}}, counter: this.object.photos.length},
+                    {title: this.$t('objects.tabTitles.description'), link: {...this.$route, query: {tab: undefined}}},
+                    {title: this.$t('objects.tabTitles.photos'), link: {...this.$route, query: {tab: 'photos'}}, counter: this.object.photos.length},
                     {
-                        title: 'Видео',
+                        title: this.$t('objects.tabTitles.videos'),
                         link: {...this.$route, query: {tab: 'videos'}},
                         counter: this.object.videos.length
                     },
                     {
-                        title: 'Отзывы',
+                        title: this.$t('objects.tabTitles.reviews'),
                         link: {...this.$route, query: {tab: 'reviews'}},
                         counter: this.object.reviews.length
                     },
-                    {title: 'История', link: {...this.$route, query: {tab: 'history'}}},
+                    {title: this.$t('objects.tabTitles.history'), link: {...this.$route, query: {tab: 'history'}}},
                 ]
             },
             attributesList: get('objectAdding/attributesList[:form]'),

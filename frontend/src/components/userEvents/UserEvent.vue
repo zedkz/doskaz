@@ -19,7 +19,7 @@
                     <username :value="event.data.username"/>
                 </a> ответил(а) ваш комментарий к посту
                 <nuxt-link
-                        :to="localePath({name: 'blog-cat-slug', params: {category: event.data.categorySlug, slug: event.data.slug}})">
+                        :to="localePath({name: 'blog-cat-slug', params: {cat: event.data.categorySlug, slug: event.data.slug}})">
                     {{ event.data.title }}
                 </nuxt-link>
             </div>
@@ -41,6 +41,14 @@
         <template v-if="event.type === 'award_issued'">
             <div class="list__icon list__icon_achievment"></div>
             <div class="list__text">Вам выдана награда: "{{ event.data.title }}"</div>
+        </template>
+
+        <template v-if="event.type === 'object_added'">
+            <div class="list__icon"></div>
+            <div class="list__text">
+                Вы добавлили объект
+                <nuxt-link :to="this.localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>, {{ event.data.categoryTitle }}
+            </div>
         </template>
 
     </div>

@@ -12,16 +12,31 @@ use App\Infrastructure\Firebase\Exception;
 use App\Infrastructure\Firebase\InvalidIdToken;
 use App\Infrastructure\Firebase\ProfileFetcher;
 use App\Infrastructure\ObjectResolver\ValidationException;
+use App\Infrastructure\Storage\Storage;
 use App\Levels\LevelRepository;
 use App\Tasks\CurrentTaskDataProvider;
+use App\UserAbilities\UnlockedAbility;
 use App\UserEvents\UserEventsFinder;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
 use Imgproxy\UrlBuilder;
+use OpenApi\Annotations\Delete;
+use OpenApi\Annotations\Get;
+use OpenApi\Annotations\Items;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\MediaType;
+use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Post;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Put;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -156,6 +171,51 @@ final class UserController extends AbstractController
     /**
      * @Route(path="/profile", methods={"GET"})
      * @IsGranted("ROLE_USER")
+     * @Get(
+     *     path="/api/profile",
+     *     tags={"Пользователи"},
+     *     summary="Профиль пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(in="query", name="cityId", @Schema(type="integer", nullable=true), description="id города"),
+     *     @Response(response=401, description=""),
+     *     @\OpenApi\Annotations\Response(
+     *         response="200",
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="email", type="string", nullable=true),
+     *             @Property(property="phone", type="string", nullable=true),
+     *             @Property(property="avatar", type="string", nullable=true),
+     *             @Property(property="firstName", type="string", nullable=true),
+     *             @Property(property="lastName", type="string", nullable=true),
+     *             @Property(property="middleName", type="string", nullable=true),
+     *             @Property(
+     *                 property="currentTask",
+     *                 type="object",
+     *                 nullable=true,
+     *                 @Property(type="number", property="progress"),
+     *                 @Property(type="string", property="title"),
+     *             ),
+     *             @Property(
+     *                 property="abilities",
+     *                 type="array",
+     *                 description="Разблокированные возможности",
+     *                 @Items(
+     *                     type="string",
+     *                     enum={"status_change", "avatar_upload"}
+     *                 )
+     *             ),
+     *             @Property(property="status", type="string", nullable=true, description="Отображаемый статус"),
+     *             @Property(
+     *                 property="level",
+     *                 type="object",
+     *                 @Property(property="current", type="number", description="Текущий уровень"),
+     *                 @Property(property="currentPoints", type="number", description="Текущее количество баллов"),
+     *                 @Property(property="progressToNext", type="number", description="Количество баллов оставшееся до получения следующего уровня"),
+     *                 @Property(property="nextLevelThreshold", type="number", description="Количество баллов необходимых для достижения следующего уровня"),
+     *             )
+     *         )
+     *     ),
+     * )
      * @param TokenStorageInterface $tokenStorage
      * @param Connection $connection
      * @param Request $request
@@ -166,7 +226,7 @@ final class UserController extends AbstractController
     public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskDataProvider $currentTaskProvider, LevelRepository $levelRepository)
     {
         $user = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name')
+            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'avatar', 'full_name', 'status')
             ->from('users')
             ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
             ->andWhere('users.id = :id')
@@ -191,15 +251,14 @@ final class UserController extends AbstractController
 
 
         return new ProfileData(
-            $user['name'],
+            $user['id'],
             $user['email'],
             $user['phone'],
-            $connection->convertToPHPValue($user['roles'], 'json'),
             $user['avatar'] ? $user['avatar'] : null,
             $fullName->first,
             $fullName->last,
             $fullName->middle,
-            $currentTaskProvider->forUser($user['id']),
+            $currentTaskProvider->forUser($user['id'], $request->query->getInt('cityId', 0)),
             [
                 'current' => $level->value(),
                 'currentPoints' => $level->points(),
@@ -210,10 +269,8 @@ final class UserController extends AbstractController
                 'objects' => $connection->createQueryBuilder()->select('COUNT(*) FROM objects WHERE created_by = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
                 'complaints' => $connection->createQueryBuilder()->select('COUNT(*) FROM complaints WHERE complainant_id = :userId')->setParameter('userId', $user['id'])->execute()->fetchColumn(),
             ],
-            new UserAbilities(
-                $this->isGranted(UserAbility::AVATAR_UPLOAD),
-                $this->isGranted(UserAbility::STATUS_CHANGE),
-            )
+            $connection->executeQuery('SELECT key FROM unlocked_abilities WHERE user_id = :userId', ['userId' => $user['id']])->fetchAll(\PDO::FETCH_COLUMN),
+            $user['status']
         );
     }
 
@@ -227,6 +284,41 @@ final class UserController extends AbstractController
      * @param CredentialsRepository $credentialsRepository
      * @param Transactional $transactional
      * @throws ValidationException
+     * @Put(
+     *     path="/api/profile",
+     *     tags={"Пользователи"},
+     *     summary="Обновление профиля пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @RequestBody(
+     *         @JsonContent(
+     *             @Property(property="firstName", type="string", nullable=true),
+     *             @Property(property="lastName", type="string", nullable=true),
+     *             @Property(property="middleName", type="string", nullable=true),
+     *             @Property(property="email", type="string", nullable=true),
+     *             @Property(property="status", type="string", nullable=true, description="Отображаемый статус"),
+     *             @Property(property="phoneChangeToken", type="string", nullable=true, description="firebase IdToken для смены номера телефона"),
+     *         )
+     *     ),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=400,
+     *         description="Validation Failed",
+     *         @JsonContent(
+     *             @Property(property="message", type="string", example="Validation Failed"),
+     *             @Property(property="code", type="number", example=400),
+     *             @Property(
+     *                 property="errors",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="property", type="string", description="Имя свойства"),
+     *                     @Property(property="message", type="string", description="Текст ошибки"),
+     *                 )
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      */
     public function updateProfile(
         UpdateUserProfileData $profileData,
@@ -269,18 +361,32 @@ final class UserController extends AbstractController
                     throw new ValidationException(new ConstraintViolationList([new ConstraintViolation('Неверный id токен', '', [], '', 'phoneChangeToken', '')]));
                 }
             }
-            $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email);
+            $user->updateProfile(new FullName($profileData->firstName, $profileData->lastName, $profileData->middleName), $profileData->email, $profileData->status);
         });
     }
 
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route(path="/profile/chooseAvatarPreset/{presetNumber}", methods={"POST"}, requirements={"presetNumber" = "\d+"})
+     * @Route(path="/profile/chooseAvatarPreset/{presetNumber}", methods={"POST", "PUT"}, requirements={"presetNumber" = "\d+"})
      * @param $presetNumber
      * @param UserRepository $repository
      * @param Flusher $flusher
      * @return array
+     * @Put(
+     *     path="/api/profile/chooseAvatarPreset/{presetNumber}",
+     *     tags={"Пользователи"},
+     *     summary="Выбор аватара",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(name="presetNumber", in="path", description="Номер пресета", @Schema(type="int", enum={1, 2,3,4,5,6})),
+     *     @Response(response=401, description=""),
+     *     @Response(response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="avatar", type="string", example="/static/presets/av5.svg")
+     *         )
+     *     )
+     * )
      */
     public function chooseAvatarPreset($presetNumber, UserRepository $repository, Flusher $flusher): array
     {
@@ -311,6 +417,14 @@ final class UserController extends AbstractController
      * @Route(path="/profile/avatar", methods={"DELETE"})
      * @param UserRepository $repository
      * @param Flusher $flusher
+     * @Delete(
+     *     path="/api/profile/avatar",
+     *     tags={"Пользователи"},
+     *     summary="Удаление аватара",
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @Response(response=204, description=""),
+     * )
      */
     public function removeAvatar(UserRepository $repository, Flusher $flusher)
     {
@@ -326,6 +440,37 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/objects",
+     *     tags={"Пользователи"},
+     *     summary="Объекты пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(in="query", name="overallScore", @Schema(type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS, nullable=true), description="Оценка доступности"),
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer", description="Количество страниц"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="id", type="integer"),
+     *                     @Property(property="title", type="string"),
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="overallScore", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS, description="Общая оценка доступности"),
+     *                     @Property(property="reviewsCount", type="integer", description="Количество отзывов"),
+     *                     @Property(property="complaintsCount", type="integer", description="Количество жалоб"),
+     *                     @Property(property="image", type="string", description="Изображение", nullable=true),
+     *                 )
+     *             ),
+     *         )
+     *     )
+     * )
      */
     public function objects(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
@@ -363,8 +508,7 @@ final class UserController extends AbstractController
             ->andWhere('object_id = objects.id')
             ->getSQL();
 
-        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
-
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
         $objects = (clone $qb)
             ->addSelect('reviews."reviewsCount"')
             ->addSelect('complaints."complaintsCount"')
@@ -379,14 +523,13 @@ final class UserController extends AbstractController
         return [
             'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
             'items' => array_map(function ($object) use ($connection, $request, $urlBuilder) {
-
                 $image = null;
                 /**
                  * @var $photos FileReferenceCollection
                  */
                 $photos = $connection->convertToPHPValue($object['photos'], FileReferenceCollection::class);
                 if ($photos->count()) {
-                    $image = $request->getSchemeAndHttpHost() . $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 220, 160)->toString();
+                    $image = $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 220, 160)->toString();
                 }
 
                 return [
@@ -409,9 +552,42 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/comments",
+     *     tags={"Пользователи"},
+     *     summary="Комментарии пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "popularity desc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer", description="Количество страниц"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="type", type="string", enum={"post", "object"}, description="вид комментария"),
+     *                     @Property(property="image", type="string", description="Изображение", nullable=true),
+     *                     @Property(property="title", type="string", description="Название комментируемого материала"),
+     *                     @Property(property="text", type="string", description="Текст комментария"),
+     *                     @Property(property="objectId", type="integer", nullable=true, description="Id объекта (если type == object)"),
+     *                     @Property(property="postId", type="integer", nullable=true, description="Id поста (если type == post)"),
+     *                     @Property(property="slug", type="string", nullable=true, description=""),
+     *                     @Property(property="categorySlug", type="string", nullable=true, description=""),
+     *                 )
+     *             ),
+     *         )
+     *     )
+     * )
      */
     public function comments(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
         $perPage = 10;
 
         $qb = $connection->createQueryBuilder()
@@ -427,7 +603,7 @@ final class UserController extends AbstractController
         $items = (clone $qb)
             ->setMaxResults($perPage)
             ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
-            ->orderBy($request->query->get('sort', 'date'), 'desc')
+            ->orderBy($field, $sort)
             ->execute()
             ->fetchAll();
 
@@ -437,6 +613,7 @@ final class UserController extends AbstractController
                 'blog_comments.id',
                 'blog_comments.text',
                 'blog_posts.title',
+                'blog_posts.id as "postId"',
                 'blog_posts.slug_value as slug',
                 'blog_categories.slug_value as "categorySlug"',
                 'blog_posts.image'
@@ -448,7 +625,6 @@ final class UserController extends AbstractController
             ->setParameter('ids', array_column($items, 'id'), Connection::PARAM_STR_ARRAY)
             ->execute()
             ->fetchAll(\PDO::FETCH_UNIQUE);
-
 
         $objectReviews = $connection->createQueryBuilder()
             ->select([
@@ -468,7 +644,12 @@ final class UserController extends AbstractController
         $mappedItems = array_map(function ($item) use ($connection, $postComments, $objectReviews, $request, $urlBuilder) {
             $result = [
                 'date' => $connection->convertToPHPValue($item['date'], 'datetimetz_immutable'),
-                'type' => $item['type']
+                'type' => $item['type'],
+                'image' => null,
+                'objectId' => null,
+                'postId' => null,
+                'slug' => null,
+                'categorySlug' => null
             ];
 
             if (array_key_exists($item['id'], $postComments)) {
@@ -477,13 +658,14 @@ final class UserController extends AbstractController
                 $result['categorySlug'] = $postComment['categorySlug'];
                 $result['title'] = $postComment['title'];
                 $result['text'] = $postComment['text'];
+                $result['postId'] = $postComment['postId'];
 
                 /**
                  * @var $image Image|null
                  */
                 $image = $connection->convertToPHPValue($postComment['image'], Image::class);
                 if ($image) {
-                    $result['image'] = $request->getSchemeAndHttpHost() . $image->resize(140, 100);
+                    $result['image'] = $image->resize(140, 100);
                 }
             }
 
@@ -498,7 +680,7 @@ final class UserController extends AbstractController
                  */
                 $photos = $connection->convertToPHPValue($objectReview['photos'], FileReferenceCollection::class);
                 if ($photos->count()) {
-                    $result['image'] = $request->getSchemeAndHttpHost() . $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
+                    $result['image'] = $urlBuilder->build('local:///storage/' . $photos->first()->relativePath, 140, 100)->toString();
                 }
             }
 
@@ -519,6 +701,34 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UrlBuilder $urlBuilder
      * @return array
+     * @Get(
+     *     path="/api/profile/complaints",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Жалобы пользователя",
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"date desc", "date asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="id", type="integer"),
+     *                     @Property(property="type", type="string", enum={"complaint1", "complaint2"}, description="Вид жалобы (жалоба на отсутствие пандуса, жалоба на отсутствие доступа)"),
+     *                     @Property(property="title", type="string"),
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="image", type="string", nullable=true),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function complaints(Request $request, Connection $connection, UrlBuilder $urlBuilder)
     {
@@ -529,7 +739,7 @@ final class UserController extends AbstractController
             ->andWhere('complainant_id = :userId')
             ->setParameter('userId', $this->getUser()->id());
 
-        [$field, $sort] = explode('_', $request->query->get('sort', 'date_desc'));
+        [$field, $sort] = explode(' ', $request->query->get('sort', 'date desc'));
 
 
         $items = (clone $qb)->select([
@@ -552,7 +762,7 @@ final class UserController extends AbstractController
                 $image = null;
                 $photos = $connection->convertToPHPValue($item['photos'], 'json');
                 if (count($photos)) {
-                    $image = $request->getSchemeAndHttpHost() . $urlBuilder->build('local://' . $photos[0], 220, 160)->toString();
+                    $image = $urlBuilder->build('local://' . $photos[0], 220, 160)->toString();
                 }
 
                 return [
@@ -567,21 +777,48 @@ final class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route(path="/profile/tasks", methods={"GET"})
      * @param Request $request
      * @param Connection $connection
      * @return mixed[]
+     * @Get(
+     *     path="/api/profile/tasks",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Задания пользователя",
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="pages", type="integer", description="Количество страниц"),
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="completedAt", type="string", format="date-time", nullable=true),
+     *                     @Property(property="createdAt", type="string", format="date-time", nullable=true),
+     *                     @Property(property="title", type="string", description="Название задачи"),
+     *                     @Property(property="points", type="integer", description="Количество баллов за выполнение задачи", example=5),
+     *                 )
+     *             ),
+     *         )
+     *     ),
+     *     @Response(response=401, description=""),
+     * )
      */
     public function tasks(Request $request, Connection $connection)
     {
         $perPage = 10;
 
         $query = "
-               select completed_at, 'Заполните профиль' as type, 4 as points
+               select completed_at, 'Заполните профиль' as type, 4 as points, users.created_at
                   from profile_completion_tasks
+                  join users on users.id = profile_completion_tasks.user_id
                   where user_id = :userId
-                  union all select completed_at, 'Добавьте 1 объект' as type, reward as points from daily_tasks where user_id = :userId
-                  union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points from daily_verification_tasks where user_id = :userId
+               union all select completed_at, 'Добавьте 1 объект' as type, reward as points, created_at from daily_tasks where user_id = :userId
+               union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points, created_at from daily_verification_tasks where user_id = :userId
         ";
 
         [$field, $sort] = explode('_', $request->query->get('sort', 'completedAt_desc'));
@@ -589,7 +826,8 @@ final class UserController extends AbstractController
         $qb = $connection->createQueryBuilder()
             ->select(
                 'completed_at as "completedAt"',
-                'type',
+                'created_at as "createdAt"',
+                'type as title',
                 'points'
             )
             ->from("($query)", 'tasks')
@@ -609,9 +847,137 @@ final class UserController extends AbstractController
      * @Route(path="/profile/events", methods={"GET"})
      * @param UserEventsFinder $eventsFinder
      * @return array
+     * @Get(
+     *     path="/api/profile/events",
+     *     summary="Лог событий",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(
+     *                 property="items",
+     *                 type="array",
+     *                 @Items(
+     *                     type="object",
+     *                     @Property(property="date", type="string", format="date-time"),
+     *                     @Property(property="type", type="string", enum={"object_reviewed", "level_reached", "blog_comment_replied", "award_issued", "object_created"}),
+     *                     @Property(
+     *                         property="data",
+     *                         type="object",
+     *                         oneOf={
+     *                             @Schema(
+     *                                 title="award_issued",
+     *                                 @Property(property="title", type="string", description="Наименование награды"),
+     *                                 @Property(property="type", type="string", description="Вид", enum={"bronze", "silver", "gold"}),
+     *                             ),
+     *                             @Schema(
+     *                                 title="level_reached",
+     *                                 @Property(property="level", type="integer", description="Уровень"),
+     *                                 @Property(property="pointsUntilNextLevel", type="integer", description="Баллов до следующего уровня"),
+     *                                 @Property(property="unlockedAbility", type="string", nullable=true, description="Разблокированная возможность", enum={"status_change", "avatar_upload"}),
+     *                             ),
+     *                             @Schema(
+     *                                 title="object_reviewed",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование объекта"),
+     *                             ),
+     *                             @Schema(
+     *                                 title="blog_comment_replied",
+     *                                 @Property(property="id", type="integer", description="id поста"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                             ),
+     *                             @Schema(
+     *                                 title="object_added",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="title", type="string", description="Наименование поста"),
+     *                                 @Property(property="categoryTitle", type="string", description="Наименование подкатегории"),
+     *                             ),
+     *                         },
+     *                     ),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function events(UserEventsFinder $eventsFinder)
     {
         return $eventsFinder->execute($this->getUser()->id(), 1, 'date', 'desc');
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/avatar")
+     * @param Request $request
+     * @param Connection $connection
+     * @param UserRepository $userRepository
+     * @param Storage $storage
+     * @throws \Doctrine\DBAL\DBALException
+     * @Post(
+     *     path="/api/profile/avatar",
+     *     tags={"Пользователи"},
+     *     security={{"clientAuth": {}}},
+     *     summary="Загрузка аватара",
+     *     @Response(response=401, description=""),
+     *     @Response(response=403, description=""),
+     *     @Response(response=204, description=""),
+     *     @RequestBody(
+     *         description="файл для загрузки",
+     *         @MediaType(
+     *             mediaType="application/octet-stream"
+     *         )
+     *     ),
+     * )
+     */
+    public function avatar(Request $request, Connection $connection, UserRepository $userRepository, Storage $storage, Flusher $flusher)
+    {
+        $id = $this->getUser()->id();
+        $abilities = $connection->executeQuery('SELECT key FROM unlocked_abilities WHERE user_id = :userId', ['userId' => $id])->fetchAll(\PDO::FETCH_COLUMN);
+
+        if (!in_array(UnlockedAbility::ABILITY_AVATAR_UPLOAD, $abilities)) {
+            throw new AccessDeniedHttpException('Access Denied');
+        }
+        $user = $userRepository->find($id);
+        $avatarPath = $storage->uploadFile($request->getContent(true));
+        $user->changeAvatar('/storage/' . $avatarPath);
+        $flusher->flush();
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route(path="/profile/awards", methods={"GET"})
+     * @Get(
+     *     path="/api/profile/awards",
+     *     tags={"Пользователи"},
+     *     summary="Награды пользователя",
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=401, description=""),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="id", type="string", example="0eea2236-fa6f-4068-aebf-94c478fa3d38"),
+     *             @Property(property="title", type="string", example="Добавлено 3 объекта"),
+     *             @Property(property="type", type="string", enum={"bronze", "silver", "gold"}),
+     *         )
+     *     ),
+     * )
+     * @param Connection $connection
+     * @return mixed[]
+     */
+    public function awards(Connection $connection) {
+        return$connection->createQueryBuilder()
+            ->addSelect('id', 'title', 'type')
+            ->from('awards')
+            ->orderBy('issued_at', 'desc')
+            ->where('awards.user_id = :userId')
+            ->setParameter('userId', $this->getUser()->id())
+            ->execute()
+            ->fetchAll();
     }
 }

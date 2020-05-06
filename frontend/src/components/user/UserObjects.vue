@@ -48,7 +48,7 @@
         data() {
             return {
                 filter: {
-                    sort: 'date_desc',
+                    sort: 'date desc',
                     overallScore: undefined
                 }
             }
@@ -59,7 +59,7 @@
         ],
         mounted() {
             this.filter = {
-                sort: 'date_desc',
+                sort: 'date desc',
                 overallScore: 'all',
                 ...this.$route.query,
             }
@@ -72,8 +72,8 @@
         computed: {
             sortOptions() {
                 return [
-                    {value: 'date_desc', title: 'дате добавления'},
-                    {value: 'date_asc', title: 'сначала старые'},
+                    {value: 'date desc', title: 'дате добавления'},
+                    {value: 'date asc', title: 'сначала старые'},
                 ]
             },
             scoreOptions() {
@@ -88,7 +88,7 @@
         watch: {
             filter: {
                 handler(v) {
-                    this.$router.push(this.localePath({...this.$route, query: v}))
+                    this.$router.push({...this.$route, query: v})
                 },
                 deep: true
             }

@@ -15,27 +15,6 @@
                     :key="item.id"
                     :item="item"
             />
-            <div class="user-comments__item">
-                <div class="user-comments__image"></div>
-                <div class="user-comments__description">
-                    <p class="user-comments__text">asdasdasdas</p>
-                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
-                </div>
-            </div>
-            <div class="user-comments__item">
-                <div class="user-comments__image"></div>
-                <div class="user-comments__description">
-                    <p class="user-comments__text">asdasdasdas</p>
-                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
-                </div>
-            </div>
-            <div class="user-comments__item">
-                <div class="user-comments__image"></div>
-                <div class="user-comments__description">
-                    <p class="user-comments__text">asdasdasdas</p>
-                    <div class="user-comments__info">12.02.2012&nbsp;qweqweqwe&nbsp;<a href=""><strong>asdasd</strong></a></div>
-                </div>
-            </div>
         </div>
         <div class="user-comments__pagination">
             <pagination :pages="pages" v-if="pages > 1"/>
@@ -49,6 +28,7 @@
     import Dropdown from "../Dropdown";
 
     export default {
+        name: 'UserComments',
         props: [
             'pages',
             'items'
@@ -66,13 +46,13 @@
         computed: {
             options() {
                 return [
-                    {value: 'date', title: 'дате добавления'},
-                    {value: 'popularity', title: 'популярности'}
+                    {value: 'date desc', title: 'дате добавления'},
+                    {value: 'popularity desc', title: 'популярности'}
                 ]
             },
             filterValue: {
                 get() {
-                    return this.$route.query.sort || 'date'
+                    return this.$route.query.sort || 'date desc'
                 },
                 set(v) {
                     this.$router.push(this.localePath({...this.$route, query: {sort: v}}))
