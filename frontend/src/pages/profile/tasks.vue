@@ -27,11 +27,12 @@
             UserTasks
         },
         watchQuery: true,
-        async asyncData({$axios, query}) {
+        async asyncData({$axios, query, store}) {
             const {data} = await $axios.get('/api/profile/tasks', {
                 params: {
                     ...query,
-                    page: query.page || 1
+                    page: query.page || 1,
+                    cityId: store.state.settings.cityId
                 }
             })
             return data;
