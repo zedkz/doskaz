@@ -691,7 +691,7 @@ final class UserController extends AbstractController
      */
     public function tasks(Request $request, UserTasksFinder $userTasksFinder)
     {
-        return $userTasksFinder->findForUser($this->getUser()->id(), $request->query->getInt('page', 1), $request->query->get('sort', 'createdAt desc'));
+        return $userTasksFinder->findForUser($this->getUser()->id(), $request->query->getInt('cityId', 0), $request->query->getInt('page', 1), $request->query->get('sort', 'createdAt desc'));
     }
 
     /**
