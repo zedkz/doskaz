@@ -56,7 +56,8 @@ class CurrentTaskDataProvider
             ->andWhere('user_id = :user_id')
             ->setParameter('user_id', $userId)
             ->andWhere('completed_at is null')
-            ->execute()->fetchColumn();
+            ->execute()
+            ->fetch();
         if ($task) {
             return new CurrentTaskData(0, 'Верифицируйте 1 объект', $task['reward']);
         }
