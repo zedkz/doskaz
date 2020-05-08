@@ -70,6 +70,7 @@ services:
     environment:
       - BACKEND_DOMAIN
       - NUXT_HOST=0.0.0.0
+      - TZ=Asia/Almaty
     depends_on:
       - backend
 
