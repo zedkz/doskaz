@@ -45,7 +45,7 @@
                     <div class="item__info">
                         <p class="item__date">
                             <span>{{ post.categoryTitle }}</span>
-                            <span>{{ post.publishedAt | date }}</span>
+                            <formatted-date element="span" :date="post.publishedAt" format="d MMMM"/>
                         </p>
                         <h3 class="item__title">{{ post.title }}</h3>
                         <p
@@ -63,7 +63,7 @@
                 <div class="scroll">
                     <div class="item" v-for="(event, index) in events" :key="index">
                         <div class="item__date">
-                            <span>{{ event.date | date }}</span>
+                            <formatted-date :date="event.date" format="d MMMM"/>
                         </div>
                         <div class="item__text">
                             <template v-if="event.type === 'object_added'">
@@ -195,11 +195,10 @@
 
 <script>
     import UserTabs from "~/components/UserTabs";
-    import {format} from 'date-fns'
-    import {ru} from 'date-fns/locale'
     import {get} from 'vuex-pathify'
     import Username from "./Username";
     import UserAvatar from "./UserAvatar";
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
         props: ['posts', 'events'],
@@ -208,12 +207,8 @@
                 activeTab: 0
             };
         },
-        filters: {
-            date(value) {
-                return format(new Date(value), 'd MMMM', {locale: ru})
-            }
-        },
         components: {
+            FormattedDate,
             UserAvatar,
             Username,
             UserTabs
