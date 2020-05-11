@@ -1,9 +1,9 @@
 <template>
-    <div class="error-page" v-bind:style="{'background-image': 'url(' + require('./../assets/img/page-error-bg.png') + ')'}">
+    <div class="error-page" v-bind:style="{'background-image': 'url(' + require('~/assets/img/page-error-bg.png') + ')'}">
         <div class="main-header --light">
             <div class="main-header__content">
                 <nuxt-link :to="localePath({name: 'index'})" class="main-header__logo">
-                    <img :src="require('@/assets/logo.svg')" alt />
+                    <img :src="require('~/assets/logo.svg')" alt />
                 </nuxt-link>
                 <div class="main-header__language">
                     <LangSelect />
@@ -12,21 +12,21 @@
         </div>
         <div class="container">
             <div class="error-page__content" v-if="error.statusCode == '404'">
-                <h2 class="error-page__title">Ошибка 404</h2>
-                <p class="error-page__text">К сожалению, страницы, на которую вы хотели попасть, нет на нашем сайте. Возможно, вы ввели неправильный адрес или она была удалена.</p>
-                <p class="error-page__text">Попробуйте вернуться на главную страницу или воспользуйтесь поиском.</p>
+                <h2 class="error-page__title">{{ $t('error.title', {code: error.statusCode}) }}</h2>
+                <p class="error-page__text">{{ $t('error.error404.message') }}</p>
+                <p class="error-page__text">{{ $t('error.error404.searchAdvice') }}</p>
                 <div class="error-page__search">
                     <div class="input --search">
-                        <input type="search" placeholder="Найти">
+                        <input type="search" :placeholder="$t('error.error404.searchPlaceholder')">
                     </div>
                 </div>
             </div>
             <div class="error-page__content" v-if="error.statusCode == '500'">
-                <h2 class="error-page__title">Ошибка 500</h2>
-                <p class="error-page__text">Что-то пошло не так!</p>
-                <p class="error-page__text">Какие-то технические неполадки. Мы обязательно это починим! А пока вернитесь на предыдущую страницу</p>
+                <h2 class="error-page__title">{{ $t('error.title', {code: error.statusCode}) }}</h2>
+                <p class="error-page__text">{{ $t('error.error500.message') }}</p>
+                <p class="error-page__text">{{ $t('error.error500.advice') }}</p>
                 <div class="error-page__link-b">
-                    <a href="" class="error-page__link">Вернуться назад</a>
+                    <a href="/" class="error-page__link">{{ $t('error.error500.linkToMainPageTitle') }}</a>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import LangSelect from "./../components/LangSelect";
+    import LangSelect from "~/components/LangSelect";
     export default {
         props: ['error'],
         components: {
