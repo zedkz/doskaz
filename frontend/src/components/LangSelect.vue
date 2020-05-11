@@ -1,5 +1,5 @@
 <template>
-    <div class="lang-select">
+    <div class="lang-select" v-click-outside="close">
         <div class="lang-select__selected" @click="selectLang = !selectLang">
             <span>{{ currentLocale.name }}</span>
             <svg width="8" height="4" viewBox="0 0 8 4" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -26,17 +26,27 @@
 </template>
 
 <script>
+    import ClickOutside from 'vue-click-outside'
+
     export default {
         data() {
             return {
                 selectLang: false,
             };
         },
+        methods: {
+            close() {
+                this.selectLang = false
+            }
+        },
         computed: {
             currentLocale() {
                 return this.$i18n.locales.find(locale => this.$i18n.locale === locale.code)
             }
-        }
+        },
+        directives: {
+            ClickOutside
+        },
     };
 </script>
 
