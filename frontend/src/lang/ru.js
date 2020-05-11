@@ -40,5 +40,8 @@ export default {
             navigation: 'Навигация',
             serviceAccessibility: 'Доступность услуги',
         }
+    },
+    contacts: {
+        title: 'Контакты'
     }
 }

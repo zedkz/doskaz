@@ -3,7 +3,7 @@
         <MainHeader/>
         <div class="container">
             <div class="contacts__top">
-                <h2 class="title">Контакты</h2>
+                <h2 class="title">{{ $t('contacts.title') }}</h2>
             </div>
         </div>
         <div class="contacts__wrapper vld-parent" ref="contactsContainer">
