@@ -90,6 +90,24 @@ export default {
         objectAdded: {
             yourself: 'Вы добавили объект',
             others: 'добавил(а) объект'
-        }
+        },
+        objectReviewed: {
+            yourself: 'Вы прокомментировали объект',
+            others: 'прокомментировал(а) объект',
+            yourObject: 'прокомментировал(а) ваш объект',
+        },
+        levelReached: {
+            yourself: 'Вы получаете уровень {level}',
+            others: 'получает уровень {level}',
+        },
+        blogCommentReplied: {
+            yourself: 'Вы оставили ответ на комментарий к записи',
+            others: 'отвечает на комментарий к записи'
+        },
+        awardIssued: {
+            yourself: 'Вы получили награду',
+            others: 'получает награду'
+        },
+        profileLinkTitle: 'Перейти в профиль'
     }
 }

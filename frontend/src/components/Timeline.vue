@@ -78,36 +78,36 @@
                             <template v-if="event.type === 'object_reviewed'">
                                 <span v-if="userId === event.userId">
                                     <username tag="b" :value="event.data.username"/>
-                                    прокомментировал(а) ваш объект
+                                    {{ $t('events.objectReviewed.yourObject') }}
                                     <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else-if="event.data.userId === userId">
-                                    Вы прокомментировали объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                    {{ $t('events.objectReviewed.yourself') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else>
                                     <username tag="b" :value="event.data.username"/>
-                                    прокомментировал(а) объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                    {{ $t('events.objectReviewed.others') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                             </template>
                             <template v-if="event.type === 'level_reached'">
                                 <span v-if="userId === event.userId">
-                                     Вы получаете уровень {{ event.data.level }}
+                                     {{ $t('events.levelReached.yourself', {level: event.data.level }) }}
                                 </span>
                                 <span v-else>
                                     <username tag="b" :value="event.username"/>
-                                    получает уровень {{ event.data.level }}
+                                    {{ $t('events.levelReached.others', {level: event.data.level}) }}
                                 </span>
                             </template>
                             <template v-if="event.type === 'blog_comment_replied'">
                                 <span v-if="userId === event.data.userId">
-                                     Вы оставили ответ на комментарий к записи <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
+                                     {{ $t('events.blogCommentReplied.yourself') }} <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
                                          cat: event.data.categorySlug,
                                          slug: event.data.slug,
                                      }})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else>
                                      <username tag="b" :value="event.data.username"/>
-                                      отвечает на комментарий к записи <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
+                                      {{ $t('events.blogCommentReplied.others') }} <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
                                          cat: event.data.categorySlug,
                                          slug: event.data.slug,
                                      }})"><b>{{ event.data.title }}</b></nuxt-link>
@@ -115,11 +115,11 @@
                             </template>
                             <template v-if="event.type === 'award_issued'">
                                  <span v-if="userId === event.userId">
-                                     Вы получили награду <b>"{{ event.data.title }}"</b>
+                                     {{ $t('events.awardIssued.yourself') }} <b>"{{ event.data.title }}"</b>
                                 </span>
                                 <span v-else>
                                      <username tag="b" :value="event.username"/>
-                                      получает награду <b>"{{ event.data.title }}"</b>
+                                      {{ $t('events.awardIssued.others') }} <b>"{{ event.data.title }}"</b>
                                 </span>
                             </template>
                         </div>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="link">
                     <nuxt-link :to="localePath({name: 'profile'})">
-                        <span>Перейти в профиль</span>
+                        <span>{{ $t('events.profileLinkTitle') }}</span>
                     </nuxt-link>
                 </div>
             </div>
