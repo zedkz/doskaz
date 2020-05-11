@@ -104,7 +104,7 @@
                                     :key="index">
                                     <div class="object-side__review-top">
                                         <username class="object-side__review-title" :value="review.author" tag="span"/>
-                                        <span class="object-side__review-date">{{ review.createdAt | date }}</span>
+                                        <formatted-date class="object-side__review-date" :date="review.createdAt" format="d MMMM, HH:mm"/>
                                     </div>
                                     <p class="object-side__review-text">{{ review.text }}</p>
                                 </li>
@@ -114,7 +114,7 @@
                             <ul class="object-side__history-list">
                                 <li class="object-side__history-item" v-for="(item, index) in object.history"
                                     :key="index">
-                                    <span class="object-side__history-date">{{ item.date | date('d MMMM') }}</span>
+                                    <formatted-date class="object-side__history-date" :date="item.date" format="d MMMM"/>
                                     <p class="object-side__history-text">
                                         <username :value="item.name" tag="b"/>
                                         <template v-if="item.data.type === 'review_created'">прокомментировал(а)
@@ -190,12 +190,11 @@
     import groupBy from 'lodash/groupBy'
     import map from 'lodash/map'
     import chunk from 'lodash/chunk'
-    import {format} from 'date-fns'
-    import ru from 'date-fns/locale/ru'
     import Username from "~/components/Username";
     import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
     import LangSelect from "~/components/LangSelect";
     import {eventBus} from '~/store/bus.js'
+    import FormattedDate from "@/components/FormattedDate";
 
     const accessibilityValues = {
         full_accessible: {
@@ -231,7 +230,7 @@
     ]
 
     export default {
-        components: {PostSubmitMessage, Username, LangSelect},
+        components: {FormattedDate, PostSubmitMessage, Username, LangSelect},
         layout: 'main',
         props: [
             'mobileOpened'
@@ -415,13 +414,6 @@
                 this.videosIndex = null;
                 this.imagesIndex = this.object.photos.indexOf(photo)
             },
-        },
-        filters: {
-            date(value, pattern = 'd MMMM, HH:mm') {
-                return format(new Date(value), pattern, {
-                    locale: ru
-                })
-            }
         }
     };
 </script>

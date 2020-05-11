@@ -1,7 +1,7 @@
 <template>
     <div class="list__item">
         <div class="list__date">
-            <span>{{ formattedDate }}</span>
+            <formatted-date :date="event.date" format="d MMMM"/>
         </div>
         <template v-if="event.type === 'object_reviewed'">
             <div class="list__icon"></div>
@@ -42,7 +42,6 @@
             <div class="list__icon list__icon_achievment"></div>
             <div class="list__text">Вам выдана награда: "{{ event.data.title }}"</div>
         </template>
-
         <template v-if="event.type === 'object_added'">
             <div class="list__icon"></div>
             <div class="list__text">
@@ -50,7 +49,6 @@
                 <nuxt-link :to="this.localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>, {{ event.data.categoryTitle }}
             </div>
         </template>
-
     </div>
 
     <!--
@@ -119,27 +117,20 @@
         <a href="#">Валерия Осинская</a>
     </div>
 </div>-->
-    </div>
 
 </template>
 
 <script>
-    import format from "date-fns/format";
-    import ru from "date-fns/locale/ru";
     import Username from "../Username";
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
         name: "UserEvent",
-        components: {Username},
+        components: {FormattedDate, Username},
         props: [
             'event'
         ],
         computed: {
-            formattedDate() {
-                return format(new Date(this.event.date), 'd MMMM', {
-                    locale: ru
-                }).toLowerCase()
-            },
             abilities() {
                 return {
                     status_change: 'Теперь вы можете сменить статус.',
