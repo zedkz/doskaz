@@ -7,3 +7,6 @@ services:
     tags: ['domain_events.listener']
 
   App\Awards\AwardRepository:
+
+  App\Awards\AwardsAdminController:
+    tags: ['controller.service_arguments']
