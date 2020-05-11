@@ -10,8 +10,7 @@
             <div class="container">
                 <div class="contacts__content">
                     <div class="contacts__left">
-                        <p class="contacts__text">Вы можете связаться с нами по электронной почте, через колл-центр или
-                            же заполнив форму</p>
+                        <p class="contacts__text">{{ $t('contacts.contactMessage') }}</p>
                         <div class="contacts__link-list">
                             <div class="contacts__link-item">
                                 <a href="tel:+77013462177" class="contacts__link --phone">8 (701) 346-2177</a>
@@ -20,7 +19,7 @@
                                 <a href="mailto:info@doskaz.kz" class="contacts__link --mail">info@doskaz.kz</a>
                             </div>
                         </div>
-                        <p class="contacts__text">Колл-центр работает в рабочие дни с 09:00 до 18:00.</p>
+                        <p class="contacts__text">{{ $t('contacts.callCenterWorkingHours', {from: '09:00', to: '18:00'}) }}</p>
                         <div class="contacts__social">
                             <a href="" target="_blank" rel="noreferrer noopener"
                                class="contacts__social-link --fcb"></a>
@@ -30,26 +29,26 @@
                     </div>
                     <div class="contacts__right">
                         <div class="contacts__line required" :class="{error: !!violations.name}">
-                            <label for="c_name" class="label">Ваше имя</label>
+                            <label for="c_name" class="label">{{ $t('contacts.form.nameLabel') }}</label>
                             <div class="input">
                                 <input id="c_name" type="text" v-model="feedback.name">
                                 <span class="error-msg">{{ violations.name }}</span>
                             </div>
                         </div>
                         <div class="contacts__line required" :class="{error: !!violations.email}">
-                            <label class="label">Эл. почта</label>
+                            <label class="label">{{ $t('contacts.form.emailLabel') }}</label>
                             <div class="input">
                                 <input type="email" v-model="feedback.email">
                                 <span class="error-msg">{{ violations.email }}</span>
                             </div>
                         </div>
                         <div class="contacts__line required" :class="{error: !!violations.text}">
-                            <label class="label">Текст сообщения</label>
+                            <label class="label">{{ $t('contacts.form.messageLabel') }}</label>
                             <textarea class="textarea" v-model="feedback.text"></textarea>
                             <span class="error-msg">{{ violations.text }}</span>
                         </div>
                         <div class="contacts__line">
-                            <button type="button" class="button" @click.prevent="leaveFeedback">Отправить</button>
+                            <button type="button" class="button" @click.prevent="leaveFeedback">{{ $t('contacts.form.submitButtonLabel') }}</button>
                         </div>
                     </div>
                 </div>
@@ -57,7 +56,7 @@
         </div>
         <div class="container">
             <div class="represent">
-                <div class="represent__title">Выберите регионального представителя
+                <div class="represent__title">{{ $t('contacts.chooseRegionalRepresentativeLabel') }}
                     <span class="select-text">
                         <select v-model="city">
                             <option v-for="city in availableCities" :key="city.id"
@@ -65,11 +64,7 @@
                         </select>
                     </span>
                 </div>
-                <p class="represent__text">В проекте работают 24 организации из 19 городов Казахстана. Если ваш вопрос
-                    касается конкретного города, рекомендуем вам связаться с региональным представителем. Данные
-                    организации проводят мониторинг доступности объектов в своих городах, а также занимаются решением
-                    вопросов, связанных с защитой прав людей с инвалидностью и других маломобильных граждан на
-                    безбарьерную среду.</p>
+                <p class="represent__text">{{ $t('contacts.regionalRepresentativesText') }}</p>
                 <div class="represent__list">
                     <div class="represent__item" v-for="item in regionalRepresentativesFromCity" :key="item.id">
                         <img :src="item.image" class="represent__item-img">
@@ -85,8 +80,8 @@
             <div class="popup__scroll">
                 <div class="popup__in">
                     <span class="popup__close" v-on:click="formSent = false"></span>
-                    <h3 class="popup__title">Готово!</h3>
-                    <p class="popup__text">Сообщение успешно отправлено. Спасибо за сотрудничество!</p>
+                    <h3 class="popup__title">{{ $t('contacts.form.submittedPopupTitle') }}</h3>
+                    <p class="popup__text">{{ $t('contacts.form.submittedPopupMessage') }}</p>
                     <div class="popup__buttons --center">
                         <button class="button" @click="formSent = false">Ок</button>
                     </div>
@@ -104,7 +99,7 @@
         components: {MainHeader},
         head() {
             return {
-                title: 'Контакты'
+                title: this.$t('contacts.title')
             }
         },
         async asyncData({$axios}) {
