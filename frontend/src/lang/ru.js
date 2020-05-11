@@ -5,7 +5,14 @@ export default {
         popupTitle: 'Доступный Казахстан — сделайте свой город ближе',
         phoneLoginAdvice: 'Или войдите с помощью телефона',
         profileFillingAdvice: 'Продолжите регистрацию и заполните свой профиль',
-        profileLinkTitle: 'Перейти в мой профиль'
+        profileLinkTitle: 'Перейти в мой профиль',
+        phoneNumberInputPlaceholder: 'Номер телефона',
+        smsCodeInputPlaceholder: 'Код из СМС',
+        smsCodeTimeoutMessage: 'Повторную отправку можно выполнить через {time} секунд',
+        sendSmsCodeButtonTitle: 'Отправить код',
+        confirmSmsCodeButtonTitle: 'Войти на сайт',
+        invalidPhoneNumberMessage: 'Введен неверный формат номера',
+        invalidSmsCodeMessage: 'Введен неверный код'
     },
     blog: {
         title: 'Блог',
@@ -73,6 +80,16 @@ export default {
             message: 'Что-то пошло не так!',
             advice: 'Какие-то технические неполадки. Мы обязательно это починим! А пока вернитесь на предыдущую страницу',
             linkToMainPageTitle: 'Вернуться назад'
+        }
+    },
+    loginLinkTitle: 'Вход',
+    eventsTabTitle: 'Лента событий',
+    blogTabTitle: 'Блог',
+    blogLink: 'Перейти в раздел',
+    events: {
+        objectAdded: {
+            yourself: 'Вы добавили объект',
+            others: 'добавил(а) объект'
         }
     }
 }

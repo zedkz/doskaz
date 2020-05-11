@@ -1,13 +1,13 @@
 <template>
     <div class="phone-form__form">
         <div class="input" :class="{input_error: phoneError}">
-            <input type="text" placeholder="Номер телефона" v-mask="'+7##########'" v-model="phoneAuth.number" :disabled="confirmationResult"/>
+            <input type="text" :placeholder="$t('login.phoneNumberInputPlaceholder')" v-mask="'+7##########'" v-model="phoneAuth.number" :disabled="confirmationResult"/>
             <div class="input__error-text">
                 <span>{{ phoneError }}</span>
             </div>
         </div>
         <div class="input" v-if="confirmationResult" :class="{input_error: codeError}">
-            <input type="text" placeholder="Код из СМС" v-model="phoneAuth.code"/>
+            <input type="text" :placeholder="$t('login.smsCodeInputPlaceholder')" v-model="phoneAuth.code"/>
             <div class="input__error-text">
                 <span>{{ codeError }}</span>
             </div>
@@ -70,13 +70,13 @@
                         stroke-linecap="round"
                 />
             </svg>
-            <span>Повторную отправку можно выполнить через 15 секунд</span>
+            <span>{{ $t('login.smsCodeTimeoutMessage', {time: 15}) }}</span>
         </div>
         <button class="button" id="sign-in-button" @click="sendSmsCode" v-if="!confirmationResult">
-            <span>Отправить код</span>
+            <span>{{ $t('login.sendSmsCodeButtonTitle') }}</span>
         </button>
         <button class="button" @click="signIn" v-if="confirmationResult">
-            <span>Войти на сайт</span>
+            <span>{{ $t('login.confirmSmsCodeButtonTitle') }}</span>
         </button>
     </div>
 </template>
@@ -90,8 +90,8 @@
     Vue.use(VueMask);
 
     const errorMessages = {
-        'auth/invalid-phone-number': 'Введен неверный формат номера',
-        'auth/invalid-verification-code': 'Введен неверный код'
+        'auth/invalid-phone-number': 'login.invalidPhoneNumberMessage',
+        'auth/invalid-verification-code': 'login.invalidSmsCodeMessage'
     };
 
     export default {
@@ -150,7 +150,7 @@
                 return get(errorMessages, [this.errors.number], this.errors.number)
             },
             codeError() {
-                return get(errorMessages, [this.errors.code], this.errors.code)
+                return this.$t(get(errorMessages, [this.errors.code], this.errors.code))
             }
         }
     };

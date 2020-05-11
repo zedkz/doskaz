@@ -5,13 +5,13 @@
                     class="timeline__tab-link timeline__tab-link_blog"
                     :class="{'isActive': activeTab===0}"
                     @click="setActiveTab(0)">
-        <span>Блог
+        <span>{{ $t('blogTabTitle') }}
             <!--<span class="new">2</span>-->
         </span>
             </div>
             <div class="timeline__tab-link" :class="{'isActive': activeTab===1}" @click="setActiveTab(1)"
                  v-if="isAuthenticated">
-                <span>Лента событий</span>
+                <span>{{ $t('eventsTabTitle') }}</span>
             </div>
             <div class="spacer"></div>
             <nuxt-link
@@ -31,7 +31,7 @@
                     class="timeline__tab-link timeline__tab-link_user"
                     @click="showLoginForm"
             >
-                <span class="name">Вход</span>
+                <span class="name">{{ $t('loginLinkTitle') }}</span>
             </div>
         </div>
         <div class="timeline__tabs">
@@ -55,7 +55,7 @@
                 </nuxt-link>
                 <div class="item item_link">
                     <nuxt-link :to="localePath({name: 'blog-category'})">
-                        <span>Перейти в раздел</span>
+                        <span>{{ $t('blogLink') }}</span>
                     </nuxt-link>
                 </div>
             </div>
@@ -68,11 +68,11 @@
                         <div class="item__text">
                             <template v-if="event.type === 'object_added'">
                                 <span v-if="userId === event.userId">
-                                   Вы добавили объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                   {{ $t('events.objectAdded.yourself') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else>
                                     <username tag="b" :value="event.username"/>
-                                    добавил(а) объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                    {{ $t('events.objectAdded.others') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                             </template>
                             <template v-if="event.type === 'object_reviewed'">
@@ -218,7 +218,7 @@
                 this.activeTab = tab;
             },
             showLoginForm() {
-                this.$router.push(this.localePath({'name': 'login'}))
+                this.$router.push(this.localePath({name: 'login'}))
             }
         },
         computed: {

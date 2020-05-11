@@ -6,14 +6,6 @@ namespace App\Infrastructure;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Serializer\Exception\BadMethodCallException;
-use Symfony\Component\Serializer\Exception\CircularReferenceException;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Exception\ExtraAttributesException;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
-use Symfony\Component\Serializer\Exception\LogicException;
-use Symfony\Component\Serializer\Exception\RuntimeException;
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class UuidNormalizer extends AbstractNormalizer
@@ -30,6 +22,9 @@ class UuidNormalizer extends AbstractNormalizer
 
     /**
      * @param $object UuidInterface
+     * @param null $format
+     * @param array $context
+     * @return string
      */
     public function normalize($object, $format = null, array $context = [])
     {
