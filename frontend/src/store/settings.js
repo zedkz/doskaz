@@ -12,7 +12,7 @@ export const actions = {
     async init({commit, dispatch}) {
         const settings = defaults(this.app.$cookies.get('settings') || {}, {})
         if (!settings.cityId) {
-            const {data: {id}} = await this.$axios.get('/api/cities/detect')
+            const {id} = await this.$axios.$get('/api/cities/detect')
             settings.cityId = id;
         }
 

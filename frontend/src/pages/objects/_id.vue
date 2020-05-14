@@ -268,7 +268,7 @@
         },
         async asyncData({$axios, store, params, query, error}) {
             try {
-                const {data: object} = await $axios.get(`/api/objects/${params.id}`, {
+                const object = await $axios.$get(`/api/objects/${params.id}`, {
                     params: {
                         disabilitiesCategory: store.getters['disabilitiesCategorySettings/currentCategoryValue']
                     }

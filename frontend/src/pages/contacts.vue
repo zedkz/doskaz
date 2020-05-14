@@ -103,9 +103,9 @@
             }
         },
         async asyncData({$axios}) {
-            const [{data: regionalRepresentatives}, {data: cities}] = await Promise.all([
-                $axios.get('/api/regionalRepresentatives'),
-                $axios.get('/api/cities'),
+            const [regionalRepresentatives, cities] = await Promise.all([
+                $axios.$get('/api/regionalRepresentatives'),
+                $axios.$get('/api/cities'),
             ])
 
             return {

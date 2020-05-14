@@ -18,9 +18,9 @@
             Sidebar
         },
         async asyncData({$axios}) {
-            const [{data: {items: posts}}, {data: events}] = await Promise.all([
-                $axios.get('/api/blog/posts'),
-                $axios.get('/api/events')
+            const [{items: posts}, events] = await Promise.all([
+                $axios.$get('/api/blog/posts'),
+                $axios.$get('/api/events')
             ])
             return {posts, events}
         },
