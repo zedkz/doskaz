@@ -25,17 +25,17 @@
                     </div>
                 </div>
             </div>
-            <button class="vi-switch">
+            <button class="vi-switch" @click="disableVisualImpairedMode">
                 <img :src="require('@/assets/visually-black.svg')" alt="" v-if="colorTheme == 'white'" />
                 <img :src="require('@/assets/visually-white.svg')" alt="" v-if="colorTheme == 'black'" />
                 <span class="--fcolor">Обычная версия сайта</span>
             </button>
         </div>
         <div class="vi-header__bottom --bcolor --fcolor">
-            <a href="" class="vi__logo">
+            <nuxt-link :to="localePath({name: 'index'})" class="vi__logo">
                 <img :src="require('@/assets/logo-black.svg')" alt="" v-if="colorTheme == 'white'" />
                 <img :src="require('@/assets/logo-white.svg')" alt="" v-if="colorTheme == 'black'" />
-            </a>
+            </nuxt-link>
             <div class="vi__auth-b">
                 <a href="" class="vi__auth-link">Войти</a>
                 <span class="vi__auth-or">или</span>
@@ -55,6 +55,7 @@
 
 <script>
     import {eventBus} from "./../store/bus";
+    import {call} from 'vuex-pathify'
 
     export default {
         data() {
@@ -76,7 +77,8 @@
             setFontFamily(ff) {
                 this.fontFamily = '' + ff + '';
                 eventBus.$emit('setFontFamily',this.fontFamily);
-            }
+            },
+            disableVisualImpairedMode: call('visualImpairedModeSettings/disable')
         }
     }
 </script>

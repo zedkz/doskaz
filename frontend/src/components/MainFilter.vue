@@ -15,7 +15,7 @@
 
                 <div class="spacer"></div>
 
-                <div class="main-filter__visual --desktop">
+                <div class="main-filter__visual --desktop" @click="enableVisualImpairedMode">
                     <svg
                             width="30"
                             height="16"
@@ -163,7 +163,8 @@
             search: throttle(call('map/search'), 1000),
             mainPageMobOpened() {
                 eventBus.$emit('mainPageMobOpened');
-            }
+            },
+            enableVisualImpairedMode: call('visualImpairedModeSettings/enable')
         }
     };
 </script>
