@@ -295,13 +295,14 @@
             </div>
             <ViFooter></ViFooter>
         </div>
-        <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
-        <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+        <client-only>
+            <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
+            <gallery id="blueimp-video" class="blueimp-gallery-controls" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+        </client-only>
     </div>
 </template>
 
 <script>
-    import VueGallery from 'vue-gallery'
     import ViHeader from "./../components/ViHeader";
     import ViFooter from "./../components/ViFooter";
     import {eventBus} from "./../store/bus";
@@ -372,7 +373,6 @@
             eventBus.$on('setFontFamily', this.setFontFamily);
         },
         components: {
-            'gallery': VueGallery,
             ViHeader,
             ViFooter
         },
@@ -464,6 +464,9 @@
     }
     #blueimp-video {
         background: #FFFFFF;
+        &.blueimp-gallery-left > .prev, &.blueimp-gallery-right > .next {
+           display: none;
+        }
         > {
             .close {
                 width: 60px;
@@ -509,6 +512,20 @@
                  }
             }
 
+            .title {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 40px;
+                color: #000000;
+                top: auto;
+                margin: 0;
+                padding: 0;
+                font-weight: 600;
+                text-shadow: none;
+                text-align: center;
+            }
+
             .slides {
                 > .slide {
                     > .video-content {
@@ -516,6 +533,27 @@
                          max-height: 600px;
                     }
                 }
+            }
+
+            .play-pause {
+                display: block;
+            }
+
+
+            .slides > .slide > .video-content > iframe {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .slides > .slide > .video-content > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
+            }
+
+            .slides > .slide > .video-content:not(.video-loading) > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
             }
         }
     }
