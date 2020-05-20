@@ -4,6 +4,7 @@
 namespace App\Objects\Adding\Steps;
 
 use App\Infrastructure\FileReferenceCollection;
+use Happyr\Validator\Constraint\EntityExist;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class FirstStep
@@ -35,6 +36,8 @@ class FirstStep
     /**
      * @var string|int|null
      * @Assert\NotBlank()
+     * @Assert\GreaterThan(0)
+     * @EntityExist(entity=App\Objects\Category::class, property="id", message="Категория с ""%property%"": ""%value%"" не существует")
      */
     public $categoryId;
 
