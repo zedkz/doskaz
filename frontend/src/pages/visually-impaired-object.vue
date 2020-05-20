@@ -36,16 +36,23 @@
                     </div>
                     <div class="vi-object__tab-content" v-if="activeTab == 1">
                         <div class="vi-object__photo">
-                            <img :src="require('@/assets/img/files/01.png')"/>
-                            <img :src="require('@/assets/img/files/02.png')"/>
-                            <img :src="require('@/assets/img/files/03.png')"/>
-                            <img :src="require('@/assets/img/files/blog1.png')"/>
-                            <img :src="require('@/assets/img/files/blog2.png')"/>
-                            <img :src="require('@/assets/img/files/represent.jpg')"/>
+                            <a href="#"
+                               v-for="(image, imageIndex) in images"
+                               :key="imageIndex"
+                               @click="videosIndex = null; imagesIndex = imageIndex">
+                               <img :src=" image "/>
+                            </a>
                         </div>
                     </div>
                     <div class="vi-object__tab-content" v-if="activeTab == 2">
-
+                        <div class="vi-object__photo">
+                            <a href="#"
+                                v-for="(video, videoIndex) in videos"
+                                :key="videoIndex"
+                                @click="imagesIndex = null; videosIndex = videoIndex">
+                                <img :src=" video.poster "/>
+                            </a>
+                        </div>
                     </div>
                     <div class="vi-object__tab-content" v-if="activeTab == 3">
                         <ul class="vi-object__review-list">
@@ -288,6 +295,10 @@
             </div>
             <ViFooter></ViFooter>
         </div>
+        <client-only>
+            <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
+            <gallery id="blueimp-video" class="blueimp-gallery-controls" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+        </client-only>
     </div>
 </template>
 
@@ -297,14 +308,63 @@
     import {eventBus} from "./../store/bus";
     export default {
         data() {
-            return{
+            return {
                 fontSize: 'lrg',
                 colorTheme: 'white',
                 fontFamily: 'Lato',
                 activeTab: 0,
                 reviewNew: false,
                 objectInfoShow: false,
-                visibleDetail: 'detail_1'
+                visibleDetail: 'detail_1',
+                videos: [
+                    {
+                        title: 'КВН 2016 Спецпроект',
+                        href: 'https://www.youtube.com/watch?v=2C32jWXQnQk',
+                        type: 'text/html',
+                        youtube: '2C32jWXQnQk',
+                        poster: 'https://img.youtube.com/vi/2C32jWXQnQk/maxresdefault.jpg'
+                    },
+                    {
+                        title: 'Встреча выпускников 2019',
+                        href: 'https://www.youtube.com/watch?v=P-nCfhgL_rA',
+                        type: 'text/html',
+                        youtube: 'P-nCfhgL_rA',
+                        poster: 'https://img.youtube.com/vi/P-nCfhgL_rA/maxresdefault.jpg'
+                    },
+                    {
+                        title: 'Кивин 2013',
+                        href: 'https://www.youtube.com/watch?v=THJc0p1i6-s',
+                        type: 'text/html',
+                        youtube: 'THJc0p1i6-s',
+                        poster: 'https://img.youtube.com/vi/THJc0p1i6-s/maxresdefault.jpg'
+                    }
+                ],
+                videosIndex: null,
+                videosOptions: {
+                    container: '#blueimp-video',
+                    continuous: false,
+                    youTubeVideoIdProperty: 'youtube',
+                    youTubePlayerVars: undefined,
+                    youTubeClickToPlay: true
+                },
+                images: [
+                    'http://crosti.ru/patterns/00/0d/e0/21f3e30d42/picture.jpg',
+                    'https://media-cdn.tripadvisor.com/media/photo-o/16/39/88/c4/20190125-154137-largejpg.jpg',
+                    'https://media-cdn.tripadvisor.com/media/photo-o/16/39/88/c2/20190125-144828-largejpg.jpg',
+                    'https://media-cdn.tripadvisor.com/media/photo-w/15/3a/7e/d7/photo0jpg.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-4.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-2.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-1.jpg',
+                    'https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe.jpg'
+                ],
+                imagesIndex: null,
+                imagesOptions: {
+                    continuous: false,
+                    onslide: function(index, slide) {
+                        var indicator = document.getElementsByClassName('indicator');
+                        indicator[0].innerHTML = (index + 1) + ' / ' + document.getElementsByClassName('slide').length;
+                    }
+                }
             }
         },
         created() {
@@ -338,6 +398,165 @@
 </script>
 
 <style lang="scss">
+
+    #blueimp-gallery {
+        background: #FFFFFF;
+        > {
+            .close {
+                width: 60px;
+                height: 60px;
+                left: 50%;
+                top: 130px;
+                margin: 0 0 0 580px;
+                font-size: 0;
+                opacity: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwTDkuOTk5OTkgNTAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMCAxMEw1MCA1MCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .prev {
+                opacity: 1;
+                border: none;
+                margin: 0 580px 0 0;
+                right: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                left: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDUgMjBMMTUgNTBMNDUgODAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .next {
+                opacity: 1;
+                border: none;
+                margin: 0 0 0 580px;
+                left: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                right: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTUgODBMNDUgNTBMMTUgMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .slides {
+                > .slide {
+                    > .slide-content {
+                        max-width: 800px;
+                        max-height: 600px;
+                    }
+                }
+            }
+
+            .indicator {
+                bottom: 80px;
+                line-height: 40px;
+                margin: 0;
+            }
+        }
+    }
+    #blueimp-video {
+        background: #FFFFFF;
+        &.blueimp-gallery-left > .prev, &.blueimp-gallery-right > .next {
+           display: none;
+        }
+        > {
+            .close {
+                width: 60px;
+                height: 60px;
+                left: 50%;
+                top: 130px;
+                margin: 0 0 0 580px;
+                font-size: 0;
+                opacity: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwTDkuOTk5OTkgNTAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMCAxMEw1MCA1MCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+                &:hover {
+                     opacity: 0.7;
+                 }
+            }
+
+            .prev {
+                opacity: 1;
+                border: none;
+                margin: 0 580px 0 0;
+                right: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                left: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDUgMjBMMTUgNTBMNDUgODAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                     opacity: 0.7;
+                 }
+            }
+
+            .next {
+                opacity: 1;
+                border: none;
+                margin: 0 0 0 580px;
+                left: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                right: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTUgODBMNDUgNTBMMTUgMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                     opacity: 0.7;
+                 }
+            }
+
+            .title {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 40px;
+                color: #000000;
+                top: auto;
+                margin: 0;
+                padding: 0;
+                font-weight: 600;
+                text-shadow: none;
+                text-align: center;
+            }
+
+            .slides {
+                > .slide {
+                    > .video-content {
+                         max-width: 800px;
+                         max-height: 600px;
+                    }
+                }
+            }
+
+            .play-pause {
+                display: block;
+            }
+
+
+            .slides > .slide > .video-content > iframe {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .slides > .slide > .video-content > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
+            }
+
+            .slides > .slide > .video-content:not(.video-loading) > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
+            }
+        }
+    }
 
    .vi {
        &-object {
