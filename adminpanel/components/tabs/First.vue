@@ -7,12 +7,6 @@
         <select2-field label="Категория" v-model="categoryId" :options="categoryOptions"/>
         <select2-field label="Подкатегория" :path="`${path}.categoryId`" :required="true" :options="subCategoryOptions"/>
         <textarea-field label="Описание" :path="`${path}.description`" :required="true"></textarea-field>
-        <field-wrapper label="Ссылки на видео">
-            <div v-for="(video, index) in videos" :key="index">
-                <a :href="video" target="_blank">{{video}}</a>
-            </div>
-        </field-wrapper>
-
         <text-input-collection :path="`${path}.videos`" label="Видео"/>
         <images-collection :path="`${path}.photos`" label="Фото"/>
     </div>
