@@ -89,7 +89,7 @@ services:
       - backend
 
   database:
-    image: mdillon/postgis:11
+    image: mdillon/postgis:11-alpine
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}

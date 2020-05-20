@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
 
   pgbackups:
-    image: prodrigestivill/postgres-backup-local:11
+    image: prodrigestivill/postgres-backup-local:11-alpine
     depends_on:
       - database
     volumes:

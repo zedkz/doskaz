@@ -1,4 +1,4 @@
-FROM node:12.14.0 as build
+FROM node:12.14.0-slim as build
 
 RUN ["mkdir", "/frontend"]
 WORKDIR /frontend
@@ -9,7 +9,7 @@ ARG firebase_api_key
 ENV NUXT_ENV_FIREBASE_API_KEY=$firebase_api_key
 RUN ["npm", "run", "build"]
 
-FROM node:12.14.0
+FROM node:12.14.0-slim
 RUN ["mkdir", "/app"]
 WORKDIR /app
 COPY --from=build /frontend/package*.json /app/

@@ -1,4 +1,4 @@
-FROM node:12.14.0 as build
+FROM node:12.14.0-slim as build
 
 RUN ["mkdir", "/frontend"]
 
