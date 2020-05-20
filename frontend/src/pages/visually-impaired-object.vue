@@ -46,12 +46,12 @@
                     </div>
                     <div class="vi-object__tab-content" v-if="activeTab == 2">
                         <div class="vi-object__photo">
-                            <!--<a href="#"-->
-                                <!--v-for="(video, videoIndex) in videos"-->
-                                <!--:key="videoIndex"-->
-                                <!--@click="imagesIndex = null; videosIndex = videoIndex">-->
-                                <!--<img :src=" video.poster "/>-->
-                            <!--</a>-->
+                            <a href="#"
+                                v-for="(video, videoIndex) in videos"
+                                :key="videoIndex"
+                                @click="imagesIndex = null; videosIndex = videoIndex">
+                                <img :src=" video.poster "/>
+                            </a>
                         </div>
                     </div>
                     <div class="vi-object__tab-content" v-if="activeTab == 3">
@@ -296,6 +296,7 @@
             <ViFooter></ViFooter>
         </div>
         <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
+        <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
     </div>
 </template>
 
@@ -371,9 +372,9 @@
             eventBus.$on('setFontFamily', this.setFontFamily);
         },
         components: {
+            'gallery': VueGallery,
             ViHeader,
-            ViFooter,
-            'gallery': VueGallery
+            ViFooter
         },
         methods: {
             setVisible(detail) {
@@ -458,6 +459,63 @@
                 bottom: 80px;
                 line-height: 40px;
                 margin: 0;
+            }
+        }
+    }
+    #blueimp-video {
+        background: #FFFFFF;
+        > {
+            .close {
+                width: 60px;
+                height: 60px;
+                left: 50%;
+                top: 130px;
+                margin: 0 0 0 580px;
+                font-size: 0;
+                opacity: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwTDkuOTk5OTkgNTAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMCAxMEw1MCA1MCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+                &:hover {
+                     opacity: 0.7;
+                 }
+            }
+
+            .prev {
+                opacity: 1;
+                border: none;
+                margin: 0 580px 0 0;
+                right: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                left: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDUgMjBMMTUgNTBMNDUgODAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                     opacity: 0.7;
+                 }
+            }
+
+            .next {
+                opacity: 1;
+                border: none;
+                margin: 0 0 0 580px;
+                left: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                right: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTUgODBMNDUgNTBMMTUgMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                     opacity: 0.7;
+                 }
+            }
+
+            .slides {
+                > .slide {
+                    > .video-content {
+                         max-width: 800px;
+                         max-height: 600px;
+                    }
+                }
             }
         }
     }
