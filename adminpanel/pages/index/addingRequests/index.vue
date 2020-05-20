@@ -20,6 +20,7 @@
                 return [
                     {key: 'name', label: 'Наименование', type: EditLink},
                     {key: 'address', label: 'Адрес'},
+                    {key: 'city', label: 'Город'},
                     {key: 'category', label: 'Категория'},
                     {key: 'createdAt', label: 'Дата создания', type: FormattedDate},
                 ]

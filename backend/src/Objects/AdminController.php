@@ -38,9 +38,12 @@ class AdminController extends AbstractController
                 'objects.address',
                 'objects.created_at as "createdAt"',
                 'object_categories.title as category',
+                'cities.name as city',
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'object_categories', 'objects.category_id = object_categories.id')
+            ->leftJoin('objects', 'cities_geometry', 'cities_geometry', 'objects.point_value && cities_geometry.geometry')
+            ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
             ->andWhere('objects.deleted_at IS NULL');
 
         if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
