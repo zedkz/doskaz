@@ -53,6 +53,7 @@ final class ComplaintController extends AbstractController
     /*
      * @Post(path="/api/complaints/validate",
      *     tags={"Жалобы"},
+     *     security={{"clientAuth": {}}},
      *     summary="Валидация жалобы",
      *     @RequestBody(required=true, description="Жалоба", @JsonContent(ref="#/components/schemas/Complaint")),
      *     responses={
@@ -72,6 +73,7 @@ final class ComplaintController extends AbstractController
      * @param Flusher $flusher
      * @Post(path="/api/complaints",
      *     tags={"Жалобы"},
+     *     security={{"clientAuth": {}}},
      *     summary="Подача жалобы",
      *     @RequestBody(required=true, description="Жалоба", @JsonContent(ref="#/components/schemas/Complaint")),
      *     responses={
@@ -106,6 +108,7 @@ final class ComplaintController extends AbstractController
      *     path="/api/complaints/authorities",
      *     summary="Список органов обращения",
      *     tags={"Жалобы"},
+     *     security={{"clientAuth": {}}},
      *     @Response(
      *         response=200,
      *         description="",
@@ -244,6 +247,14 @@ final class ComplaintController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      * @Route(path="/initialData", methods={"GET"})
+     * @Get(
+     *     path="/api/complaints/initialData",
+     *     security={{"clientAuth": {}}},
+     *     summary="Получение предустановленных значений",
+     *     tags={"Жалобы"},
+     *     @Parameter(name="objectId", in="query", description="Id объекта", @Schema(type="integer", nullable=true)),
+     *     @Response(response=200, description="", @JsonContent(ref="#/components/schemas/Complaint"))
+     * )
      * @param Connection $connection
      * @param Request $request
      * @param FindCityIdByLocation $findCityIdByLocation
@@ -325,6 +336,17 @@ final class ComplaintController extends AbstractController
         );
     }
 
+    /**
+     * @Route(path="/type2Attributes", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     * @Get(
+     *     path="/api/complaints/type2Attributes",
+     *     summary="Аттрибуты для жалобы на на отсутствие доступа на объект или несоответствии функциональных зон объекта требованиям нормативного законодательства",
+     *     tags={"Жалобы"},
+     *     security={{"clientAuth": {}}},
+     *     @Response(response=200, description=""),
+     * )
+     */
     public function complaintAttributes()
     {
         return [
