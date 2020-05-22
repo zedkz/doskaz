@@ -4,21 +4,18 @@
         <div class="login-form__content">
             <div class="login-form__content-in">
                 <div class="login-form__cat">
-                    <h4 class="title --small">Добро пожаловать на портал Доступный Казахстан</h4>
-                    <p class="login-form__text">Пожалуйста, выберите свою категорию, <br>чтобы работать с сайтом вам было
-                        максимально комфортно</p>
+                    <h4 class="title --small">{{ $t('startCategory.title') }}</h4>
+                    <p class="login-form__text" v-html="$t('startCategory.adviceText')"></p>
                     <div class="start-cat__list">
-                        <button class="start-cat__item" @click="selectCategory(category.key)" v-for="category in categories"
+                        <button class="start-cat__item" @click="selectCategory(category.key)" v-for="category in disabilityCategoriesList"
                                 :key="category.key" :class="{active: category.key===selectedCategory}">
 						<span class="start-cat__icon">
 							<img :src="require(`~/assets/icons/categories/${category.key}.svg`)">
 						</span>
-                            <span class="start-cat__text">{{ category.title }}</span>
+                            <span class="start-cat__text">{{ $t(`disabilityCategories.${category.key}`) }}</span>
                         </button>
                     </div>
-                    <button class="start-cat__link" @click="selectCategory('justView')">
-                        Нет, спасибо. Я просто посмотреть
-                    </button>
+                    <button class="start-cat__link" @click="selectCategory('justView')">{{ $t('startCategory.justView') }}</button>
                 </div>
             </div>
         </div>
@@ -29,36 +26,20 @@
     import {call, get} from 'vuex-pathify'
 
     export default {
-        data() {
-            return {}
-        },
-        mounted() {
-          //  this.init()
-        },
         computed: {
             ...get('disabilitiesCategorySettings', {
                 popupOpen: 'popupOpen',
-                selectedCategory: 'category'
+                selectedCategory: 'category',
+                categories: 'categories'
             }),
-            categories() {
-                return [
-                    {key: 'movement', title: 'Люди, передвигающиеся на кресло-коляске'},
-                    {key: 'vision', title: 'Люди с инвалидностью по зрению'},
-                    {key: 'limb', title: 'Люди с нарушением опорно-двигательного аппарата'},
-                    {key: 'hearing', title: 'Люди с инвалидностью по слуху'},
-                    {key: 'temporal', title: 'Временно травмированные люди'},
-                    {key: 'babyCarriage', title: 'Люди с детскими колясками'},
-                    {key: 'missingLimbs', title: 'Люди с отсутствующими конечностями'},
-                    {key: 'pregnant', title: 'Беременные женщины'},
-                    {key: 'intellectual', title: 'Люди с интелектуальной инвалидностью'},
-                    {key: 'agedPeople', title: 'Пожилые люди'},
-                ]
+            disabilityCategoriesList() {
+                return this.categories.filter(({key}) => key !== 'justView')
             }
         },
         methods: {
             ...call('disabilitiesCategorySettings', [
                 'selectCategory',
-                'init'
+                'init',
             ])
         }
     }
