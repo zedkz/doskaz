@@ -16,7 +16,31 @@ export default {
     },
     blog: {
         title: 'Блог',
-        similarPosts: 'Похожие материалы'
+        similarPosts: 'Похожие материалы',
+        categories: 'Категории',
+        allCategories: 'Все категории',
+        searchPlaceholder: 'Поиск по блогу',
+        date: 'Дата',
+        dateOverall: 'За все время',
+        share: 'Поделиться',
+        subscribe: 'Подписаться на рассылку',
+        postLinkTitle: 'Подробнее',
+        dateFilterPeriod: {
+            year: 'За год',
+            month: 'За месяц',
+            week: 'За неделю'
+        },
+        commentsCount: '0 комментариев | {n} комментарий | {n} комментария | {n} комментариев',
+        commentsSort: {
+            newest: 'Сначала новые',
+            oldest: 'Сначала старые',
+            popular: 'Популярные'
+        },
+        commentReplied: 'ответил(а)',
+        commentReply: 'Ответить',
+        showComments: 'Показать комментарии',
+        hideComments: 'Скрыть комментарии',
+        commentInputPlaceholder: 'Напишите комментарий'
     },
     profile: {
         tasks: {

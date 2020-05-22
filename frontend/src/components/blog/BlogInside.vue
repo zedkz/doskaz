@@ -1,14 +1,19 @@
 <template>
     <div class="blog__inside">
         <div class="breadcrumbs">
-            <nuxt-link :to="localePath({name: 'blog-category'})" class="breadcrumbs__link">{{ $t('blog.title') }}</nuxt-link>
+            <nuxt-link
+                    :to="localePath({name: 'blog-category'})" class="breadcrumbs__link"
+            >
+                {{ $t('blog.title') }}
+            </nuxt-link>
             <nuxt-link
                     :to="localePath({
-          name: 'blog-category',
-          params: { category: $route.params.cat }
-        })"
+                        name: 'blog-category',
+                        params: {category: $route.params.cat}
+                    })"
                     class="breadcrumbs__link"
-            >{{ post.categoryTitle }}
+            >
+                {{ post.categoryTitle }}
             </nuxt-link>
         </div>
         <div class="blog__in">
@@ -16,28 +21,27 @@
                 <div class="blog__content-top">
                     <div class="blog__content-top__text">
                         <h3>{{ post.title }}</h3>
-                        <span class="" v-if="post.id">{{ post.publishedAt | date }}</span>
+                        <formatted-date element="span" class="" :date="post.publishedAt" format="d MMMM y"/>
                     </div>
                     <img :src="post.image" :alt="post.title"/>
                 </div>
                 <div class="blog__inside">
                     <div v-html="post.content" class="blog__inside-content"></div>
                     <div class="blog__inside-bottom">
-            <span class="blog__inside-date" v-if="post.id">{{
-              post.publishedAt | date
-            }}</span>
+                        <formatted-date element="span" class="blog__inside-date" :date="post.publishedAt"
+                                        format="d MMMM y"/>
                         <div class="social --md">
                             <a class="social__link --fcb" @click="share('fb')">
-                                <img src="@/assets/img/social/fcb.svg"/>
+                                <img src="~/assets/img/social/fcb.svg"/>
                             </a>
                             <a class="social__link --vk" @click="share('vk')">
-                                <img src="@/assets/img/social/vk.svg"/>
+                                <img src="~/assets/img/social/vk.svg"/>
                             </a>
                             <a class="social__link --ok" @click="share('ok')">
-                                <img src="@/assets/img/social/ok.svg"/>
+                                <img src="~/assets/img/social/ok.svg"/>
                             </a>
                             <a class="social__link --my" @click="share('mailru')">
-                                <img src="@/assets/img/social/my.svg"/>
+                                <img src="~/assets/img/social/my.svg"/>
                             </a>
                         </div>
                     </div>
@@ -54,12 +58,12 @@
                         >
                             <nuxt-link
                                     :to="localePath({
-                  name: 'blog-cat-slug',
-                  params: {
-                    cat: post.categorySlug,
-                    slug: post.slug
-                  }
-                })"
+                                    name: 'blog-cat-slug',
+                                    params: {
+                                        cat: post.categorySlug,
+                                        slug: post.slug
+                                      }
+                                    })"
                                     class="blog__material-link"
                             >
                                 <img :src="post.image" :alt="post.title"/>
@@ -77,102 +81,19 @@
 </template>
 
 <script>
-    import Comments from "@/components/Comments";
-    import {format} from "date-fns";
-    import {ru} from "date-fns/locale";
-    import CommentsBlock from "./CommentsBlock";
+    import Comments from "~/components/Comments";
+    import CommentsBlock from "~/components/blog/CommentsBlock";
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
         props: ['post', 'similarPosts'],
-        components: {CommentsBlock, Comments},
-        data() {
-            return {
-                comments_sort: "сначала новые",
-                commentText: "",
-                comments: [],
-                commentId: Number
-            };
-        },
-        filters: {
-            date(value) {
-                return format(new Date(value), "d MMMM y", {locale: ru});
-            }
-        },
+        components: {FormattedDate, CommentsBlock, Comments},
         methods: {
-            sortedComment() {
-                if (this.comments_sort == "сначала старые") {
-                    this.$axios
-                        .get(`/api/blog/posts/${this.post.id}/comments`, {
-                            params: {sortOrder: "asc"}
-                        })
-                        .then(res => {
-                            this.comments = res.data;
-                        });
-                } else if (this.comments_sort == "сначала новые") {
-                    this.$axios
-                        .get(`/api/blog/posts/${this.post.id}/comments`, {
-                            params: {sortOrder: "desc"}
-                        })
-                        .then(res => {
-                            this.comments = res.data;
-                        });
-                } else if (this.comments_sort == "популярные") {
-                    this.$axios.get(`/api/blog/posts/${this.post.id}/comments`, {
-                        params: {sortBy: "popularity"}
-                    })
-                        .then(res => {
-                            this.comments = res.data;
-                        });
-                }
-            },
-            formFocus(id) {
-                this.$nextTick(() => {
-                    this.$refs.comment.focus();
-                });
-                this.commentId = id;
-            },
-            sendComment() {
-                this.$axios
-                    .post(`/api/blog/posts/${this.post.id}/comments`, {
-                        text: this.commentText,
-                        parentId: this.$store.getters.getId
-                    })
-                    .then(res => {
-                        console.log(res);
-                        this.$axios.get(`/api/blog/posts/${this.post.id}/comments`).then(res => {
-                            this.comments = res.data;
-                        });
-                        this.commentText = "";
-                        this.$store.commit("setId", null);
-                    });
-                this.$store.commit("setId", null);
-            },
-            clearComment() {
-                this.commentText = "";
-            },
-            resizeHeight(e) {
-                e.target.style.height = "70px";
-                e.target.style.height = e.target.scrollHeight + "px";
-            },
             share(network) {
                 window.open(this.shareLinks[network]);
             }
         },
         computed: {
-            declension() {
-                let number = this.comments.count;
-                let txt = ["Комментарий", "Комментария", "Комментариев"];
-                let cases = [2, 0, 1, 1, 1, 2];
-                return (
-                    number +
-                    " " +
-                    txt[
-                        number % 100 > 4 && number % 100 < 20
-                            ? 2
-                            : cases[number % 10 < 5 ? number % 10 : 5]
-                        ]
-                );
-            },
             shareLinks() {
                 const path = encodeURIComponent(
                     window.location.origin + this.$route.fullPath

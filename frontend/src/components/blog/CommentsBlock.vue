@@ -1,11 +1,9 @@
 <template>
     <div class="blog__inside-comments">
-        <h4>{{ declension }}</h4>
+        <h4>{{ $tc('blog.commentsCount', comments.count) }}</h4>
         <span class="custom-dropdown">
             <select v-model="comments_sort" @change="sortedComment()">
-              <option>сначала новые</option>
-              <option>сначала старые</option>
-              <option>популярные</option>
+                <option v-for="option in sortOptions" :key="option" :value="option">{{ $t(`blog.commentsSort.${option}`) }}</option>
             </select>
           </span>
 
@@ -20,7 +18,7 @@
 
               <textarea
                       ref="comment"
-                      placeholder="Напишите комментарий"
+                      :placeholder="$t('blog.commentInputPlaceholder')"
                       name="comment"
                       rows="2"
                       v-model="commentText"
@@ -33,7 +31,7 @@
                             class="send-button"
                             @click="sendComment()"
                     >
-                        <img src="@/assets/icons/send.svg" alt="" />
+                        <img src="@/assets/icons/send.svg" alt=""/>
                     </button>
                     <button
                             type="button"
@@ -41,7 +39,7 @@
                             class="clear-button"
                             v-if="commentText.length > 0"
                     >
-                        <img src="@/assets/icons/close.svg" alt="" />
+                        <img src="@/assets/icons/close.svg" alt=""/>
                     </button>
                 </div>
             </div>
@@ -51,13 +49,14 @@
 
 <script>
     import Comments from "../Comments";
+
     export default {
         name: "CommentsBlock",
         props: ['id'],
         components: {Comments},
         data() {
             return {
-                comments_sort: "сначала новые",
+                comments_sort: 'newest',
                 commentText: "",
                 comments: {
                     count: 0,
@@ -67,37 +66,21 @@
             };
         },
         mounted() {
-            this.$axios.get(`/api/blog/posts/${this.id}/comments`).then(res => {
-                this.comments = res.data;
+            this.$axios.$get(`/api/blog/posts/${this.id}/comments`).then(res => {
+                this.comments = res;
             }).catch(e => console.log(e.response));
         },
         methods: {
-            sortedComment() {
-                if (this.comments_sort == "сначала старые") {
-                    this.$axios
-                        .get(`/api/blog/posts/${this.id}/comments`, {
-                            params: {sortOrder: "asc"}
-                        })
-                        .then(res => {
-                            this.comments = res.data;
-                        });
-                } else if (this.comments_sort == "сначала новые") {
-                    this.$axios
-                        .get(`/api/blog/posts/${this.id}/comments`, {
-                            params: {sortOrder: "desc"}
-                        })
-                        .then(res => {
-                            this.comments = res.data;
-                        });
-                } else if (this.comments_sort == "популярные") {
-                    this.$axios
-                        .get(`/api/blog/posts/${this.id}/comments`, {
-                            params: {sortBy: "popularity"}
-                        })
-                        .then(res => {
-                            this.comments = res.data;
-                        });
+            async sortedComment() {
+                const sortVariants = {
+                    newest: {sortOrder: "desc"},
+                    oldest: {sortOrder: "asc"},
+                    popular: {sortBy: "popularity"},
                 }
+
+                this.comments = await this.$axios.$get(`/api/blog/posts/${this.id}/comments`, {
+                    params: sortVariants[this.comments_sort]
+                })
             },
             formFocus(id) {
                 this.$nextTick(() => {
@@ -118,9 +101,9 @@
                         });
                         this.commentId = null;
                         this.commentText = "";
-                     //   this.$store.commit("setId", null);
+                        //   this.$store.commit("setId", null);
                     });
-               // this.$store.commit("setId", null);
+                // this.$store.commit("setId", null);
             },
             clearComment() {
                 this.commentText = "";
@@ -131,20 +114,9 @@
             },
         },
         computed: {
-            declension() {
-                let number = this.comments.count;
-                let txt = ["Комментарий", "Комментария", "Комментариев"];
-                let cases = [2, 0, 1, 1, 1, 2];
-                return (
-                    number +
-                    " " +
-                    txt[
-                        number % 100 > 4 && number % 100 < 20
-                            ? 2
-                            : cases[number % 10 < 5 ? number % 10 : 5]
-                        ]
-                );
-            },
+            sortOptions() {
+                return ['newest', 'oldest', 'popular']
+            }
         }
     }
 </script>

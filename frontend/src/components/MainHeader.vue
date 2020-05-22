@@ -12,16 +12,16 @@
           </div>
           <div class="main-header__menu">
             <a href="#">
-              <span>Помощь</span>
+              <span>{{ $t('mainMenu.help') }}</span>
             </a>
             <nuxt-link :to="localePath({name: 'about'})">
-              <span>О проекте</span>
+              <span>{{ $t('mainMenu.about') }}</span>
             </nuxt-link>
             <nuxt-link :to="localePath({name: 'blog-category'})">
-              <span>Блог</span>
+              <span>{{ $t('mainMenu.blog') }}</span>
             </nuxt-link>
             <nuxt-link :to="localePath({name: 'contacts'})">
-              <span>Контакты</span>
+              <span>{{ $t('mainMenu.contacts') }}</span>
             </nuxt-link>
           </div>
 
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import LangSelect from "./../components/LangSelect";
+import LangSelect from "~/components/LangSelect";
 export default {
   data() {
     return {
