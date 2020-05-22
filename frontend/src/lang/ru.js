@@ -142,5 +142,19 @@ export default {
             partial_accessible: 'частично доступно',
             not_accessible: 'не доступно'
         }
+    },
+    mainFilter: {
+        searchPlaceholder: 'Тип объекта, название или улица',
+        accessibilityStatus: {
+            accessible: 'Доступно',
+            partialAccessible: 'Частично доступно',
+            notAccessible: 'Недоступно'
+        }
+    },
+    mainMenu: {
+        help: 'Помощь',
+        about: 'О проекте',
+        blog: 'Блог',
+        contacts: 'Контакты',
     }
 }
