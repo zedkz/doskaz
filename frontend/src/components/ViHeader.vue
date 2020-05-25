@@ -5,36 +5,36 @@
                 <div class="vi-set">
                     <span class="vi-set__title --fcolor">Размер шрифта</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --fs --sm  --bcolor --fcolor" :class="{'--active': fontSize == 'sm'}" @click="setFontSize('sm')">A</span>
-                        <span class="vi-set__link --fs --md  --bcolor --fcolor" :class="{'--active': fontSize == 'md'}" @click="setFontSize('md')">A</span>
-                        <span class="vi-set__link --fs --lrg --bcolor --fcolor" :class="{'--active': fontSize == 'lrg'}" @click="setFontSize('lrg')">A</span>
+                        <span class="vi-set__link --fs --sm  --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'sm'}" @click="changeFontSize('sm')">A</span>
+                        <span class="vi-set__link --fs --md  --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'md'}" @click="changeFontSize('md')">A</span>
+                        <span class="vi-set__link --fs --lrg --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'lrg'}" @click="changeFontSize('lrg')">A</span>
                     </div>
                 </div>
                 <div class="vi-set">
                     <span class="vi-set__title --fcolor">Цветовая схема</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --ctheme --white --fcolor" :class="{'--active': colorTheme == 'white'}" @click="setColorTheme('white')">Ц</span>
-                        <span class="vi-set__link --ctheme --black --bcolor --fcolor" :class="{'--active': colorTheme == 'black'}" @click="setColorTheme('black')">Ц</span>
+                        <span class="vi-set__link --ctheme --white --fcolor" :class="{'--active': visualImpairedModeSettings.colorTheme === 'white'}" @click="changeColorTheme('white')">Ц</span>
+                        <span class="vi-set__link --ctheme --black --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.colorTheme === 'black'}" @click="changeColorTheme('black')">Ц</span>
                     </div>
                 </div>
                 <div class="vi-set">
                     <span class="vi-set__title --fcolor">Шрифт</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --ff --btn --bcolor --fcolor" :class="{'--active': fontFamily == 'Lato'}" @click="setFontFamily('Lato')">Обычный</span>
-                        <span class="vi-set__link --ff --noto --btn --bcolor --fcolor" :class="{'--active': fontFamily == 'Noto'}" @click="setFontFamily('Noto')">С засечками</span>
+                        <span class="vi-set__link --ff --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Lato'}" @click="changeFontFamily('Lato')">Обычный</span>
+                        <span class="vi-set__link --ff --noto --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Noto'}" @click="changeFontFamily('Noto')">С засечками</span>
                     </div>
                 </div>
             </div>
             <button class="vi-switch" @click="disableVisualImpairedMode">
-                <img :src="require('@/assets/visually-black.svg')" alt="" v-if="colorTheme == 'white'" />
-                <img :src="require('@/assets/visually-white.svg')" alt="" v-if="colorTheme == 'black'" />
+                <img :src="require('~/assets/visually-black.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'white'" />
+                <img :src="require('~/assets/visually-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
                 <span class="--fcolor">Обычная версия сайта</span>
             </button>
         </div>
         <div class="vi-header__bottom --bcolor --fcolor">
             <nuxt-link :to="localePath({name: 'index'})" class="vi__logo">
-                <img :src="require('@/assets/logo-black.svg')" alt="" v-if="colorTheme == 'white'" />
-                <img :src="require('@/assets/logo-white.svg')" alt="" v-if="colorTheme == 'black'" />
+                <img :src="require('~/assets/logo-black.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'white'" />
+                <img :src="require('~/assets/logo-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
             </nuxt-link>
             <div class="vi__auth-b">
                 <a href="" class="vi__auth-link">Войти</a>
@@ -54,31 +54,19 @@
 </template>
 
 <script>
-    import {eventBus} from "./../store/bus";
-    import {call} from 'vuex-pathify'
+    import {call, get} from 'vuex-pathify'
 
     export default {
-        data() {
-            return{
-                fontSize: 'lrg',
-                colorTheme: 'white',
-                fontFamily: 'Lato'
-            }
-        },
         methods: {
-            setFontSize(fsize) {
-                this.fontSize = '' + fsize + '';
-                eventBus.$emit('setFontSize',this.fontSize);
-            },
-            setColorTheme(ctheme) {
-                this.colorTheme = '' + ctheme + '';
-                eventBus.$emit('setColorTheme',this.colorTheme);
-            },
-            setFontFamily(ff) {
-                this.fontFamily = '' + ff + '';
-                eventBus.$emit('setFontFamily',this.fontFamily);
-            },
-            disableVisualImpairedMode: call('visualImpairedModeSettings/disable')
+            disableVisualImpairedMode: call('visualImpairedModeSettings/disable'),
+            ...call('visualImpairedModeSettings', [
+                'changeFontFamily',
+                'changeFontSize',
+                'changeColorTheme'
+            ])
+        },
+        computed: {
+            visualImpairedModeSettings: get('visualImpairedModeSettings'),
         }
     }
 </script>

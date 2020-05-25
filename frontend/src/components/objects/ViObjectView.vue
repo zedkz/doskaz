@@ -1,5 +1,5 @@
 <template>
-    <div class="vi" :class="{'--noto': fontFamily == 'Noto', '--black': colorTheme == 'black', '--sm': fontSize == 'sm', '--md': fontSize == 'md','--lrg': fontSize == 'lrg'}">
+    <div class="vi" :class="viSettingsClasses">
         <div class="vi-container">
             <ViHeader/>
             <div class="vi-object" v-if="objectInfoShow === false">
@@ -162,6 +162,9 @@
                 }
             }
         },
+        mounted() {
+            console.log(this.visualImpairedModeSettings)
+        },
         created() {
             eventBus.$on('setFontSize', this.setFontSize);
             eventBus.$on('setColorTheme', this.setColorTheme);
@@ -181,9 +184,19 @@
             object: get('object/item'),
             attributes: get('object/attributes'),
             exportLink: get('object/exportLink'),
+            visualImpairedModeSettings: get('visualImpairedModeSettings'),
             zonesMenu() {
                 return chunk(this.attributes, Math.round(this.attributes.length / 2))
             },
+            viSettingsClasses() {
+                return {
+                    '--noto': this.visualImpairedModeSettings.fontFamily === 'Noto',
+                    '--black': this.visualImpairedModeSettings.colorTheme === 'black',
+                    '--sm': this.visualImpairedModeSettings.fontSize === 'sm',
+                    '--md': this.visualImpairedModeSettings.fontSize === 'md',
+                    '--lrg':this.visualImpairedModeSettings.fontSize === 'lrg'
+                }
+            }
         },
         methods: {
             setVisible(detail) {
