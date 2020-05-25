@@ -2,7 +2,7 @@
     <div class="sidebar-wrapper" :class="{opened: mobileOpened}">
         <div class="mob-menu">
             <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
-                <img :src="require('@/assets/logo.svg')" alt/>
+                <img :src="require('~/assets/logo.svg')" alt/>
             </nuxt-link>
             <div class="burger-wrapper" @click="mainPageMobOpened()">
                 <span class="burger">
@@ -31,12 +31,11 @@
                 </div>
                 <div class="availability"
                      :style="{backgroundColor: overallAccessibility.backgroundColor}">
-                    <div class="availability__title" :class="overallAccessibility.class">{{ overallAccessibility.label
-                        }}
+                    <div class="availability__title" :class="overallAccessibility.class">{{ overallAccessibility.label }}
                     </div>
                     <div class="availability__list">
-                        <div class="availability__item" :class="zone.class" v-for="zone in zones" :ke="zone.key">{{
-                            zone.label }}
+                        <div class="availability__item" :class="zone.class" v-for="zone in zones" :key="zone.key">
+                            {{ zone.label }}
                         </div>
                     </div>
                 </div>
@@ -56,18 +55,14 @@
                              id="tab-description">
                             <p class="text">{{ object.description }}</p>
                             <div class="text__verification-b">
-                                <span class="text__verification-link" v-on:click="moreDetailsShow = true">Подробная информация</span>
-                                <p class="text__verification" v-if="object.verificationStatus === 'full_verified'">
-                                    Объект верифицирован</p>
-                                <p class="text__verification" v-if="object.verificationStatus === 'not_verified'">Объект
-                                    не верифицирован</p>
-                                <p class="text__verification" v-if="object.verificationStatus === 'partial_verified'">
-                                    Объект частично верифицирован</p>
+                                <span class="text__verification-link" v-on:click="moreDetailsShow = true">{{ $t('objects.detailedInfo') }}</span>
+                                <p class="text__verification">{{ $t(`objects.verificationStatus.${object.verificationStatus}`) }}</p>
                             </div>
                             <div class="object-side__button-b">
-                                <nuxt-link :to="localePath({name: 'complaint', query: {objectId: $route.params.id}})" class="object-side__button --complaint">Подать жалобу</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'complaint', query: {objectId: $route.params.id}})" class="object-side__button --complaint">
+                                    {{ $t('objects.makeComplaint') }}</nuxt-link>
                                 <nuxt-link :to="localePath({name: 'objects-id-verify', params: {id: $route.params.id}})"
-                                           class="object-side__button --check">Подтвердить данные
+                                           class="object-side__button --check">{{ $t('objects.confirm') }}
                                 </nuxt-link>
                             </div>
                         </div>
@@ -110,22 +105,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'history'}" id="tab-history">
+                        <div class="object-side__tab-content" :class="{active: $route.query.tab === 'history'}">
                             <ul class="object-side__history-list">
                                 <li class="object-side__history-item" v-for="(item, index) in object.history"
                                     :key="index">
                                     <formatted-date class="object-side__history-date" :date="item.date" format="d MMMM"/>
                                     <p class="object-side__history-text">
                                         <username :value="item.name" tag="b"/>
-                                        <template v-if="item.data.type === 'review_created'">прокомментировал(а)
-                                            объект
-                                        </template>
-                                        <template v-if="item.data.type === 'verification_confirmed'">подтвердил(а)
-                                            данные
-                                        </template>
-                                        <template v-if="item.data.type === 'verification_rejected'">не подтвердил(а)
-                                            данные
-                                        </template>
+                                        <template v-if="item.data.type === 'review_created'">{{ $t('objects.history.reviewed') }}</template>
+                                        <template v-if="item.data.type === 'verification_confirmed'">{{ $t('objects.history.confirmed') }}</template>
+                                        <template v-if="item.data.type === 'verification_rejected'">{{ $t('objects.history.notConfirmed') }}</template>
                                     </p>
                                 </li>
                             </ul>
@@ -142,7 +131,7 @@
                                    @click.prevent="setVisible(item.key)">{{ item.title }}</a>
                             </div>
                         </div>
-                        <a :href="`/api/objects/${$route.params.id}/pdf`" target="_blank" class="more-detail__download" download>Скачать</a>
+                        <a :href="`/api/objects/${$route.params.id}/pdf`" target="_blank" class="more-detail__download" download>{{ $t('objects.download') }}</a>
                     </div>
                     <div class="more-detail__content" id="more-detail__content">
                         <div :id="zone.key" class="more-detail__item" v-for="zone in detailsZones" :key="zone.key">
@@ -155,9 +144,9 @@
                                          :class="{yes: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes', no: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no', empty: !['yes', 'no'].includes(object.attributes.zones[zone.key][`attribute${attribute.key}`])}">
                                         <span class="more-detail__line-text">{{ attribute.title }} {{ attribute.subTitle }}</span>
                                         <span class="more-detail__line-status"
-                                              v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">Да</span>
+                                              v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">{{ $t('objects.attributes.yes') }}</span>
                                         <span class="more-detail__line-status"
-                                              v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">Нет</span>
+                                              v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">{{ $t('objects.attributes.no') }}</span>
                                         <span class="more-detail__line-status" v-else>&mdash;</span>
                                     </div>
                                 </template>
@@ -173,14 +162,13 @@
             </nuxt-link>
         </div>
 
-        <nuxt-child @review-submitted="reloadObject" :objectName="object.title" @verified="reloadObject"/>
+        <nuxt-child :objectName="object.title"/>
         <client-only>
             <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions"
                      @close="imagesIndex = null"></gallery>
             <gallery id="blueimp-video" :images="videos" :index="videosIndex" :options="videosOptions"
                      @close="videosIndex = null"></gallery>
         </client-only>
-
         <post-submit-message/>
     </div>
 </template>
@@ -194,7 +182,7 @@
     import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
     import LangSelect from "~/components/LangSelect";
     import {eventBus} from '~/store/bus.js'
-    import FormattedDate from "@/components/FormattedDate";
+    import FormattedDate from "~/components/FormattedDate";
 
     const accessibilityValues = {
         full_accessible: {
@@ -234,7 +222,6 @@
         name: 'NormalObjectView',
         props: [
             'mobileOpened',
-            'object'
         ],
         head() {
             return {
@@ -341,29 +328,9 @@
             images() {
                 return this.object.photos.map(photo => photo.viewUrl)
             },
-            videos() {
-                return this.object.videos.map(video => ({
-                    youtube: video.videoId,
-                    poster: video.thumbnail,
-                    type: 'text/html',
-                    href: video.url
-                }));
-            },
-            userCategory: get('disabilitiesCategorySettings/currentCategory'),
-        },
-        watch: {
-            '$route.query.t'() {
-                this.coordinatesAndZoom = {
-                    coordinates: this.object.coordinates,
-                    zoom: this.$route.query.zoom
-                }
-            },
-            userCategory() {
-                this.reloadObject()
-            }
-        },
-        destroyed() {
-            this.coordinatesAndZoom = null;
+            videos: get('object/videos'),
+            object: get('object/item'),
+            formAttributesByZone: get('objectAdding/formAttributesByZone')
         },
         methods: {
             mainPageMobOpened() {
@@ -382,14 +349,6 @@
             setActive(tabItem) {
                 this.activeItem = tabItem
             },
-            async reloadObject() {
-                const {data: object} = await this.$axios.get(`/api/objects/${this.$route.params.id}`, {
-                    params: {
-                        disabilitiesCategory: this.$store.getters['disabilitiesCategorySettings/currentCategoryValue']
-                    }
-                })
-                this.object = object;
-            },
             viewPhoto(photo) {
                 this.videosIndex = null;
                 this.imagesIndex = this.object.photos.indexOf(photo)
@@ -399,7 +358,7 @@
 </script>
 
 <style lang="scss">
-    @import "@/styles/mixins.scss";
+    @import "~/styles/mixins.scss";
 
     .mob-menu {
         display: none;

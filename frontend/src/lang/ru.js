@@ -70,7 +70,35 @@ export default {
             toilet: 'Туалет',
             navigation: 'Навигация',
             serviceAccessibility: 'Доступность услуги',
-        }
+        },
+        viBreadcrumbsTitle: 'Вернуться в категорию {category} / {subCategory}',
+        viAccessibilityCategory: {
+            full_accessible: 'доступно',
+            partial_accessible: 'частично доступно',
+            not_accessible: 'недоступно'
+        },
+        viSummaryScore: 'Оценка объекта: {score}',
+        viReturnToObject: 'Вернуться к объекту {object}',
+        verificationStatus: {
+            full_verified: 'Объект верифицирован',
+            not_verified: 'Объект не верифицирован',
+            partial_verified: 'Объект частично верифицирован',
+        },
+        detailedInfo: 'Подробная информация',
+        confirm: 'Подтвердить данные',
+        makeComplaint: 'Подать жалобу',
+        history: {
+            reviewed: 'прокомментировал(а) объект',
+            confirmed: 'подтвердил(а) данные',
+            notConfirmed: 'не подтвердил(а) данные'
+        },
+        attribute: {
+            yes: 'Да',
+            no: 'Нет',
+            unknown: 'Не известно',
+            not_provided: 'Не предусмотрено'
+        },
+        download: 'Скачать'
     },
     contacts: {
         title: 'Контакты',
@@ -164,7 +192,8 @@ export default {
         status: {
             full_accessible: 'доступно',
             partial_accessible: 'частично доступно',
-            not_accessible: 'не доступно'
+            not_accessible: 'не доступно',
+            not_provided: 'Не предусмотрено'
         }
     },
     mainFilter: {

@@ -1,293 +1,124 @@
 <template>
     <div class="vi" :class="{'--noto': fontFamily == 'Noto', '--black': colorTheme == 'black', '--sm': fontSize == 'sm', '--md': fontSize == 'md','--lrg': fontSize == 'lrg'}">
         <div class="vi-container">
-            <ViHeader></ViHeader>
+            <ViHeader/>
             <div class="vi-object" v-if="objectInfoShow === false">
-                <a href="#" class="vi-object__top-link">Вернуться в категорию Питание / Бары</a>
+                <a href="#" class="vi-object__top-link">{{ $t('objects.viBreadcrumbsTitle', {category: object.category, subCategory: object.subCategory}) }}</a>
                 <h2 class="vi-object__title">{{ object.title }}</h2>
                 <div class="vi-object__edit">
                     <span class="vi-object__address">{{ object.address }}</span>
-                    <!--<a href="" class="vi-object__edit-link">Редактировать</a>-->
+                 <!--   <a href="" class="vi-object__edit-link">Редактировать</a>-->
                 </div>
                 <div class="vi-object__tab-link-b">
-                    <span class="vi-object__tab-link" :class="{ '--active': activeTab == 0 }" @click="setActiveTab(0)">Описание</span>
-                    <span class="vi-object__tab-link" :class="{ '--active': activeTab == 1 }" @click="setActiveTab(1)">Фото</span>
-                    <span class="vi-object__tab-link" :class="{ '--active': activeTab == 2 }" @click="setActiveTab(2)">Видео</span>
-                    <span class="vi-object__tab-link" :class="{ '--active': activeTab == 3 }" @click="setActiveTab(3)">Отзывы</span>
-                    <span class="vi-object__tab-link" :class="{ '--active': activeTab == 4 }" @click="setActiveTab(4)">История</span>
+                    <span class="vi-object__tab-link" :class="{'--active': activeTab === 0}" @click="setActiveTab(0)">{{ $t('objects.tabTitles.description') }}</span>
+                    <span class="vi-object__tab-link" :class="{'--active': activeTab === 1}" @click="setActiveTab(1)">{{ $t('objects.tabTitles.photos') }}</span>
+                    <span class="vi-object__tab-link" :class="{'--active': activeTab === 2}" @click="setActiveTab(2)">{{ $t('objects.tabTitles.videos')}}</span>
+                    <span class="vi-object__tab-link" :class="{'--active': activeTab === 3}" @click="setActiveTab(3)">{{ $t('objects.tabTitles.reviews') }}</span>
+                    <span class="vi-object__tab-link" :class="{'--active': activeTab === 4}" @click="setActiveTab(4)">{{ $t('objects.tabTitles.history')}}</span>
                 </div>
                 <div class="vi-object__tab-content-b">
-                    <div class="vi-object__tab-content" v-if="activeTab == 0">
+                    <div class="vi-object__tab-content" v-if="activeTab === 0">
                         <div class="vi-object__available-top">
-                            <h4 class="vi-object__available-top__title">Оценка объекта: Частично доступно</h4>
-                            <div class="vi-object__available-top__item">Парковка — частично доступно</div>
-                            <div class="vi-object__available-top__item">Входная группа — доступно</div>
-                            <div class="vi-object__available-top__item">Пути движения по объекту — доступно</div>
-                            <div class="vi-object__available-top__item">Навигация — недоступно</div>
-                            <div class="vi-object__available-top__item">Зона оказания услуги — доступно</div>
-                            <div class="vi-object__available-top__item">Доступность услуги — доступно</div>
-                            <div class="vi-object__available-top__item">Туалет — доступно</div>
+                            <h4 class="vi-object__available-top__title">{{ $t('objects.viSummaryScore', {score: $t(`objects.viAccessibilityCategory.${object.overallScore}`)}) }}</h4>
+                            <div class="vi-object__available-top__item" v-for="zone in zones" :key="zone">{{ $t(`objects.zone.${zone}`) }} — {{ $t(`objects.viAccessibilityCategory.${object.scoreByZones[zone]}`) }}</div>
                         </div>
                         <p class="vi-object__text">{{ object.description }}</p>
                         <div class="vi-object__verification-b">
-                            <button type="button" class="vi__button" @click="objectInfoShow = true">Подробная информация</button>
-                            <span class="vi-object__verification">Объект частично верифицирован</span>
+                            <button type="button" class="vi__button" @click="objectInfoShow = true">{{ $t('objects.detailedInfo') }}</button>
+                            <span class="vi-object__verification">{{ $t(`objects.verificationStatus.${object.verificationStatus}`) }}</span>
                         </div>
                     </div>
-                    <div class="vi-object__tab-content" v-if="activeTab == 1">
+                    <div class="vi-object__tab-content" v-if="activeTab === 1">
                         <div class="vi-object__photo">
-                            <img :src="require('@/assets/img/files/01.png')"/>
-                            <img :src="require('@/assets/img/files/02.png')"/>
-                            <img :src="require('@/assets/img/files/03.png')"/>
-                            <img :src="require('@/assets/img/files/blog1.png')"/>
-                            <img :src="require('@/assets/img/files/blog2.png')"/>
-                            <img :src="require('@/assets/img/files/represent.jpg')"/>
+                            <a href="#"
+                               v-for="(image, imageIndex) in object.photos"
+                               :key="imageIndex"
+                               @click="videosIndex = null; imagesIndex = imageIndex">
+                                <img :src="image.previewUrl" alt=""/>
+                            </a>
                         </div>
                     </div>
-                    <div class="vi-object__tab-content" v-if="activeTab == 2">
-
+                    <div class="vi-object__tab-content" v-if="activeTab === 2">
+                        <div class="vi-object__photo">
+                            <a href="#"
+                               v-for="(video, videoIndex) in videos"
+                               :key="videoIndex"
+                               @click="imagesIndex = null; videosIndex = videoIndex">
+                                <img :src="video.poster"/>
+                            </a>
+                        </div>
                     </div>
-                    <div class="vi-object__tab-content" v-if="activeTab == 3">
+                    <div class="vi-object__tab-content" v-if="activeTab === 3">
                         <ul class="vi-object__review-list">
-                            <li class="vi-object__review">
+                            <li class="vi-object__review" v-for="review in object.reviews">
                                 <div class="vi-object__review-top">
-                                    <span class="vi-object__review-author">Елена Малышева</span>
-                                    <span class="vi-object__review-date">10.12.2013</span>
+                                    <username class="vi-object__review-author" :value="review.author"/>
+                                    <formatted-date class="vi-object__review-date" :date="review.createdAt" format="dd.MM.yyyy"/>
                                 </div>
-                                <p class="vi-object__review-text">Была там на днях, очень понравилось. Без туалета, конечно, не очень удобно, но руки помыть можно без проблем. Персонал очень вежливый, помогали мне. Суши просто огонь и пицца прям что надо, рекомендую!</p>
-                            </li>
-                            <li class="vi-object__review">
-                                <div class="vi-object__review-top">
-                                    <span class="vi-object__review-author">Елена Малышева</span>
-                                    <span class="vi-object__review-date">10.12.2013</span>
-                                </div>
-                                <p class="vi-object__review-text">Была там на днях, очень понравилось. Без туалета, конечно, не очень удобно, но руки помыть можно без проблем. Персонал очень вежливый, помогали мне. Суши просто огонь и пицца прям что надо, рекомендую!</p>
-                            </li>
-                            <li class="vi-object__review">
-                                <div class="vi-object__review-top">
-                                    <span class="vi-object__review-author">Елена Малышева</span>
-                                    <span class="vi-object__review-date">10.12.2013</span>
-                                </div>
-                                <p class="vi-object__review-text">Была там на днях, очень понравилось. Без туалета, конечно, не очень удобно, но руки помыть можно без проблем. Персонал очень вежливый, помогали мне. Суши просто огонь и пицца прям что надо, рекомендую!</p>
-                            </li>
-                            <li class="vi-object__review">
-                                <div class="vi-object__review-top">
-                                    <span class="vi-object__review-author">Елена Малышева</span>
-                                    <span class="vi-object__review-date">10.12.2013</span>
-                                </div>
-                                <p class="vi-object__review-text">Была там на днях, очень понравилось. Без туалета, конечно, не очень удобно, но руки помыть можно без проблем. Персонал очень вежливый, помогали мне. Суши просто огонь и пицца прям что надо, рекомендую!</p>
+                                <p class="vi-object__review-text">{{ review.text }}</p>
                             </li>
                         </ul>
                         <div class="vi-object__review-add">
-                            <button type="button" class="vi__button" @click="reviewNew = true">Оставить отзыв</button>
+                            <button type="button" class="vi__button" @click="reviewNew = true">{{ $t('objects.review.linkButtonTitle')}}</button>
                         </div>
                         <div class="vi-object__review-new" v-if="reviewNew">
-                            <textarea placeholder="Текст сообщения"></textarea>
-                            <button type="button" class="vi__button">Отправить</button>
+                            <textarea :placeholder="$t('objects.review.textareaPlaceholder')"/>
+                            <button type="button" class="vi__button">{{ $t('objects.review.submitButtonTitle') }}</button>
                         </div>
                     </div>
-                    <div class="vi-object__tab-content" v-if="activeTab == 4">
+                    <div class="vi-object__tab-content" v-if="activeTab === 4">
                         <ul class="vi-object__history">
-                            <li class="vi-object__history-item">
-                                <span class="vi-object__history-date">12 августа</span>
-                                <p class="vi-object__history-text"><b>Алдияр Тулебаев</b> добавил 2 фотографии</p>
-                            </li>
-                            <li class="vi-object__history-item">
-                                <span class="vi-object__history-date">12 августа</span>
-                                <p class="vi-object__history-text"><b>Алдияр Тулебаев</b> добавил 2 фотографии</p>
-                            </li>
-                            <li class="vi-object__history-item">
-                                <span class="vi-object__history-date">12 августа</span>
-                                <p class="vi-object__history-text"><b>Алдияр Тулебаев</b> добавил 2 фотографии</p>
-                            </li>
-                            <li class="vi-object__history-item">
-                                <span class="vi-object__history-date">12 августа</span>
-                                <p class="vi-object__history-text"><b>Алдияр Тулебаев</b> добавил 2 фотографии</p>
+                            <li class="vi-object__history-item"  v-for="(item, index) in object.history" :key="index">
+                                <formatted-date class="vi-object__history-date" :date="item.date" format="d MMMM"/>
+                                <p class="vi-object__history-text"><username :value="item.name" tag="b"/>
+                                    <template v-if="item.data.type === 'review_created'">{{ $t('objects.history.reviewed') }}</template>
+                                    <template v-if="item.data.type === 'verification_confirmed'">{{ $t('objects.history.confirmed') }}</template>
+                                    <template v-if="item.data.type === 'verification_rejected'">{{ $t('objects.history.notConfirmed') }}</template>
+                                </p>
                             </li>
                         </ul>
                     </div>
                     <div class="vi-object__content-complaint">
-                        <button type="button" class="vi__button">Подать жалобу</button>
-                        <button type="button" class="vi__button">Подтвердить данные</button>
+                        <nuxt-link :to="localePath({name: 'complaint', query: {objectId: $route.params.id}})" class="vi__button">{{ $t('objects.makeComplaint') }}</nuxt-link>
+                        <button type="button" class="vi__button">{{ $t('objects.confirm') }}</button>
                     </div>
                 </div>
             </div>
             <div class="vi-object__available" v-if="objectInfoShow === true">
-                <span class="vi-object__top-link" @click="objectInfoShow = false">Вернуться к объекту Saya Sushi, суши-бар</span>
-                <h2 class="vi-object__title">Подробная информация</h2>
+                <span class="vi-object__top-link" @click="objectInfoShow = false">{{ $t('objects.viReturnToObject', {object: object.title}) }}</span>
+                <h2 class="vi-object__title">{{ $t('objects.detailedInfo') }}</h2>
                 <div class="vi-object__anchor-b">
-                    <div class="vi-object__anchor-list">
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_1')" :class="{ '--active': visibleDetail == 'detail_1' }">Общая информация</span>
-                        </div>
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_2')" :class="{ '--active': visibleDetail == 'detail_2' }">Парковка</span>
-                        </div>
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_3')" :class="{ '--active': visibleDetail == 'detail_3' }">Входная группа</span>
-                        </div>
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_4')" :class="{ '--active': visibleDetail == 'detail_4' }">Пути движения по объекту</span>
+                    <div class="vi-object__anchor-list" v-for="(item, index) in zonesMenu" :key="index">
+                        <div class="vi-object__anchor-item" v-for="zone in item" :key="zone.key">
+                            <span class="vi-object__anchor" @click="setVisible(zone.key)" :class="{ '--active': visibleDetail === zone.key }">{{ $t(`objects.zone.${zone.group}`) }}</span>
                         </div>
                     </div>
-                    <div class="vi-object__anchor-list">
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_5')" :class="{ '--active': visibleDetail == 'detail_5' }">Зона оказания услуги</span>
-                        </div>
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_6')" :class="{ '--active': visibleDetail == 'detail_6' }">Туалет</span>
-                        </div>
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_7')" :class="{ '--active': visibleDetail == 'detail_7' }">Навигация</span>
-                        </div>
-                        <div class="vi-object__anchor-item">
-                            <span class="vi-object__anchor" @click="setVisible('detail_8')" :class="{ '--active': visibleDetail == 'detail_8' }">Доступность услуги</span>
-                        </div>
-                    </div>
-                    <a href="" class="vi__button">Скачать</a>
+                    <a :href="exportLink" download class="vi__button">{{ $t('objects.download') }}</a>
                 </div>
                 <div class="vi-object__available-content">
-                    <div class="vi-object__available-item" id="detail_1">
-                        <h4 class="vi-object__available-title">Общая информация</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Нет
-                            </div>
-                        </div>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_2">
-                        <h4 class="vi-object__available-title">Парковка</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Да
-                            </div>
-                        </div>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                        <h5 class="vi-object__available-text__title">Лестница наружная</h5>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_3">
-                        <h4 class="vi-object__available-title">Входная группа</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Не предусмотрено
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_4">
-                        <h4 class="vi-object__available-title">Пути движения по объекту</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Да
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_5">
-                        <h4 class="vi-object__available-title">Зона оказания услуги</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Да
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_6">
-                        <h4 class="vi-object__available-title">Туалет</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Да
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_7">
-                        <h4 class="vi-object__available-title">Навигация</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Да
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vi-object__available-item" id="detail_8">
-                        <h4 class="vi-object__available-title">Доступность услуги</h4>
-                        <div class="vi-object__available-line">
-                            <div class="vi-object__available-text">
-                                Количество парковочных мест (Не менее одного на 25 мест)
-                            </div>
-                            <div class="vi-object__available-status">
-                                Да
-                            </div>
-                        </div>
+                    <div class="vi-object__available-item" v-for="(zone, index) in attributes" :key="index" :id="`detail_${zone.key}`">
+                        <h4 class="vi-object__available-title">{{ $t(`objects.zone.${zone.group}`) }}</h4>
+                        <template v-for="group in zone.groups">
+                            <template v-for="subGroup in group.subGroups">
+                                <div class="vi-object__available-line" v-for="attribute in subGroup.attributes" :key="`${zone.key}-${attribute.key}`">
+                                    <div class="vi-object__available-text">
+                                        {{ attribute.title }}
+                                    </div>
+                                    <div class="vi-object__available-status">
+                                        {{ $t(`objects.attribute.${attribute.value}`) }}
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
                     </div>
                 </div>
             </div>
-            <ViFooter></ViFooter>
+            <ViFooter/>
         </div>
+        <client-only>
+            <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
+            <gallery id="blueimp-video" class="blueimp-gallery-controls" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
+        </client-only>
     </div>
 </template>
 
@@ -295,20 +126,40 @@
     import ViHeader from "~/components/ViHeader";
     import ViFooter from "~/components/ViFooter";
     import {eventBus} from "~/store/bus";
+    import Username from "~/components/Username";
+    import FormattedDate from "~/components/FormattedDate";
+    import {get} from 'vuex-pathify'
+    import chunk from "lodash/chunk";
     export default {
         name: 'ViObjectView',
         props: [
-            'object'
+            'zones'
         ],
         data() {
-            return{
+            return {
                 fontSize: 'lrg',
                 colorTheme: 'white',
                 fontFamily: 'Lato',
                 activeTab: 0,
                 reviewNew: false,
                 objectInfoShow: false,
-                visibleDetail: 'detail_1'
+                visibleDetail: 'detail_1',
+                videosIndex: null,
+                videosOptions: {
+                    container: '#blueimp-video',
+                    continuous: false,
+                    youTubeVideoIdProperty: 'youtube',
+                    youTubePlayerVars: undefined,
+                    youTubeClickToPlay: true
+                },
+                imagesIndex: null,
+                imagesOptions: {
+                    continuous: false,
+                    onslide: function(index, slide) {
+                        var indicator = document.getElementsByClassName('indicator');
+                        indicator[0].innerHTML = (index + 1) + ' / ' + document.getElementsByClassName('slide').length;
+                    }
+                }
             }
         },
         created() {
@@ -317,13 +168,27 @@
             eventBus.$on('setFontFamily', this.setFontFamily);
         },
         components: {
+            FormattedDate,
+            Username,
             ViHeader,
             ViFooter
+        },
+        computed: {
+            images() {
+                return this.object.photos.map(photo => photo.viewUrl)
+            },
+            videos: get('object/videos'),
+            object: get('object/item'),
+            attributes: get('object/attributes'),
+            exportLink: get('object/exportLink'),
+            zonesMenu() {
+                return chunk(this.attributes, Math.round(this.attributes.length / 2))
+            },
         },
         methods: {
             setVisible(detail) {
                 this.visibleDetail = detail;console.log(detail);
-                document.getElementById('' + detail + '').scrollIntoView();
+                document.getElementById('detail_' + detail).scrollIntoView();
             },
             setActiveTab(n){
                 this.activeTab = n;
@@ -342,6 +207,165 @@
 </script>
 
 <style lang="scss">
+
+    #blueimp-gallery {
+        background: #FFFFFF;
+        > {
+            .close {
+                width: 60px;
+                height: 60px;
+                left: 50%;
+                top: 130px;
+                margin: 0 0 0 580px;
+                font-size: 0;
+                opacity: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwTDkuOTk5OTkgNTAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMCAxMEw1MCA1MCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .prev {
+                opacity: 1;
+                border: none;
+                margin: 0 580px 0 0;
+                right: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                left: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDUgMjBMMTUgNTBMNDUgODAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .next {
+                opacity: 1;
+                border: none;
+                margin: 0 0 0 580px;
+                left: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                right: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTUgODBMNDUgNTBMMTUgMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .slides {
+                > .slide {
+                    > .slide-content {
+                        max-width: 800px;
+                        max-height: 600px;
+                    }
+                }
+            }
+
+            .indicator {
+                bottom: 80px;
+                line-height: 40px;
+                margin: 0;
+            }
+        }
+    }
+    #blueimp-video {
+        background: #FFFFFF;
+        &.blueimp-gallery-left > .prev, &.blueimp-gallery-right > .next {
+            display: none;
+        }
+        > {
+            .close {
+                width: 60px;
+                height: 60px;
+                left: 50%;
+                top: 130px;
+                margin: 0 0 0 580px;
+                font-size: 0;
+                opacity: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwTDkuOTk5OTkgNTAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMCAxMEw1MCA1MCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .prev {
+                opacity: 1;
+                border: none;
+                margin: 0 580px 0 0;
+                right: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                left: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDUgMjBMMTUgNTBMNDUgODAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .next {
+                opacity: 1;
+                border: none;
+                margin: 0 0 0 580px;
+                left: 50%;
+                font-size: 0;
+                width: 60px;
+                height: 100px;
+                right: auto;
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTUgODBMNDUgNTBMMTUgMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .title {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 40px;
+                color: #000000;
+                top: auto;
+                margin: 0;
+                padding: 0;
+                font-weight: 600;
+                text-shadow: none;
+                text-align: center;
+            }
+
+            .slides {
+                > .slide {
+                    > .video-content {
+                        max-width: 800px;
+                        max-height: 600px;
+                    }
+                }
+            }
+
+            .play-pause {
+                display: block;
+            }
+
+
+            .slides > .slide > .video-content > iframe {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .slides > .slide > .video-content > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
+            }
+
+            .slides > .slide > .video-content:not(.video-loading) > a {
+                background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8cGF0aCBkPSJNMTkgMTZMMzQgMjUuNUwxOSAzNVYxNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=') center no-repeat;
+                background-size: 128px;
+            }
+        }
+    }
 
     .vi {
         &-object {
