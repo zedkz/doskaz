@@ -12,7 +12,10 @@ export default {
         sendSmsCodeButtonTitle: 'Отправить код',
         confirmSmsCodeButtonTitle: 'Войти на сайт',
         invalidPhoneNumberMessage: 'Введен неверный формат номера',
-        invalidSmsCodeMessage: 'Введен неверный код'
+        invalidSmsCodeMessage: 'Введен неверный код',
+        viHeaderLoginTitle: 'Войти',
+        viHeaderLoginOr: 'Или',
+        viHeaderRegister: 'Зарегистрироваться'
     },
     blog: {
         title: 'Блог',
@@ -75,7 +78,8 @@ export default {
         viAccessibilityCategory: {
             full_accessible: 'доступно',
             partial_accessible: 'частично доступно',
-            not_accessible: 'недоступно'
+            not_accessible: 'недоступно',
+            not_provided: 'не предусмотрено'
         },
         viSummaryScore: 'Оценка объекта: {score}',
         viReturnToObject: 'Вернуться к объекту {object}',
@@ -209,5 +213,14 @@ export default {
         about: 'О проекте',
         blog: 'Блог',
         contacts: 'Контакты',
+    },
+    visualImpairedSettings: {
+        fontSize: 'Размер шрифта',
+        colorTheme: 'Цветовая схема',
+        fontFamily: 'Шрифт',
+        fontFamilySans: 'Обычный',
+        fontFamilySerif: 'С засечками',
+        normalModeSwitchTitle: 'Обычная версия сайта',
+        siteLanguage: 'Язык сайта'
     }
 }

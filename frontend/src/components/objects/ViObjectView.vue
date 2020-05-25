@@ -137,9 +137,6 @@
         ],
         data() {
             return {
-                fontSize: 'lrg',
-                colorTheme: 'white',
-                fontFamily: 'Lato',
                 activeTab: 0,
                 reviewNew: false,
                 objectInfoShow: false,
@@ -161,9 +158,6 @@
                     }
                 }
             }
-        },
-        mounted() {
-            console.log(this.visualImpairedModeSettings)
         },
         created() {
             eventBus.$on('setFontSize', this.setFontSize);
@@ -205,15 +199,6 @@
             },
             setActiveTab(n){
                 this.activeTab = n;
-            },
-            setFontSize(fsize) {
-                this.fontSize = '' + fsize + '';
-            },
-            setColorTheme(ctheme) {
-                this.colorTheme = '' + ctheme + '';
-            },
-            setFontFamily(ff) {
-                this.fontFamily = '' + ff + '';
             }
         }
     }

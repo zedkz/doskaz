@@ -3,7 +3,7 @@
         <div class="vi-header__top --bcolor">
             <div class="vi-set-b">
                 <div class="vi-set">
-                    <span class="vi-set__title --fcolor">Размер шрифта</span>
+                    <span class="vi-set__title --fcolor">{{ $t('visualImpairedSettings.fontSize') }}</span>
                     <div class="vi-set__link-wrapper">
                         <span class="vi-set__link --fs --sm  --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'sm'}" @click="changeFontSize('sm')">A</span>
                         <span class="vi-set__link --fs --md  --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'md'}" @click="changeFontSize('md')">A</span>
@@ -11,24 +11,24 @@
                     </div>
                 </div>
                 <div class="vi-set">
-                    <span class="vi-set__title --fcolor">Цветовая схема</span>
+                    <span class="vi-set__title --fcolor">{{ $t('visualImpairedSettings.colorTheme') }}</span>
                     <div class="vi-set__link-wrapper">
                         <span class="vi-set__link --ctheme --white --fcolor" :class="{'--active': visualImpairedModeSettings.colorTheme === 'white'}" @click="changeColorTheme('white')">Ц</span>
                         <span class="vi-set__link --ctheme --black --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.colorTheme === 'black'}" @click="changeColorTheme('black')">Ц</span>
                     </div>
                 </div>
                 <div class="vi-set">
-                    <span class="vi-set__title --fcolor">Шрифт</span>
+                    <span class="vi-set__title --fcolor">{{ $t('visualImpairedSettings.fontFamily') }}</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --ff --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Lato'}" @click="changeFontFamily('Lato')">Обычный</span>
-                        <span class="vi-set__link --ff --noto --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Noto'}" @click="changeFontFamily('Noto')">С засечками</span>
+                        <span class="vi-set__link --ff --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Lato'}" @click="changeFontFamily('Lato')">{{ $t('visualImpairedSettings.fontFamilySans') }}</span>
+                        <span class="vi-set__link --ff --noto --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Noto'}" @click="changeFontFamily('Noto')">{{ $t('visualImpairedSettings.fontFamilySerif') }}</span>
                     </div>
                 </div>
             </div>
             <button class="vi-switch" @click="disableVisualImpairedMode">
                 <img :src="require('~/assets/visually-black.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'white'" />
                 <img :src="require('~/assets/visually-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
-                <span class="--fcolor">Обычная версия сайта</span>
+                <span class="--fcolor">{{ $t('visualImpairedSettings.normalModeSwitchTitle') }}</span>
             </button>
         </div>
         <div class="vi-header__bottom --bcolor --fcolor">
@@ -37,15 +37,15 @@
                 <img :src="require('~/assets/logo-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
             </nuxt-link>
             <div class="vi__auth-b">
-                <a href="" class="vi__auth-link">Войти</a>
-                <span class="vi__auth-or">или</span>
-                <a href="" class="vi__auth-link">Зарегистрироваться</a>
-                <span class="vi__auth-text"><b>Язык сайта</b></span>
+                <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderLoginTitle') }}</nuxt-link>
+                <span class="vi__auth-or">{{ $t('login.viHeaderLoginOr') }}</span>
+                <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderRegister') }}</nuxt-link>
+                <span class="vi__auth-text"><b>{{ $t('visualImpairedSettings.siteLanguage') }}</b></span>
                 <div class="select">
-                    <select>
-                        <option>Казахский</option>
-                        <option>Руский</option>
-                        <option>English</option>
+                    <select :value="$i18n.locale" @change="$router.push(switchLocalePath($event.target.value))">
+                        <option v-for="locale in $i18n.locales" :key="locale.code" :value="locale.code">
+                            {{ locale.name }}
+                        </option>
                     </select>
                 </div>
             </div>
