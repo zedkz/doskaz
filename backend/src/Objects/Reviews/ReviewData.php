@@ -11,7 +11,6 @@ class ReviewData implements DataObject
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min=20)
      */
     public $text;
 }

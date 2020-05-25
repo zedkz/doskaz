@@ -59,11 +59,11 @@
                             </li>
                         </ul>
                         <div class="vi-object__review-add">
-                            <button type="button" class="vi__button" @click="reviewNew = true">{{ $t('objects.review.linkButtonTitle')}}</button>
+                            <button type="button" class="vi__button" @click="showReviewForm">{{ $t('objects.review.linkButtonTitle')}}</button>
                         </div>
                         <div class="vi-object__review-new" v-if="reviewNew">
-                            <textarea :placeholder="$t('objects.review.textareaPlaceholder')"/>
-                            <button type="button" class="vi__button">{{ $t('objects.review.submitButtonTitle') }}</button>
+                            <textarea v-model="reviewText" :placeholder="$t('objects.review.textareaPlaceholder')"/>
+                            <button type="button" class="vi__button" @click="submitReview()">{{ $t('objects.review.submitButtonTitle') }}</button>
                         </div>
                     </div>
                     <div class="vi-object__tab-content" v-if="activeTab === 4">
@@ -125,11 +125,11 @@
 <script>
     import ViHeader from "~/components/ViHeader";
     import ViFooter from "~/components/ViFooter";
-    import {eventBus} from "~/store/bus";
     import Username from "~/components/Username";
     import FormattedDate from "~/components/FormattedDate";
-    import {get} from 'vuex-pathify'
+    import {get, call} from 'vuex-pathify'
     import chunk from "lodash/chunk";
+
     export default {
         name: 'ViObjectView',
         props: [
@@ -142,6 +142,7 @@
                 objectInfoShow: false,
                 visibleDetail: 'detail_1',
                 videosIndex: null,
+                reviewText: '',
                 videosOptions: {
                     container: '#blueimp-video',
                     continuous: false,
@@ -159,11 +160,6 @@
                 }
             }
         },
-        created() {
-            eventBus.$on('setFontSize', this.setFontSize);
-            eventBus.$on('setColorTheme', this.setColorTheme);
-            eventBus.$on('setFontFamily', this.setFontFamily);
-        },
         components: {
             FormattedDate,
             Username,
@@ -178,6 +174,7 @@
             object: get('object/item'),
             attributes: get('object/attributes'),
             exportLink: get('object/exportLink'),
+            user: get('authentication/user'),
             visualImpairedModeSettings: get('visualImpairedModeSettings'),
             zonesMenu() {
                 return chunk(this.attributes, Math.round(this.attributes.length / 2))
@@ -199,7 +196,19 @@
             },
             setActiveTab(n){
                 this.activeTab = n;
-            }
+            },
+            showReviewForm() {
+                if(!user) {
+                    this.$router.push(this.localePath({name: 'login'}))
+                }
+                this.reviewNew = true
+            },
+            async submitReview() {
+                await this._submitReview(this.reviewText)
+                this.reviewText = ''
+                this.reviewNew = false
+            },
+            _submitReview: call('object/submitReview')
         }
     }
 </script>
