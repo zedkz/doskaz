@@ -53,7 +53,6 @@ export const actions = {
         })
         commit('SET_ID', id)
         commit('SET_ITEM', object)
-           console.log(getters.attributes)
     },
     async reload({dispatch, state}) {
         await dispatch('load', state.id)

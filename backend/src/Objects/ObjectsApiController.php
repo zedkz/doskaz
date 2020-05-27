@@ -40,20 +40,6 @@ final class ObjectsApiController extends AbstractController
      * @param Connection $connection
      * @return JsonResponse
      */
-    /*
-     * @Get(
-     *     path="/api/objects/ymaps",
-     *     summary="Объекты для яндекс-карты",
-     *     tags={"Объекты"},
-     *     @ExternalDocumentation(url="https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/remote-object-manager/backend-docpage/"),
-     *     @Parameter(name="zoom", in="query", required=true, description="Масштаб", @Schema(type="integer"), example=14),
-     *     @Parameter(name="bbox", in="query", required=true, description="Массив географических координат углов", @Schema(type="string"), example="52.2523,76.8384,52.3332,77.1021"),
-     *     @Parameter(name="categories", in="query", description="Категории", style="deepObject", @Schema(type="array", @Items(type="integer"))),
-     *     @Parameter(name="search", in="query", description="Поисковой запрос", @Schema(type="string")),
-     *     @Parameter(name="accessibilityLevel", in="query", description="Уровень доступности", @Schema(type="string", enum={"full_accessiblie", "partial_accessible", "not_accessible"})),
-     *     @Response(response="200", description="")
-     * )
-     */
     public function index(Request $request, Connection $connection)
     {
         $boundary = explode(',', $request->query->get('bbox'));
@@ -517,7 +503,7 @@ final class ObjectsApiController extends AbstractController
                             [
                                 'attributes' => [
                                     ['key' => 1, 'title' => 'Вход на уровне земли'],
-                                    ['key' => 1000, 'title' => 'Пандус наружный'],
+                                    ['key' => 1000, 'title' => 'Удобный наружный пандус'],
                                     ['key' => 1001, 'title' => 'Электрический подъемник'],
                                     ['key' => 30, 'title' => 'Ширина входной двери не менее 90 см'],
                                     ['key' => 31, 'title' => 'Высота порога входной двери не выше 1,4 см'],
@@ -534,8 +520,8 @@ final class ObjectsApiController extends AbstractController
                                 'attributes' => [
                                     ['key' => 1, 'title' => 'Ширина коридора более 1,5 м'],
                                     ['key' => 6, 'title' => 'Ширина дверей не менее 90 см'],
-                                    ['key' => 7, 'title' => 'Высота порогов не более 1,4 см'],
-                                    ['key' => 1000, 'title' => 'Пандус'],
+                                    ['key' => 7, 'title' => 'Высота порогов менее 1,4 см'],
+                                    ['key' => 1000, 'title' => 'Удобный внутренний пандус'],
                                     ['key' => 1001, 'title' => 'Лифт или внутренний электрический подъемник '],
                                 ]
                             ],
@@ -547,7 +533,7 @@ final class ObjectsApiController extends AbstractController
                         'subGroups' => [
                             [
                                 'attributes' => [
-                                    ['key' => 1000, 'title' => 'Возможность получения услуг на объекте']
+                                    ['key' => 1000, 'title' => 'Удобное расположение мебели и оборудования в зоне приобретения товара или услуги (например, высота стола и прилавков, наличие оборудованных мест в зрительных залах и т.д.)']
                                 ]
                             ]
                         ]
@@ -569,13 +555,23 @@ final class ObjectsApiController extends AbstractController
                         'subGroups' => [
                             [
                                 'attributes' => [
-                                    ['key' => 1000, 'title' => 'Визуальные, тактильные, звуковые, световые указатели, табло и пиктограммы, а также контрастное цветовое решение элементов интерьера, переводчик с жестового языка'],
+                                    ['key' => 1000, 'title' => 'Элементы навигации, которые помогают человеку ориентироваться в пространстве самостоятельно (например, режим работы, указатели направления движения, тактильные дорожки, шрифт Брайля, переводчик с жестового языка, электронные табло и т.д.)'],
                                 ]
                             ]
                         ]
                     ]
                 ],
-                'serviceAccessibility' => []
+                'serviceAccessibility' => [
+                    [
+                        'subGroups' => [
+                            [
+                                'attributes' => [
+                                    ['key' => 2, 'title' => 'Возможность приобретения товара или получения услуги самостоятельно без каких-либо препятствий'],
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ],
             'middle' => [
                 'parking' => [
