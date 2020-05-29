@@ -5,6 +5,7 @@ namespace App\Objects\Zone\Full;
 
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -106,8 +107,6 @@ class Entrance extends Zone
 
     protected static function attributesKeys(): array
     {
-        return array_map(function ($key) {
-            return 'attribute' . $key;
-        }, range(1, 58));
+        AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'entrance');
     }
 }

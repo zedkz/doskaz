@@ -12,9 +12,17 @@ class Parking extends Zone
 {
     protected static function attributesKeys(): array
     {
-        return array_map(function ($key) {
-            return 'attribute'.$key;
-        }, range(1, 10));
+        return [
+            'attribute1',
+            'attribute2',
+            'attribute3',
+            'attribute4',
+            'attribute5',
+            'attribute6',
+            'attribute7',
+            'attribute9',
+            'attribute10',
+        ];
     }
 
     public function calculateScore(): AccessibilityScore

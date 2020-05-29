@@ -5,6 +5,7 @@ namespace App\Objects\Zone\Full;
 
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
 
 class Parking extends Zone
@@ -17,7 +18,6 @@ class Parking extends Zone
         7 => 5,
         8 => 6,
         9 => 7,
-        10 => 8,
         12 => 9,
         16 => 10,
         3 => 11,
@@ -38,9 +38,7 @@ class Parking extends Zone
 
     protected static function attributesKeys(): array
     {
-        return array_map(function ($key) {
-            return 'attribute' . $key;
-        }, range(1, 24));
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'parking');
     }
 
 

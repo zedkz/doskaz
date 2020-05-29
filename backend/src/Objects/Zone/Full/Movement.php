@@ -5,16 +5,14 @@ namespace App\Objects\Zone\Full;
 
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class Movement extends Zone
 {
     protected static function attributesKeys(): array
     {
-        return array_map(function ($key) {
-            return 'attribute'.$key;
-        }, range(1, 63));
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'movement');
     }
 
     private const INDEX_REMAP = [

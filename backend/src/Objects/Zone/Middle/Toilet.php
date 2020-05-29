@@ -5,6 +5,7 @@ namespace App\Objects\Zone\Middle;
 
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,11 +13,8 @@ class Toilet extends Zone
 {
     protected static function attributesKeys(): array
     {
-        return array_merge(array_map(function ($key) {
-            return 'attribute' . $key;
-        }, range(1, 20)), [
-            'attribute30', 'attribute33'
-        ]);
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('middle', 'toilet');
+
     }
 
     public function calculateScore(): AccessibilityScore
