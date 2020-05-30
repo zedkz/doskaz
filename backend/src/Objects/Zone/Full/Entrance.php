@@ -107,6 +107,6 @@ class Entrance extends Zone
 
     protected static function attributesKeys(): array
     {
-        AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'entrance');
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'entrance');
     }
 }
