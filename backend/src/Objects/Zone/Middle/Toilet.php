@@ -14,7 +14,6 @@ class Toilet extends Zone
     protected static function attributesKeys(): array
     {
         return AttributesConfiguration::getAttributesKeysForFormAndZone('middle', 'toilet');
-
     }
 
     public function calculateScore(): AccessibilityScore
