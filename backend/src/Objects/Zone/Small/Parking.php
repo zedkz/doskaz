@@ -3,35 +3,35 @@
 
 namespace App\Objects\Zone\Small;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
+use App\Objects\Zone;
 
-class Parking extends \App\Objects\Zone
+class Parking extends Zone
 {
     protected static function attributesKeys(): array
     {
-        return ['attribute1'];
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('small', 'parking');
     }
 
     public function calculateScore(): AccessibilityScore
     {
-        if ($this->attributes->get('attribute1', Attribute::unknown())->isEqualsTo(Attribute::notProvided())) {
+        $builder = AccessibilityScoreBuilder::initPartialAccessible()->withHearingFullAccessible();
+
+        if ($this->isMatches([1], Attribute::yes())) {
+            return AccessibilityScore::fullAccessible();
+        }
+
+        if ($this->isMatches([1], Attribute::notProvided())) {
             return AccessibilityScore::notProvided();
         }
 
-        $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-
-        if ($this->attributes->get('attribute1', Attribute::unknown())->isEqualsTo(Attribute::yes())) {
-            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
+        if ($this->isMatches([1], Attribute::unknown())) {
+            return AccessibilityScore::unknown();
         }
 
-        return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
+        return $builder->build();
     }
 }
