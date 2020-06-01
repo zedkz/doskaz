@@ -3,11 +3,11 @@
 
 namespace App\Objects\Zone\Middle;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class Toilet extends Zone
 {
@@ -18,23 +18,32 @@ class Toilet extends Zone
 
     public function calculateScore(): AccessibilityScore
     {
-        $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-
-        if ($this->isMatchesAll(Attribute::unknown()) || $this->isMatchesAll(Attribute::no())) {
+        if ($this->isMatchesAll(Attribute::yes())) {
+            return AccessibilityScore::fullAccessible();
+        }
+        if ($this->isMatchesAll(Attribute::unknown())) {
             return AccessibilityScore::notAccessible();
         }
         if ($this->isMatchesAll(Attribute::notProvided())) {
             return AccessibilityScore::notProvided();
         }
 
-        if ($this->isMatches([1, 2], Attribute::no())) {
-            $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        $builder = AccessibilityScoreBuilder::initPartialAccessible();
+
+        if ($this->isMatches([30, 33], Attribute::no()) || $this->isMatches([30, 33], Attribute::unknown())) {
+            $builder->withMovementNotAccessible();
+        }
+        if ($this->isMatches([1, 2], Attribute::no()) || $this->isMatches([1, 2], Attribute::notProvided())) {
+            return AccessibilityScore::notProvided();
+        }
+        if ($this->isMatches([1, 2], Attribute::yes()) && $this->isMatchesAllExcept([1, 2], Attribute::no())) {
+            $builder->withHearingPartialAccessible()
+                ->withVisionFullAccessible()
+                ->withHearingPartialAccessible()
+                ->withIntellectualFullAccessible()
+                ->withLimbFullAccessible();
         }
 
-        return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
+        return $builder->build();
     }
 }
