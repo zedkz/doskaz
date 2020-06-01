@@ -6,15 +6,13 @@ namespace App\Objects\Zone\Middle;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\AttributesConfiguration;
-use App\Objects\AttributesMap;
 use App\Objects\Zone;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class Entrance extends Zone
 {
     protected static function attributesKeys(): array
     {
-        AttributesConfiguration::getAttributesKeysForFormAndZone('middle', 'entrance');
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('middle', 'entrance');
     }
 
     public function calculateScore(): AccessibilityScore
