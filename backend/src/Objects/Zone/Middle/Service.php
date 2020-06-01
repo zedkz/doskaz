@@ -3,18 +3,17 @@
 
 namespace App\Objects\Zone\Middle;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class Service extends Zone
 {
     protected static function attributesKeys(): array
     {
-        return array_map(function ($key) {
-            return 'attribute'.$key;
-        }, range(1, 5));
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('middle', 'service');
     }
 
     public function calculateScore(): AccessibilityScore
@@ -29,6 +28,22 @@ class Service extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        return AccessibilityScore::partialAccessible();
+        $builder = AccessibilityScoreBuilder::initPartialAccessible();
+
+        if ($this->isMatchesAllExcept([4, 5], Attribute::yes())) {
+            $builder->withLimbFullAccessible()
+                ->withVisionFullAccessible()
+                ->withHearingFullAccessible()
+                ->withIntellectualFullAccessible();
+        }
+
+        if ($this->isMatchesAll(Attribute::yes())) {
+            $builder->withMovementFullAccessible();
+        }
+        if ($this->isMatches([4, 5], Attribute::no())) {
+            $builder->withMovementNotAccessible();
+        }
+
+        return $builder->build();
     }
 }
