@@ -3,7 +3,6 @@
 
 namespace App\Tasks\ProfileCompletion;
 
-
 class ProfileCompletionTaskData
 {
     private $firstName;
@@ -33,6 +32,4 @@ class ProfileCompletionTaskData
             'middleName' => $this->middleName
         ];
     }
-
-
 }

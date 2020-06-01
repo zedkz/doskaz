@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class DailyVerificationTaskDone

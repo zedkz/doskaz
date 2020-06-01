@@ -3,7 +3,6 @@
 
 namespace App\Tasks\Daily;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class DailyTaskDone

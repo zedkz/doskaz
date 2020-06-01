@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure;
 
-
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -35,6 +34,4 @@ class UuidNormalizer extends AbstractNormalizer
     {
         return $data instanceof UuidInterface;
     }
-
-
 }

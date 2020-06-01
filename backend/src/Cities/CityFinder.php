@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -57,7 +56,8 @@ class CityFinder
             return null;
         }
 
-        return $this->mapCity($this->initQuery()
+        return $this->mapCity(
+            $this->initQuery()
             ->andWhere('id = :id')
             ->setParameter('id', $id)
             ->execute()->fetch()
@@ -79,5 +79,4 @@ class CityFinder
 
             ])->from('cities');
     }
-
 }

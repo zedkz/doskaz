@@ -3,7 +3,6 @@
 
 namespace App\RegionalRepresentatives;
 
-
 use App\Blog\Image;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
@@ -17,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class RegionalRepresentativeController extends AbstractController
 {
@@ -66,7 +64,7 @@ class RegionalRepresentativeController extends AbstractController
             ->execute()
             ->fetchAll();
 
-        return array_map(function($item) use ($connection) {
+        return array_map(function ($item) use ($connection) {
             /**
              * @var $photo Image
              */
@@ -119,7 +117,6 @@ class RegionalRepresentativeController extends AbstractController
      */
     public function create(RegionalRepresentativeRepository $repository, Connection $connection, Flusher $flusher, RegionalRepresentativeData $data)
     {
-
         $item = new RegionalRepresentative(
             $data->cityId,
             $data->name,
@@ -141,8 +138,8 @@ class RegionalRepresentativeController extends AbstractController
      * @param Connection $connection
      * @return RegionalRepresentativeData
      */
-    public function retrieve($id, Connection $connection) {
-
+    public function retrieve($id, Connection $connection)
+    {
         $item = $connection->createQueryBuilder()
             ->select([
                 'id',
@@ -160,7 +157,7 @@ class RegionalRepresentativeController extends AbstractController
             ->execute()
             ->fetch();
 
-        if(!$item) {
+        if (!$item) {
             throw new NotFoundHttpException('Not Found');
         }
 
@@ -183,7 +180,8 @@ class RegionalRepresentativeController extends AbstractController
      * @param RegionalRepresentative $item
      * @param Flusher $flusher
      */
-    public function update(RegionalRepresentativeData $data, RegionalRepresentative $item, Flusher $flusher) {
+    public function update(RegionalRepresentativeData $data, RegionalRepresentative $item, Flusher $flusher)
+    {
         $item->update($data);
         $flusher->flush();
     }
@@ -194,7 +192,8 @@ class RegionalRepresentativeController extends AbstractController
      * @param RegionalRepresentative $item
      * @param Flusher $flusher
      */
-    public function delete(RegionalRepresentative $item, Flusher $flusher) {
+    public function delete(RegionalRepresentative $item, Flusher $flusher)
+    {
         $item->markAsDeleted();
         $flusher->flush();
     }

@@ -3,7 +3,6 @@
 
 namespace App\UserAbilities;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -57,7 +56,8 @@ class UnlockedAbility
         $this->key = $abilityKey;
     }
 
-    public function key() {
+    public function key()
+    {
         return $this->key;
     }
 }

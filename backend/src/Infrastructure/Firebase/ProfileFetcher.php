@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Firebase;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 

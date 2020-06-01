@@ -3,7 +3,6 @@
 
 namespace App\UserEvents;
 
-
 use App\UserEvents\AwardIssued\AwardIssuedData;
 use App\UserEvents\BlogCommentReplied\BlogCommentRepliedData;
 use App\UserEvents\LevelReached\LevelReachedData;

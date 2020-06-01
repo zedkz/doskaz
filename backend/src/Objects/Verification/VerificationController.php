@@ -42,7 +42,7 @@ class VerificationController extends AbstractController
     public function verify($status, $id, Flusher $flusher, VerificationRepository $verificationRepository, MapObjectRepository $mapObjectRepository)
     {
         $mapObject = $mapObjectRepository->find($id);
-        if(!$mapObject) {
+        if (!$mapObject) {
             throw new NotFoundHttpException('Not found');
         }
 
@@ -58,5 +58,4 @@ class VerificationController extends AbstractController
 
         $flusher->flush();
     }
-
 }

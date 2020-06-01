@@ -3,7 +3,6 @@
 
 namespace App\Levels;
 
-
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Tasks\Administration\AdministrationTaskDone;
 use App\Tasks\Daily\DailyTaskDone;

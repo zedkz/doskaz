@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-
 use App\Objects\Location;
 use Doctrine\DBAL\Connection;
 
@@ -16,7 +15,6 @@ class FindCityIdByLocation
 
     public function __construct(Connection $connection)
     {
-
         $this->connection = $connection;
     }
 

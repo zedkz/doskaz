@@ -3,7 +3,6 @@
 
 namespace App\Levels;
 
-
 class LevelReached
 {
     /**
@@ -26,6 +25,4 @@ class LevelReached
         $this->userId = $userId;
         $this->level = $level;
     }
-
-
 }

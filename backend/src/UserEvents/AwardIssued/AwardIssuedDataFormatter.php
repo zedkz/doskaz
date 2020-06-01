@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\AwardIssued;
 
-
 use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
@@ -42,5 +41,4 @@ class AwardIssuedDataFormatter implements DataFormatter
             ->execute()
             ->fetch();
     }
-
 }

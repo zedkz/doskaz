@@ -377,7 +377,7 @@ final class ObjectsApiController extends AbstractController
             'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore()
         ];
 
-      //  $baseUrl = $request->getSchemeAndHttpHost();
+        //  $baseUrl = $request->getSchemeAndHttpHost();
         $baseUrl = '';
         $reviews = $connection->createQueryBuilder()
             ->select([
@@ -437,7 +437,7 @@ final class ObjectsApiController extends AbstractController
                 (float)$object['lat'], (float)$object['long']
             ],
             'overallScore' => $object["overall_score_$disabilitiesCategory"],
-            'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) use($disabilitiesCategory) {
+            'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) use ($disabilitiesCategory) {
                 return $accessibilityScore->{$disabilitiesCategory};
             }, $scoresByZone),
             'icon' => $object['sub_category_icon'] ? $object['sub_category_icon'] : $object['category_icon'],
@@ -544,7 +544,7 @@ final class ObjectsApiController extends AbstractController
      */
     public function search(Request $request, Connection $connection)
     {
-        if(empty($request->query->get('query'))) {
+        if (empty($request->query->get('query'))) {
             return [];
         }
         $cityId = $request->query->get('cityId');
@@ -788,5 +788,4 @@ final class ObjectsApiController extends AbstractController
 
         return new JsonResponse($clusters);
     }
-
 }

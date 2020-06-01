@@ -3,7 +3,6 @@
 
 namespace App\Tasks\Daily;
 
-
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;

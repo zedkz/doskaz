@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Small;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -38,5 +37,4 @@ class Service extends Zone
         }
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
     }
-
 }

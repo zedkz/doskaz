@@ -3,7 +3,6 @@
 
 namespace App\Users\CommentsHistory;
 
-
 use App\Blog\Comments\CommentCreated;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;

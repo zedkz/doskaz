@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,5 +33,4 @@ class ImportGeometry extends Command
             ]);
         }
     }
-
 }

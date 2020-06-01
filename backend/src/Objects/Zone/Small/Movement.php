@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Small;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -30,7 +29,7 @@ class Movement extends Zone
 
         if ($this->isMatchesAll(Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        } else if ($this->isMatchesAll(Attribute::no()) || $this->isMatchesAll(Attribute::unknown())) {
+        } elseif ($this->isMatchesAll(Attribute::no()) || $this->isMatchesAll(Attribute::unknown())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         } else {
             $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
@@ -38,7 +37,7 @@ class Movement extends Zone
 
         if ($this->isMatches([7, 1000], Attribute::yes())) {
             $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        } else if ($this->isMatchesPartial([7, 1000], Attribute::yes())) {
+        } elseif ($this->isMatchesPartial([7, 1000], Attribute::yes())) {
             $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         }
 
@@ -48,5 +47,4 @@ class Movement extends Zone
 
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
     }
-
 }

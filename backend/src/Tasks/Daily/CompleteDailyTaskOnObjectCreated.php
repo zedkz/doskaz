@@ -3,7 +3,6 @@
 
 namespace App\Tasks\Daily;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Objects\MapObjectCreated;

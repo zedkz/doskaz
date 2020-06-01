@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;

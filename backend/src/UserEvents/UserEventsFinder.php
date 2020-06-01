@@ -3,7 +3,6 @@
 
 namespace App\UserEvents;
 
-
 use Doctrine\DBAL\Connection;
 
 class UserEventsFinder

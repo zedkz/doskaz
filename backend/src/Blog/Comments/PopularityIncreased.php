@@ -3,7 +3,6 @@
 
 namespace App\Blog\Comments;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class PopularityIncreased
@@ -21,5 +20,4 @@ class PopularityIncreased
     {
         $this->id = $id;
     }
-
 }

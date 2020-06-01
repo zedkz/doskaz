@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Storage;
 
-
 use Hoa\Mime\Mime;
 use League\Flysystem\FilesystemInterface;
 

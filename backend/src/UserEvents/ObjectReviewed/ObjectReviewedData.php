@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\ObjectReviewed;
 
-
 use App\UserEvents\Data;
 use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 use Ramsey\Uuid\UuidInterface;

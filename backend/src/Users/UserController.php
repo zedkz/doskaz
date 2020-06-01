@@ -206,8 +206,7 @@ final class UserController extends AbstractController
         ProfileFetcher $profileFetcher,
         CredentialsRepository $credentialsRepository,
         Transactional $transactional
-    )
-    {
+    ) {
         $user = $repository->find($tokenStorage->getToken()->getUser()->id());
 
         if ($profileData->email) {
@@ -564,7 +563,6 @@ final class UserController extends AbstractController
             }
 
             return $result;
-
         }, $items);
 
         return [
@@ -637,7 +635,6 @@ final class UserController extends AbstractController
         return [
             'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
             'items' => array_map(function ($item) use ($connection, $request, $urlBuilder) {
-
                 $image = null;
                 $photos = $connection->convertToPHPValue($item['photos'], 'json');
                 if (count($photos)) {

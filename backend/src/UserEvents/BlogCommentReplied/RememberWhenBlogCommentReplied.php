@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\BlogCommentReplied;
 
-
 use App\Blog\Comments\CommentRepository;
 use App\Blog\Comments\ReplyCreated;
 use App\Infrastructure\Doctrine\Flusher;

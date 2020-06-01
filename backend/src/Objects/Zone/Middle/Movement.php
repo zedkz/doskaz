@@ -35,21 +35,21 @@ class Movement extends Zone
         $hearing = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
 
-        if($this->isMatches([32, 70], Attribute::no())) {
+        if ($this->isMatches([32, 70], Attribute::no())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         }
 
-        if($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 35, 35, 36], Attribute::yes())) {
+        if ($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 35, 35, 36], Attribute::yes())) {
             $limb = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
             $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
             $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 
-        if($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 35, 35], Attribute::yes())) {
+        if ($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 35, 35], Attribute::yes())) {
             $vision = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 
-        if($this->isMatchesAllExcept([12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 36], Attribute::yes())) {
+        if ($this->isMatchesAllExcept([12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 36], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 

@@ -3,7 +3,6 @@
 
 namespace App\Objects\Verification;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 
@@ -28,7 +27,8 @@ class VerificationRepository
         $this->entityManager->persist($verification);
     }
 
-    public function find(UuidInterface $uuid): ?Verification {
+    public function find(UuidInterface $uuid): ?Verification
+    {
         return $this->repository->find($uuid);
     }
 }

@@ -3,7 +3,6 @@
 
 namespace App\Tasks;
 
-
 class CurrentTaskData
 {
     /**

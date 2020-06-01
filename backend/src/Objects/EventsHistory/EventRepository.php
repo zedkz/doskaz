@@ -3,7 +3,6 @@
 
 namespace App\Objects\EventsHistory;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class EventRepository
@@ -18,8 +17,8 @@ class EventRepository
         $this->repository = $entityManager->getRepository(Event::class);
     }
 
-    public function add(Event $event) {
+    public function add(Event $event)
+    {
         $this->entityManager->persist($event);
     }
-
 }

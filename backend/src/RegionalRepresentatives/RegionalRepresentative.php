@@ -116,5 +116,4 @@ class RegionalRepresentative
     {
         $this->deletedAt = new \DateTimeImmutable();
     }
-
 }

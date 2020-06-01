@@ -3,7 +3,6 @@
 
 namespace App\Objects\Reviews\Event;
 
-
 class ReviewCreated
 {
     public $id;
@@ -24,6 +23,4 @@ class ReviewCreated
         $this->objectId = $objectId;
         $this->userId = $userId;
     }
-
-
 }

@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Firebase;
 
-
 class UserData
 {
     /**

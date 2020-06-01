@@ -3,7 +3,6 @@
 
 namespace App\Tasks\ProfileCompletion;
 
-
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -36,7 +35,8 @@ class ProfileCompletionTaskRepository
         });
     }
 
-    public function find(int $id): ?ProfileCompletionTask {
+    public function find(int $id): ?ProfileCompletionTask
+    {
         return $this->repository->find($id);
     }
 }

@@ -3,7 +3,6 @@
 
 namespace App\Levels;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Users\UserRegistered;
@@ -40,5 +39,4 @@ class InitializeLevelWhenUserRegistered implements EventListener
     {
         return $event instanceof UserRegistered;
     }
-
 }

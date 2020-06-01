@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Users\UserRegistered;
@@ -39,5 +38,4 @@ class IssueVerificationTaskWheUserRegistered implements EventListener
     {
         return $event instanceof UserRegistered;
     }
-
 }

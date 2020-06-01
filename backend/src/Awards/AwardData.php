@@ -3,7 +3,6 @@
 
 namespace App\Awards;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,5 +18,4 @@ class AwardData implements DataObject
      * @Assert\Choice(choices=App\Awards\Award::TYPES)
      */
     public string $type;
-
 }

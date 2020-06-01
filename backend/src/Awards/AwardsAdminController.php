@@ -3,7 +3,6 @@
 
 namespace App\Awards;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

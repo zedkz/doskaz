@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Tasks\Daily\DailyTask;
 use App\Tasks\Daily\DailyTaskRepository;
@@ -49,7 +48,5 @@ class SeedDailyVerificationTasks extends Command
             $this->dailyVerificationTaskRepository->add(new DailyVerificationTask($user['id']));
         }
         $this->flusher->flush();
-
     }
-
 }

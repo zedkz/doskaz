@@ -3,11 +3,11 @@
 
 namespace App\Objects\Zone\Middle;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class Navigation extends Zone
 {
@@ -28,6 +28,8 @@ class Navigation extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        return AccessibilityScore::partialAccessible();
+        $builder = AccessibilityScoreBuilder::initPartialAccessible();
+
+        return $builder->build();
     }
 }

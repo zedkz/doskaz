@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 class UserProfileUpdated
 {
     public $userId;
@@ -12,5 +11,4 @@ class UserProfileUpdated
     {
         $this->userId = $id;
     }
-
 }

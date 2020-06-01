@@ -29,7 +29,8 @@ final class CredentialsRepository
         ]);
     }
 
-    public function find(int $id): ?Credentials {
+    public function find(int $id): ?Credentials
+    {
         return $this->repository->find($id);
     }
 }

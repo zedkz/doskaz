@@ -3,7 +3,6 @@
 
 namespace App\Tasks\Administration;
 
-
 use App\Cities\FindCityIdByLocation;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;

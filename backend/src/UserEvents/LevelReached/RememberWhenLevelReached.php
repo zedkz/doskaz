@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\LevelReached;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Levels\LevelReached;

@@ -3,7 +3,6 @@
 
 namespace App\Feedback;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;

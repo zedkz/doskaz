@@ -44,8 +44,8 @@ class FileReferenceCollection extends AbstractCollection
     public function remove($element): bool
     {
         foreach ($this->data as $key => $item) {
-            if($element->equalsTo($item)) {
-                unset ($this->data[$key]);
+            if ($element->equalsTo($item)) {
+                unset($this->data[$key]);
                 return true;
             }
         }

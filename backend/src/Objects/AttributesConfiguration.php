@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 class AttributesConfiguration
 {
     public static $configuration = [

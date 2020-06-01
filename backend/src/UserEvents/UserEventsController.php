@@ -3,7 +3,6 @@
 
 namespace App\UserEvents;
 
-
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,8 +21,8 @@ class UserEventsController extends AbstractController
      * @param UserEventsFinder $eventsFinder
      * @return array
      */
-    public function list(UserEventsFinder $eventsFinder) {
+    public function list(UserEventsFinder $eventsFinder)
+    {
         return $eventsFinder->findAll(10);
     }
-
 }

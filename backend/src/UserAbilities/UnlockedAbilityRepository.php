@@ -3,7 +3,6 @@
 
 namespace App\UserAbilities;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 

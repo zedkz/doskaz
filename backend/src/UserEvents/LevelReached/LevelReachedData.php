@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\LevelReached;
 
-
 use App\UserEvents\Data;
 use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 

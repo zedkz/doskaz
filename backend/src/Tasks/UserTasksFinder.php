@@ -3,7 +3,6 @@
 
 namespace App\Tasks;
 
-
 use Doctrine\DBAL\Connection;
 
 class UserTasksFinder
@@ -37,7 +36,7 @@ class UserTasksFinder
                   where user_administration_tasks.user_id = :userId
         ";
 
-        if($currentTask) {
+        if ($currentTask) {
             $query  = $query. "
                 union all select null as completed_at, :currentTaskTitle as type, :currentTaskPoints as points, CURRENT_TIMESTAMP as created_at, 1 as priority
             ";
@@ -55,7 +54,7 @@ class UserTasksFinder
             ->from("($query)", 'tasks')
             ->setParameter('userId', $userId);
 
-        if($currentTask) {
+        if ($currentTask) {
             $qb->setParameter('currentTaskTitle', $currentTask->title);
             $qb->setParameter('currentTaskPoints', $currentTask->pointsReward);
         }

@@ -3,7 +3,6 @@
 
 namespace App\Tasks;
 
-
 use Doctrine\DBAL\Connection;
 
 class CurrentTaskDataProvider

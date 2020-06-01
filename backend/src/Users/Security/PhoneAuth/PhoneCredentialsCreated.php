@@ -3,7 +3,6 @@
 
 namespace App\Users\Security\PhoneAuth;
 
-
 class PhoneCredentialsCreated
 {
     /**
@@ -19,5 +18,4 @@ class PhoneCredentialsCreated
     {
         $this->userId = $id;
     }
-
 }

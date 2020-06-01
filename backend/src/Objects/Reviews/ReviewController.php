@@ -3,7 +3,6 @@
 
 namespace App\Objects\Reviews;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\MapObject;
 use OpenApi\Annotations\Items;

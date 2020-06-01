@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Small;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\Zone;
@@ -30,5 +29,4 @@ class Toilet extends Zone
         }
         return AccessibilityScore::notAccessible();
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace App\RegionalCoordinators;
 
-
 use Goodwix\DoctrineJsonOdm\Annotation\ODM;
 use Ramsey\Collection\AbstractCollection;
 

@@ -10,7 +10,6 @@ use OpenApi\Annotations\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class CategoriesController extends AbstractController
 {
     /**

@@ -3,7 +3,6 @@
 
 namespace App\Complaints;
 
-
 use App\Users\Security\AuthenticatedUser;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -44,6 +43,4 @@ class ComplaintVoter extends Voter
         }
         return false;
     }
-
-
 }

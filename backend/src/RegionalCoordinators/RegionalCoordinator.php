@@ -3,7 +3,6 @@
 
 namespace App\RegionalCoordinators;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -66,7 +65,8 @@ class RegionalCoordinator
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function userId(): int {
+    public function userId(): int
+    {
         return $this->userId;
     }
 }

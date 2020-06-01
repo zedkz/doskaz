@@ -3,7 +3,6 @@
 
 namespace App\Tasks\ProfileCompletion;
 
-
 use Doctrine\DBAL\Connection;
 
 class ProfileCompletionDataProvider

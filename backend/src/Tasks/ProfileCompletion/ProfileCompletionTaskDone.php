@@ -3,7 +3,6 @@
 
 namespace App\Tasks\ProfileCompletion;
 
-
 class ProfileCompletionTaskDone
 {
     /**

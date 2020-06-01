@@ -3,12 +3,10 @@
 
 namespace App\Tasks;
 
-
 use App\Tasks\Daily\DailyTask;
 use App\Tasks\Daily\DailyTaskRepository;
 use App\Tasks\DailyVerification\DailyVerificationTaskRepository;
 use App\Tasks\ProfileCompletion\ProfileCompletionTaskRepository;
-
 
 class CurrentTaskProvider
 {

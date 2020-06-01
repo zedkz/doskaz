@@ -3,7 +3,6 @@
 
 namespace App\Blog\Comments;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class CommentCreated
@@ -28,6 +27,4 @@ class CommentCreated
         $this->id = $id;
         $this->userId = $userId;
     }
-
-
 }

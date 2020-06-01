@@ -3,7 +3,6 @@
 
 namespace App\Tasks\Administration;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class AdministrationTaskDone

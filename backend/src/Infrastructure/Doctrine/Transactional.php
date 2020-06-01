@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\Doctrine;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class Transactional
@@ -15,7 +14,8 @@ class Transactional
         $this->entityManager = $entityManager;
     }
 
-    public function transaction(callable $fn) {
+    public function transaction(callable $fn)
+    {
         return $this->entityManager->transactional($fn);
     }
 }
