@@ -144,9 +144,9 @@
                                          :class="{yes: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes', no: object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no', empty: !['yes', 'no'].includes(object.attributes.zones[zone.key][`attribute${attribute.key}`])}">
                                         <span class="more-detail__line-text">{{ attribute.title }} {{ attribute.subTitle }}</span>
                                         <span class="more-detail__line-status"
-                                              v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">{{ $t('objects.attributes.yes') }}</span>
+                                              v-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'yes'">{{ $t('objects.attribute.yes') }}</span>
                                         <span class="more-detail__line-status"
-                                              v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">{{ $t('objects.attributes.no') }}</span>
+                                              v-else-if="object.attributes.zones[zone.key][`attribute${attribute.key}`] === 'no'">{{ $t('objects.attribute.no') }}</span>
                                         <span class="more-detail__line-status" v-else>&mdash;</span>
                                     </div>
                                 </template>
@@ -203,6 +203,11 @@
         not_provided: {
             class: '--not-provided',
             label: 'Не предусмотрено',
+            backgroundColor: 'rgba(123,149,167,0.15)'
+        },
+        unknown: {
+            class: '--not-provided',
+            label: 'Неизвестно',
             backgroundColor: 'rgba(123,149,167,0.15)'
         }
     };

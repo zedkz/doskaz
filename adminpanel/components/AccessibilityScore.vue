@@ -97,6 +97,7 @@
                     partial_accessible: 'bg-warning',
                     not_accessible: 'bg-danger',
                     not_provided: 'bg-secondary',
+                    unknown: 'bg-secondary',
                 }
             },
             options( ){
@@ -105,6 +106,7 @@
                     {key: 'partial_accessible', title: 'Частично доступно', class: 'bg-warning'},
                     {key: 'not_accessible', title: 'Недоступно', class: 'bg-danger'},
                     {key: 'not_provided', title: 'Не предусмотрено', class: 'bg-secondary'},
+                    {key: 'unknown', title: 'Неизвестно', class: 'bg-secondary'},
                 ]
             },
             categories() {
