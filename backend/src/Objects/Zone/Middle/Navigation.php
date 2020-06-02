@@ -27,7 +27,7 @@ class Navigation extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        if ($this->isMatches([5, 6, 7], Attribute::no())) {
+        if ($this->isMatches([5, 6], Attribute::no())) {
             return AccessibilityScore::notAccessible();
         }
 

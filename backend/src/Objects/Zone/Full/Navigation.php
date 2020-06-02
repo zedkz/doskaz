@@ -28,19 +28,19 @@ class Navigation extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        if ($this->isMatches([5, 16, 6, 17, 18, 19, 20, 21], Attribute::no())) {
+        if ($this->isMatches([5, 16, 6, 17, 18, 19, 20, 21, 7], Attribute::no())) {
             return AccessibilityScore::notAccessible();
         }
 
         $builder = AccessibilityScoreBuilder::initPartialAccessible();
 
-        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21], Attribute::yes()) && $this->isMatchesPartial([13, 14, 15], Attribute::yes())) {
+        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21, 7], Attribute::yes()) && $this->isMatchesPartial([13, 14, 15], Attribute::yes())) {
             $builder->withHearingFullAccessible();
         }
-        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21, 15], Attribute::yes())) {
+        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21, 7, 15], Attribute::yes())) {
             $builder->withIntellectualFullAccessible();
         }
-        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21], Attribute::yes())) {
+        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21, 7], Attribute::yes())) {
             $builder->withMovementFullAccessible()
                 ->withLimbFullAccessible()
                 ->withVisionFullAccessible();
