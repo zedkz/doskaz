@@ -240,6 +240,7 @@ final class ObjectsApiController extends AbstractController
      *                 @Property(property="subCategory", type="string"),
      *                 @Property(property="coordinates", type="array", @Items(type="number", format="float"), example={52.2957528444857, 76.9407562711638}),
      *                 @Property(property="overallScore", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                 @Property(property="color", type="string", example="#F8AC1A"),
      *                 @Property(
      *                     property="scoreByZones",
      *                     type="object",
@@ -437,6 +438,13 @@ final class ObjectsApiController extends AbstractController
                 (float)$object['lat'], (float)$object['long']
             ],
             'overallScore' => $object["overall_score_$disabilitiesCategory"],
+            'color' => [
+                AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE => '#F8AC1A',
+                AccessibilityScore::SCORE_NOT_ACCESSIBLE => '#DE1220',
+                AccessibilityScore::SCORE_NOT_PROVIDED => '#7B95A7',
+                AccessibilityScore::SCORE_UNKNOWN => '#7B95A7',
+                AccessibilityScore::SCORE_FULL_ACCESSIBLE => '#3DBA3B'
+            ][$object["overall_score_$disabilitiesCategory"]],
             'scoreByZones' => array_map(function (AccessibilityScore $accessibilityScore) use ($disabilitiesCategory) {
                 return $accessibilityScore->{$disabilitiesCategory};
             }, $scoresByZone),
@@ -758,6 +766,7 @@ final class ObjectsApiController extends AbstractController
                 AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE => '#F8AC1A',
                 AccessibilityScore::SCORE_NOT_ACCESSIBLE => '#DE1220',
                 AccessibilityScore::SCORE_NOT_PROVIDED => '#7B95A7',
+                AccessibilityScore::SCORE_UNKNOWN => '#7B95A7',
                 AccessibilityScore::SCORE_FULL_ACCESSIBLE => '#3DBA3B'
             ];
 
