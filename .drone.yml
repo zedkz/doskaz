@@ -112,6 +112,8 @@ steps:
       OAUTH_MAILRU_CLIENT_SECRET:
         from_secret: oauth_mailru_client_secret_prod
       OAUTH_MAILRU_REDIRECT_URI: https://doskaz.kz/oauth/callback
+      SENTRY_DSN_FRONTEND:
+        from_secret: sentry_dsn_frontend
     volumes:
       - name: docker.sock
         path: /var/run/docker.sock
