@@ -69,6 +69,7 @@ services:
       - default
     environment:
       - BACKEND_DOMAIN
+      - SENTRY_DSN=${SENTRY_DSN_FRONTEND}
       - NUXT_HOST=0.0.0.0
       - TZ=Asia/Almaty
     depends_on:
