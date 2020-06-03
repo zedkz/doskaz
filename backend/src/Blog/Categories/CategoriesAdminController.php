@@ -3,7 +3,6 @@
 
 namespace App\Blog\Categories;
 
-
 use App\Blog\Meta;
 use App\Blog\MetaData;
 use App\Blog\SlugFactory;

@@ -3,7 +3,6 @@
 
 namespace App\Tasks\Administration;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;

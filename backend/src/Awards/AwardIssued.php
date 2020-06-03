@@ -3,7 +3,6 @@
 
 namespace App\Awards;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class AwardIssued

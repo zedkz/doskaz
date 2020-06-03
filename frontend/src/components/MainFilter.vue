@@ -3,19 +3,19 @@
         <div class="main-filter__mobile-top">
             <div class="main-filter__header">
                 <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo --mob">
-                    <img :src="require('@/assets/logo.svg')" alt/>
+                    <img :src="require('~/assets/logo.svg')" alt/>
                 </nuxt-link>
 
                 <div class="main-filter__menu --desktop">
-                    <a href="#"><span>Помощь</span></a>
-                    <nuxt-link :to="localePath({name: 'about'})"><span>О проекте</span></nuxt-link>
-                    <nuxt-link :to="localePath({name: 'blog-category'})"><span>Блог</span></nuxt-link>
-                    <nuxt-link :to="localePath({name: 'contacts'})"><span>Контакты</span></nuxt-link>
+                    <a href="#"><span>{{ $t('mainMenu.help') }}</span></a>
+                    <nuxt-link :to="localePath({name: 'about'})"><span>{{ $t('mainMenu.about') }}</span></nuxt-link>
+                    <nuxt-link :to="localePath({name: 'blog-category'})"><span>{{ $t('mainMenu.blog') }}</span></nuxt-link>
+                    <nuxt-link :to="localePath({name: 'contacts'})"><span>{{ $t('mainMenu.contacts') }}</span></nuxt-link>
                 </div>
 
                 <div class="spacer"></div>
 
-                <div class="main-filter__visual --desktop">
+                <div class="main-filter__visual --desktop" @click="enableVisualImpairedMode">
                     <svg
                             width="30"
                             height="16"
@@ -52,7 +52,7 @@
             </div>
             <div class="main-filter__search" v-click-outside="closeSearch">
                 <form class="input">
-                    <input type="text" placeholder="Тип объекта, название или улица"  @focus="searchFocused = true" @input="search({query: $event.target.value, cityId})" v-model="query"/>
+                    <input type="text" :placeholder="$t('mainFilter.searchPlaceholder')"  @focus="searchFocused = true" @input="search({query: $event.target.value, cityId})" v-model="query"/>
                     <button alt="search">
                         <svg
                                 width="24"
@@ -163,7 +163,8 @@
             search: throttle(call('map/search'), 1000),
             mainPageMobOpened() {
                 eventBus.$emit('mainPageMobOpened');
-            }
+            },
+            enableVisualImpairedMode: call('visualImpairedModeSettings/enable')
         }
     };
 </script>

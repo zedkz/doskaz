@@ -18,5 +18,4 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  */
 interface EventData
 {
-
 }

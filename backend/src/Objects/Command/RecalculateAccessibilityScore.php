@@ -3,7 +3,6 @@
 
 namespace App\Objects\Command;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\MapObjectRepository;
 use Symfony\Component\Console\Command\Command;

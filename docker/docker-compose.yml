@@ -69,7 +69,9 @@ services:
       - default
     environment:
       - BACKEND_DOMAIN
+      - SENTRY_DSN=${SENTRY_DSN_FRONTEND}
       - NUXT_HOST=0.0.0.0
+      - TZ=Asia/Almaty
     depends_on:
       - backend
 
@@ -88,7 +90,7 @@ services:
       - backend
 
   database:
-    image: mdillon/postgis:11
+    image: mdillon/postgis:11-alpine
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}

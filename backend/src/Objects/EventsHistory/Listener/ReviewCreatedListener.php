@@ -3,7 +3,6 @@
 
 namespace App\Objects\EventsHistory\Listener;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Objects\EventsHistory\Event;
@@ -41,5 +40,4 @@ class ReviewCreatedListener implements EventListener
     {
         return $event instanceof ReviewCreated;
     }
-
 }

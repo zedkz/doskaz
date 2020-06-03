@@ -3,7 +3,6 @@
 
 namespace App\Objects\Verification;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Objects\MapObjectCreated;
@@ -34,5 +33,4 @@ class CreateVerificationOnObjectCreated implements EventListener
     {
         return $event instanceof MapObjectCreated;
     }
-
 }

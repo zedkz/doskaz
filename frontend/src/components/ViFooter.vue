@@ -1,9 +1,9 @@
 <template>
     <div class="vi__footer --bcolor">
-        <a href="" class="vi__footer-link">Помощь</a>
-        <a href="" class="vi__footer-link">О проекте</a>
-        <a href="" class="vi__footer-link">Блог</a>
-        <a href="" class="vi__footer-link">Контакты</a>
+        <a href="" class="vi__footer-link">{{ $t('mainMenu.help') }}</a>
+        <nuxt-link :to="localePath({name: 'about'})" class="vi__footer-link">{{ $t('mainMenu.about') }}</nuxt-link>
+        <nuxt-link :to="localePath({name: 'blog-cat-slug'})" class="vi__footer-link">{{ $t('mainMenu.blog') }}</nuxt-link>
+        <nuxt-link :to="localePath({name: 'contacts'})" class="vi__footer-link">{{ $t('mainMenu.contacts') }}</nuxt-link>
     </div>
 </template>
 <style lang="scss">

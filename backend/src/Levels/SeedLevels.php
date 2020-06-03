@@ -3,7 +3,6 @@
 
 namespace App\Levels;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Command\Command;

@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -51,7 +50,8 @@ class DailyVerificationTaskRepository
         });
     }
 
-    public function findCurrentForUser(int $userId): ?DailyVerificationTask {
+    public function findCurrentForUser(int $userId): ?DailyVerificationTask
+    {
         return $this->repository->findOneBy([
             'userId' => $userId,
             'completedAt' => null

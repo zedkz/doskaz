@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Tasks\Daily\DailyTaskDone;
@@ -38,5 +37,4 @@ class IssueDailyVerificationTaskWhenDailyTaskCompleted implements EventListener
     {
         return $event instanceof DailyTaskDone;
     }
-
 }

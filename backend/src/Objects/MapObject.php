@@ -135,8 +135,7 @@ class MapObject implements EventProducer
         array $videos,
         ?int $createdBy = null,
         ?string $otherNames = null
-    )
-    {
+    ) {
         $this->uuid = Uuid::uuid4();
         $this->point = $point;
         $this->categoryId = $categoryId;
@@ -168,8 +167,7 @@ class MapObject implements EventProducer
         FileReferenceCollection $photos,
         array $videos,
         ?int $createdBy = null
-    ): self
-    {
+    ): self {
         $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos);
         $self->requestId = $requestId;
         $self->createdBy = $createdBy;
@@ -246,11 +244,13 @@ class MapObject implements EventProducer
         return $this->uuid;
     }
 
-    public function createdBy(): ?int {
+    public function createdBy(): ?int
+    {
         return $this->createdBy;
     }
 
-    public function recalculateAccessibilityScore() {
+    public function recalculateAccessibilityScore()
+    {
         $this->overallScore = $this->zones->overallScore();
     }
 }

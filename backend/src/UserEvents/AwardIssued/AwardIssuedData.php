@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\AwardIssued;
 
-
 use App\UserEvents\Data;
 use Ramsey\Uuid\UuidInterface;
 

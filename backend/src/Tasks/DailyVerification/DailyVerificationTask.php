@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use App\Infrastructure\DomainEvents\EventProducer;
 use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;

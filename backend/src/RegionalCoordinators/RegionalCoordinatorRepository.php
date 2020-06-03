@@ -3,7 +3,6 @@
 
 namespace App\RegionalCoordinators;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 

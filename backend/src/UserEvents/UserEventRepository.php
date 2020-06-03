@@ -3,7 +3,6 @@
 
 namespace App\UserEvents;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 

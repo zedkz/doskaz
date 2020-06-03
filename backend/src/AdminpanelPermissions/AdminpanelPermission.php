@@ -3,7 +3,6 @@
 
 namespace App\AdminpanelPermissions;
 
-
 abstract class AdminpanelPermission
 {
     public const ACCESS = 'adminpanel_access';

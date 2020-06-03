@@ -131,6 +131,4 @@ class ComplaintContent
         $this->videos = $videos;
         $this->photos = $photos;
     }
-
-
 }

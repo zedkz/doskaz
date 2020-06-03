@@ -27,6 +27,17 @@
                 </div>
             </div>
             <h3 class="vi__title --fcolor">Поиск по сайту</h3>
+            <div class="vi__line">
+                <div class="col --padding">
+                    <label class="vi__label --fcolor">Для поиска объекта введите тип объекта, название или улицу и нажмите «Поиск»</label>
+                    <div class="input --bcolor">
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="col --padding --search">
+                    <button type="button" class="vi-search-button --bcolor">Поиск</button>
+                </div>
+            </div>
             <div class="vi__input-b">
                 <label class="vi__label">Выберите доступность объекта</label>
                 <div class="vi__input-wrapper">
@@ -60,17 +71,59 @@
                     </div>
                 </div>
             </div>
-            <div class="vi__line">
-                <div class="col --padding">
-                    <label class="vi__label --fcolor">Для поиска объекта введите тип объекта, название или улицу и нажмите «Поиск»</label>
-                    <div class="input --bcolor">
-                        <input type="text">
+
+            <ul class="vi-search__list">
+                <li class="vi-search__item">
+                    <h3 class="vi-search__title">Lavash Fast Food</h3>
+                    <div class="vi-search__around">
+                        <div>
+                            <span class="vi-search__text">Суши-бар</span>
+                            <span class="vi-search__text">Динмухамеда Кунаева, 14Б</span>
+                        </div>
+                        <span class="vi-search__text">Частично доступно</span>
                     </div>
-                </div>
-                <div class="col --padding --search">
-                    <button type="button" class="vi-search-button --bcolor">Поиск</button>
-                </div>
-            </div>
+                </li>
+                <li class="vi-search__item">
+                    <h3 class="vi-search__title">Алые паруса</h3>
+                    <div class="vi-search__around">
+                        <div>
+                            <span class="vi-search__text">Суши-бар</span>
+                            <span class="vi-search__text">Хан Шатыр, Тұран проспект, 37</span>
+                        </div>
+                        <span class="vi-search__text">Доступно</span>
+                    </div>
+                </li>
+                <li class="vi-search__item">
+                    <h3 class="vi-search__title">Saya Sushi</h3>
+                    <div class="vi-search__around">
+                        <div>
+                            <span class="vi-search__text">Суши-бар</span>
+                            <span class="vi-search__text">​Бауыржан Момышұлы проспект, 23</span>
+                        </div>
+                        <span class="vi-search__text">Частично доступно</span>
+                    </div>
+                </li>
+                <li class="vi-search__item">
+                    <h3 class="vi-search__title">Алые паруса</h3>
+                    <div class="vi-search__around">
+                        <div>
+                            <span class="vi-search__text">Суши-бар</span>
+                            <span class="vi-search__text">Хан Шатыр, Тұран проспект, 37</span>
+                        </div>
+                        <span class="vi-search__text">Доступно</span>
+                    </div>
+                </li>
+                <li class="vi-search__item">
+                    <h3 class="vi-search__title">Saya Sushi</h3>
+                    <div class="vi-search__around">
+                        <div>
+                            <span class="vi-search__text">Суши-бар</span>
+                            <span class="vi-search__text">​Бауыржан Момышұлы проспект, 23</span>
+                        </div>
+                        <span class="vi-search__text">Частично доступно</span>
+                    </div>
+                </li>
+            </ul>
             <div class="vi__complaint">
                 <button type="button" class="vi__button">Добавить объект</button>
                 <button type="button" class="vi__button">Подать жалобу</button>

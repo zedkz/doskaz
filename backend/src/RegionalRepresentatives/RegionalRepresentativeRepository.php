@@ -3,7 +3,6 @@
 
 namespace App\RegionalRepresentatives;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class RegionalRepresentativeRepository
@@ -21,7 +20,8 @@ class RegionalRepresentativeRepository
         $this->repository = $entityManager->getRepository(RegionalRepresentative::class);
     }
 
-    public function add(RegionalRepresentative $regionalRepresentative) {
+    public function add(RegionalRepresentative $regionalRepresentative)
+    {
         $this->entityManager->persist($regionalRepresentative);
     }
 }

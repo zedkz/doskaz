@@ -3,7 +3,6 @@
 
 namespace App\Feedback;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class FeedbackRepository

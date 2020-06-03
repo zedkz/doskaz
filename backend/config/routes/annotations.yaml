@@ -45,3 +45,7 @@ events:
 tasks:
     resource: ../../src/Tasks
     type: annotation
+
+awards:
+    resource: ../../src/Awards
+    type: annotation

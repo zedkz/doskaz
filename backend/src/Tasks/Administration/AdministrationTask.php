@@ -75,8 +75,8 @@ class AdministrationTask
 
         if ($area && count($area)) {
             $this->area = 'SRID=4326;POLYGON((' . implode(', ', array_map(function ($x) {
-                    return implode(' ', [$x[1], $x[0]]);
-                }, $area)) . '))';
+                return implode(' ', [$x[1], $x[0]]);
+            }, $area)) . '))';
 
             // $this->area
         }
@@ -94,8 +94,8 @@ class AdministrationTask
         $this->subCategoryId = $subCategoryId;
         if ($area && count($area)) {
             $this->area = 'SRID=4326;POLYGON((' . implode(', ', array_map(function ($x) {
-                    return implode(' ', [$x[1], $x[0]]);
-                }, $area)) . '))';
+                return implode(' ', [$x[1], $x[0]]);
+            }, $area)) . '))';
         } else {
             $this->area = null;
         }
@@ -107,7 +107,13 @@ class AdministrationTask
         return $this->id;
     }
 
-    public function close() {
+    public function close()
+    {
         $this->closedAt = new \DateTimeImmutable();
+    }
+
+    public function completeForUser(int $userId, UuidInterface $objectId): UserAdministrationTask
+    {
+        return new UserAdministrationTask($userId, $this->id, $this->points, $objectId);
     }
 }

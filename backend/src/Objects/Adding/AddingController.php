@@ -397,8 +397,8 @@ class AddingController extends AbstractController
      *     @Response(response=204, description="")
      * )
      */
-    public function validate(Form $addingRequestData) {
-
+    public function validate(Form $addingRequestData)
+    {
     }
 
     /**

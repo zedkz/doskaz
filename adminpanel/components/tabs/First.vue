@@ -7,19 +7,8 @@
         <select2-field label="Категория" v-model="categoryId" :options="categoryOptions"/>
         <select2-field label="Подкатегория" :path="`${path}.categoryId`" :required="true" :options="subCategoryOptions"/>
         <textarea-field label="Описание" :path="`${path}.description`" :required="true"></textarea-field>
-        <field-wrapper label="Ссылки на видео">
-            <div v-for="(video, index) in videos" :key="index">
-                <a :href="video" target="_blank">{{video}}</a>
-            </div>
-        </field-wrapper>
-
-        <field-wrapper label="Фото">
-            <div class="row justify-content-start">
-                <div v-for="(photo, index) in photos" :key="index" class="col-sm-2 mb-4">
-                    <a :href="photo" target="_blank"><img :src="photo" style="max-width: 100%"/></a>
-                </div>
-            </div>
-        </field-wrapper>
+        <text-input-collection :path="`${path}.videos`" label="Видео"/>
+        <images-collection :path="`${path}.photos`" label="Фото"/>
     </div>
 </template>
 
@@ -31,10 +20,14 @@
     import flatMap from 'lodash/flatMap'
     import FieldWrapper from "../crud/FieldWrapper";
     import TextareaField from "../crud/fields/TextareaField";
+    import ImagesCollection from "../crud/fields/ImagesCollection";
+    import TextInputCollection from "../crud/fields/TextInputCollection";
 
     export default {
         name: "First",
-        components: {TextareaField, FieldWrapper, Select2Field, InputField, MapPointField},
+        components: {
+            TextInputCollection,
+            ImagesCollection, TextareaField, FieldWrapper, Select2Field, InputField, MapPointField},
         props: [
             'path'
         ],

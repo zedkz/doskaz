@@ -129,5 +129,4 @@ class AuthController extends AbstractController
         }
         return null;
     }
-
 }

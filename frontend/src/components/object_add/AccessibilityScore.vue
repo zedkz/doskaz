@@ -1,7 +1,7 @@
 <template>
     <div style="margin-top: 40px">
         <div class="add-object__line --lrg">
-            <h5 class="add-object__title --lrg">Оценка доступности зоны</h5>
+            <h5 class="add-object__title --lrg">{{ $t('accessibilityScore.title') }}</h5>
         </div>
 
         <div class="add-object__line" v-for="(category, index) in categories" :key="category.key"
@@ -9,16 +9,16 @@
                '--av-yellow': score[category.key] ==='partial_accessible',
                '--av-red': score[category.key] ==='not_accessible' }">
             <div class="col">
-                <p class="add-object__text">{{ category.title }}</p>
+                <p class="add-object__text">{{ $t(`accessibilityScore.category.${category.key}`) }}</p>
             </div>
             <div class="col --small --rating">
                 <div class="add-object__rating">
                     <span></span>
                 </div>
             </div>
-            <div class="add-object__rating-text --text-green">доступно</div>
-            <div class="add-object__rating-text --text-yellow">частично доступно</div>
-            <div class="add-object__rating-text --text-red">не доступно</div>
+            <div class="add-object__rating-text --text-green">{{ $t('accessibilityScore.status.full_accessible') }}</div>
+            <div class="add-object__rating-text --text-yellow">{{ $t('accessibilityScore.status.partial_accessible') }}</div>
+            <div class="add-object__rating-text --text-red">{{ $t('accessibilityScore.status.not_accessible') }}</div>
         </div>
     </div>
 </template>
@@ -53,11 +53,11 @@
         computed: {
             categories() {
                 return [
-                    {key: 'movement', title: 'Люди, передвигающиеся на кресло-коляске'},
-                    {key: 'limb', title: 'Люди с нарушением опорно-двигательного аппарата'},
-                    {key: 'vision', title: 'Люди с нарушениями зрения'},
-                    {key: 'hearing', title: 'Люди с нарушениями слуха'},
-                    {key: 'intellectual', title: 'Люди с интелектуальной инвалидностью'},
+                    {key: 'movement'},
+                    {key: 'limb'},
+                    {key: 'vision'},
+                    {key: 'hearing'},
+                    {key: 'intellectual'},
                 ]
             }
         }

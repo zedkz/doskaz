@@ -3,8 +3,10 @@
 
 namespace App\Objects\Zone\Full;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
 
 class Parking extends Zone
@@ -17,7 +19,6 @@ class Parking extends Zone
         7 => 5,
         8 => 6,
         9 => 7,
-        10 => 8,
         12 => 9,
         16 => 10,
         3 => 11,
@@ -38,9 +39,7 @@ class Parking extends Zone
 
     protected static function attributesKeys(): array
     {
-        return array_map(function ($key) {
-            return 'attribute' . $key;
-        }, range(1, 24));
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'parking');
     }
 
 
@@ -57,26 +56,15 @@ class Parking extends Zone
             return AccessibilityScore::fullAccessible();
         }
         if ($this->isMatchesAll(Attribute::unknown())) {
-            return AccessibilityScore::notAccessible();
+            return AccessibilityScore::unknown();
         }
         if ($this->isMatchesAll(Attribute::notProvided())) {
             return AccessibilityScore::notProvided();
         }
 
-        $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $limb = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $vision = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
-        $hearing = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
-        $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+        $builder = AccessibilityScoreBuilder::initPartialAccessible()
+            ->withHearingFullAccessible();
 
-
-        if ($this->isMatches([10, 17], Attribute::no())) {
-            $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $limb = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $vision = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-            $intellectual = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
-        }
-
-        return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);
+        return $builder->build();
     }
 }

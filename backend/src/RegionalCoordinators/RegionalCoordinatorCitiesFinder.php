@@ -3,7 +3,6 @@
 
 namespace App\RegionalCoordinators;
 
-
 use Doctrine\DBAL\Connection;
 
 class RegionalCoordinatorCitiesFinder
@@ -18,7 +17,8 @@ class RegionalCoordinatorCitiesFinder
         $this->connection = $connection;
     }
 
-    public function find(int $userId): array {
+    public function find(int $userId): array
+    {
         return $this->connection->createQueryBuilder()
             ->select('cities_geometry.id')
             ->from('cities')
@@ -28,5 +28,4 @@ class RegionalCoordinatorCitiesFinder
             ->execute()
             ->fetchAll(\PDO::FETCH_COLUMN);
     }
-
 }

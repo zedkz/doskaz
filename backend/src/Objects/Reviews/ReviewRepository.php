@@ -3,7 +3,6 @@
 
 namespace App\Objects\Reviews;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class ReviewRepository

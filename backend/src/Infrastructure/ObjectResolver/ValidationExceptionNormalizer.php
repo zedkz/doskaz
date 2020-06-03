@@ -16,7 +16,6 @@ final class ValidationExceptionNormalizer implements NormalizerInterface
 
     public function __construct(RequestStack $requestStack)
     {
-
         $this->requestStack = $requestStack;
     }
 

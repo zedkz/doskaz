@@ -9,3 +9,8 @@ services:
   App\Tasks\Administration\AdministrationTaskRepository:
 
   App\Tasks\Administration\UserAdministrationTaskRepository:
+
+  App\Tasks\Administration\TaskForObjectFinder:
+
+  App\Tasks\Administration\TestCommand:
+    tags: ['console.command']

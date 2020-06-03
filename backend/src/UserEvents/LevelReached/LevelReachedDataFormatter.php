@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\LevelReached;
 
-
 use App\UserAbilities\UnlockedAbilityRepository;
 use App\UserEvents\Context;
 use App\UserEvents\Data;
@@ -38,5 +37,4 @@ class LevelReachedDataFormatter implements DataFormatter
             'unlockedAbility' => $unlockedAbility ? $unlockedAbility->key() : null
         ];
     }
-
 }

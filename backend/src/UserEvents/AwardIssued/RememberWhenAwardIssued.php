@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\AwardIssued;
 
-
 use App\Awards\AwardIssued;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
@@ -41,6 +40,4 @@ class RememberWhenAwardIssued implements EventListener
     {
         return $event instanceof AwardIssued;
     }
-
-
 }

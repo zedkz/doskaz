@@ -3,7 +3,6 @@
 
 namespace App\Blog\Comments;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class ReplyCreated
@@ -35,5 +34,4 @@ class ReplyCreated
         $this->parentId = $parentId;
         $this->userId = $userId;
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-
 use Doctrine\DBAL\Connection;
 use OpenCage\Geocoder\Geocoder;
 use Symfony\Component\Console\Command\Command;
@@ -83,7 +82,7 @@ class Seed extends Command
 
     public function __construct(Connection $connection, Geocoder$geocoder)
     {
-       // $this->geocoder = new Geocoder('6e305b2b72264cfebe6da59f77a2aacc');
+        // $this->geocoder = new Geocoder('6e305b2b72264cfebe6da59f77a2aacc');
         $this->connection = $connection;
         parent::__construct();
         $this->geocoder = $geocoder;

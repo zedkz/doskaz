@@ -38,10 +38,13 @@ class AdminController extends AbstractController
                 "data->'first'->>'name' as name",
                 "data->'first'->>'address' as address",
                 'object_categories.title as category',
-                'adding_requests.created_at as "createdAt"'
+                'adding_requests.created_at as "createdAt"',
+                'cities.name as city',
             ])
             ->from('adding_requests')
             ->leftJoin('adding_requests', 'object_categories', 'object_categories', "(adding_requests.data->'first'->'categoryId')::INTEGER = object_categories.id")
+            ->leftJoin('adding_requests', 'cities_geometry', 'cities_geometry', 'ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float) && cities_geometry.geometry')
+            ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
             ->andWhere('adding_requests.deleted_at is null');
 
 

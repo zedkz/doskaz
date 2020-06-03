@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\ObjectAdded;
 
-
 use App\UserEvents\Context;
 use App\UserEvents\Data;
 use App\UserEvents\DataFormatter;
@@ -15,7 +14,6 @@ class ObjectAddedDataFormatter implements DataFormatter
 
     public function __construct(Connection $connection)
     {
-
         $this->connection = $connection;
     }
 

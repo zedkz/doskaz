@@ -11,14 +11,15 @@
         <post-rejection-dialog
                 v-else
                 @closed="close"
-                @want-to-help="$router.push(this.localePath({name: 'objects-id-review', params: {id: $route.params.id}}))"
+                @want-to-help="$router.push(localePath({name: 'objects-id-review', params: {id: $route.params.id}}))"
         />
     </div>
 </template>
 
 <script>
-    import PopupDialog from "../../../components/objects/verification/PopupDialog";
-    import PostRejectionDialog from "../../../components/objects/verification/PostRejectionDialog";
+    import PopupDialog from "~/components/objects/verification/PopupDialog";
+    import PostRejectionDialog from "~/components/objects/verification/PostRejectionDialog";
+    import {call} from 'vuex-pathify'
 
     export default {
         components: {PostRejectionDialog, PopupDialog},
@@ -35,14 +36,13 @@
             close() {
                 this.$router.push(this.localePath({name: 'objects-id', params: {id: this.$route.params.id}}))
             },
+            submitVerification: call('object/submitVerification'),
             async confirm() {
-                await this.$axios.post(`/api/objects/${this.$route.params.id}/verification/confirm`)
-                this.$emit('verified')
+                await this.submitVerification('confirm')
                 return this.$router.push(this.localePath({name: 'objects-id', params: {id: this.$route.params.id}}))
             },
             async reject() {
-                await this.$axios.post(`/api/objects/${this.$route.params.id}/verification/reject`);
-                this.$emit('verified')
+                await this.submitVerification('reject')
                 this.showPostRejectMessage = true;
             }
         }

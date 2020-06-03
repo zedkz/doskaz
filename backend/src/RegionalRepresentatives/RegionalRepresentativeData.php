@@ -3,7 +3,6 @@
 
 namespace App\RegionalRepresentatives;
 
-
 use App\Blog\Image;
 use App\Infrastructure\ObjectResolver\DataObject;
 use Symfony\Component\Validator\Constraints as Assert;

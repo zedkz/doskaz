@@ -18,11 +18,16 @@ class AccessibilityScore
 
     public const SCORE_PARTIAL_ACCESSIBLE = 'partial_accessible';
 
+    public const SCORE_UNKNOWN = 'unknown';
+
+    public const SCORE_NOT_PROVIDED = 'not_provided';
+
     public const SCORE_VARIANTS = [
         self::SCORE_NOT_ACCESSIBLE,
         self::SCORE_PARTIAL_ACCESSIBLE,
         self::SCORE_FULL_ACCESSIBLE,
-        self::SCORE_NOT_PROVIDED
+        self::SCORE_NOT_PROVIDED,
+        self::SCORE_UNKNOWN,
     ];
 
     public const SCORE_CATEGORIES = [
@@ -33,32 +38,30 @@ class AccessibilityScore
         'intellectual',
     ];
 
-    public const SCORE_NOT_PROVIDED = 'not_provided';
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public string $movement;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $movement;
+    public string $limb;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $limb;
+    public string $vision;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $vision;
+    public string $hearing;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $hearing;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public $intellectual;
+    public string $intellectual;
 
     public static function new(string $movement, string $limb, string $vision, string $hearing, string $intellectual): self
     {
@@ -120,6 +123,17 @@ class AccessibilityScore
         return $self;
     }
 
+    public static function unknown(): self
+    {
+        $self = new self();
+        $self->movement = self::SCORE_UNKNOWN;
+        $self->limb = self::SCORE_UNKNOWN;
+        $self->vision = self::SCORE_UNKNOWN;
+        $self->hearing = self::SCORE_UNKNOWN;
+        $self->intellectual = self::SCORE_UNKNOWN;
+        return $self;
+    }
+
     public function equalsTo($other): bool
     {
         if ($other instanceof AccessibilityScore) {
@@ -144,6 +158,12 @@ class AccessibilityScore
             });
             if ($items->count() === 0) {
                 return self::SCORE_NOT_PROVIDED;
+            }
+            $unknown = $items->filter(function (AccessibilityScore $score) use ($key) {
+                return $score->{$key} === self::SCORE_UNKNOWN;
+            });
+            if ($unknown->count() === $items->count()) {
+                return self::SCORE_UNKNOWN;
             }
             $notAccessible = $items->filter(function (AccessibilityScore $score) use ($key) {
                 return $score->{$key} === self::SCORE_NOT_ACCESSIBLE;

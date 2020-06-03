@@ -3,7 +3,6 @@
 
 namespace App\Levels;
 
-
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -23,7 +22,8 @@ class LevelRepository
         $this->repository = $entityManager->getRepository(Level::class);
     }
 
-    public function add(Level $level) {
+    public function add(Level $level)
+    {
         $this->entityManager->persist($level);
     }
 
@@ -35,7 +35,8 @@ class LevelRepository
         });
     }
 
-    public function find($id): ?Level {
+    public function find($id): ?Level
+    {
         return $this->repository->find($id);
     }
 }

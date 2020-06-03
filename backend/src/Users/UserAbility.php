@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 interface UserAbility
 {
     public const AVATAR_UPLOAD = 'user_avatar_upload';

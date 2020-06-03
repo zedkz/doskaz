@@ -3,7 +3,6 @@
 
 namespace App\Tasks\ProfileCompletion;
 
-
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Users\Security\PhoneAuth\PhoneCredentialsCreated;
 use App\Users\UserProfileUpdated;
@@ -22,7 +21,6 @@ class AttemptProfileCompletionOnUserProfileUpdate implements EventListener
 
     public function __construct(ProfileCompletionTaskRepository $profileCompletionTaskRepository, ProfileCompletionDataProvider $completionDataProvider)
     {
-
         $this->profileCompletionTaskRepository = $profileCompletionTaskRepository;
         $this->completionDataProvider = $completionDataProvider;
     }

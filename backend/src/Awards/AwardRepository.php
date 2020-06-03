@@ -3,7 +3,6 @@
 
 namespace App\Awards;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -23,5 +22,4 @@ class AwardRepository
     {
         $this->entityManager->persist($award);
     }
-
 }

@@ -102,7 +102,7 @@
                             <nuxt-link :to="localePath({name: 'blog-category'})"><span>Блог</span></nuxt-link>
                             <nuxt-link :to="localePath({name: 'contacts'})"><span>Контакты</span></nuxt-link>
                             <button class="button button_blue" type="button" @click="popupOpen = true" v-if="currentCategory">
-                                <span>{{ currentCategory.title }}</span>
+                                <span>{{ $t(`disabilityCategories.${currentCategory.key}`) }}</span>
                                 <img :src="require(`~/assets/icons/categories/${currentCategory.key}.svg`)"/>
                             </button>
                             <nuxt-link :to="localePath({name: 'objects-add'})" class="button button_green" type="button" name="add_object">

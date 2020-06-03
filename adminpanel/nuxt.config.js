@@ -36,7 +36,8 @@ export default {
     */
     plugins: [
         {src: '~plugins/axios.js'},
-        {src: '~plugins/authenticated.js'}
+        {src: '~plugins/authenticated.js'},
+        {src: '~plugins/loadingOverlay.js'}
     ],
     /*
     ** Nuxt.js dev-modules

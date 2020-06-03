@@ -1,9 +1,9 @@
 <template>
     <div class="blog__in">
         <div class="blog__content --main">
-            <h2 class="title">Блог</h2>
+            <h2 class="title">{{ $t('blog.title') }}</h2>
             <form class="input" @submit.prevent="search">
-                <input type="text" placeholder="Поиск по блогу" :value="$route.query.search" ref="search"/>
+                <input type="text" :placeholder="$t('blog.searchPlaceholder')" :value="$route.query.search" ref="search"/>
                 <button alt="search">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M23.3397 20.1519L19.3617 16.1746C20.4101 14.5385 21.036 12.6053 21.036 10.5179C21.036 4.70874 16.3272 0 10.518 0C4.70944 0 0 4.70874 0 10.518C0 16.3273 4.70944 21.036 10.518 21.036C12.6053 21.036 14.5385 20.4101 16.1739 19.3617L20.1518 23.3397C21.0322 24.2201 22.4593 24.2201 23.3397 23.3397C24.2201 22.4593 24.2201 21.0323 23.3397 20.1519ZM10.518 18.0309C6.369 18.0309 3.00511 14.6677 3.00511 10.518C3.00511 6.36905 6.36905 3.00516 10.518 3.00516C14.6676 3.00516 18.0308 6.36905 18.0308 10.518C18.0308 14.6677 14.6676 18.0309 10.518 18.0309Z"
@@ -13,12 +13,12 @@
             </form>
             <div class="blog__side --main">
                 <div class="blog__category">
-                    <span class="blog__category-title">Категории</span>
+                    <span class="blog__category-title">{{ $t('blog.categories') }}</span>
                     <nuxt-link
                             :to="localePath({name: 'blog-category', query: {period: $route.query.period}})"
                             class="blog__category-link"
                             :class="{isActive: !activeCategory}">
-                        <span>Все категории</span>
+                        <span>{{ $t('blog.allCategories') }}</span>
                     </nuxt-link>
 
                     <nuxt-link
@@ -32,29 +32,29 @@
 
                 </div>
                 <div class="blog__category">
-                    <span class="blog__category-title">Дата</span>
-                    <router-link :to="{...$route, query: {}}" class="blog__category-link" :class="{isActive: !$route.query.period}"><span>За все время</span></router-link>
-                    <nuxt-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ period.title }}</span></nuxt-link>
+                    <span class="blog__category-title">{{ $t('blog.date') }}</span>
+                    <nuxt-link :to="{...$route, query: {}}" class="blog__category-link" :class="{isActive: !$route.query.period}"><span>{{ $t('blog.dateOverall') }}</span></nuxt-link>
+                    <nuxt-link v-for="period in periods" :key="period.key" :to="{...$route, query: {period: period.key}}" class="blog__category-link" :class="{isActive: period.key === $route.query.period}"><span>{{ $t(`blog.dateFilterPeriod.${period.key}`) }}</span></nuxt-link>
                 </div>
                 <div class="blog__category --share">
-                    <span class="blog__category-title">Поделиться</span>
+                    <span class="blog__category-title">{{ $t('blog.share') }}</span>
                     <div class="social">
                         <a href="" class="social__link --fcb">
-                            <img src="./../../assets/img/social/fcb.svg"/>
+                            <img src="~/assets/img/social/fcb.svg"/>
                         </a>
                         <a href="" class="social__link --vk">
-                            <img src="./../../assets/img/social/vk.svg"/>
+                            <img src="~/assets/img/social/vk.svg"/>
                         </a>
                         <a href="" class="social__link --ok">
-                            <img src="./../../assets/img/social/ok.svg"/>
+                            <img src="~/assets/img/social/ok.svg"/>
                         </a>
                         <a href="" class="social__link --my">
-                            <img src="./../../assets/img/social/my.svg"/>
+                            <img src="~/assets/img/social/my.svg"/>
                         </a>
                     </div>
                 </div>
                 <div class="blog__category">
-                    <a href="/blog/feed.xml" class="subscribe-link">Подписаться на рассылку</a>
+                    <a href="/blog/feed.xml" class="subscribe-link">{{ $t('blog.subscribe') }}</a>
                 </div>
             </div>
             <ul class="blog__list">
@@ -69,13 +69,13 @@
                         <p class="blog__item-text" v-html="post.annotation"></p>
                         <div class="blog__item-bottom">
                             <div>
-                                <span class="blog__item-link">{{ post.publishedAt | date }}</span>
+                                <formatted-date class="blog__item-link" :date="post.publishedAt" format="d MMMM y"/>
                                 <span class="blog__item-link">{{ post.categoryTitle }}</span>
                             </div>
                             <div>
                                 <nuxt-link
                                         :to="localePath({name: 'blog-cat-slug', params: {cat: post.categorySlug, slug: post.slug}})"
-                                        class="blog__item-link">Подробнее
+                                        class="blog__item-link">{{ $t('blog.postLinkTitle') }}
                                 </nuxt-link>
                             </div>
                         </div>
@@ -91,19 +91,14 @@
 </template>
 
 <script>
-    import Pagination from "@/components/Pagination";
-    import {format} from 'date-fns'
-    import {ru} from 'date-fns/locale'
+    import Pagination from "~/components/Pagination";
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
         props: ['posts', 'categories', 'pages'],
         components: {
+            FormattedDate,
             Pagination
-        },
-        filters: {
-            date(value) {
-                return format(new Date(value), 'd MMMM y', {locale: ru})
-            }
         },
         methods: {
             search() {
@@ -116,9 +111,9 @@
             },
             periods() {
                 return [
-                    {key: 'year', title: 'За год'},
-                    {key: 'month', title: 'За месяц'},
-                    {key: 'week', title: 'За неделю'}
+                    {key: 'year'},
+                    {key: 'month'},
+                    {key: 'week'}
                 ]
             }
         }

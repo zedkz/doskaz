@@ -3,7 +3,6 @@
 
 namespace App\Blog\Posts;
 
-
 use App\Blog\Image;
 use App\Blog\Meta;
 use App\Blog\MetaData;
@@ -180,5 +179,4 @@ class PostsAdminController extends AbstractController
             'count' => $query->select('COUNT(*)')->execute()->fetchColumn()
         ];
     }
-
 }

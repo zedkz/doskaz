@@ -1,4 +1,4 @@
-FROM node:10 as build
+FROM node:12.14.0-slim as build
 
 RUN ["mkdir", "/frontend"]
 
@@ -6,7 +6,7 @@ WORKDIR /frontend
 
 COPY ./package*.json ./
 
-RUN ["npm", "install"]
+RUN ["npm", "ci"]
 
 COPY . .
 

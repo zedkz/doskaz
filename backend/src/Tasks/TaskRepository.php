@@ -3,7 +3,6 @@
 
 namespace App\Tasks;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class TaskRepository

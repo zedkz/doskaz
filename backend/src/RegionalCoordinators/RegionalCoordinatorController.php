@@ -3,7 +3,6 @@
 
 namespace App\RegionalCoordinators;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\ObjectResolver\ValidationException;
 use Doctrine\DBAL\Connection;

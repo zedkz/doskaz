@@ -3,32 +3,30 @@
 
 namespace App\Objects\Zone\Small;
 
-
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\AttributesConfiguration;
 use App\Objects\Zone;
 
 class Navigation extends Zone
 {
     protected static function attributesKeys(): array
     {
-        return ['attribute1000'];
+        return AttributesConfiguration::getAttributesKeysForFormAndZone('small', 'navigation');
     }
 
     public function calculateScore(): AccessibilityScore
     {
-        /**
-         * @var $attribute Attribute
-         */
-        $attribute = $this->attributes->get('attribute1000');
-
-        if ($attribute->isEqualsTo(Attribute::notProvided())) {
-            return AccessibilityScore::notProvided();
-        }
-        if ($attribute->isEqualsTo(Attribute::yes())) {
+        if ($this->isMatchesAll(Attribute::yes())) {
             return AccessibilityScore::fullAccessible();
         }
-        return AccessibilityScore::notAccessible();
-    }
+        if ($this->isMatchesAll(Attribute::unknown())) {
+            return AccessibilityScore::unknown();
+        }
+        if ($this->isMatchesAll(Attribute::notProvided())) {
+            return AccessibilityScore::notProvided();
+        }
 
+        return AccessibilityScore::partialAccessible();
+    }
 }

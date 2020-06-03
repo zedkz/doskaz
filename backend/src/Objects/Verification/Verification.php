@@ -3,7 +3,6 @@
 
 namespace App\Objects\Verification;
 
-
 use App\Infrastructure\DomainEvents\EventProducer;
 use App\Infrastructure\DomainEvents\ProducesEvents;
 use Doctrine\ORM\Mapping as ORM;
@@ -76,5 +75,4 @@ class Verification implements EventProducer
         $this->remember(new ObjectVerified($this->id, $this->userId));
         $this->updatedAt = new \DateTimeImmutable();
     }
-
 }

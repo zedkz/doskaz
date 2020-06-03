@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class MapObjectCreated

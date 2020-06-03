@@ -5,13 +5,13 @@
                     class="timeline__tab-link timeline__tab-link_blog"
                     :class="{'isActive': activeTab===0}"
                     @click="setActiveTab(0)">
-        <span>Блог
+        <span>{{ $t('blogTabTitle') }}
             <!--<span class="new">2</span>-->
         </span>
             </div>
             <div class="timeline__tab-link" :class="{'isActive': activeTab===1}" @click="setActiveTab(1)"
                  v-if="isAuthenticated">
-                <span>Лента событий</span>
+                <span>{{ $t('eventsTabTitle') }}</span>
             </div>
             <div class="spacer"></div>
             <nuxt-link
@@ -31,7 +31,7 @@
                     class="timeline__tab-link timeline__tab-link_user"
                     @click="showLoginForm"
             >
-                <span class="name">Вход</span>
+                <span class="name">{{ $t('loginLinkTitle') }}</span>
             </div>
         </div>
         <div class="timeline__tabs">
@@ -45,7 +45,7 @@
                     <div class="item__info">
                         <p class="item__date">
                             <span>{{ post.categoryTitle }}</span>
-                            <span>{{ post.publishedAt | date }}</span>
+                            <formatted-date element="span" :date="post.publishedAt" format="d MMMM"/>
                         </p>
                         <h3 class="item__title">{{ post.title }}</h3>
                         <p
@@ -55,7 +55,7 @@
                 </nuxt-link>
                 <div class="item item_link">
                     <nuxt-link :to="localePath({name: 'blog-category'})">
-                        <span>Перейти в раздел</span>
+                        <span>{{ $t('blogLink') }}</span>
                     </nuxt-link>
                 </div>
             </div>
@@ -63,51 +63,51 @@
                 <div class="scroll">
                     <div class="item" v-for="(event, index) in events" :key="index">
                         <div class="item__date">
-                            <span>{{ event.date | date }}</span>
+                            <formatted-date :date="event.date" format="d MMMM"/>
                         </div>
                         <div class="item__text">
                             <template v-if="event.type === 'object_added'">
                                 <span v-if="userId === event.userId">
-                                   Вы добавили объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                   {{ $t('events.objectAdded.yourself') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else>
                                     <username tag="b" :value="event.username"/>
-                                    добавил(а) объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                    {{ $t('events.objectAdded.others') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                             </template>
                             <template v-if="event.type === 'object_reviewed'">
                                 <span v-if="userId === event.userId">
                                     <username tag="b" :value="event.data.username"/>
-                                    прокомментировал(а) ваш объект
+                                    {{ $t('events.objectReviewed.yourObject') }}
                                     <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else-if="event.data.userId === userId">
-                                    Вы прокомментировали объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                    {{ $t('events.objectReviewed.yourself') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else>
                                     <username tag="b" :value="event.data.username"/>
-                                    прокомментировал(а) объект <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                    {{ $t('events.objectReviewed.others') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                             </template>
                             <template v-if="event.type === 'level_reached'">
                                 <span v-if="userId === event.userId">
-                                     Вы получаете уровень {{ event.data.level }}
+                                     {{ $t('events.levelReached.yourself', {level: event.data.level }) }}
                                 </span>
                                 <span v-else>
                                     <username tag="b" :value="event.username"/>
-                                    получает уровень {{ event.data.level }}
+                                    {{ $t('events.levelReached.others', {level: event.data.level}) }}
                                 </span>
                             </template>
                             <template v-if="event.type === 'blog_comment_replied'">
                                 <span v-if="userId === event.data.userId">
-                                     Вы оставили ответ на комментарий к записи <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
+                                     {{ $t('events.blogCommentReplied.yourself') }} <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
                                          cat: event.data.categorySlug,
                                          slug: event.data.slug,
                                      }})"><b>{{ event.data.title }}</b></nuxt-link>
                                 </span>
                                 <span v-else>
                                      <username tag="b" :value="event.data.username"/>
-                                      отвечает на комментарий к записи <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
+                                      {{ $t('events.blogCommentReplied.others') }} <nuxt-link :to="localePath({name: 'blog-cat-slug', params: {
                                          cat: event.data.categorySlug,
                                          slug: event.data.slug,
                                      }})"><b>{{ event.data.title }}</b></nuxt-link>
@@ -115,11 +115,11 @@
                             </template>
                             <template v-if="event.type === 'award_issued'">
                                  <span v-if="userId === event.userId">
-                                     Вы получили награду <b>"{{ event.data.title }}"</b>
+                                     {{ $t('events.awardIssued.yourself') }} <b>"{{ event.data.title }}"</b>
                                 </span>
                                 <span v-else>
                                      <username tag="b" :value="event.username"/>
-                                      получает награду <b>"{{ event.data.title }}"</b>
+                                      {{ $t('events.awardIssued.others') }} <b>"{{ event.data.title }}"</b>
                                 </span>
                             </template>
                         </div>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="link">
                     <nuxt-link :to="localePath({name: 'profile'})">
-                        <span>Перейти в профиль</span>
+                        <span>{{ $t('events.profileLinkTitle') }}</span>
                     </nuxt-link>
                 </div>
             </div>
@@ -195,11 +195,10 @@
 
 <script>
     import UserTabs from "~/components/UserTabs";
-    import {format} from 'date-fns'
-    import {ru} from 'date-fns/locale'
     import {get} from 'vuex-pathify'
     import Username from "./Username";
     import UserAvatar from "./UserAvatar";
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
         props: ['posts', 'events'],
@@ -208,12 +207,8 @@
                 activeTab: 0
             };
         },
-        filters: {
-            date(value) {
-                return format(new Date(value), 'd MMMM', {locale: ru})
-            }
-        },
         components: {
+            FormattedDate,
             UserAvatar,
             Username,
             UserTabs
@@ -223,7 +218,7 @@
                 this.activeTab = tab;
             },
             showLoginForm() {
-                this.$router.push(this.localePath({'name': 'login'}))
+                this.$router.push(this.localePath({name: 'login'}))
             }
         },
         computed: {

@@ -3,7 +3,6 @@
 
 namespace App\Users\CommentsHistory;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 

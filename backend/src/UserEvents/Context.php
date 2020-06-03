@@ -3,7 +3,6 @@
 
 namespace App\UserEvents;
 
-
 class Context
 {
     public int $userId;

@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 class UserAbilities
 {
     /**

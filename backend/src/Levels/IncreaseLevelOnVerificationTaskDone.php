@@ -3,17 +3,13 @@
 
 namespace App\Levels;
 
-
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Tasks\DailyVerification\DailyVerificationTaskDone;
 use App\Tasks\ProfileCompletion\ProfileCompletionTaskDone;
 
 class IncreaseLevelOnVerificationTaskDone implements EventListener
 {
-    /**
-     * @var LevelRepository
-     */
-    private $levelRepository;
+    private LevelRepository $levelRepository;
 
     public function __construct(LevelRepository $levelRepository)
     {

@@ -3,49 +3,49 @@
         <div class="vi-header__top --bcolor">
             <div class="vi-set-b">
                 <div class="vi-set">
-                    <span class="vi-set__title --fcolor">Размер шрифта</span>
+                    <span class="vi-set__title --fcolor">{{ $t('visualImpairedSettings.fontSize') }}</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --fs --sm  --bcolor --fcolor" :class="{'--active': fontSize == 'sm'}" @click="setFontSize('sm')">A</span>
-                        <span class="vi-set__link --fs --md  --bcolor --fcolor" :class="{'--active': fontSize == 'md'}" @click="setFontSize('md')">A</span>
-                        <span class="vi-set__link --fs --lrg --bcolor --fcolor" :class="{'--active': fontSize == 'lrg'}" @click="setFontSize('lrg')">A</span>
+                        <span class="vi-set__link --fs --sm  --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'sm'}" @click="changeFontSize('sm')">A</span>
+                        <span class="vi-set__link --fs --md  --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'md'}" @click="changeFontSize('md')">A</span>
+                        <span class="vi-set__link --fs --lrg --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontSize === 'lrg'}" @click="changeFontSize('lrg')">A</span>
                     </div>
                 </div>
                 <div class="vi-set">
-                    <span class="vi-set__title --fcolor">Цветовая схема</span>
+                    <span class="vi-set__title --fcolor">{{ $t('visualImpairedSettings.colorTheme') }}</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --ctheme --white --fcolor" :class="{'--active': colorTheme == 'white'}" @click="setColorTheme('white')">Ц</span>
-                        <span class="vi-set__link --ctheme --black --bcolor --fcolor" :class="{'--active': colorTheme == 'black'}" @click="setColorTheme('black')">Ц</span>
+                        <span class="vi-set__link --ctheme --white --fcolor" :class="{'--active': visualImpairedModeSettings.colorTheme === 'white'}" @click="changeColorTheme('white')">Ц</span>
+                        <span class="vi-set__link --ctheme --black --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.colorTheme === 'black'}" @click="changeColorTheme('black')">Ц</span>
                     </div>
                 </div>
                 <div class="vi-set">
-                    <span class="vi-set__title --fcolor">Шрифт</span>
+                    <span class="vi-set__title --fcolor">{{ $t('visualImpairedSettings.fontFamily') }}</span>
                     <div class="vi-set__link-wrapper">
-                        <span class="vi-set__link --ff --btn --bcolor --fcolor" :class="{'--active': fontFamily == 'Lato'}" @click="setFontFamily('Lato')">Обычный</span>
-                        <span class="vi-set__link --ff --noto --btn --bcolor --fcolor" :class="{'--active': fontFamily == 'Noto'}" @click="setFontFamily('Noto')">С засечками</span>
+                        <span class="vi-set__link --ff --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Lato'}" @click="changeFontFamily('Lato')">{{ $t('visualImpairedSettings.fontFamilySans') }}</span>
+                        <span class="vi-set__link --ff --noto --btn --bcolor --fcolor" :class="{'--active': visualImpairedModeSettings.fontFamily === 'Noto'}" @click="changeFontFamily('Noto')">{{ $t('visualImpairedSettings.fontFamilySerif') }}</span>
                     </div>
                 </div>
             </div>
-            <button class="vi-switch">
-                <img :src="require('@/assets/visually-black.svg')" alt="" v-if="colorTheme == 'white'" />
-                <img :src="require('@/assets/visually-white.svg')" alt="" v-if="colorTheme == 'black'" />
-                <span class="--fcolor">Обычная версия сайта</span>
+            <button class="vi-switch" @click="disableVisualImpairedMode">
+                <img :src="require('~/assets/visually-black.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'white'" />
+                <img :src="require('~/assets/visually-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
+                <span class="--fcolor">{{ $t('visualImpairedSettings.normalModeSwitchTitle') }}</span>
             </button>
         </div>
         <div class="vi-header__bottom --bcolor --fcolor">
-            <a href="" class="vi__logo">
-                <img :src="require('@/assets/logo-black.svg')" alt="" v-if="colorTheme == 'white'" />
-                <img :src="require('@/assets/logo-white.svg')" alt="" v-if="colorTheme == 'black'" />
-            </a>
+            <nuxt-link :to="localePath({name: 'index'})" class="vi__logo">
+                <img :src="require('~/assets/logo-black.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'white'" />
+                <img :src="require('~/assets/logo-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
+            </nuxt-link>
             <div class="vi__auth-b">
-                <a href="" class="vi__auth-link">Войти</a>
-                <span class="vi__auth-or">или</span>
-                <a href="" class="vi__auth-link">Зарегистрироваться</a>
-                <span class="vi__auth-text"><b>Язык сайта</b></span>
+                <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderLoginTitle') }}</nuxt-link>
+                <span class="vi__auth-or">{{ $t('login.viHeaderLoginOr') }}</span>
+                <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderRegister') }}</nuxt-link>
+                <span class="vi__auth-text"><b>{{ $t('visualImpairedSettings.siteLanguage') }}</b></span>
                 <div class="select">
-                    <select>
-                        <option>Казахский</option>
-                        <option>Руский</option>
-                        <option>English</option>
+                    <select :value="$i18n.locale" @change="$router.push(switchLocalePath($event.target.value))">
+                        <option v-for="locale in $i18n.locales" :key="locale.code" :value="locale.code">
+                            {{ locale.name }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -54,29 +54,19 @@
 </template>
 
 <script>
-    import {eventBus} from "./../store/bus";
+    import {call, get} from 'vuex-pathify'
 
     export default {
-        data() {
-            return{
-                fontSize: 'lrg',
-                colorTheme: 'white',
-                fontFamily: 'Lato'
-            }
-        },
         methods: {
-            setFontSize(fsize) {
-                this.fontSize = '' + fsize + '';
-                eventBus.$emit('setFontSize',this.fontSize);
-            },
-            setColorTheme(ctheme) {
-                this.colorTheme = '' + ctheme + '';
-                eventBus.$emit('setColorTheme',this.colorTheme);
-            },
-            setFontFamily(ff) {
-                this.fontFamily = '' + ff + '';
-                eventBus.$emit('setFontFamily',this.fontFamily);
-            }
+            disableVisualImpairedMode: call('visualImpairedModeSettings/disable'),
+            ...call('visualImpairedModeSettings', [
+                'changeFontFamily',
+                'changeFontSize',
+                'changeColorTheme'
+            ])
+        },
+        computed: {
+            visualImpairedModeSettings: get('visualImpairedModeSettings'),
         }
     }
 </script>
@@ -343,6 +333,11 @@
                         }
                     }
                 }
+                &-search {
+                    &__title {
+                       font-size: 28px !important;
+                    }
+                }
                 &-blog {
                     &__list {
                         &-title {
@@ -409,6 +404,11 @@
                         &-title {
                             font-size: 32px !important;
                         }
+                    }
+                }
+                &-search {
+                    &__title {
+                       font-size: 24px !important;
                     }
                 }
                 &-blog {
@@ -546,6 +546,26 @@
                 color: #FFFFFF;
                 background: #000000;
             }
+            #blueimp-gallery, #blueimp-video {
+                background: #000000;
+                color: #ffffff;
+                > {
+                    .close {
+                        background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNNTAgMTBMOS45OTk5OSA1MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTEwIDEwTDUwIDUwIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') center no-repeat;
+                    }
+
+                    .next {
+                        background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMTUgODBMNDUgNTBMMTUgMjAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                    }
+
+                    .prev {
+                        background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgNjAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iMTAwIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNNDUgMjBMMTUgNTBMNDUgODAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=') center no-repeat;
+                    }
+                    .title {
+                        color: #FFFFFF;
+                    }
+                }
+            }
         }
 
         &.--noto {
@@ -597,6 +617,11 @@
                             &-title {
                                 font-size: 39px !important;
                             }
+                        }
+                    }
+                    &-search {
+                        &__title {
+                            font-size: 31px !important;
                         }
                     }
                     &-blog {
@@ -662,6 +687,11 @@
                             }
                         }
                     }
+                    &-search {
+                        &__title {
+                           font-size: 27px !important;
+                        }
+                    }
                     &-blog {
                         &__list {
                             &-title {
@@ -725,6 +755,11 @@
                             }
                         }
                     }
+                    &-search {
+                        &__title {
+                            font-size: 23px !important;
+                        }
+                    }
                     &-blog {
                         &__list {
                             &-title {
@@ -773,6 +808,9 @@
         }
         &-header {
             padding: 0;
+            + .vi__title {
+                margin: 42px 0;
+            }
             &__top {
                 display: flex;
                 justify-content: space-between;
@@ -803,7 +841,6 @@
                 margin: 0 0 0 10px;
             }
         }
-
         &__logo {
             width: 227px;
             display: block;
@@ -981,6 +1018,38 @@
                 background: #000000;
                 color: #FFFFFF;
                 border-color: #FFFFFF;
+            }
+        }
+        &-search {
+            &__title {
+                font-size: 32px !important;
+                line-height: 40px;
+            }
+            &__list {
+                list-style: none;
+                border-top: 2px solid;
+                margin: 60px 0 100px;
+                padding: 0;
+                width: 100%;
+                & + .vi__complaint {
+                    margin: 100px 0 60px;
+                }
+            }
+            &__item {
+                padding: 48px 0 32px;
+                border-bottom: 2px solid;
+            }
+            &__text {
+                font-size: 24px;
+                line-height: 40px;
+                & + .vi-search__text {
+                    margin: 0 0 0 20px;
+                }
+            }
+            &__around {
+                margin: 20px 0 0;
+                display: flex;
+                justify-content: space-between;
             }
         }
         .input {

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import {get} from "vuex-pathify";
+    import {get, call} from "vuex-pathify";
     import Username from "~/components/Username";
     import UserAvatar from "~/components/UserAvatar";
 
@@ -45,11 +45,10 @@
             name: get('authentication/name')
         },
         methods: {
+            submitReview: call('object/submitReview'),
             async createReview() {
                 this.reviewSubmitting = true;
-                await this.$axios.post(`/api/objects/${this.$route.params.id}/reviews`, {
-                    text: this.reviewText
-                })
+                await this.submitReview(this.reviewText)
                 this.reviewText = '';
                 this.reviewSubmitting = false;
                 this.$emit('review-submitted')

@@ -1,5 +1,5 @@
 export default function ({app, redirect, route}) {
-    if (route.name.endsWith('kz') && route.fullPath !== '/kz/underConstruction') {
+    if (route.fullPath !== '/kz/underConstruction' && route.fullPath.startsWith('/kz')) {
         return redirect(app.localePath('/underConstruction', 'kz'))
     }
 }

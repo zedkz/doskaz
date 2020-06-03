@@ -3,7 +3,6 @@
 
 namespace App\Tasks\DailyVerification;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\DomainEvents\EventListener;
 use App\Objects\Verification\ObjectVerified;
@@ -51,5 +50,4 @@ class CompleteDailyVerificationTaskWhenObjectVerified implements EventListener
             && !$this->dailyVerificationTaskRepository->hasCompletedForUser($event->objectId, $event->userId)
             && $this->currentTaskProvider->execute($event->userId) instanceof DailyVerificationTask;
     }
-
 }

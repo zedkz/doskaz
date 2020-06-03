@@ -15,11 +15,13 @@ use App\Infrastructure\ObjectResolver\ValidationException;
 use App\Infrastructure\Storage\Storage;
 use App\Levels\LevelRepository;
 use App\Tasks\CurrentTaskDataProvider;
+use App\Tasks\UserTasksFinder;
 use App\UserAbilities\UnlockedAbility;
 use App\UserEvents\UserEventsFinder;
 use App\Users\Security\PhoneAuth\Credentials;
 use App\Users\Security\PhoneAuth\CredentialsRepository;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Imgproxy\UrlBuilder;
 use OpenApi\Annotations\Delete;
 use OpenApi\Annotations\Get;
@@ -50,124 +52,6 @@ use Webmozart\Assert\Assert;
  */
 final class UserController extends AbstractController
 {
-    /**
-     * @Route(path="/admin/profile", methods={"GET"})
-     * @param TokenStorageInterface $tokenStorage
-     * @param Connection $connection
-     * @return array
-     */
-    public function me(TokenStorageInterface $tokenStorage, Connection $connection)
-    {
-        $this->denyAccessUnlessGranted('adminpanel_access');
-
-        $user = $connection->createQueryBuilder()
-            ->select('users.id', 'full_name->>\'firstAndLast\' as name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
-            ->from('users')
-            ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
-            ->andWhere('users.id = :id')
-            ->setParameter('id', $tokenStorage->getToken()->getUser()->id())
-            ->setMaxResults(1)
-            ->execute()
-            ->fetch();
-
-        return array_replace($user, [
-            'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable'),
-            'permissions' => array_filter(AdminpanelPermission::ALL, function ($permission) {
-                return $this->isGranted($permission);
-            })
-        ]);
-    }
-
-    /**
-     * @Route(path="/users", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     * @param Request $request
-     * @param Connection $connection
-     * @return array
-     */
-    public function list(Request $request, Connection $connection)
-    {
-        $filter = json_decode($request->query->get('filter', '{}'), true);
-
-        $usersQb = $connection->createQueryBuilder()
-            ->select('users.id', 'full_name->>\'firstAndLast\' as name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
-            ->from('users')
-            ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id');
-
-
-        foreach ($filter as $key => $value) {
-            if (empty($value)) {
-                continue;
-            }
-            switch ($key) {
-                case 'email':
-                    $usersQb->orWhere('email ilike :email')
-                        ->setParameter('email', "%$value%");
-                    break;
-                case 'phone':
-                    $usersQb->orWhere('phone_credentials.number ilike :phone')
-                        ->setParameter('phone', "%$value%");
-                    break;
-            }
-        }
-
-        $count = (clone $usersQb)->select('count(*)')->execute()->fetchColumn();
-
-        $items = array_map(function ($user) use ($connection) {
-            return array_replace($user, [
-                'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-                'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
-            ]);
-        }, $usersQb->setMaxResults($request->query->getInt('limit', 20))->setFirstResult($request->query->getInt('offset'))->orderBy('id', 'desc')->execute()->fetchAll());
-
-        return [
-            'items' => $items,
-            'count' => $count
-        ];
-    }
-
-    /**
-     * @Route(path="/users/{id}", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     * @param $id
-     * @param Connection $connection
-     * @return array
-     */
-    public function user($id, Connection $connection)
-    {
-        $user = $connection->createQueryBuilder()
-            ->select('users.id', 'name', 'email', 'phone_credentials.number as phone', 'roles', 'users.created_at as "createdAt"')
-            ->from('users')
-            ->leftJoin('users', 'phone_credentials', 'phone_credentials', 'users.id = phone_credentials.id')
-            ->andWhere('users.id = :id')
-            ->setParameter('id', $id)
-            ->execute()
-            ->fetch();
-
-        if (!$user) {
-            throw new NotFoundHttpException();
-        }
-
-        return array_replace($user, [
-            'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable')
-        ]);
-    }
-
-    /**
-     * @Route(path="/users/{id}", methods={"PUT"})
-     * @IsGranted("ROLE_ADMIN")
-     * @param User $user
-     * @param UserData $data
-     * @param Flusher $flusher
-     */
-    public function update(User $user, UserData $data, Flusher $flusher)
-    {
-        $user->update($data);
-        $flusher->flush();
-    }
-
     /**
      * @Route(path="/profile", methods={"GET"})
      * @IsGranted("ROLE_USER")
@@ -222,6 +106,7 @@ final class UserController extends AbstractController
      * @param CurrentTaskDataProvider $currentTaskProvider
      * @param LevelRepository $levelRepository
      * @return ProfileData
+     * @throws DBALException
      */
     public function profile(TokenStorageInterface $tokenStorage, Connection $connection, Request $request, CurrentTaskDataProvider $currentTaskProvider, LevelRepository $levelRepository)
     {
@@ -234,12 +119,6 @@ final class UserController extends AbstractController
             ->setMaxResults(1)
             ->execute()
             ->fetch();
-
-        /*return array_replace($user, [
-            'roles' => $connection->convertToPHPValue($user['roles'], 'json_array'),
-            'createdAt' => $connection->convertToPHPValue($user['createdAt'], 'datetimetz_immutable'),
-            'avatar' => $request->getSchemeAndHttpHost() . '/static/ava.png'
-        ]);*/
 
         /**
          * @var $fullName FullName
@@ -327,8 +206,7 @@ final class UserController extends AbstractController
         ProfileFetcher $profileFetcher,
         CredentialsRepository $credentialsRepository,
         Transactional $transactional
-    )
-    {
+    ) {
         $user = $repository->find($tokenStorage->getToken()->getUser()->id());
 
         if ($profileData->email) {
@@ -685,7 +563,6 @@ final class UserController extends AbstractController
             }
 
             return $result;
-
         }, $items);
 
         return [
@@ -758,7 +635,6 @@ final class UserController extends AbstractController
         return [
             'pages' => $qb->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
             'items' => array_map(function ($item) use ($connection, $request, $urlBuilder) {
-
                 $image = null;
                 $photos = $connection->convertToPHPValue($item['photos'], 'json');
                 if (count($photos)) {
@@ -780,13 +656,15 @@ final class UserController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route(path="/profile/tasks", methods={"GET"})
      * @param Request $request
-     * @param Connection $connection
+     * @param UserTasksFinder $userTasksFinder
      * @return mixed[]
      * @Get(
      *     path="/api/profile/tasks",
      *     tags={"Пользователи"},
      *     security={{"clientAuth": {}}},
      *     summary="Задания пользователя",
+     *     @Parameter(in="query", name="sort", @Schema(type="string", enum={"createdAt desc", "createdAt asc"}, nullable=true), description="Сортировка"),
+     *     @Parameter(in="query", name="page", @Schema(type="integer", nullable=true), description="Страница"),
      *     @Response(
      *         response=200,
      *         description="",
@@ -808,39 +686,9 @@ final class UserController extends AbstractController
      *     @Response(response=401, description=""),
      * )
      */
-    public function tasks(Request $request, Connection $connection)
+    public function tasks(Request $request, UserTasksFinder $userTasksFinder)
     {
-        $perPage = 10;
-
-        $query = "
-               select completed_at, 'Заполните профиль' as type, 4 as points, users.created_at
-                  from profile_completion_tasks
-                  join users on users.id = profile_completion_tasks.user_id
-                  where user_id = :userId
-               union all select completed_at, 'Добавьте 1 объект' as type, reward as points, created_at from daily_tasks where user_id = :userId
-               union all select completed_at, 'Верифицируйте 1 объект' as type, reward as points, created_at from daily_verification_tasks where user_id = :userId
-        ";
-
-        [$field, $sort] = explode('_', $request->query->get('sort', 'completedAt_desc'));
-
-        $qb = $connection->createQueryBuilder()
-            ->select(
-                'completed_at as "completedAt"',
-                'created_at as "createdAt"',
-                'type as title',
-                'points'
-            )
-            ->from("($query)", 'tasks')
-            ->setParameter('userId', $this->getUser()->id());
-
-        return [
-            'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
-            'items' => $qb->orderBy('"' . $field . '"', $sort)
-                ->setMaxResults($perPage)
-                ->setFirstResult(($request->query->getInt('page', 1) - 1) * $perPage)
-                ->execute()
-                ->fetchAll()
-        ];
+        return $userTasksFinder->findForUser($this->getUser()->id(), $request->query->getInt('cityId', 0), $request->query->getInt('page', 1), $request->query->get('sort', 'createdAt desc'));
     }
 
     /**
@@ -917,7 +765,7 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @param UserRepository $userRepository
      * @param Storage $storage
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      * @Post(
      *     path="/api/profile/avatar",
      *     tags={"Пользователи"},
@@ -970,8 +818,9 @@ final class UserController extends AbstractController
      * @param Connection $connection
      * @return mixed[]
      */
-    public function awards(Connection $connection) {
-        return$connection->createQueryBuilder()
+    public function awards(Connection $connection)
+    {
+        return $connection->createQueryBuilder()
             ->addSelect('id', 'title', 'type')
             ->from('awards')
             ->orderBy('issued_at', 'desc')

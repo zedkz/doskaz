@@ -12,7 +12,8 @@ export default {
         '@nuxtjs/robots',
         'nuxt-i18n',
         '@nuxtjs/sitemap',
-        '@nuxtjs/feed'
+        '@nuxtjs/feed',
+        '@nuxtjs/sentry'
     ],
     router: {
         middleware: 'languageUnderConstruction'

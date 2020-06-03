@@ -27,7 +27,8 @@ final class CategoryRepository
         return (bool)$this->repository->findOneBy(['slug.value' => $slug]);
     }
 
-    public function find(int $id): ?Category {
+    public function find(int $id): ?Category
+    {
         return $this->repository->find($id);
     }
 }

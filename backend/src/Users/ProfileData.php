@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use App\Tasks\CurrentTaskData;
 use Symfony\Component\Validator\Constraints as Assert;

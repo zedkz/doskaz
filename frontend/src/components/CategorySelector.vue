@@ -3,15 +3,15 @@
         <div class="availability" :class="{ opened: availabilityToggle }">
             <div class="availability__item availability__item_green" @click="toggleAccessibilityLevel('full_accessible')" :class="{isActive: accessibilityLevels.includes('full_accessible')}">
                 <div class="availability__icon"></div>
-                <span class="availability__text">Доступно</span>
+                <span class="availability__text">{{ $t('mainFilter.accessibilityStatus.accessible') }}</span>
             </div>
             <div class="availability__item availability__item_yellow" @click="toggleAccessibilityLevel('partial_accessible')" :class="{isActive: accessibilityLevels.includes('partial_accessible')}">
                 <div class="availability__icon"></div>
-                <span class="availability__text">Частично доступно</span>
+                <span class="availability__text">{{ $t('mainFilter.accessibilityStatus.partialAccessible') }}</span>
             </div>
             <div class="availability__item availability__item_red" @click="toggleAccessibilityLevel('not_accessible')" :class="{isActive: accessibilityLevels.includes('not_accessible')}">
                 <div class="availability__icon"></div>
-                <span class="availability__text">Недоступно</span>
+                <span class="availability__text">{{ $t('mainFilter.accessibilityStatus.notAccessible') }}</span>
             </div>
             <span class="availability__button" @click="availabilityToggle = !availabilityToggle"></span>
         </div>

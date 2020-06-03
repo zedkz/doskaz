@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 use App\Levels\LevelRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -39,6 +38,4 @@ class UserAbilityVoter extends Voter
                 return false;
         }
     }
-
-
 }

@@ -3,7 +3,6 @@
 
 namespace App\Users;
 
-
 use App\AdminpanelPermissions\AdminpanelPermission;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

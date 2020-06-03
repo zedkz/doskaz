@@ -80,7 +80,8 @@ class Comment implements EventProducer
         }
     }
 
-    public function userId(): int {
+    public function userId(): int
+    {
         return $this->userId;
     }
 }

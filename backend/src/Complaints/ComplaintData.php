@@ -64,6 +64,4 @@ final class ComplaintData implements DataObject
         $this->objectId = $objectId;
         $this->content = $content;
     }
-
-
 }

@@ -79,6 +79,7 @@ export const state = () => ({
         {key: 'service', title: 'Зона оказания услуг', group: 'service'},
         {key: 'toilet', title: 'Туалет', group: 'toilet'},
         {key: 'navigation', title: 'Навигация', group: 'navigation'},
+        {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
     ],
     forms: [
         {key: 'small', title: 'Простая форма'},

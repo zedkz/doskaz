@@ -19,3 +19,6 @@ services:
 
   App\Levels\IncreaseLevelOnDailyTaskDone:
     tags: ['domain_events.listener']
+
+  App\Levels\IncreaseLevelOnAdministrationTaskDone:
+    tags: ['domain_events.listener']

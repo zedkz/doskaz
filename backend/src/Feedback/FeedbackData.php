@@ -3,7 +3,6 @@
 
 namespace App\Feedback;
 
-
 use App\Infrastructure\ObjectResolver\DataObject;
 use Symfony\Component\Validator\Constraints as Assert;
 

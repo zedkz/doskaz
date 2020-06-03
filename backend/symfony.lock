@@ -108,6 +108,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "happyr/entity-exists-validation-constraint": {
+        "version": "0.2.0"
+    },
     "hoa/consistency": {
         "version": "1.17.05.02"
     },

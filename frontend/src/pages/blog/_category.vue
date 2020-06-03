@@ -3,8 +3,8 @@
 </template>
 
 <script>
-    import MainHeader from "@/components/MainHeader";
-    import BlogMain from "@/components/blog/BlogMain";
+    import MainHeader from "~/components/MainHeader";
+    import BlogMain from "~/components/blog/BlogMain";
 
     export default {
         layout: 'blog',
@@ -23,9 +23,9 @@
         watchQuery: ['page', 'search', 'period'],
         async asyncData({$axios, params, query, error}) {
             try {
-                const [{data: categories}, {data: {items: posts, pages}}] = await Promise.all([
-                    $axios.get('/api/blog/categories'),
-                    $axios.get('/api/blog/posts', {
+                const [categories, {items: posts, pages}] = await Promise.all([
+                    $axios.$get('/api/blog/categories'),
+                    $axios.$get('/api/blog/posts', {
                         params: {
                             page: query.page || 1,
                             category: params.category,

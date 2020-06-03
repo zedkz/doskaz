@@ -3,7 +3,6 @@
 
 namespace App\UserEvents\ObjectReviewed;
 
-
 use App\UserEvents\Context;
 use App\UserEvents\Data;
 use Doctrine\DBAL\Connection;
@@ -39,12 +38,14 @@ class ObjectReviewedDataFormatter implements \App\UserEvents\DataFormatter
             ->execute()
             ->fetch();
 
-        return array_merge($this->connection->createQueryBuilder()
+        return array_merge(
+            $this->connection->createQueryBuilder()
             ->select('full_name->>\'firstAndLast\' as username, id as "userId"')
             ->from('users')
             ->andWhere('id = :userId')
             ->setParameter('userId', $data->reviewerId)
             ->execute()->fetch(),
-            $object);
+            $object
+        );
     }
 }

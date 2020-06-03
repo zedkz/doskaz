@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class Location
@@ -34,5 +33,4 @@ final class Location
         $this->lat = $lat;
         $this->lon = $lon;
     }
-
 }

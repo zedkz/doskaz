@@ -19,6 +19,12 @@ class Award implements EventProducer
     public const TYPE_SILVER = 'silver';
     public const TYPE_GOLD = 'gold';
 
+    public const TYPES = [
+        self::TYPE_BRONZE,
+        self::TYPE_SILVER,
+        self::TYPE_GOLD
+    ];
+
     use ProducesEvents;
 
     /**
@@ -61,6 +67,14 @@ class Award implements EventProducer
         $this->issuedAt = new \DateTimeImmutable();
         $this->remember(new AwardIssued($this->id, $this->userId));
     }
+
+    public static function fromAwardData(AwardData $awardData, int $userId, ?int $issuedBy = null): self
+    {
+        $self = new self($userId, $awardData->title, $issuedBy);
+        $self->type = $awardData->type;
+        return $self;
+    }
+
 
     public static function bronze(int $userId, string $title, ?int $issuedBy = null): self
     {

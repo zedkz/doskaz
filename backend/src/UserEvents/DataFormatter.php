@@ -3,7 +3,6 @@
 
 namespace App\UserEvents;
 
-
 interface DataFormatter
 {
     public function supports(Data $data): bool;

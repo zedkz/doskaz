@@ -3,7 +3,6 @@
 
 namespace App\Objects\Verification;
 
-
 use Ramsey\Uuid\UuidInterface;
 
 class ObjectVerified

@@ -48,7 +48,7 @@ final class Version20200403094423 extends AbstractMigration
         $this->addSql('ALTER TABLE regional_representatives ALTER image DROP DEFAULT');
         $this->addSql('ALTER TABLE user_events ALTER data TYPE JSONB');
         $this->addSql('ALTER TABLE user_events ALTER data DROP DEFAULT');
-        $this->addSql('ALTER TABLE regional_coordinators DROP CONSTRAINT "regional_coordinators_pkey"');;
+        $this->addSql('ALTER TABLE regional_coordinators DROP CONSTRAINT "regional_coordinators_pkey"');
         $this->addSql('ALTER TABLE regional_coordinators ADD id UUID NOT NULL');
         $this->addSql('ALTER TABLE regional_coordinators ALTER cities TYPE JSONB');
         $this->addSql('ALTER TABLE regional_coordinators ALTER cities DROP DEFAULT');
