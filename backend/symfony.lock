@@ -202,6 +202,9 @@
     "opencage/geocode": {
         "version": "2.1.0"
     },
+    "pclzip/pclzip": {
+        "version": "2.8.2"
+    },
     "php": {
         "version": "7.4"
     },
@@ -234,6 +237,12 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
+    },
+    "phpoffice/common": {
+        "version": "0.2.9"
+    },
+    "phpoffice/phpword": {
+        "version": "0.17.0"
     },
     "psr/cache": {
         "version": "1.0.1"
