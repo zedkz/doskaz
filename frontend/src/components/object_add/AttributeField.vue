@@ -1,9 +1,9 @@
 <template>
     <div class="add-object__line" :class="{'--lrg': !!title}">
         <div class="col">
-            <label class="add-object__label" v-if="title">{{ title }}</label>
-            <span class="add-object__label-text" v-if="title && subTitle">{{ subTitle }}</span>
-            <label class="add-object__label --gray" v-if="!title && subTitle">{{subTitle}}</label>
+            <label class="add-object__label pre-formatted" v-if="title">{{ title }}</label>
+            <span class="add-object__label-text pre-formatted" v-if="title && subTitle">{{ subTitle }}</span>
+            <label class="add-object__label --gray pre-formatted" v-if="!title && subTitle">{{subTitle}}</label>
         </div>
         <div class="col --small">
             <div class="select">
@@ -17,34 +17,36 @@
 </template>
 
 <script>
-    export default {
-        name: "AttributeField",
-        props: [
-            'title',
-            'subTitle',
-            'value'
-        ],
-        computed: {
-            val: {
-                get() {
-                    return this.value
-                },
-                set(v) {
-                    this.$emit('input', v)
-                }
+export default {
+    name: "AttributeField",
+    props: [
+        'title',
+        'subTitle',
+        'value'
+    ],
+    computed: {
+        val: {
+            get() {
+                return this.value
             },
-            options() {
-                return [
-                    {value: 'unknown', text: 'Неизвестно'},
-                    {value: 'not_provided', text: 'Не предусмотрено'},
-                    {value: 'no', text: 'Нет'},
-                    {value: 'yes', text: 'Да'},
-                ]
+            set(v) {
+                this.$emit('input', v)
             }
+        },
+        options() {
+            return [
+                {value: 'unknown', text: 'Неизвестно'},
+                {value: 'not_provided', text: 'Не предусмотрено'},
+                {value: 'no', text: 'Нет'},
+                {value: 'yes', text: 'Да'},
+            ]
         }
     }
+}
 </script>
 
 <style scoped>
-
+.pre-formatted {
+    white-space: pre-wrap;
+}
 </style>

@@ -34,13 +34,13 @@ class Movement extends Zone
             $builder->withMovementNotAccessible();
         }
 
-        if ($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 50, 53, 54, 70, 34, 35, 55, 56, 57, 36, 58, 60, 61, 62, 63], Attribute::yes())) {
+        if ($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 53, 54, 70, 34, 35, 55, 56, 57, 36, 58, 60, 61, 62, 63], Attribute::yes())) {
             $builder->withHearingFullAccessible()
                 ->withIntellectualFullAccessible()
                 ->withLimbFullAccessible();
         }
 
-        if ($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 50, 53, 54, 70, 34, 35, 55, 56, 57, 60, 61, 62, 63], Attribute::yes())) {
+        if ($this->isMatchesAllExcept([22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 53, 54, 70, 34, 35, 55, 56, 57, 60, 61, 62, 63], Attribute::yes())) {
             $builder->withVisionFullAccessible();
         }
 
