@@ -295,7 +295,7 @@ final class ComplaintController extends AbstractController
                 []
             ),
             $authority,
-            true,
+            $lastComplaint && $lastComplaint['remember_personal_data'],
             $request->query->getInt('objectId', null)
         );
     }
