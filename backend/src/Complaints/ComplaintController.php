@@ -161,23 +161,25 @@ final class ComplaintController extends AbstractController
      * @Route(path="/{id}/pdf", methods={"GET"}, requirements={"id" = "\d+"})
      * @param $id
      * @param ComplaintPdfExporter $complaintPdfExporter
+     * @param Request $request
      * @return BinaryFileResponse
      * @Get(
      *     path="/api/complaints/{id}/pdf",
      *     tags={"Жалобы"},
      *     summary="Экспорт в pdf",
      *     security={{"clientAuth": {}}},
-     *     @Parameter(name="id", in="path", description="Id жалобы", @Schema(type="integer")),
+     *     @Parameter(name="id", in="path", required=true, description="Id жалобы", @Schema(type="integer")),
+     *     @Parameter(name="locale", in="query", description="Язык", @Schema(type="string", enum={"ru", "kz"})),
      *     @Response(response=200, description=""),
      *     @Response(response=401, description=""),
      *     @Response(response=403, description=""),
      *     @Response(response=404, description=""),
      * )
      */
-    public function pdfExport($id, ComplaintPdfExporter $complaintPdfExporter)
+    public function pdfExport($id, ComplaintPdfExporter $complaintPdfExporter, Request $request)
     {
         $this->denyAccessUnlessGranted(ComplaintPermissions::PDF_EXPORT, $id);
-        return (new BinaryFileResponse($complaintPdfExporter->execute((int) $id), 200, [], true))->deleteFileAfterSend();
+        return (new BinaryFileResponse($complaintPdfExporter->execute((int) $id, $request->query->get('locale', 'ru')), 200, [], true))->deleteFileAfterSend();
     }
 
     /**
@@ -185,7 +187,7 @@ final class ComplaintController extends AbstractController
      * @param $id
      * @param Connection $connection
      * @param ComplaintDocExporter $complaintDocExporter
-     * @param ComplaintPdfExporter $complaintPdfExporter
+     * @param Request $request
      * @return BinaryFileResponse
      * @Get(
      *     path="/api/complaints/{id}/doc",
@@ -193,16 +195,17 @@ final class ComplaintController extends AbstractController
      *     summary="Экспорт в doc",
      *     security={{"clientAuth": {}}},
      *     @Parameter(name="id", in="path", description="Id жалобы", @Schema(type="integer")),
+     *     @Parameter(name="locale", in="query", description="Язык", @Schema(type="string", enum={"ru", "kz"})),
      *     @Response(response=200, description=""),
      *     @Response(response=401, description=""),
      *     @Response(response=403, description=""),
      *     @Response(response=404, description=""),
      * )
      */
-    public function docExport($id, Connection $connection, ComplaintDocExporter $complaintDocExporter)
+    public function docExport($id, Connection $connection, ComplaintDocExporter $complaintDocExporter, Request $request)
     {
         $this->denyAccessUnlessGranted(ComplaintPermissions::PDF_EXPORT, $id);
-        return (new BinaryFileResponse($complaintDocExporter->execute((int) $id), 200, [], true))->deleteFileAfterSend();
+        return (new BinaryFileResponse($complaintDocExporter->execute((int) $id, $request->query->get('locale', 'ru')), 200, [], true))->deleteFileAfterSend();
     }
 
     /**

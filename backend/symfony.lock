@@ -190,6 +190,9 @@
     "monolog/monolog": {
         "version": "1.25.2"
     },
+    "nesbot/carbon": {
+        "version": "2.35.0"
+    },
     "ocramius/doctrine-batch-utils": {
         "version": "2.0.0"
     },

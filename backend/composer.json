@@ -23,6 +23,7 @@
         "league/oauth2-client": "^2.4",
         "league/oauth2-facebook": "^2.0",
         "league/oauth2-google": "^3.0",
+        "nesbot/carbon": "^2.35",
         "ocramius/doctrine-batch-utils": "^2.0",
         "opencage/geocode": "^2.1",
         "php-http/guzzle6-adapter": "^2.0",

@@ -20,9 +20,9 @@ class ComplaintPdfExporter implements ComplaintExporter
         $this->client = new Client('http://gotenberg:3000');
     }
 
-    public function execute(int $id): \SplFileObject
+    public function execute(int $id, string $locale): \SplFileObject
     {
-        $document = $this->complaintDocExporter->execute($id);
+        $document = $this->complaintDocExporter->execute($id, $locale);
         $doc = DocumentFactory::makeFromPath('complaint.docx', $document->getPathname());
         $request = new OfficeRequest([$doc]);
         $path = tempnam('/tmp', 'pdf');

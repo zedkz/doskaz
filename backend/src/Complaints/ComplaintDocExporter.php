@@ -4,6 +4,7 @@
 namespace App\Complaints;
 
 
+use Carbon\Carbon;
 use Doctrine\DBAL\Connection;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,14 +29,17 @@ class ComplaintDocExporter implements ComplaintExporter
         $this->translator = $translator;
     }
 
-    public function execute(int $id): \SplFileObject
+    public function execute(int $id, string $locale): \SplFileObject
     {
+        Carbon::setLocale($locale === 'kz' ? 'kk' : 'ru');
+
         $complaintData = $this->connection->createQueryBuilder()
             ->addSelect('complaint_authorities.name as "authorityName"')
             ->addSelect('complainant')
             ->addSelect('content')
             ->addSelect('complainant_cities.name as "complainantCityName"')
             ->addSelect('complaint_cities.name as "complaintCityName"')
+            ->addSelect('complaints.created_at')
             ->from('complaints')
             ->join('complaints', 'cities', 'complainant_cities', 'complainant_cities.id = (complaints.complainant->>\'cityId\')::INT')
             ->join('complaints', 'cities', 'complaint_cities', 'complaint_cities.id = (complaints.content->>\'cityId\')::INT')
@@ -45,7 +49,7 @@ class ComplaintDocExporter implements ComplaintExporter
             ->execute()
             ->fetch();
 
-        if(!$complaintData) {
+        if (!$complaintData) {
             throw new NotFoundHttpException();
         }
 
@@ -68,13 +72,13 @@ class ComplaintDocExporter implements ComplaintExporter
             'complainantBuilding' => $complainant->building,
             'complainantApartment' => $complainant->apartment,
             'complainantPhone' => $complainant->phone,
-            'visitedDate' => '25 августа 2017',
+            'visitedDate' => Carbon::instance($content->visitedAt)->isoFormat("D MMMM YYYY"),
             'objectName' => $content->objectName,
             'objectCity' => $complaintData['complaintCityName'],
             'objectStreet' => $content->street,
             'objectBuilding' => $content->building,
             'visitPurpose' => $content->visitPurpose,
-            'complaintDate' => '25 сентября 2017 года'
+            'complaintDate' => Carbon::instance($this->connection->convertToPHPValue($complaintData['created_at'], 'datetimetz_immutable'))->isoFormat("D MMMM YYYY")
         ];
 
         $templateProcessor = new TemplateProcessor($this->templatePath);
@@ -101,7 +105,7 @@ class ComplaintDocExporter implements ComplaintExporter
                         yield ['violationTitle' => $attribute['title'] . ': ' . $option['label']];
                     }
                 }
-                if($content->comment) {
+                if ($content->comment) {
                     yield ['violationTitle' => $content->comment];
                 }
             };
@@ -139,6 +143,12 @@ class ComplaintDocExporter implements ComplaintExporter
                 'ratio' => true
             ]);
         }
+
+        $templateProcessor->cloneBlock('links', 0, true, false, array_map(function ($item) {
+            return ['link' => $item];
+        }, array_filter($content->videos, function ($item) {
+            return !empty($item);
+        })));
 
         $path = tempnam('/tmp', 'complaint');
         $templateProcessor->saveAs($path);
