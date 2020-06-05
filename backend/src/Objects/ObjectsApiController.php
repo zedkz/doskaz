@@ -13,7 +13,9 @@ use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Post;
 use OpenApi\Annotations\Property;
+use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use Safe\Exceptions\FilesystemException;
@@ -796,5 +798,41 @@ final class ObjectsApiController extends AbstractController
         ];
 
         return new JsonResponse($clusters);
+    }
+
+    /**
+     * @Route(path="/checkPresence", methods={"POST"})
+     * @Post(
+     *     path="/api/objects/checkPresence",
+     *     summary="Проверка наличия объекта",
+     *     tags={"Объекты"},
+     *     @RequestBody(
+     *         @JsonContent(
+     *            @Property(property="name", type="string"),
+     *            @Property(property="otherNames", type="string"),
+     *         )
+     *     ),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *             @Property(property="name", type="boolean"),
+     *             @Property(property="otherNames", type="boolean"),
+     *         )
+     *     )
+     * )
+     * @param PresenceRequestData $presenceRequestData
+     */
+    public function checkPresence(PresenceRequestData $presenceRequestData, Connection $connection)
+    {
+        $qb = $connection->createQueryBuilder()
+            ->select('COUNT(*) > 0')
+            ->from('objects')
+            ->andWhere('deleted_at IS NULL');
+
+        return [
+            'name' => (clone $qb)->andWhere('title = :title')->setParameter('title', $presenceRequestData->name)->execute()->fetchColumn(),
+            'otherNames' => (clone $qb)->andWhere('other_names = :otherNames')->setParameter('otherNames', $presenceRequestData->otherNames)->execute()->fetchColumn(),
+        ];
     }
 }

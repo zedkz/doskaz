@@ -104,6 +104,10 @@ export default {
         },
         download: 'Скачать'
     },
+    objectAdding: {
+        presenceMessageHeader: 'Уведомляем!',
+        presenceMessage: 'Объект "{name}" уже опубликован на сайте.'
+    },
     contacts: {
         title: 'Контакты',
         contactMessage: 'Вы можете связаться с нами по электронной почте, через колл-центр или\n же заполнив форму',
