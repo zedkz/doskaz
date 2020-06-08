@@ -50,7 +50,7 @@
                 })
             },
             ticketLink() {
-                return `/api/complaints/${this.ticketId}/pdf`
+                return `/api/complaints/${this.ticketId}/doc`
             },
             typeText() {
                 return types.find(t => t.type === this.ticketType).name

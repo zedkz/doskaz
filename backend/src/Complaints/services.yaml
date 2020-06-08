@@ -17,3 +17,10 @@ services:
 
   App\Complaints\ComplaintVoter:
     tags: ['security.voter']
+
+  App\Complaints\ComplaintDocExporter:
+    arguments:
+      $templatePath: '%kernel.project_dir%/complaint-template.docx'
+      $storagePath: '%kernel.project_dir%'
+
+  App\Complaints\ComplaintPdfExporter:

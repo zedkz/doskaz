@@ -166,11 +166,11 @@ class MapObject implements EventProducer
         string $description,
         FileReferenceCollection $photos,
         array $videos,
-        ?int $createdBy = null
+        ?int $createdBy = null,
+        ?string $otherNames = null
     ): self {
-        $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos);
+        $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos, $createdBy, $otherNames);
         $self->requestId = $requestId;
-        $self->createdBy = $createdBy;
         return $self;
     }
 

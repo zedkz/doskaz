@@ -77,7 +77,8 @@ class AddingRequest
          */
         $data = $this->data;
 
-        return new MapObject(
+        return MapObject::createFromRequest(
+            $this->id,
             Point::fromLatLong($data->first->point[0], $data->first->point[1]),
             $data->first->name,
             $data->first->categoryId,
