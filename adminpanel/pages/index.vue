@@ -5,16 +5,6 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul>
-<!--
-                        <sidebar-link path="/users" v-if="can('users_access')"><i class="fa fa-user"></i> Пользователи</sidebar-link>
--->
-                       <!-- <sidebar-link path="/blog/categories"><i class="fa fa-list"></i> Категории блога</sidebar-link>-->
-                       <!-- <sidebar-link path="/blog/posts"><i class="fa fa-rss"></i> Записи блога</sidebar-link>-->
-                        <!--<sidebar-link path="/complaints"><i class="fa fa-exclamation-circle"></i> Жалобы</sidebar-link>-->
-                        <!--<sidebar-link path="/addingRequests"><i class="fa fa-file"></i> Заявки на добавление объектов</sidebar-link>-->
-                        <!--<sidebar-link path="/objects"><i class="fa fa-map-marker-alt"></i> Объекты</sidebar-link>-->
-                        <!--<sidebar-link path="/regionalRepresentatives"><i class="fa fa-id-card"></i> Региональные представители</sidebar-link>-->
-                        <!--<sidebar-link path="/regionalCoordinators"><i class="fa fa-id-card"></i> Региональные координаторы</sidebar-link>-->
                         <sidebar-link v-for="link in links" :key="link.key" :path="link.path"><i :class="link.icon"></i>
                             {{link.title}}</sidebar-link>
                     </ul>
@@ -65,6 +55,7 @@
                     {path: '/regionalRepresentatives', key: 'regional_representatives_access', icon: 'fa fa-id-card', title: 'Региональные представители'},
                     {path: '/regionalCoordinators', key: 'regional_coordinators_access', icon: 'fa fa-id-card', title: 'Региональные координаторы'},
                     {path: '/administrationTasks', key: 'administration_tasks_access', icon: 'fa fa-id-card', title: 'Задания от администрации'},
+                    {path: '/feedback', key: 'feedback_access', icon: 'fa fa-id-card', title: 'Обратная связь'},
                 ].filter(item => this.can(item.key))
             }
         },

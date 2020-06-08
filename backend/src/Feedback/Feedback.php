@@ -5,6 +5,7 @@ namespace App\Feedback;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity()
@@ -16,37 +17,39 @@ class Feedback
      * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
-    private $id;
+    private UuidInterface $id;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $email;
+    private string $email;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $text;
+    private string $text;
 
     /**
-     * @var \DateTimeImmutable
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable", nullable=true)
+     */
+    private ?\DateTimeImmutable $deletedAt;
 
     /**
      * Feedback constructor.
      * @param string $name
      * @param string $email
      * @param string $text
+     * @throws \Exception
      */
     public function __construct(string $name, string $email, string $text)
     {
@@ -55,5 +58,10 @@ class Feedback
         $this->email = $email;
         $this->text = $text;
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function delete()
+    {
+        $this->deletedAt = new \DateTimeImmutable();
     }
 }
