@@ -25,6 +25,8 @@ class AdminController extends AbstractController
      * @Route(methods={"GET"})
      * @param Connection $connection
      * @param Request $request
+     * @param RegionalCoordinatorRepository $regionalCoordinatorRepository
+     * @param RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder
      * @return array
      */
     public function list(Connection $connection, Request $request, RegionalCoordinatorRepository $regionalCoordinatorRepository, RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder)
@@ -45,7 +47,8 @@ class AdminController extends AbstractController
             ->leftJoin('adding_requests', 'object_categories', 'object_categories', "(adding_requests.data->'first'->'categoryId')::INTEGER = object_categories.id")
             ->leftJoin('adding_requests', 'cities_geometry', 'cities_geometry', 'ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float) && cities_geometry.geometry')
             ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
-            ->andWhere('adding_requests.deleted_at is null');
+            ->andWhere('adding_requests.deleted_at is null')
+            ->andWhere('adding_requests.approved_at is null');
 
 
         if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
