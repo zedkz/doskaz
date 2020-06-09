@@ -26,7 +26,7 @@
                             class="complaint__col required"
                             :class="{ error: violations['complainant.firstName'] }"
                     >
-                        <label for="12" class="label">{{ $t('complaint.fistName') }}</label>
+                        <label for="12" class="label">{{ $t('complaint.firstName') }}</label>
                         <div class="input">
                             <input
                                     id="12"
@@ -445,7 +445,7 @@
                 <div class="complaint__line complaint__row">
                     <div class="complaint__col --text --vertical">
                         <label class="label">{{ $t('complaint.videoLink') }}</label>
-                        <span class="label-text">{{ $t('complaintVideoLinkLabel') }}</span>
+                        <span class="label-text">{{ $t('complaint.videoLinkLabel') }}</span>
                     </div>
                     <div class="complaint__col --lg --vertical">
                         <div
