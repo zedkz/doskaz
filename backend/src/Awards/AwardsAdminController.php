@@ -32,7 +32,7 @@ class AwardsAdminController extends AbstractController
             ->addSelect('users.full_name->>\'firstAndLast\' as "issuedBy"')
             ->from('awards')
             ->leftJoin('awards', 'users', 'users', 'users.id = awards.issued_by')
-            ->andWhere('user_id = :userId')
+            ->andWhere('awards.user_id = :userId')
             ->setParameter('userId', $request->get('userId'))
             ->orderBy('issued_at', 'desc')
             ->execute()
@@ -54,7 +54,7 @@ class AwardsAdminController extends AbstractController
      */
     public function create(AwardData $data, Flusher $flusher, Request $request, AwardRepository $awardRepository)
     {
-        $award = Award::fromAwardData($data, $this->getUser()->id(), $request->get('userId'));
+        $award = Award::fromAwardData($data, $request->get('userId'), $this->getUser()->id());
         $awardRepository->add($award);
         $flusher->flush();
     }
