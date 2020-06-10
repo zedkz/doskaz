@@ -13,7 +13,7 @@ export const getters = {
 
 export const actions = {
     async load({commit}) {
-        const {data: cities} = await this.$axios.get('/api/cities')
+        const cities = await this.$axios.$get('/api/cities')
         commit('SET_LIST', cities)
     }
 }

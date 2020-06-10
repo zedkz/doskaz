@@ -1,5 +1,5 @@
 <template>
-    <div class="vi" :class="{'--noto': fontFamily == 'Noto', '--black': colorTheme == 'black', '--sm': fontSize == 'sm', '--md': fontSize == 'md','--lrg': fontSize == 'lrg'}">
+    <div class="vi" :class="viSettingsClasses">
         <div class="vi-container">
             <ViHeader></ViHeader>
             <div class="vi__line">
@@ -137,7 +137,9 @@
     import ViHeader from "./../components/ViHeader";
     import ViFooter from "./../components/ViFooter";
     import {eventBus} from "./../store/bus";
+    import {get} from "vuex-pathify";
     export default {
+        name: 'ViIndexPage',
         data() {
             return{
                 fontSize: 'lrg',
@@ -153,6 +155,18 @@
         components: {
             ViHeader,
             ViFooter
+        },
+        computed: {
+            visualImpairedModeSettings: get('visualImpairedModeSettings'),
+            viSettingsClasses() {
+                return {
+                    '--noto': this.visualImpairedModeSettings.fontFamily === 'Noto',
+                    '--black': this.visualImpairedModeSettings.colorTheme === 'black',
+                    '--sm': this.visualImpairedModeSettings.fontSize === 'sm',
+                    '--md': this.visualImpairedModeSettings.fontSize === 'md',
+                    '--lrg':this.visualImpairedModeSettings.fontSize === 'lrg'
+                }
+            }
         },
         methods: {
             setFontSize(fsize) {
