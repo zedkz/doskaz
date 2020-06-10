@@ -262,5 +262,17 @@ export default {
             iin: 'Поле должно содержать 12 символов',
             fillAllRequiredFields: 'Заполните, пожалуйста, все обязательные поля'
         }
+    },
+    index: {
+        makeComplaintLink: 'Подать жалобу',
+        addObjectLink: 'Добавить объект',
+        selectCity: 'Выберите город',
+        selectDisabilitiesCategory: 'Категория пользователя',
+        search: 'Поиск по сайту',
+        searchLabel: 'Для поиска объекта введите тип объекта, название или улицу и нажмите «Поиск»',
+        searchSubmitButton: 'Поиск',
+        selectAccessibility: 'Выберите доступность объекта',
+        selectCategory: 'Категория объекта',
+        selectSubCategory: 'подкатегория объекта'
     }
 }

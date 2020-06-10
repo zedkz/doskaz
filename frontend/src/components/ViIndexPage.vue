@@ -4,42 +4,41 @@
             <ViHeader></ViHeader>
             <div class="vi__line">
                 <div class="col">
-                    <label class="vi__label --fcolor">Категория пользователя</label>
+                    <label class="vi__label --fcolor">{{ $t('index.selectDisabilitiesCategory') }}</label>
                     <div class="select">
-                        <select class="--bcolor">
-                            <option>Люди с нарушением опорно-двигательного аппарата</option>
-                            <option>Люди с нарушением опорно-двигательного аппарата</option>
-                            <option>Люди с нарушением опорно-двигательного аппарата</option>
-                            <option>Люди с нарушением опорно-двигательного аппарата</option>
+                        <select class="--bcolor" :value="selectedDisabilitiesCategory.key"
+                                @change="selectDisabilitiesCategory($event.target.value)">
+                            <option v-for="category in disabilitiesCategorySettings" :key="category.key"
+                                    :value="category.key">
+                                {{ $t(`disabilityCategories.${category.key}`) }}
+                            </option>
                         </select>
                     </div>
                 </div>
                 <div class="col --city">
-                    <label class="vi__label --fcolor">Выберите город</label>
+                    <label class="vi__label --fcolor">{{ $t('index.selectCity') }}</label>
                     <div class="select">
-                        <select class="--bcolor">
-                            <option>Усть-Каменогорск</option>
-                            <option>Петропавловск</option>
-                            <option>Семей</option>
-                            <option>Лисаковск</option>
+                        <select class="--bcolor" :value="selectedCity.id" @change="selectCity($event.target.value)">
+                            <option v-for="city in cities" :key="city.id" :value="city.id">{{ city.name }}</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <h3 class="vi__title --fcolor">Поиск по сайту</h3>
+            <h3 class="vi__title --fcolor">{{ $t('index.search') }}</h3>
             <div class="vi__line">
                 <div class="col --padding">
-                    <label class="vi__label --fcolor">Для поиска объекта введите тип объекта, название или улицу и нажмите «Поиск»</label>
+                    <label class="vi__label --fcolor">{{ $t('index.searchLabel') }}</label>
                     <div class="input --bcolor">
-                        <input type="text">
+                        <input type="text" v-model="searchQuery">
                     </div>
                 </div>
                 <div class="col --padding --search">
-                    <button type="button" class="vi-search-button --bcolor">Поиск</button>
+                    <button type="button" class="vi-search-button --bcolor">{{ $t('index.searchSubmitButton') }}
+                    </button>
                 </div>
             </div>
             <div class="vi__input-b">
-                <label class="vi__label">Выберите доступность объекта</label>
+                <label class="vi__label">{{ $t('index.selectAccessibility') }}</label>
                 <div class="vi__input-wrapper">
                     <input id="r1" type="checkbox" class="vi__input"><label for="r1">Доступно</label>
 
@@ -50,23 +49,22 @@
             </div>
             <div class="vi__line">
                 <div class="col">
-                    <label class="vi__label --fcolor">Категория объекта</label>
+                    <label class="vi__label --fcolor">{{ $t('index.selectCategory') }}</label>
                     <div class="select">
-                        <select class="--bcolor">
-                            <option>Питание</option>
-                            <option>Правильное питание</option>
-                            <option>Здравоохранение</option>
+                        <select class="--bcolor" @change="selectedCategoryId = $event.target.value">
+                            <option v-for="category in objectCategories" :key="category.id" :value="category.id">
+                                {{ category.title }}
+                            </option>
                         </select>
                     </div>
                 </div>
                 <div class="col">
-                    <label class="vi__label --fcolor">подкатегория объекта</label>
+                    <label class="vi__label --fcolor">{{ $t('index.selectSubCategory') }}</label>
                     <div class="select">
                         <select class="--bcolor">
-                            <option>Усть-Каменогорск</option>
-                            <option>Петропавловск</option>
-                            <option>Семей</option>
-                            <option>Лисаковск</option>
+                            <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
+                                {{ subCategory.title }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -125,71 +123,76 @@
                 </li>
             </ul>
             <div class="vi__complaint">
-                <button type="button" class="vi__button">Добавить объект</button>
-                <button type="button" class="vi__button">Подать жалобу</button>
+                <button @click="$router.push(localePath({name: 'objects-add'}))" type="button" class="vi__button">
+                    {{ $t('index.addObjectLink') }}
+                </button>
+                <button @click="$router.push(localePath({name: 'complaint'}))" type="button" class="vi__button">
+                    {{ $t('index.makeComplaintLink') }}
+                </button>
             </div>
-           <ViFooter></ViFooter>
+            <ViFooter></ViFooter>
         </div>
     </div>
 </template>
 
 <script>
-    import ViHeader from "./../components/ViHeader";
-    import ViFooter from "./../components/ViFooter";
-    import {eventBus} from "./../store/bus";
-    import {get} from "vuex-pathify";
-    export default {
-        name: 'ViIndexPage',
-        data() {
-            return{
-                fontSize: 'lrg',
-                colorTheme: 'white',
-                fontFamily: 'Lato'
+import {get, call} from "vuex-pathify";
+import ViHeader from "~/components/ViHeader";
+import ViFooter from "~/components/ViFooter";
+
+export default {
+    name: 'ViIndexPage',
+    components: {
+        ViHeader,
+        ViFooter
+    },
+    data() {
+        return {
+            selectedCategoryId: null,
+            searchQuery: ''
+        }
+    },
+    fetch() {
+      if(!this.selectedDisabilitiesCategory) {
+          this.selectDisabilitiesCategory('justView')
+      }
+    },
+    methods: {
+        selectCity: call('settings/select'),
+        selectDisabilitiesCategory: call('disabilitiesCategorySettings/selectCategory'),
+    },
+    computed: {
+        disabilitiesCategorySettings: get('disabilitiesCategorySettings/categories'),
+        selectedDisabilitiesCategory: get('disabilitiesCategorySettings/currentCategory'),
+        cities: get('cities/list'),
+        objectCategories: get('objectCategories/categories'),
+        selectedCity: get('cities/selectedCity'),
+        visualImpairedModeSettings: get('visualImpairedModeSettings'),
+        viSettingsClasses() {
+            return {
+                '--noto': this.visualImpairedModeSettings.fontFamily === 'Noto',
+                '--black': this.visualImpairedModeSettings.colorTheme === 'black',
+                '--sm': this.visualImpairedModeSettings.fontSize === 'sm',
+                '--md': this.visualImpairedModeSettings.fontSize === 'md',
+                '--lrg': this.visualImpairedModeSettings.fontSize === 'lrg'
             }
         },
-        created() {
-            eventBus.$on('setFontSize', this.setFontSize);
-            eventBus.$on('setColorTheme', this.setColorTheme);
-            eventBus.$on('setFontFamily', this.setFontFamily);
-        },
-        components: {
-            ViHeader,
-            ViFooter
-        },
-        computed: {
-            visualImpairedModeSettings: get('visualImpairedModeSettings'),
-            viSettingsClasses() {
-                return {
-                    '--noto': this.visualImpairedModeSettings.fontFamily === 'Noto',
-                    '--black': this.visualImpairedModeSettings.colorTheme === 'black',
-                    '--sm': this.visualImpairedModeSettings.fontSize === 'sm',
-                    '--md': this.visualImpairedModeSettings.fontSize === 'md',
-                    '--lrg':this.visualImpairedModeSettings.fontSize === 'lrg'
-                }
+        subCategories() {
+            const category = this.objectCategories.find(category => category.id == this.selectedCategoryId)
+            if (!category) {
+                return []
             }
-        },
-        methods: {
-            setFontSize(fsize) {
-                console.log(fsize);
-                this.fontSize = '' + fsize + '';
-            },
-            setColorTheme(ctheme) {
-                console.log(ctheme);
-                this.colorTheme = '' + ctheme + '';
-            },
-            setFontFamily(ff) {
-                console.log(ff);
-                this.fontFamily = '' + ff + '';
-            }
+            return category.subCategories
         }
     }
+}
 </script>
 
 <style lang="scss">
 
-    .vi {
-        font-family: 'Lato', sans-serif;
-        background: #ffffff;
-    }
+.vi {
+    font-family: 'Lato', sans-serif;
+    background: #ffffff;
+}
 
 </style>
