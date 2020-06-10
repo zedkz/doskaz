@@ -76,6 +76,10 @@ class SmallFormZones extends Zones
 
     public function overallScore(): AccessibilityScore
     {
+        if($this->entrance1->accessibilityScore()->equalsTo(AccessibilityScore::notAccessible()) || $this->serviceAccessibility->accessibilityScore()->equalsTo(AccessibilityScore::notAccessible())) {
+            return AccessibilityScore::notAccessible();
+        }
+
         return AccessibilityScore::average(
             $this->parking->accessibilityScore(),
             $this->entrance1->accessibilityScore(),

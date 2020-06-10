@@ -3,7 +3,7 @@
         <div class="vi-container">
             <ViHeader/>
             <div class="vi-object" v-if="objectInfoShow === false">
-                <a href="#" class="vi-object__top-link">{{ $t('objects.viBreadcrumbsTitle', {category: object.category, subCategory: object.subCategory}) }}</a>
+                <nuxt-link :to="localePath({name: 'index', query: {subCategoryId: object.subCategoryId, categoryId: object.categoryId}})" class="vi-object__top-link">{{ $t('objects.viBreadcrumbsTitle', {category: object.category, subCategory: object.subCategory}) }}</nuxt-link>
                 <h2 class="vi-object__title">{{ object.title }}</h2>
                 <div class="vi-object__edit">
                     <span class="vi-object__address">{{ object.address }}</span>

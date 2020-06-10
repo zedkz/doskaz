@@ -18,7 +18,6 @@ export const mutations = {
     ...make.mutations(state),
 }
 
-
 export const actions = {
     toggleCategory({state, commit}, category) {
         if (!state.selectedCategories.includes(category)) {
@@ -35,7 +34,7 @@ export const actions = {
         }
     },
     async search({commit}, {cityId, query}) {
-        const {data} = await this.$axios.get('/api/objects/search', {
+        const data = await this.$axios.$get('/api/objects/search', {
             params: {
                 cityId,
                 query

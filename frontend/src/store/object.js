@@ -15,7 +15,7 @@ export const getters = {
         type: 'text/html',
         href: video.url
     })),
-    attributes: ({item: {attributes}}, getters, rootState, rootGetters) => {
+    attributes: ({item: {attributes}}, getters, rootState) => {
         const attributesDescription = rootState.objectAdding.attributesList[attributes.form]
         return objectZonesDetailed.filter(zone => attributes.zones[zone.key]).map(zone => {
             return {

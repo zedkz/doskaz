@@ -22,7 +22,7 @@ export const actions = {
 
     },
     select({commit, dispatch}, cityId) {
-        commit('SET_CITY_ID', cityId)
+        commit('SET_CITY_ID', Number(cityId))
         dispatch('saveSettings')
     },
     selectUserCategory({commit, dispatch}, userCategory) {

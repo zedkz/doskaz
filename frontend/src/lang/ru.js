@@ -226,5 +226,60 @@ export default {
         fontFamilySerif: 'С засечками',
         normalModeSwitchTitle: 'Обычная версия сайта',
         siteLanguage: 'Язык сайта'
+    },
+    complaint: {
+        personalInfoTitle: 'Персональная информация',
+        lastName: 'Фамилия',
+        firstName: 'Имя',
+        middleName: 'Отчество',
+        iin: 'ИИН',
+        street: 'Улица',
+        building: 'Дом',
+        apartment: 'Квартира',
+        phone: 'Телефон',
+        authority: 'Наименование органа обращения',
+        rememberPersonalData: 'Запомнить мои данные',
+        complaintBlockTitle: 'Жалоба',
+        type: 'Вид жалобы',
+        visitDate: 'Дата посещения объекта',
+        city: 'Город',
+        objectName: 'Название объекта',
+        objectBuilding: 'Номер дома',
+        office: 'Офис (если есть)',
+        visitPurpose: 'Цель посещения объекта',
+        attributes: 'Выберите из списка, что именно вас не устроило на объекте',
+        attributesOther: 'Другое',
+        commentPlaceholder: 'Текст сообщения',
+        hasThreatToLife: 'Данными условиями создана угроза причинения вреда моей жизни и здоровью (отметить, если это так)',
+        videoLink: 'Ссылка на видео',
+        videoLinkLabel: '(не обязательно)',
+        addMoreVideos: 'Добавить еще видео',
+        uploadPhoto: 'Загрузить фото',
+        addMorePhotos: 'Добавить еще фото',
+        submit: 'Отправить',
+        validation: {
+            emptyField: 'Поле не может быть пустым',
+            iin: 'Поле должно содержать 12 символов',
+            fillAllRequiredFields: 'Заполните, пожалуйста, все обязательные поля'
+        }
+    },
+    index: {
+        makeComplaintLink: 'Подать жалобу',
+        addObjectLink: 'Добавить объект',
+        selectCity: 'Выберите город',
+        selectDisabilitiesCategory: 'Категория пользователя',
+        search: 'Поиск по сайту',
+        searchLabel: 'Для поиска объекта введите тип объекта, название или улицу и нажмите «Поиск»',
+        searchSubmitButton: 'Поиск',
+        selectAccessibility: 'Выберите доступность объекта',
+        selectCategory: 'Категория объекта',
+        selectSubCategory: 'подкатегория объекта',
+        emptyCategoryOption: 'Выберите категорию',
+        emptySubCategoryOption: 'Выберите подкатегорию',
+        accessibilityFilter: {
+            full_accessible: 'Доступно',
+            partial_accessible: 'Частично доступно',
+            not_accessible: 'Недоступно'
+        }
     }
 }

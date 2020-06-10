@@ -1,33 +1,30 @@
 <template>
     <div>
-        <sidebar :posts="posts" :events="events"/>
-        <post-submit-message/>
-        <post-addition-message/>
+        <normal-index-page v-if="!viModeEnabled"/>
+        <vi-index-page v-if="viModeEnabled"/>
     </div>
 </template>
 
 <script>
-    import Sidebar from "~/components/Sidebar.vue";
-    import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
-    import PostAdditionMessage from "~/components/object_add/PostAdditionMessage";
-    export default {
-        layout: 'main',
-        components: {
-            PostAdditionMessage,
-            PostSubmitMessage,
-            Sidebar
-        },
-        async asyncData({$axios}) {
-            const [{items: posts}, events] = await Promise.all([
-                $axios.$get('/api/blog/posts'),
-                $axios.$get('/api/events')
-            ])
-            return {posts, events}
-        },
-        async fetch({store}) {
-            return store.dispatch('objectCategories/getCategories')
-        }
+import {get} from 'vuex-pathify'
+import NormalIndexPage from "~/components/NormalIndexPage";
+import ViIndexPage from "~/components/ViIndexPage";
+
+export default {
+    layout({store}) {
+        return store.get('visualImpairedModeSettings/enabled') ? 'default' : 'main'
+    },
+    components: {
+        ViIndexPage,
+        NormalIndexPage
+    },
+    async fetch({store}) {
+        return store.dispatch('objectCategories/getCategories')
+    },
+    computed: {
+        viModeEnabled: get('visualImpairedModeSettings/enabled'),
     }
+}
 </script>
 
 <style scoped>

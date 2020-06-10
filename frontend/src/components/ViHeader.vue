@@ -37,9 +37,16 @@
                 <img :src="require('~/assets/logo-white.svg')" alt="" v-if="visualImpairedModeSettings.colorTheme === 'black'" />
             </nuxt-link>
             <div class="vi__auth-b">
-                <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderLoginTitle') }}</nuxt-link>
-                <span class="vi__auth-or">{{ $t('login.viHeaderLoginOr') }}</span>
-                <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderRegister') }}</nuxt-link>
+                <template v-if="!user">
+                    <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderLoginTitle') }}</nuxt-link>
+                    <span class="vi__auth-or">{{ $t('login.viHeaderLoginOr') }}</span>
+                    <nuxt-link :to="localePath({name: 'login'})" class="vi__auth-link">{{ $t('login.viHeaderRegister') }}</nuxt-link>
+                </template>
+                <template v-else>
+                    <nuxt-link :to="localePath({name: 'profile'})" class="vi__auth-link">
+                        <username :value="name"/>
+                    </nuxt-link>
+                </template>
                 <span class="vi__auth-text"><b>{{ $t('visualImpairedSettings.siteLanguage') }}</b></span>
                 <div class="select">
                     <select :value="$i18n.locale" @change="$router.push(switchLocalePath($event.target.value))">
@@ -55,8 +62,10 @@
 
 <script>
     import {call, get} from 'vuex-pathify'
+    import Username from "~/components/Username";
 
     export default {
+        components: {Username},
         methods: {
             disableVisualImpairedMode: call('visualImpairedModeSettings/disable'),
             ...call('visualImpairedModeSettings', [
@@ -66,6 +75,8 @@
             ])
         },
         computed: {
+            name: get('authentication/name'),
+            user: get('authentication/user'),
             visualImpairedModeSettings: get('visualImpairedModeSettings'),
         }
     }

@@ -11,7 +11,7 @@ export const state = () => ({
 export const mutations = make.mutations(state);
 
 export const actions = {
-    async init({commit, dispatch}) {
+    async init({commit}) {
         const settings = defaults(this.app.$cookies.get('vi.settings') || {}, {
             enabled: false,
             fontFamily: 'Lato',

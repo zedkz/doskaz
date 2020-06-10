@@ -329,6 +329,8 @@ final class ObjectsApiController extends AbstractController
                 'objects.overall_score_hearing',
                 'objects.overall_score_intellectual',
                 'objects.zones',
+                'objects.category_id as sub_category_id',
+                'object_categories.id as category_id',
                 'ST_X(ST_AsText(objects.point_value)) as long',
                 'ST_Y(ST_AsText(objects.point_value)) as lat',
                 'sub_categories.title as sub_category',
@@ -435,6 +437,8 @@ final class ObjectsApiController extends AbstractController
             'address' => $object['address'],
             'description' => strip_tags($object['description']),
             'subCategory' => $object['sub_category'],
+            'categoryId' => $object['category_id'],
+            'subCategoryId' => $object['sub_category_id'],
             'category' => $object['category'],
             'coordinates' => [
                 (float)$object['lat'], (float)$object['long']
@@ -565,7 +569,7 @@ final class ObjectsApiController extends AbstractController
                 'objects.title',
                 'objects.address',
                 'object_categories.title as category',
-                'object_categories.icon'
+                'object_categories.icon',
             ])
             ->from('objects')
             ->join('objects', 'object_categories', 'object_categories', 'object_categories.id = objects.category_id')
@@ -576,6 +580,77 @@ final class ObjectsApiController extends AbstractController
             ->setParameter('id', $cityId)
             ->setMaxResults(10)
             ->orderBy('SIMILARITY(concat(objects.title, \' \', objects.address, \' \', object_categories.title), :search)', 'desc')
+            ->execute()
+            ->fetchAll();
+    }
+
+    /**
+     * @Route(path="/filter", methods={"GET"})
+     * @param Request $request
+     * @param Connection $connection
+     * @return array|mixed[]
+     * @Get(
+     *     path="/api/objects/filter",
+     *     summary="Поиск объектов",
+     *     tags={"Объекты"},
+     *     @Parameter(name="cityId", in="query", required=true, description="id города", @Schema(type="integer"), example=9103),
+     *     @Parameter(name="query", in="query", required=true, description="Текст поиска", @Schema(type="string")),
+     *     @Response(
+     *         response=200,
+     *         description="",
+     *         @JsonContent(
+     *              type="array",
+     *              @Items(
+     *                  @Property(type="integer", property="id", description="Id объекта"),
+     *                  @Property(type="string", property="title", description="Наименование объекта"),
+     *                  @Property(type="string", property="address", description="Адрес объекта"),
+     *                  @Property(type="string", property="category", description="Категория объекта"),
+     *                  @Property(type="string", property="icon", description="Иконка объекта"),
+     *              )
+     *         )
+     *     )
+     * )
+     */
+    public function filter(Request $request, Connection $connection)
+    {
+        $accessibilityLevels = $request->query->get('accessibilityLevels', []);
+        $disabilitiesCategory = $request->query->get('disabilitiesCategory', AccessibilityScore::SCORE_CATEGORIES[0]);
+        Assert::oneOf($disabilitiesCategory, AccessibilityScore::SCORE_CATEGORIES);
+        $subcategoryId = $request->query->get('subCategoryId');
+
+        $cityId = $request->query->get('cityId');
+        $cityGeometry = 'SELECT geometry FROM cities_geometry WHERE ST_CONTAINS(geometry, (SELECT ST_CENTROID(cities.bbox) FROM cities WHERE id = :id))';
+        $qb = $connection->createQueryBuilder()
+            ->select([
+                'objects.id',
+                'objects.title',
+                'objects.address',
+                'object_categories.title as category',
+                "overall_score_$disabilitiesCategory as score",
+            ])
+            ->from('objects')
+            ->join('objects', 'object_categories', 'object_categories', 'object_categories.id = objects.category_id')
+            ->andWhere("ST_CONTAINS(($cityGeometry), objects.point_value::geometry)")
+            ->setParameter('id', $cityId)
+            ->setMaxResults(10)
+            ->andWhere('deleted_at IS NULL');
+        if (count($accessibilityLevels)) {
+            $qb->andWhere("overall_score_$disabilitiesCategory IN (:levels)")
+                ->setParameter('levels', $accessibilityLevels, Connection::PARAM_STR_ARRAY);
+        }
+
+        if (!empty($subcategoryId)) {
+            $qb->andWhere('objects.category_id = :subCategoryId')
+                ->setParameter('subCategoryId', $subcategoryId);
+        }
+
+        if (!empty($request->query->get('query'))) {
+            $qb->andWhere('SIMILARITY(CONCAT(objects.title, \' \', objects.address, \' \', object_categories.title), :search) > 0')
+                ->orderBy('SIMILARITY(concat(objects.title, \' \', objects.address, \' \', object_categories.title), :search)', 'desc')
+                ->setParameter('search', $request->query->get('query', ''));
+        }
+
+        return $qb
             ->execute()
             ->fetchAll();
     }
