@@ -28,6 +28,10 @@ class Movement extends Zone
             return AccessibilityScore::notProvided();
         }
 
+        if($this->isMatches([1], Attribute::yes()) && $this->isMatchesAllExcept([1], Attribute::notProvided())) {
+            return AccessibilityScore::fullAccessible();
+        }
+
         $builder = AccessibilityScoreBuilder::initPartialAccessible();
 
         if ($this->isMatches([1000, 1001], Attribute::no()) || ($this->isMatchesPartial([1, 6, 7, 1000, 1001], Attribute::yes()) && !$this->isMatchesAll(Attribute::no()) && !$this->isMatchesAll(Attribute::unknown()))) {

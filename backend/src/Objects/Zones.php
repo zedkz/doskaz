@@ -22,6 +22,16 @@ abstract class Zones
 {
     public function overallScore(): AccessibilityScore
     {
+        $entrance = AccessibilityScore::average(
+            $this->entrance1->accessibilityScore(),
+            $this->entrance2 ? $this->entrance2->accessibilityScore() : null,
+            $this->entrance3 ? $this->entrance3->accessibilityScore() : null,
+        );
+
+        if($entrance->equalsTo(AccessibilityScore::notAccessible()) || $this->serviceAccessibility->accessibilityScore()->equalsTo(AccessibilityScore::notAccessible())) {
+            return AccessibilityScore::notAccessible();
+        }
+
         return AccessibilityScore::average(
             $this->parking->accessibilityScore(),
             $this->entrance1->accessibilityScore(),
