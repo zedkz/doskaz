@@ -274,6 +274,8 @@ export default {
         selectAccessibility: 'Выберите доступность объекта',
         selectCategory: 'Категория объекта',
         selectSubCategory: 'подкатегория объекта',
+        emptyCategoryOption: 'Выберите категорию',
+        emptySubCategoryOption: 'Выберите подкатегорию',
         accessibilityFilter: {
             full_accessible: 'Доступно',
             partial_accessible: 'Частично доступно',

@@ -33,7 +33,8 @@
                     </div>
                 </div>
                 <div class="col --padding --search">
-                    <button type="button" class="vi-search-button --bcolor">{{ $t('index.searchSubmitButton') }}
+                    <button type="button" class="vi-search-button --bcolor" @click="search">
+                        {{ $t('index.searchSubmitButton') }}
                     </button>
                 </div>
             </div>
@@ -54,8 +55,9 @@
                 <div class="col">
                     <label class="vi__label --fcolor">{{ $t('index.selectCategory') }}</label>
                     <div class="select">
-                        <select class="--bcolor" @change="selectedCategoryId = $event.target.value">
-                            <option :value="null">Выберите категорию</option>
+                        <select class="--bcolor" :value="selectedCategoryId"
+                                @change="selectedCategoryId = $event.target.value; selectedSubCategoryId = null">
+                            <option :value="null">{{ $t('index.emptyCategoryOption') }}</option>
                             <option v-for="category in objectCategories" :key="category.id" :value="category.id">
                                 {{ category.title }}
                             </option>
@@ -66,7 +68,7 @@
                     <label class="vi__label --fcolor">{{ $t('index.selectSubCategory') }}</label>
                     <div class="select">
                         <select class="--bcolor" v-model="selectedSubCategoryId">
-                            <option :value="null">Выберите подкатегорию</option>
+                            <option :value="null">{{ $t('index.emptySubCategoryOption') }}</option>
                             <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
                                 {{ subCategory.title }}
                             </option>
@@ -76,54 +78,18 @@
             </div>
 
             <ul class="vi-search__list">
-                <li class="vi-search__item">
-                    <h3 class="vi-search__title">Lavash Fast Food</h3>
+                <li class="vi-search__item" v-for="item in results" :key="item.id">
+                    <h3 class="vi-search__title">
+                        <nuxt-link :to="localePath({name: 'objects-id', params: {id: item.id}})">{{ item.title }}
+                        </nuxt-link>
+                    </h3>
                     <div class="vi-search__around">
                         <div>
-                            <span class="vi-search__text">Суши-бар</span>
-                            <span class="vi-search__text">Динмухамеда Кунаева, 14Б</span>
+                            <span class="vi-search__text">{{ item.category }}</span>
+                            <span class="vi-search__text">{{ item.address }}</span>
                         </div>
-                        <span class="vi-search__text">Частично доступно</span>
-                    </div>
-                </li>
-                <li class="vi-search__item">
-                    <h3 class="vi-search__title">Алые паруса</h3>
-                    <div class="vi-search__around">
-                        <div>
-                            <span class="vi-search__text">Суши-бар</span>
-                            <span class="vi-search__text">Хан Шатыр, Тұран проспект, 37</span>
-                        </div>
-                        <span class="vi-search__text">Доступно</span>
-                    </div>
-                </li>
-                <li class="vi-search__item">
-                    <h3 class="vi-search__title">Saya Sushi</h3>
-                    <div class="vi-search__around">
-                        <div>
-                            <span class="vi-search__text">Суши-бар</span>
-                            <span class="vi-search__text">​Бауыржан Момышұлы проспект, 23</span>
-                        </div>
-                        <span class="vi-search__text">Частично доступно</span>
-                    </div>
-                </li>
-                <li class="vi-search__item">
-                    <h3 class="vi-search__title">Алые паруса</h3>
-                    <div class="vi-search__around">
-                        <div>
-                            <span class="vi-search__text">Суши-бар</span>
-                            <span class="vi-search__text">Хан Шатыр, Тұран проспект, 37</span>
-                        </div>
-                        <span class="vi-search__text">Доступно</span>
-                    </div>
-                </li>
-                <li class="vi-search__item">
-                    <h3 class="vi-search__title">Saya Sushi</h3>
-                    <div class="vi-search__around">
-                        <div>
-                            <span class="vi-search__text">Суши-бар</span>
-                            <span class="vi-search__text">​Бауыржан Момышұлы проспект, 23</span>
-                        </div>
-                        <span class="vi-search__text">Частично доступно</span>
+                        <span class="vi-search__text">{{ $t(`accessibilityScore.status.${item.score}`) | capitalize
+                            }}</span>
                     </div>
                 </li>
             </ul>
@@ -144,6 +110,7 @@
 import {get, call} from "vuex-pathify";
 import ViHeader from "~/components/ViHeader";
 import ViFooter from "~/components/ViFooter";
+import capitalize from 'lodash/capitalize'
 
 export default {
     name: 'ViIndexPage',
@@ -154,27 +121,42 @@ export default {
     data() {
         return {
             selectedCategoryId: null,
-            searchQuery: '',
             selectedSubCategoryId: null,
+            searchQuery: '',
             accessibilityLevels: {
                 full_accessible: true,
                 partial_accessible: true,
                 not_accessible: true
-            }
+            },
+            results: []
         }
     },
-    fetch() {
+    async fetch() {
         if (!this.selectedDisabilitiesCategory) {
             this.selectDisabilitiesCategory('justView')
         }
+        this.selectedCategoryId = this.$route.query.categoryId || null
+        this.selectedSubCategoryId = this.$route.query.subCategoryId || null
+        await this.search()
     },
     methods: {
         selectCity: call('settings/select'),
-        selectDisabilitiesCategory: call('disabilitiesCategorySettings/selectCategory')
+        selectDisabilitiesCategory: call('disabilitiesCategorySettings/selectCategory'),
+        async search() {
+            this.results = await this.$axios.$get('/api/objects/filter', {
+                params: {
+                    query: this.searchQuery,
+                    cityId: this.selectedCity.id,
+                    disabilitiesCategory: this.selectedDisabilitiesCategory.category,
+                    accessibilityLevels: Object.keys(this.accessibilityLevels).filter(key => this.accessibilityLevels[key] === true),
+                    subCategoryId: this.selectedSubCategoryId
+                }
+            })
+        }
     },
-    watch: {
-        selectedCategoryId(val) {
-            this.selectedSubCategoryId = null;
+    filters: {
+        capitalize(val) {
+            return capitalize(val)
         }
     },
     computed: {
