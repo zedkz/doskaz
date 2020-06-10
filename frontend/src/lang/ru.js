@@ -273,6 +273,11 @@ export default {
         searchSubmitButton: 'Поиск',
         selectAccessibility: 'Выберите доступность объекта',
         selectCategory: 'Категория объекта',
-        selectSubCategory: 'подкатегория объекта'
+        selectSubCategory: 'подкатегория объекта',
+        accessibilityFilter: {
+            full_accessible: 'Доступно',
+            partial_accessible: 'Частично доступно',
+            not_accessible: 'Недоступно'
+        }
     }
 }

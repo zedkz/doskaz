@@ -40,11 +40,14 @@
             <div class="vi__input-b">
                 <label class="vi__label">{{ $t('index.selectAccessibility') }}</label>
                 <div class="vi__input-wrapper">
-                    <input id="r1" type="checkbox" class="vi__input"><label for="r1">Доступно</label>
-
-                    <input id="r2" type="checkbox" class="vi__input"><label for="r2">Частично доступно</label>
-
-                    <input id="r3" type="checkbox" class="vi__input"><label for="r3">Недоступно</label>
+                    <input id="r1" type="checkbox" class="vi__input"
+                           v-model="accessibilityLevels.full_accessible"><label
+                        for="r1">{{ $t('index.accessibilityFilter.full_accessible') }}</label>
+                    <input id="r2" type="checkbox" class="vi__input"
+                           v-model="accessibilityLevels.partial_accessible"><label
+                        for="r2">{{ $t('index.accessibilityFilter.partial_accessible') }}</label>
+                    <input id="r3" type="checkbox" class="vi__input" v-model="accessibilityLevels.not_accessible"><label
+                        for="r3">{{ $t('index.accessibilityFilter.not_accessible') }}</label>
                 </div>
             </div>
             <div class="vi__line">
@@ -52,6 +55,7 @@
                     <label class="vi__label --fcolor">{{ $t('index.selectCategory') }}</label>
                     <div class="select">
                         <select class="--bcolor" @change="selectedCategoryId = $event.target.value">
+                            <option :value="null">Выберите категорию</option>
                             <option v-for="category in objectCategories" :key="category.id" :value="category.id">
                                 {{ category.title }}
                             </option>
@@ -61,7 +65,8 @@
                 <div class="col">
                     <label class="vi__label --fcolor">{{ $t('index.selectSubCategory') }}</label>
                     <div class="select">
-                        <select class="--bcolor">
+                        <select class="--bcolor" v-model="selectedSubCategoryId">
+                            <option :value="null">Выберите подкатегорию</option>
                             <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
                                 {{ subCategory.title }}
                             </option>
@@ -149,17 +154,28 @@ export default {
     data() {
         return {
             selectedCategoryId: null,
-            searchQuery: ''
+            searchQuery: '',
+            selectedSubCategoryId: null,
+            accessibilityLevels: {
+                full_accessible: true,
+                partial_accessible: true,
+                not_accessible: true
+            }
         }
     },
     fetch() {
-      if(!this.selectedDisabilitiesCategory) {
-          this.selectDisabilitiesCategory('justView')
-      }
+        if (!this.selectedDisabilitiesCategory) {
+            this.selectDisabilitiesCategory('justView')
+        }
     },
     methods: {
         selectCity: call('settings/select'),
-        selectDisabilitiesCategory: call('disabilitiesCategorySettings/selectCategory'),
+        selectDisabilitiesCategory: call('disabilitiesCategorySettings/selectCategory')
+    },
+    watch: {
+        selectedCategoryId(val) {
+            this.selectedSubCategoryId = null;
+        }
     },
     computed: {
         disabilitiesCategorySettings: get('disabilitiesCategorySettings/categories'),

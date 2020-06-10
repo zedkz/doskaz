@@ -24,11 +24,11 @@
 </template>
 
 <script>
-    import MainFilter from "./../components/MainFilter.vue";
-    import Timeline from "./../components/Timeline.vue";
+    import MainFilter from "~/components/MainFilter.vue";
+    import Timeline from "~/components/Timeline.vue";
 
     export default {
-        name: 'sidebar',
+        name: 'Sidebar',
         props: [
             'posts',
             'events'
