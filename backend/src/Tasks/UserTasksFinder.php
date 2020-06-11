@@ -38,7 +38,7 @@ class UserTasksFinder
 
         if ($currentTask) {
             $query  = $query. "
-                union all select null as completed_at, :currentTaskTitle as type, :currentTaskPoints as points, CURRENT_TIMESTAMP as created_at, 1 as priority
+                union all select null as completed_at, :currentTaskTitle as type, :currentTaskPoints as points, CURRENT_TIMESTAMP(0) as created_at, 1 as priority
             ";
         }
 
