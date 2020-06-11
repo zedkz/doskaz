@@ -59,14 +59,20 @@ class UserTasksFinder
             $qb->setParameter('currentTaskPoints', $currentTask->pointsReward);
         }
 
+        $tasks = $qb->orderBy('"' . $field . '"', $sort)
+        ->setMaxResults($perPage)
+        ->addOrderBy('priority', 'desc')
+        ->setFirstResult(($page - 1) * $perPage)
+        ->execute()
+        ->fetchAll()
+
         return [
             'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
-            'items' => $qb->orderBy('"' . $field . '"', $sort)
-                ->setMaxResults($perPage)
-                ->addOrderBy('priority', 'desc')
-                ->setFirstResult(($page - 1) * $perPage)
-                ->execute()
-                ->fetchAll()
+            'items' => array_map(function($task) use ($connection) {
+                return array_replace($task, [
+                    'createdAt' => $connection->convertToPHPValue($task['createdAt'], 'datetimetz_immutable');
+                ]);
+            }, $tasks)
         ];
     }
 }
