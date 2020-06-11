@@ -59,7 +59,7 @@ class UserTasksFinder
             $qb->setParameter('currentTaskPoints', $currentTask->pointsReward);
         }
 
-        $tasks = $qb->orderBy('"' . $field . '"', $sort)
+        $tasks = (clone $qb)->orderBy('"' . $field . '"', $sort)
         ->setMaxResults($perPage)
         ->addOrderBy('priority', 'desc')
         ->setFirstResult(($page - 1) * $perPage)
