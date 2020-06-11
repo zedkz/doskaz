@@ -68,9 +68,9 @@ class UserTasksFinder
 
         return [
             'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
-            'items' => array_map(function($task) use ($connection) {
+            'items' => array_map(function($task) {
                 return array_replace($task, [
-                    'createdAt' => $connection->convertToPHPValue($task['createdAt'], 'datetimetz_immutable')
+                    'createdAt' => $this->connection->convertToPHPValue($task['createdAt'], 'datetimetz_immutable')
                 ]);
             }, $tasks)
         ];
