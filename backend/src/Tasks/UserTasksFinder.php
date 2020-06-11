@@ -64,7 +64,7 @@ class UserTasksFinder
         ->addOrderBy('priority', 'desc')
         ->setFirstResult(($page - 1) * $perPage)
         ->execute()
-        ->fetchAll()
+        ->fetchAll();
 
         return [
             'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
