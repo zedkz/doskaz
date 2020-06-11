@@ -46,10 +46,21 @@ export default {
         commentInputPlaceholder: 'Напишите комментарий'
     },
     profile: {
+        updateAvatar: 'Обновить фотографию',
+        deleteAvatar: 'Удалить',
+        namePlaceholder: 'Ваше имя',
+        statusPlaceholder: 'Всем привет! Я с вами :)',
+        emailPlaceholder: 'Ваша эл. почта',
+        phonePlaceholder: 'Ваш телефон',
+        editLink: 'Редактировать анкету',
+        avatarChangeHint: 'Выберите себе аватар. Учтите, что сменить его вы сможете только на {level} уровне :)',
+        avatarChangePopupTitle: 'Обновление фотографии',
         tasks: {
+            tabTitle: 'Мои задания',
             pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов'
         },
         achievements: {
+            tabTitle: 'Достижения',
             title: 'Достижения',
             events: 'Лента событий',
             event: {
@@ -65,6 +76,20 @@ export default {
                 avatarUpload: 'Теперь вы можете загрузить аватар.'
             }
         },
+        objects: {
+            tabTitle: 'Мои объекты'
+        },
+        tickets: {
+            tabTitle: 'Мои тикеты'
+        },
+        comments: {
+            tabTitle: 'Мои комментарии',
+            sort: 'Сортировать по',
+            sortByDate: 'дате добавления',
+            sortByPopularity: 'популярности',
+            commentForPost: 'к посту',
+            commentForObject: 'к объекту'
+        }
     },
     objects: {
         tabTitles: {

@@ -3,11 +3,13 @@
 </template>
 
 <script>
-    import UserComments from "@/components/user/UserComments";
+    import UserComments from "~/components/user/UserComments";
 
     export default {
-        head: {
-            title: 'Мои комментарии'
+        head() {
+            return {
+                title: this.$t('profile.comments.tabTitle')
+            }
         },
         components: {
             UserComments

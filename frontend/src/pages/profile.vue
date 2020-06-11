@@ -1,7 +1,7 @@
 <template>
     <div class="user-page">
         <MainHeader />
-        <UserPageHeader />
+        <user-page-header />
         <div class="container">
             <div class="user-page__row">
                 <div class="user-page__profile">
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-    import MainHeader from "@/components/MainHeader";
-    import UserPageHeader from "@/components/user/UserPageHeader.vue"
-    import UserProfile from "@/components/user/UserProfile";
-    import UserLevel from "@/components/user/UserLevel";
-    import UserTask from "@/components/user/UserTask";
-    import UserObjects from "@/components/user/UserObjects";
+    import MainHeader from "~/components/MainHeader";
+    import UserPageHeader from "~/components/user/UserPageHeader.vue"
+    import UserProfile from "~/components/user/UserProfile";
+    import UserLevel from "~/components/user/UserLevel";
+    import UserTask from "~/components/user/UserTask";
+    import UserObjects from "~/components/user/UserObjects";
 
     export default {
         middleware: ['authenticated'],

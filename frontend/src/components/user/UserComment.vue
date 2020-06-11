@@ -24,7 +24,7 @@
         },
         computed: {
             objectType() {
-                return this.item.type === 'post' ? 'к посту' : 'к объекту'
+                return this.item.type === 'post' ? this.$t('profile.comments.forPost') : this.$t('profile.comments.forObject')
             },
             relativeDate() {
                 return capitalize(formatRelative( new Date(this.item.date), new Date(), {

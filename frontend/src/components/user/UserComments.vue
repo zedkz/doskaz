@@ -1,9 +1,9 @@
 <template>
     <div class="user-comments">
-        <h3 class="user-profile__mob-title">Мои комментарии</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.comments.tabTitle') }}</h3>
         <div class="user-objects__filter">
             <div class="filter">
-                <div class="filter__text">Сортировать по</div>
+                <div class="filter__text">{{ $t('profile.comments.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="options" v-model="filterValue"/>
                 </div>
@@ -46,8 +46,8 @@
         computed: {
             options() {
                 return [
-                    {value: 'date desc', title: 'дате добавления'},
-                    {value: 'popularity desc', title: 'популярности'}
+                    {value: 'date desc', title: this.$t('profile.comments.sortByDate')},
+                    {value: 'popularity desc', title: this.$t('profile.comments.sortByPopularity')}
                 ]
             },
             filterValue: {
@@ -55,7 +55,7 @@
                     return this.$route.query.sort || 'date desc'
                 },
                 set(v) {
-                    this.$router.push(this.localePath({...this.$route, query: {sort: v}}))
+                    this.$router.push({...this.$route, query: {sort: v}})
                 }
             }
         }

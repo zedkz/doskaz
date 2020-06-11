@@ -17,8 +17,8 @@
 </template>
 
 <script>
-    import MainHeader from "@/components/MainHeader";
-    import ComplaintContent from "@/components/complaint/ComplaintContent";
+    import MainHeader from "~/components/MainHeader";
+    import ComplaintContent from "~/components/complaint/ComplaintContent";
 
     export default {
         head() {

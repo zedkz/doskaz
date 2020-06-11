@@ -3,14 +3,14 @@
         <div class="user-profile__content" v-bind:class="{ '--verified': isVerified }">
 
             <div class="user-profile__favorites">
-                <img src="@/assets/img/user/award-gold.svg"/>
+                <img src="~/assets/img/user/award-gold.svg"/>
             </div>
 
             <div class="user-profile__icon"
                  v-bind:style="{'background-image': 'url(' + avatar + ')'}">
                 <div class="user-profile__icon-edit">
-                    <span class="user-profile__icon-link" v-on:click="popupAvatarDefault">Обновить фотографию</span>
-                    <span class="user-profile__icon-link" v-on:click="avatarDelete">Удалить</span>
+                    <span class="user-profile__icon-link" v-on:click="popupAvatarDefault">{{ $t('profile.updateAvatar') }}</span>
+                    <span class="user-profile__icon-link" v-on:click="avatarDelete">{{ $t('profile.deleteAvatar') }}</span>
                 </div>
             </div>
 
@@ -43,20 +43,20 @@
               </div>-->
             <div class="user-profile__mob-info">
                 <div class="user-profile__name">
-                    <username :value="name" placeholder="Ваше имя"/>
+                    <username :value="name" :placeholder="$t('profile.namePlaceholder')"/>
                 </div>
                 <div class="user-profile__title">
-                    <span>{{ profile.status || 'Всем привет! Я с вами :)' }}</span>
+                    <span>{{ profile.status || $t('profile.statusPlaceholder') }}</span>
                 </div>
                 <div class="user-profile__email">
-                    <span>{{ profile.email || 'Ваша эл. почта' }}</span>
+                    <span>{{ profile.email || $t('profile.emailPlaceholder') }}</span>
                 </div>
                 <div class="user-profile__phone">
-                    <span>{{ profile.phone || 'Ваш телефон' }}</span>
+                    <span>{{ profile.phone || $t('profile.phonePlaceholder') }}</span>
                 </div>
                 <div class="user-profile__edit" v-if="$route.name !== 'profile-edit'">
                     <nuxt-link :to="localePath({name: 'profile-edit'})">
-                        <span>Редактировать анкету</span>
+                        <span>{{ $t('profile.editLink') }}</span>
                     </nuxt-link>
                 </div>
             </div>
@@ -64,9 +64,7 @@
                 <div class="popup__scroll">
                     <div class="popup__in">
                         <span class="popup__close" v-on:click="popupAvatar = false"></span>
-                        <p class="popup__title">Выберите себе аватар. Учтите, что сменить его вы сможете только на 7
-                            уровне
-                            :)</p>
+                        <p class="popup__title">{{ $t('profile.avatarChangeHint', {level: 7}) }}</p>
                         <div class="user-profile__avatar-list">
                          <span v-for="(preset, index) in avatarPresets"
                                v-bind:style="{'background-image': 'url(' + preset + ')'}"
@@ -80,12 +78,12 @@
                 <div class="popup__scroll">
                     <div class="popup__in --lrg">
                         <span class="popup__close" v-on:click="popupAvatar = false"></span>
-                        <h3 class="popup__title">Обновление фотографии</h3>
+                        <h3 class="popup__title">{{ $t('profile.avatarChangePopupTitle') }}</h3>
                         <div class="user-profile__avatar-list">
                         <span class="user-profile__avatar">
                             <span class="user-profile__avatar-file">
                                 <input type="file" @change="uploadAvatar" accept="image/jpeg, image/png">
-                                <img :src="require('@/assets/icons/avatar-img.svg')"/>
+                                <img :src="require('~/assets/icons/avatar-img.svg')"/>
                             </span>
                         </span>
                             <span v-for="(preset, index) in avatarPresets"
