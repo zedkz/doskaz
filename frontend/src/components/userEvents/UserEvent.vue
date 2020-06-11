@@ -6,9 +6,7 @@
         <template v-if="event.type === 'object_reviewed'">
             <div class="list__icon"></div>
             <div class="list__text">
-                <a>
-                    <username :value="event.data.username"/>
-                </a> прокомментировал(а) ваш объект
+                <a><username :value="event.data.username"/></a> {{ $t('profile.achievements.event.objectReviewed') }}
                 <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>
             </div>
         </template>
@@ -17,7 +15,7 @@
             <div class="list__text">
                 <a>
                     <username :value="event.data.username"/>
-                </a> ответил(а) ваш комментарий к посту
+                </a> {{ $t('profile.achievements.event.blogCommentReplied') }}
                 <nuxt-link
                         :to="localePath({name: 'blog-cat-slug', params: {cat: event.data.categorySlug, slug: event.data.slug}})">
                     {{ event.data.title }}
@@ -28,24 +26,22 @@
             <div class="list__icon list__icon_level">
                 <span>{{ event.data.level }}</span>
             </div>
-            <div
-                    class="list__text"
-            >Поздравляем, вы достигли {{ event.data.level }} уровень! <template v-if="event.data.unlockedAbility">
-                {{ abilities[event.data.unlockedAbility] }}
-            </template>
+            <div class="list__text">
+                {{ $t('profile.achievements.event.levelReached', {level: event.data.level}) }}
+                <template v-if="event.data.unlockedAbility">{{ $t(`profile.achievements.ability.${event.data.unlockedAbility}`) }}</template>
                 <template v-if="event.data.pointsUntilNextLevel > 0">
-                    До {{ event.data.level + 1 }} уровня вам нужно набрать баллов: {{ event.data.pointsUntilNextLevel }}.
+                    {{ $t('profile.achievements.event.pointsUntilNextLevel', {nextLevel: event.data.level + 1, points: event.data.pointsUntilNextLevel}) }}
                 </template>
             </div>
         </template>
         <template v-if="event.type === 'award_issued'">
             <div class="list__icon list__icon_achievment"></div>
-            <div class="list__text">Вам выдана награда: "{{ event.data.title }}"</div>
+            <div class="list__text">{{ $t('profile.achievements.event.awardIssued', {award: event.data.title}) }}</div>
         </template>
         <template v-if="event.type === 'object_added'">
             <div class="list__icon"></div>
             <div class="list__text">
-                Вы добавлили объект
+                {{ $t('profile.achievements.event.objectAdded') }}
                 <nuxt-link :to="this.localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>, {{ event.data.categoryTitle }}
             </div>
         </template>
@@ -129,15 +125,7 @@
         components: {FormattedDate, Username},
         props: [
             'event'
-        ],
-        computed: {
-            abilities() {
-                return {
-                    status_change: 'Теперь вы можете сменить статус.',
-                    avatar_upload: 'Теперь вы можете загрузить аватар.'
-                }
-            }
-        }
+        ]
     }
 </script>
 

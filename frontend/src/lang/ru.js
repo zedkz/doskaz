@@ -48,7 +48,23 @@ export default {
     profile: {
         tasks: {
             pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов'
-        }
+        },
+        achievements: {
+            title: 'Достижения',
+            events: 'Лента событий',
+            event: {
+                objectReviewed: 'прокомментировал(а) ваш объект',
+                awardIssued: 'Вам выдана награда: "{award}"',
+                objectAdded: 'Вы добавлили объект',
+                blogCommentReplied: 'ответил(а) ваш комментарий к посту',
+                levelReached: 'Поздравляем, вы достигли {level} уровень!',
+                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}'
+            },
+            ability: {
+                status_change: 'Теперь вы можете сменить статус.',
+                avatarUpload: 'Теперь вы можете загрузить аватар.'
+            }
+        },
     },
     objects: {
         tabTitles: {
