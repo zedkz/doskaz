@@ -16,10 +16,10 @@
                     <formatted-date :date="objectDate" format="dd.MM.yyyy"/>
                 </div>
                 <div class="user-object__param">
-                    <span><span>комментариев</span> {{objectComments}}</span>
+                    <span><span>{{ $t('profile.objects.commentsCountLabel') }}</span> {{objectComments}}</span>
                 </div>
                 <div class="user-object__param">
-                    <span><span>жалоб</span> {{objectReports}}</span>
+                    <span><span>{{ $t('profile.objects.complaintsCountLabel') }}</span> {{objectReports}}</span>
                 </div>
             </div>
         </div>
@@ -45,19 +45,19 @@
             scores() {
                 return {
                     full_accessible: {
-                        title: 'Доступно',
+                        title: this.$t('accessibilityStatus.full_accessible'),
                         icon: require('~/assets/icons/green.svg')
                     },
                     partial_accessible: {
-                        title: 'Частично доступно',
+                        title: this.$t('accessibilityStatus.partial_accessible'),
                         icon: require('~/assets/icons/yellow.svg')
                     },
                     not_accessible: {
-                        title: 'Недоступно',
+                        title: this.$t('accessibilityStatus.not_accessible'),
                         icon: require('~/assets/icons/red.svg')
                     },
                     not_provided: {
-                        title: 'Не предусмотрено',
+                        title: this.$t('accessibilityStatus.not_provided'),
                         icon: require('~/assets/icons/red.svg')
                     }
                 }

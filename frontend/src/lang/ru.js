@@ -85,7 +85,9 @@ export default {
             showAll: 'все',
             showFullAccessible: 'доступные',
             showPartialAccessible: 'частично доступные',
-            showNotAccessible: 'недоступные'
+            showNotAccessible: 'недоступные',
+            commentsCountLabel: 'комментариев',
+            complaintsCountLabel: 'жалоб'
         },
         tickets: {
             tabTitle: 'Мои тикеты'
@@ -272,6 +274,12 @@ export default {
             not_accessible: 'не доступно',
             not_provided: 'Не предусмотрено'
         }
+    },
+    accessibilityStatus: {
+        full_accessible: 'Доступно',
+        partial_accessible: 'Частично доступно',
+        not_accessible: 'Не доступно',
+        not_provided: 'не предусмотрено'
     },
     mainFilter: {
         searchPlaceholder: 'Тип объекта, название или улица',
