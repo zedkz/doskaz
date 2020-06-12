@@ -1,9 +1,9 @@
 <template>
     <div class="user-tasks">
-        <h3 class="user-profile__mob-title">Мои задания</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.tasks.tabTitle') }}</h3>
         <div class="user-objects__filter --between">
             <div class="filter">
-                <div class="filter__text">Сортировать по</div>
+                <div class="filter__text">{{ $t('profile.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="sortOptions" v-model="sort"/>
                 </div>
@@ -74,8 +74,8 @@
         computed: {
             sortOptions() {
                 return [
-                    {value: 'createdAt desc', title: 'сначала новые'},
-                    {value: 'createdAt asc', title: 'сначала старые'},
+                    {value: 'createdAt desc', title: this.$t('profile.sortNewestFirst')},
+                    {value: 'createdAt asc', title: this.$t('profile.sortOldestFirst')},
                 ]
             },
         },
