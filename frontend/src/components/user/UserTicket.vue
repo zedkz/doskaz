@@ -23,17 +23,6 @@
 <script>
     import FormattedDate from "~/components/FormattedDate";
 
-    const types = [
-        {
-            type: "complaint1",
-            name: "Жалоба на отсутствие пандуса / подъемника на входе в объект"
-        },
-        {
-            type: "complaint2",
-            name: "Жалоба на отсутствие доступа на объект или несоответствии функциональных зон объекта требованиям нормативного законодательства"
-        }
-    ]
-
     export default {
         components: {FormattedDate},
         props: [
@@ -48,7 +37,7 @@
                 return `/api/complaints/${this.ticketId}/doc`
             },
             typeText() {
-                return types.find(t => t.type === this.ticketType).name
+                return this.$t(`complaintTypes.${this.ticketType}`)
             }
         }
     };
