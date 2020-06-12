@@ -89,7 +89,27 @@ export default {
             sortByPopularity: 'популярности',
             commentForPost: 'к посту',
             commentForObject: 'к объекту'
-        }
+        },
+        edit: {
+            pageTitle: 'Редактирование анкеты',
+            pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов',
+            pointsInfo: 'За заполнение анкеты вы получите',
+            personalDataInfo: 'Ваша личная информация не будет видна другим пользователям',
+            lastNameLabel: 'Фамилия',
+            firstNameLabel: 'Имя',
+            middleNameLabel: 'Отчество',
+            emailLabel: 'Эл. Почта',
+            phoneLabel: 'Телефон',
+            smsCodeLabel: 'Смс код',
+            sendSmsButton: 'Отправить код',
+            resendSmsCodeMessage: 'Повторную отправку можно выполнить через 15 секунд',
+            statusLabel: 'Отображаемый статус',
+            saveButton: 'Сохранить',
+            statusInputPlaceholder: 'Будет доступен с 5 уровня',
+            invalidVerificationCodeError: 'Неверный код',
+            tooManyRequestsError: 'Превышено допустимое количество попыток',
+            errorPleaseRetry: 'Ошибка, пожалуйста повторите операцию'
+        },
     },
     objects: {
         tabTitles: {

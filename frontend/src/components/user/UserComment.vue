@@ -10,8 +10,11 @@
 
 <script>
     import ru from 'date-fns/locale/ru'
+    import kz from 'date-fns/locale/kk'
     import {formatRelative} from 'date-fns'
     import capitalize from 'lodash/capitalize'
+
+    const locales = {ru, kz}
 
     export default {
         props: [
@@ -28,7 +31,7 @@
             },
             relativeDate() {
                 return capitalize(formatRelative( new Date(this.item.date), new Date(), {
-                    locale: ru
+                    locale: locales[this.$i18n.locale]
                 }))
             },
             link() {
