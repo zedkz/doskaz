@@ -77,7 +77,15 @@ export default {
             }
         },
         objects: {
-            tabTitle: 'Мои объекты'
+            tabTitle: 'Мои объекты',
+            sort: 'Сортировать по',
+            show: 'Показать',
+            sortNewestFirst: 'дате добавления',
+            sortOldestFirst: 'сначала старые',
+            showAll: 'все',
+            showFullAccessible: 'доступные',
+            showPartialAccessible: 'частично доступные',
+            showNotAccessible: 'недоступные'
         },
         tickets: {
             tabTitle: 'Мои тикеты'

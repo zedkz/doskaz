@@ -13,7 +13,7 @@
                     <span>{{scores[status].title}}</span>
                 </div>
                 <div class="user-object__param">
-                    <span>{{formattedDate}}</span>
+                    <formatted-date :date="objectDate" format="dd.MM.yyyy"/>
                 </div>
                 <div class="user-object__param">
                     <span><span>комментариев</span> {{objectComments}}</span>
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-    import ru from 'date-fns/locale/ru'
-    import format from 'date-fns/format'
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
+        components: {FormattedDate},
         props: [
             "objectLink",
             "objectTypeImg",
@@ -41,15 +41,7 @@
             "objectComments",
             "objectReports"
         ],
-        created: function () {
-            console.log(this.objectTypeImg);
-        },
         computed: {
-            formattedDate() {
-                return format(new Date(this.objectDate), 'dd.MM.yyyy', {
-                    locale: ru
-                })
-            },
             scores() {
                 return {
                     full_accessible: {
