@@ -519,17 +519,7 @@ import transform from "lodash/transform";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import ru from 'vuejs-datepicker/dist/locale/translations/ru'
-
-const types = [
-    {
-        type: "complaint1",
-        name: "Жалоба на отсутствие пандуса / подъемника на входе в объект"
-    },
-    {
-        type: "complaint2",
-        name: "Жалоба на отсутствие доступа на объект или несоответствии функциональных зон объекта требованиям нормативного законодательства"
-    }
-];
+import complaintTypes from "~/complaintTypes";
 
 const fields = [
     {
@@ -858,7 +848,7 @@ export default {
                 rememberPersonalData: true,
                 content: {
                     cityId: 1,
-                    type: types[0].type,
+                    type: complaintTypes[0],
                     objectName: '',
                     videos: [""],
                     photos: [""],
@@ -1068,7 +1058,10 @@ export default {
     },
     computed: {
         types() {
-            return types;
+            return complaintTypes.map(type => ({
+                type,
+                name: this.$t(`complaintTypes.${type}`)
+            }))
         },
         hasViolations() {
             return Object.values(this.violations).length > 0;
