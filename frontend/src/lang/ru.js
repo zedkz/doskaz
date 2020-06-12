@@ -95,8 +95,8 @@ export default {
             sort: 'Сортировать по',
             sortByDate: 'дате добавления',
             sortByPopularity: 'популярности',
-            commentForPost: 'к посту',
-            commentForObject: 'к объекту'
+            forPost: 'к посту',
+            forObject: 'к объекту'
         },
         edit: {
             pageTitle: 'Редактирование анкеты',
