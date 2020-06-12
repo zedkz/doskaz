@@ -3,7 +3,7 @@
         <h3 class="user-profile__mob-title">{{ $t('profile.objects.tabTitle') }}</h3>
         <div class="user-objects__filter">
             <div class="filter">
-                <div class="filter__text --mob-hide">{{ $t('profile.objects.sort') }}</div>
+                <div class="filter__text --mob-hide">{{ $t('profile.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="sortOptions" v-model="filter.sort"/>
                 </div>
@@ -72,8 +72,8 @@
         computed: {
             sortOptions() {
                 return [
-                    {value: 'date desc', title: this.$t('profile.objects.sortNewestFirst')},
-                    {value: 'date asc', title: this.$t('profile.objects.sortOldestFirst')},
+                    {value: 'date desc', title: this.$t('profile.sortNewestFirst')},
+                    {value: 'date asc', title: this.$t('profile.sortOldestFirst')},
                 ]
             },
             scoreOptions() {

@@ -55,6 +55,9 @@ export default {
         editLink: 'Редактировать анкету',
         avatarChangeHint: 'Выберите себе аватар. Учтите, что сменить его вы сможете только на {level} уровне :)',
         avatarChangePopupTitle: 'Обновление фотографии',
+        sort: 'Сортировать по',
+        sortNewestFirst: 'дате добавления',
+        sortOldestFirst: 'сначала старые',
         tasks: {
             tabTitle: 'Мои задания',
             pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов'
@@ -78,10 +81,7 @@ export default {
         },
         objects: {
             tabTitle: 'Мои объекты',
-            sort: 'Сортировать по',
             show: 'Показать',
-            sortNewestFirst: 'дате добавления',
-            sortOldestFirst: 'сначала старые',
             showAll: 'все',
             showFullAccessible: 'доступные',
             showPartialAccessible: 'частично доступные',
@@ -90,12 +90,12 @@ export default {
             complaintsCountLabel: 'жалоб'
         },
         tickets: {
-            tabTitle: 'Мои тикеты'
+            tabTitle: 'Мои тикеты',
+            makeComplaintButton: 'Подать жалобу',
+            downloadComplaintButton: 'Скачать жалобу'
         },
         comments: {
             tabTitle: 'Мои комментарии',
-            sort: 'Сортировать по',
-            sortByDate: 'дате добавления',
             sortByPopularity: 'популярности',
             forPost: 'к посту',
             forObject: 'к объекту'

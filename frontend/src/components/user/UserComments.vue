@@ -3,7 +3,7 @@
         <h3 class="user-profile__mob-title">{{ $t('profile.comments.tabTitle') }}</h3>
         <div class="user-objects__filter">
             <div class="filter">
-                <div class="filter__text">{{ $t('profile.comments.sort') }}</div>
+                <div class="filter__text">{{ $t('profile.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="options" v-model="filterValue"/>
                 </div>
@@ -46,7 +46,7 @@
         computed: {
             options() {
                 return [
-                    {value: 'date desc', title: this.$t('profile.comments.sortByDate')},
+                    {value: 'date desc', title: this.$t('profile.sortNewestFirst')},
                     {value: 'popularity desc', title: this.$t('profile.comments.sortByPopularity')}
                 ]
             },

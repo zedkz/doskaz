@@ -1,15 +1,15 @@
 <template>
     <div class="user-objects">
-        <h3 class="user-profile__mob-title">Мои тикеты</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.tickets.tabTitle') }}</h3>
         <div class="user-objects__filter --between">
             <div class="filter">
-                <div class="filter__text">Сортировать по</div>
+                <div class="filter__text">{{ $t('profile.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown v-model="filter.sort" :options="sortOptions"/>
                 </div>
             </div>
             <div class="filter">
-                <nuxt-link :to="localePath({name: 'complaint'})" class="button --complaint">Подать жалобу</nuxt-link>
+                <nuxt-link :to="localePath({name: 'complaint'})" class="button --complaint">{{ $t('profile.tickets.makeComplaintButton') }}</nuxt-link>
             </div>
         </div>
         <div class="user-objects__content">
@@ -55,15 +55,15 @@
         computed: {
             sortOptions() {
                 return [
-                    {value: 'date desc', title: 'дате добавления'},
-                    {value: 'date asc', title: 'сначала старые'},
+                    {value: 'date desc', title: this.$t('profile.sortNewestFirst')},
+                    {value: 'date asc', title: this.$t('profile.sortOldestFirst')},
                 ]
             },
         },
         watch: {
             filter: {
                 handler(v) {
-                    this.$router.push(this.localePath({...this.$route, query: v}))
+                    this.$router.push({...this.$route, query: v})
                 },
                 deep: true
             }
