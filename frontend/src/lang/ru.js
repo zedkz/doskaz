@@ -46,9 +46,80 @@ export default {
         commentInputPlaceholder: 'Напишите комментарий'
     },
     profile: {
+        updateAvatar: 'Обновить фотографию',
+        deleteAvatar: 'Удалить',
+        namePlaceholder: 'Ваше имя',
+        statusPlaceholder: 'Всем привет! Я с вами :)',
+        emailPlaceholder: 'Ваша эл. почта',
+        phonePlaceholder: 'Ваш телефон',
+        editLink: 'Редактировать анкету',
+        avatarChangeHint: 'Выберите себе аватар. Учтите, что сменить его вы сможете только на {level} уровне :)',
+        avatarChangePopupTitle: 'Обновление фотографии',
+        sort: 'Сортировать по',
+        sortNewestFirst: 'дате добавления',
+        sortOldestFirst: 'сначала старые',
         tasks: {
+            tabTitle: 'Мои задания',
             pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов'
-        }
+        },
+        achievements: {
+            tabTitle: 'Достижения',
+            title: 'Достижения',
+            events: 'Лента событий',
+            event: {
+                objectReviewed: 'прокомментировал(а) ваш объект',
+                awardIssued: 'Вам выдана награда: "{award}"',
+                objectAdded: 'Вы добавлили объект',
+                blogCommentReplied: 'ответил(а) ваш комментарий к посту',
+                levelReached: 'Поздравляем, вы достигли {level} уровень!',
+                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}'
+            },
+            ability: {
+                status_change: 'Теперь вы можете сменить статус.',
+                avatarUpload: 'Теперь вы можете загрузить аватар.'
+            }
+        },
+        objects: {
+            tabTitle: 'Мои объекты',
+            show: 'Показать',
+            showAll: 'все',
+            showFullAccessible: 'доступные',
+            showPartialAccessible: 'частично доступные',
+            showNotAccessible: 'недоступные',
+            commentsCountLabel: 'комментариев',
+            complaintsCountLabel: 'жалоб'
+        },
+        tickets: {
+            tabTitle: 'Мои тикеты',
+            makeComplaintButton: 'Подать жалобу',
+            downloadComplaintButton: 'Скачать жалобу'
+        },
+        comments: {
+            tabTitle: 'Мои комментарии',
+            sortByPopularity: 'популярности',
+            forPost: 'к посту',
+            forObject: 'к объекту'
+        },
+        edit: {
+            pageTitle: 'Редактирование анкеты',
+            pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов',
+            pointsInfo: 'За заполнение анкеты вы получите',
+            personalDataInfo: 'Ваша личная информация не будет видна другим пользователям',
+            lastNameLabel: 'Фамилия',
+            firstNameLabel: 'Имя',
+            middleNameLabel: 'Отчество',
+            emailLabel: 'Эл. Почта',
+            phoneLabel: 'Телефон',
+            smsCodeLabel: 'Смс код',
+            sendSmsButton: 'Отправить код',
+            resendSmsCodeMessage: 'Повторную отправку можно выполнить через 15 секунд',
+            statusLabel: 'Отображаемый статус',
+            saveButton: 'Сохранить',
+            statusInputPlaceholder: 'Будет доступен с 5 уровня',
+            invalidVerificationCodeError: 'Неверный код',
+            tooManyRequestsError: 'Превышено допустимое количество попыток',
+            errorPleaseRetry: 'Ошибка, пожалуйста повторите операцию'
+        },
     },
     objects: {
         tabTitles: {
@@ -204,6 +275,12 @@ export default {
             not_provided: 'Не предусмотрено'
         }
     },
+    accessibilityStatus: {
+        full_accessible: 'Доступно',
+        partial_accessible: 'Частично доступно',
+        not_accessible: 'Не доступно',
+        not_provided: 'не предусмотрено'
+    },
     mainFilter: {
         searchPlaceholder: 'Тип объекта, название или улица',
         accessibilityStatus: {
@@ -228,7 +305,16 @@ export default {
         siteLanguage: 'Язык сайта'
     },
     complaint: {
+        pageTitle: 'Подать жалобу',
+        infoText: `
+            Внимание! В связи с тем, что Ваше письмо в дальнейшем будет направлено в
+                    государственный орган, оно должно выполнять определенные требования, такие как наличие Ф.И.О., ИИН,
+                    адреса (пункт 2 статьи 6 Закона Республики Казахстан от 12.01.2007 г. № 221-III «О порядке
+                    рассмотрения обращений физических и юридических лиц»). Пожалуйста, заполните данные поля без ошибок.
+                    Анонимные обращения не рассматриваются.
+        `,
         personalInfoTitle: 'Персональная информация',
+        requiredFields: 'Поля, обязательные для заполнения',
         lastName: 'Фамилия',
         firstName: 'Имя',
         middleName: 'Отчество',
@@ -281,5 +367,9 @@ export default {
             partial_accessible: 'Частично доступно',
             not_accessible: 'Недоступно'
         }
+    },
+    complaintTypes: {
+        complaint1: 'Жалоба на отсутствие пандуса / подъемника на входе в объект',
+        complaint2: 'Жалоба на отсутствие доступа на объект или несоответствии функциональных зон объекта требованиям нормативного законодательства',
     }
 }

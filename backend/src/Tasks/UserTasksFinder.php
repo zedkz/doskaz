@@ -38,7 +38,7 @@ class UserTasksFinder
 
         if ($currentTask) {
             $query  = $query. "
-                union all select null as completed_at, :currentTaskTitle as type, :currentTaskPoints as points, CURRENT_TIMESTAMP as created_at, 1 as priority
+                union all select null as completed_at, :currentTaskTitle as type, :currentTaskPoints as points, CURRENT_TIMESTAMP(0) as created_at, 1 as priority
             ";
         }
 
@@ -59,14 +59,20 @@ class UserTasksFinder
             $qb->setParameter('currentTaskPoints', $currentTask->pointsReward);
         }
 
+        $tasks = (clone $qb)->orderBy('"' . $field . '"', $sort)
+        ->setMaxResults($perPage)
+        ->addOrderBy('priority', 'desc')
+        ->setFirstResult(($page - 1) * $perPage)
+        ->execute()
+        ->fetchAll();
+
         return [
             'pages' => (clone $qb)->select('CEIL(count(*)::FLOAT / :perPage)::INT')->setParameter('perPage', $perPage)->execute()->fetchColumn(),
-            'items' => $qb->orderBy('"' . $field . '"', $sort)
-                ->setMaxResults($perPage)
-                ->addOrderBy('priority', 'desc')
-                ->setFirstResult(($page - 1) * $perPage)
-                ->execute()
-                ->fetchAll()
+            'items' => array_map(function($task) {
+                return array_replace($task, [
+                    'createdAt' => $this->connection->convertToPHPValue($task['createdAt'], 'datetimetz_immutable')
+                ]);
+            }, $tasks)
         ];
     }
 }

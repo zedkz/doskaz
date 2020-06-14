@@ -6,7 +6,7 @@
 
 <script>
 
-    import ProfileEdit from "../../components/user/ProfileEdit";
+    import ProfileEdit from "~/components/user/ProfileEdit";
 
     export default {
         components: {ProfileEdit},
@@ -18,7 +18,7 @@
         },
         head() {
             return {
-                title: 'Редактирование анкеты'
+                title: this.$t('profile.edit.pageTitle')
             }
         },
     }

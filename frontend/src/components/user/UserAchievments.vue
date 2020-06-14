@@ -1,6 +1,6 @@
 <template>
     <div class="user-achievments">
-        <h3 class="user-profile__mob-title">Достижения</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.achievements.title') }}</h3>
         <div class="user-achievments__achievments">
             <UserAchievment v-for="award in awards" :key="award.id" :text="award.title" :award-type="award.type"/>
 
@@ -16,7 +16,7 @@
 
         <div class="user-achievments__events">
             <div class="title">
-                <span>Лента событий</span>
+                <span>{{ $t('profile.achievements.events') }}</span>
             </div>
             <div class="list">
                 <user-event v-for="event in events" :key="event.id" :event="event"/>

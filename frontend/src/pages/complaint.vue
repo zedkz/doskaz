@@ -1,16 +1,11 @@
 <template>
     <div class="complaint">
-        <ViTop/>
         <MainHeader/>
         <div class="container">
             <div class="complaint__top">
-                <h2 class="title">Подать жалобу</h2>
-                <p class="complaint__pre-text">Внимание! В связи с тем, что Ваше письмо в дальнейшем будет направлено в
-                    государственный орган, оно должно выполнять определенные требования, такие как наличие Ф.И.О., ИИН,
-                    адреса (пункт 2 статьи 6 Закона Республики Казахстан от 12.01.2007 г. № 221-III «О порядке
-                    рассмотрения обращений физических и юридических лиц»). Пожалуйста, заполните данные поля без ошибок.
-                    Анонимные обращения не рассматриваются.</p>
-                <p class="complaint__pre-text --required"><span>*</span> Поля, обязательные для заполнения</p>
+                <h2 class="title">{{ $t('complaint.pageTitle') }}</h2>
+                <p class="complaint__pre-text">{{ $t('complaint.infoText') }}</p>
+                <p class="complaint__pre-text --required"><span>*</span>{{ $t('complaint.requiredFields') }}</p>
             </div>
         </div>
         <div class="complaint__wrapper">
@@ -22,17 +17,16 @@
 </template>
 
 <script>
-    import MainHeader from "@/components/MainHeader";
-    import ComplaintContent from "@/components/complaint/ComplaintContent";
-    import ViTop from "@/components/ViTop";
+    import MainHeader from "~/components/MainHeader";
+    import ComplaintContent from "~/components/complaint/ComplaintContent";
 
     export default {
         head() {
             return {
-                title: 'Подать жалобу'
+                title: this.$t('complaint.pageTitle')
             }
         },
-        components: {ComplaintContent, MainHeader, ViTop},
+        components: {ComplaintContent, MainHeader},
         middleware: ['authenticated'],
         async asyncData({$axios, query: {objectId}}) {
             const [{data: initialData}, {data: authorities},  {data: cities}] = await Promise.all([

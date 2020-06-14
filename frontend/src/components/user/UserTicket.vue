@@ -12,30 +12,19 @@
             </p>
             <div class="user-object__params">
                 <div class="user-object__param --ticket">
-                    <span>{{date}}</span>
+                    <formatted-date :date="ticketDate" format="dd.MM.yyyy"/>
                 </div>
-                <a :href="ticketLink" target="_blank" class="user-object__download">Скачать жалобу</a>
+                <a :href="ticketLink" target="_blank" class="user-object__download">{{ $t('profile.tickets.downloadComplaintButton') }}</a>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import ru from 'date-fns/locale/ru'
-    import format from 'date-fns/format'
-
-    const types = [
-        {
-            type: "complaint1",
-            name: "Жалоба на отсутствие пандуса / подъемника на входе в объект"
-        },
-        {
-            type: "complaint2",
-            name: "Жалоба на отсутствие доступа на объект или несоответствии функциональных зон объекта требованиям нормативного законодательства"
-        }
-    ]
+    import FormattedDate from "~/components/FormattedDate";
 
     export default {
+        components: {FormattedDate},
         props: [
             'ticketId',
             "ticketImg",
@@ -44,16 +33,11 @@
             "ticketType",
         ],
         computed: {
-            date() {
-                return format(new Date(this.ticketDate), 'dd.MM.yyyy', {
-                    locale: ru
-                })
-            },
             ticketLink() {
                 return `/api/complaints/${this.ticketId}/doc`
             },
             typeText() {
-                return types.find(t => t.type === this.ticketType).name
+                return this.$t(`complaintTypes.${this.ticketType}`)
             }
         }
     };
