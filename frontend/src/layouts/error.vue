@@ -4,6 +4,8 @@
             <div class="main-header__content">
                 <nuxt-link :to="localePath({name: 'index'})" class="main-header__logo">
                     <img :src="require('~/assets/logo.svg')" alt />
+                    <img :src="require('~/assets/logo.svg')" alt />
+                    <img :src="require('~/assets/logo.svg')" alt />
                 </nuxt-link>
                 <div class="main-header__language">
                     <LangSelect />

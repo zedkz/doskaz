@@ -1,5 +1,6 @@
 <template>
     <div class="contacts">
+        <ViTop/>
         <MainHeader/>
         <div class="container">
             <div class="contacts__top">
@@ -93,10 +94,11 @@
 
 <script>
     import MainHeader from "@/components/MainHeader";
+    import ViTop from "@/components/ViTop";
     import mapValidationErrors from "../mapValidationErrors";
 
     export default {
-        components: {MainHeader},
+        components: {MainHeader, ViTop},
         head() {
             return {
                 title: this.$t('contacts.title')

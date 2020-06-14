@@ -1,5 +1,6 @@
 <template>
     <div class="user-page">
+        <ViTop/>
         <MainHeader />
         <UserPageHeader />
         <div class="container">
@@ -25,6 +26,7 @@
     import UserLevel from "@/components/user/UserLevel";
     import UserTask from "@/components/user/UserTask";
     import UserObjects from "@/components/user/UserObjects";
+    import ViTop from "@/components/ViTop";
 
     export default {
         middleware: ['authenticated'],
@@ -34,7 +36,8 @@
             UserProfile,
             UserLevel,
             UserTask,
-            UserObjects
+            UserObjects,
+            ViTop
         },
         async fetch({store}) {
            await store.dispatch('authentication/loadUser')

@@ -1,5 +1,6 @@
 <template>
     <div class="add-object">
+        <ViTop/>
         <MainHeader/>
         <div class="container">
             <div class="complaint__top">
@@ -25,7 +26,8 @@
 <script>
     import MainHeader from "@/components/MainHeader";
     import ObjectAddContent from "@/components/object_add/ObjectAddContent.vue";
-    import {get, call} from 'vuex-pathify'
+    import {get, call} from 'vuex-pathify';
+    import ViTop from "@/components/ViTop";
 
     export default {
         head() {
@@ -37,7 +39,8 @@
         layout: 'complaint',
         components: {
             MainHeader,
-            ObjectAddContent
+            ObjectAddContent,
+            ViTop
         },
         async fetch({store}) {
             return store.dispatch('objectAdding/init')

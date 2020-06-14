@@ -16,17 +16,42 @@
             </div>
         </div>
         <div class="user-objects__content">
-            <UserObject
-                    v-for="object in objects"
-                    :key="object.id"
-                    :objectLink="{name: 'objects-id', params: {id: object.id}}"
-                    :objectTitle="object.title"
-                    :objectImg="object.image"
-                    :status="object.overallScore"
-                    :objectDate="object.date"
-                    :objectComments="object.reviewsCount"
-                    :objectReports="object.complaintsCount"
-            />
+            <!--<UserObject-->
+                    <!--v-for="object in objects"-->
+                    <!--:key="object.id"-->
+                    <!--:objectLink="{name: 'objects-id', params: {id: object.id}}"-->
+                    <!--:objectTitle="object.title"-->
+                    <!--:objectImg="object.image"-->
+                    <!--:status="object.overallScore"-->
+                    <!--:objectDate="object.date"-->
+                    <!--:objectComments="object.reviewsCount"-->
+                    <!--:objectReports="object.complaintsCount"-->
+            <!--/>-->
+            <a href="#" class="user-object">
+                <div class="user-object__image">
+                    <div class="image"></div>
+                    <div class="type"></div>
+                </div>
+                <div class="user-object__description">
+                    <div class="user-object__title">
+                        <span>Djjfk l.,klask mk,md;';jla</span>
+                    </div>
+                    <div class="user-object__params">
+                        <div class="user-object__param">
+                            <span>Ssjkdjkasj</span>
+                        </div>
+                        <div class="user-object__param">
+                            <span>12.03.2018</span>
+                        </div>
+                        <div class="user-object__param">
+                            <span><span>комментариев</span> 34</span>
+                        </div>
+                        <div class="user-object__param">
+                            <span><span>жалоб</span> 3</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
         <div class="user-objects__pagination" v-if="pages > 1">
             <pagination :pages="pages"/>

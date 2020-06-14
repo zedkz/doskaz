@@ -4,6 +4,8 @@
 
             <div class="user-profile__favorites">
                 <img src="@/assets/img/user/award-gold.svg"/>
+                <img src="@/assets/img/user/award-gold-black.svg" class="black"/>
+                <img src="@/assets/img/user/award-gold-white.svg" class="white"/>
             </div>
 
             <div class="user-profile__icon"
@@ -286,6 +288,9 @@
                 width: 100%;
                 height: auto;
                 display: block;
+                &.black, &.white {
+                    display: none;
+                }
             }
 
             @media all and (max-width: 1023px) {

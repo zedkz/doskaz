@@ -10,11 +10,18 @@
             </div>
         </div>
         <div class="user-comments__list">
-            <UserComment
-                    v-for="item in items"
-                    :key="item.id"
-                    :item="item"
-            />
+            <!--<UserComment-->
+                    <!--v-for="item in items"-->
+                    <!--:key="item.id"-->
+                    <!--:item="item"-->
+            <!--/>-->
+            <div class="user-comments__item">
+                <div class="user-comments__image"></div>
+                <div class="user-comments__description">
+                    <p class="user-comments__text">asdasdasd asdasdasd adsadasda asdasdadsada asdasdasdasd as asdasdasdas</p>
+                    <div class="user-comments__info">12.03.2018&nbsp;&nbsp;Доступен&nbsp;&nbsp;<a href="#"><strong>Cltkfyj dct</strong></a></div>
+                </div>
+            </div>
         </div>
         <div class="user-comments__pagination">
             <pagination :pages="pages" v-if="pages > 1"/>

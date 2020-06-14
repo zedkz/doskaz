@@ -3,6 +3,8 @@
     <div class="main-header__content" :class="{ opened: mobileOpened }">
       <nuxt-link :to="localePath({name: 'index'})" class="main-header__logo">
         <img :src="require('@/assets/logo.svg')" alt />
+        <img :src="require('@/assets/logo-black.svg')" alt class="black"/>
+        <img :src="require('@/assets/logo-white.svg')" alt class="white"/>
       </nuxt-link>
 
       <div class="main-header__content-in-wrapper">
@@ -25,7 +27,7 @@
             </nuxt-link>
           </div>
 
-          <div class="main-header__visual">
+          <div class="main-header__visual" @click="viToggle">
             <svg
                     width="30"
                     height="16"
@@ -64,11 +66,25 @@ import LangSelect from "~/components/LangSelect";
 export default {
   data() {
     return {
-      mobileOpened: false
+      mobileOpened: false,
+      currentClassList: ''
     }
   },
   components: {
     LangSelect
+  },
+  methods: {
+    viToggle: function () {
+      document.getElementById('vi-top').classList.toggle('hidden');
+
+      if ( document.getElementById('vi-top').classList.contains('hidden') ) {
+        this.currentClassList = document.body.className; console.log(this.currentClassList);
+        document.body.className = "";
+      }
+      else {
+        document.body.className = this.currentClassList;
+      }
+    }
   }
 };
 </script>
@@ -202,6 +218,11 @@ export default {
     display: block;
     margin-right: 73px;
     font-size: 0;
+    img {
+      &.black, &.white {
+        display: none;
+      }
+    }
     @media all and (max-width: 1023px) {
       margin-right: 30px;
       img {
@@ -274,6 +295,7 @@ export default {
     margin: 0 15px;
     cursor: pointer;
     transition: opacity 0.3s;
+    padding: 2px 0 0;
     @media all and (max-width: 768px) {
       display: none;
     }

@@ -1068,6 +1068,9 @@ select {
 
             svg {
                 display: block;
+                &.black, &.white {
+                    display: none;
+                }
                 @media all and (max-width: 768px) {
                     width: 24px;
                     width: 24px;

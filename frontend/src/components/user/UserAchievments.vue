@@ -4,8 +4,6 @@
         <div class="user-achievments__achievments">
             <UserAchievment v-for="award in awards" :key="award.id" :text="award.title" :award-type="award.type"/>
 
-
-<!--
             <UserAchievment text="Первый вход" award-type="gold"/>
             <UserAchievment text="Регистрация" award-type="silver"/>
             <UserAchievment text="Добавлено 3 объекта" award-type="bronze"/>
@@ -13,15 +11,16 @@
             <UserAchievment text="Добавлено 18 объектов" award-type="gold"/>
             <UserAchievment text="Награда от администрации" award-type="silver"/>
             <UserAchievment text="За активное участие в развитии портала" award-type="bronze"/>
-            <UserAchievment text="Добавить награду" addNew/>-->
+            <UserAchievment text="Добавить награду" addNew/>
         </div>
+
         <div class="user-achievments__events">
             <div class="title">
                 <span>Лента событий</span>
             </div>
             <div class="list">
                 <user-event v-for="event in events" :key="event.id" :event="event"/>
-              <!--  <div class="list__item">
+                <div class="list__item">
                     <div class="list__date">
                         <span>12 августа</span>
                     </div>
@@ -83,7 +82,9 @@
                         <span>23 июля</span>
                     </div>
                     <div class="list__icon list__icon_achievment">
-                        <img src="@/assets/img/user/award-gold.svg"/> &lt;!&ndash; здесь так же надо выводить нужную картинку &ndash;&gt;
+                        <img src="@/assets/img/user/award-gold.svg"/>
+                        <img src="@/assets/img/user/award-gold-black.svg" class="black"/>
+                        <img src="@/assets/img/user/award-gold-white.svg" class="white"/>
                     </div>
                     <div class="list__text">Вам выдана награда за активное участие в развитии портала</div>
                 </div>
@@ -98,9 +99,10 @@
                         <a href="#">Аптека №234</a> проверен и верифицирован модератором
                         <a href="#">Валерия Осинская</a>
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -238,6 +240,9 @@
                         img {
                             width: 100%;
                             height: auto;
+                            &.black, &.white {
+                                display: none;
+                            }
                         }
                     }
                 }
