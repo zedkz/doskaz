@@ -1,5 +1,5 @@
 <template>
-    <div class="vi-top" id="vi-top">
+    <div class="vi-top hidden" id="vi-top">
         <div class="vi-top__in">
             <div class="vi-top__item-b">
                 <div class="vi-top__item">
@@ -329,8 +329,10 @@
                 &__content {
                     border-bottom: 1px solid #FFFFFF;
                     &-in {
-                        background: #000000;
-                        border-left: 1px solid #FFFFFF;
+                        @media all and (max-width: 768px){
+                            background: #000000;
+                            border-left: 1px solid #FFFFFF;
+                        }
                     }
                 }
                 &__logo {

@@ -1,5 +1,6 @@
 <template>
     <div class="complaint">
+        <ViTop/>
         <MainHeader/>
         <div class="container">
             <div class="complaint__top">
@@ -19,6 +20,7 @@
 <script>
     import MainHeader from "~/components/MainHeader";
     import ComplaintContent from "~/components/complaint/ComplaintContent";
+    import ViTop from "~/components/ViTop";
 
     export default {
         head() {
@@ -26,7 +28,7 @@
                 title: this.$t('complaint.pageTitle')
             }
         },
-        components: {ComplaintContent, MainHeader},
+        components: {ComplaintContent, MainHeader, ViTop},
         middleware: ['authenticated'],
         async asyncData({$axios, query: {objectId}}) {
             const [{data: initialData}, {data: authorities},  {data: cities}] = await Promise.all([

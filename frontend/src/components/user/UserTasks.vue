@@ -10,74 +10,34 @@
             </div>
         </div>
         <div class="user-tasks__content">
-            <div class="user-tasks__item">
-                <div class="user-tasks__item-left">
-                    <div class="user-tasks__item-status --current"></div>
-                    <div class="user-tasks__item-date" data-v-60e7f4ec="">14 июня</div>
-                    <div class="user-tasks__item-text">Добавьте 5 объектов в Северном промышленном районе</div>
-                </div>
-                <div class="user-tasks__item-points">4 балла</div>
-            </div>
-            <div class="user-tasks__item">
-                <div class="user-tasks__item-left">
-                    <div class="user-tasks__item-status --new"></div>
-                    <div class="user-tasks__item-date" data-v-60e7f4ec="">14 июня</div>
-                    <div class="user-tasks__item-text">Заполните профиль</div>
-                </div>
-                <div class="user-tasks__item-points">4 балла</div>
-            </div>
-            <div class="user-tasks__item">
-                <div class="user-tasks__item-left">
-                    <div class="user-tasks__item-status --done"></div>
-                    <div class="user-tasks__item-date" data-v-60e7f4ec="">14 июня</div>
-                    <div class="user-tasks__item-text">Заполните профиль</div>
-                </div>
-                <div class="user-tasks__item-points">4 балла</div>
-            </div>
-            <div class="user-tasks__item">
-                <div class="user-tasks__item-left">
-                    <div class="user-tasks__item-status --done"></div>
-                    <div class="user-tasks__item-date" data-v-60e7f4ec="">14 июня</div>
-                    <div class="user-tasks__item-text">Заполните профиль</div>
-                </div>
-                <div class="user-tasks__item-points">4 балла</div>
-            </div>
-            <div class="user-tasks__item">
-                <div class="user-tasks__item-left">
-                    <div class="user-tasks__item-status --current"></div>
-                    <div class="user-tasks__item-date" data-v-60e7f4ec="">14 июня</div>
-                    <div class="user-tasks__item-text">Заполните профиль</div>
-                </div>
-                <div class="user-tasks__item-points">4 балла</div>
-            </div>
-            <!--<UserTasksItem-->
-                    <!--v-for="(task, index) in items"-->
-                    <!--:key="index"-->
-                    <!--:tasksItemStatus="task.completedAt ? '&#45;&#45;done' : '&#45;&#45;new'"-->
-                    <!--:tasksItemDate="task.createdAt"-->
-                    <!--:tasksItemText="task.title"-->
-                    <!--:tasksItemPoints="task.points"-->
-            <!--/>-->
+            <UserTasksItem
+                    v-for="(task, index) in items"
+                    :key="index"
+                    :tasksItemStatus="task.completedAt ? '--done' : '--new'"
+                    :tasksItemDate="task.createdAt"
+                    :tasksItemText="task.title"
+                    :tasksItemPoints="task.points"
+            />
             <!--<UserTasksItem
-                    tasksItemStatus="&#45;&#45;current"
+                    tasksItemStatus="--current"
                     tasksItemDate="29 июня"
                     tasksItemText="Добавьте 5 объектов в Северном промышленном районе"
                     tasksItemPoints="15 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="&#45;&#45;done"
+                    tasksItemStatus="--done"
                     tasksItemDate="25 июня"
                     tasksItemText="Добавьте свой первый объект в городе"
                     tasksItemPoints="20 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="&#45;&#45;done"
+                    tasksItemStatus="--done"
                     tasksItemDate="15 июня"
                     tasksItemText="Добавьте 5 объектов в городе"
                     tasksItemPoints="10 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="&#45;&#45;done"
+                    tasksItemStatus="--done"
                     tasksItemDate="14 июня"
                     tasksItemText="Заполните профиль"
                     tasksItemPoints="50 баллов"

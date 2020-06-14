@@ -13,72 +13,15 @@
             </div>
         </div>
         <div class="user-objects__content">
-            <!--<UserTicket-->
-                    <!--v-for="complaint in complaints"-->
-                    <!--:key="complaint.id"-->
-                    <!--:ticket-id="complaint.id"-->
-                    <!--:ticketImg="complaint.image"-->
-                    <!--:ticketTitle="complaint.title"-->
-                    <!--:ticket-type="complaint.type"-->
-                    <!--:ticketDate="complaint.date"-->
-            <!--/>-->
-            <div class="user-object --ticket">
-                <div class="user-object__image">
-                    <div class="image" v-bind:style="{'background-image': 'url(' + ticketImg + ')'}"></div>
-                </div>
-                <div class="user-object__description">
-                    <div class="user-object__title --ticket">
-                        <span>Dfjjfo l;cklm</span>
-                    </div>
-                    <p class="user-object__text">
-                        Dlkljof lkjdfol lsdkkjf l;l;sdifm adasdasd asdasdsa l;dfk ;sdfk'sd'dsfk
-                    </p>
-                    <div class="user-object__params">
-                        <div class="user-object__param --ticket">
-                            <span>12.02.2019</span>
-                        </div>
-                        <a :href="ticketLink" target="_blank" class="user-object__download">Скачать жалобу</a>
-                    </div>
-                </div>
-            </div>
-            <div class="user-object --ticket">
-                <div class="user-object__image">
-                    <div class="image" v-bind:style="{'background-image': 'url(' + ticketImg + ')'}"></div>
-                </div>
-                <div class="user-object__description">
-                    <div class="user-object__title --ticket">
-                        <span>Dfjjfo l;cklm</span>
-                    </div>
-                    <p class="user-object__text">
-                        Dlkljof lkjdfol lsdkkjf l;l;sdifm adasdasd asdasdsa l;dfk ;sdfk'sd'dsfk
-                    </p>
-                    <div class="user-object__params">
-                        <div class="user-object__param --ticket">
-                            <span>12.02.2019</span>
-                        </div>
-                        <a :href="ticketLink" target="_blank" class="user-object__download">Скачать жалобу</a>
-                    </div>
-                </div>
-            </div>
-            <div class="user-object --ticket">
-                <div class="user-object__image">
-                    <div class="image" v-bind:style="{'background-image': 'url(' + ticketImg + ')'}"></div>
-                </div>
-                <div class="user-object__description">
-                    <div class="user-object__title --ticket">
-                        <span>Dfjjfo l;cklm</span>
-                    </div>
-                    <p class="user-object__text">
-                        Dlkljof lkjdfol lsdkkjf l;l;sdifm adasdasd asdasdsa l;dfk ;sdfk'sd'dsfk
-                    </p>
-                    <div class="user-object__params">
-                        <div class="user-object__param --ticket">
-                            <span>12.02.2019</span>
-                        </div>
-                        <a :href="ticketLink" target="_blank" class="user-object__download">Скачать жалобу</a>
-                    </div>
-                </div>
-            </div>
+            <UserTicket
+                    v-for="complaint in complaints"
+                    :key="complaint.id"
+                    :ticket-id="complaint.id"
+                    :ticketImg="complaint.image"
+                    :ticketTitle="complaint.title"
+                    :ticket-type="complaint.type"
+                    :ticketDate="complaint.date"
+            />
         </div>
 
         <div class="user-tickets__pagination">
