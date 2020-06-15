@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  App\ProfileNotifications\ProfileNotificationRepository:
+
+  App\ProfileNotifications\RememberWhenLevelReached:
+    tags:
+      - {name: 'domain_events.listener'}
+
+  App\ProfileNotifications\ProfileNotificationController:
+    tags: [ 'controller.service_arguments' ]

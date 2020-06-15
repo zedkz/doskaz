@@ -35,3 +35,4 @@ imports:
     - { resource: '../src/UserAbilities/services.yaml' }
     - { resource: '../src/Awards/services.yaml' }
     - { resource: '../src/RegionalCoordinators/services.yaml' }
+    - { resource: '../src/ProfileNotifications/services.yaml' }
