@@ -34,6 +34,11 @@ export const actions = {
         dispatch('updateSettings')
         this.$router.go()
     },
+    toggle({commit, dispatch, state: {enabled}}) {
+        commit('SET_ENABLED', !enabled)
+        dispatch('updateSettings')
+        this.$router.go()
+    },
     changeFontFamily({commit, dispatch}, fontFamily) {
         commit('SET_FONT_FAMILY', fontFamily)
         dispatch('updateSettings')
@@ -52,4 +57,8 @@ export const actions = {
             path: '/'
         });
     }
+}
+
+export const getters = {
+    bodyClasses: (state) => state.enabled ? ['fontFamily', 'colorTheme', 'fontSize'].map(key => state[key]).join(' '): ''
 }
