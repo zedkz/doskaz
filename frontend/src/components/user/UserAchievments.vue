@@ -3,15 +3,6 @@
         <h3 class="user-profile__mob-title">{{ $t('profile.achievements.title') }}</h3>
         <div class="user-achievments__achievments">
             <UserAchievment v-for="award in awards" :key="award.id" :text="award.title" :award-type="award.type"/>
-
-            <UserAchievment text="Первый вход" award-type="gold"/>
-            <UserAchievment text="Регистрация" award-type="silver"/>
-            <UserAchievment text="Добавлено 3 объекта" award-type="bronze"/>
-            <UserAchievment text="Добавлено 5 объектов" award-type="silver"/>
-            <UserAchievment text="Добавлено 18 объектов" award-type="gold"/>
-            <UserAchievment text="Награда от администрации" award-type="silver"/>
-            <UserAchievment text="За активное участие в развитии портала" award-type="bronze"/>
-            <UserAchievment text="Добавить награду" addNew/>
         </div>
 
         <div class="user-achievments__events">
@@ -32,7 +23,7 @@
 
     export default {
         components: {
-          UserEvent,
+            UserEvent,
             UserAchievment
         },
         props: [
