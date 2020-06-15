@@ -18,18 +18,19 @@
                     </div>
                 </div>
             </div>
-        </template>
 
-        <div class="popup__wrapper" v-if="newPointsPopup">
-            <div class="popup__scroll">
-                <div class="popup__in">
-                    <span class="popup__close" v-on:click="newPointsPopup = false"></span>
-                    <h5 class="popup__title">Вам начислено 10 баллов!</h5>
-                    <p class="popup__text">Вы закончили еженедельное задание<br>«Добавь 5 объектов в районе»</p>
-                    <div class="popup__new-points">10</div>
+            <div class="popup__wrapper" v-if="notification.data.type === 'pointsEarned'">
+                <div class="popup__scroll">
+                    <div class="popup__in">
+                        <span class="popup__close" v-on:click="closeNotification(notification)"></span>
+                        <h5 class="popup__title">{{ $t('profile.notifications.pointsEarnedTitle', {n: $tc('pointsCount', notification.data.points)})}}</h5>
+                        <p class="popup__text">{{ $t(`profile.notifications.pointsEarnedTasks.${notification.data.taskType}`) }}
+                            <br>«{{ notification.data.taskName }}»</p>
+                        <div class="popup__new-points">{{ notification.data.points }}</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </template>
 
         <div class="popup__wrapper" v-if="addAwardPopup">
             <div class="popup__scroll">

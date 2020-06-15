@@ -23,7 +23,7 @@
 
     export default {
         components: {
-          UserEvent,
+            UserEvent,
             UserAchievment
         },
         props: [

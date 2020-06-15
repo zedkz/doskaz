@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 abstract class ProfileNotificationData
 {
     const MAPPING = [
-        'levelReached' => LevelReachedNotificationData::class
+        'levelReached' => LevelReachedNotificationData::class,
+        'pointsEarned' => PointsEarnedNotificationData::class
     ];
 }

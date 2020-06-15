@@ -1,5 +1,6 @@
 export default {
     usernameDefault: 'Без имени',
+    pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов',
     login: {
         pageTitle: 'Вход',
         popupTitle: 'Доступный Казахстан — сделайте свой город ближе',
@@ -126,6 +127,12 @@ export default {
             ability: {
                 avatar_upload: 'Теперь вы можете загрузить аватар',
                 status_change: 'Теперь вы можете редактировать свой статус'
+            },
+            pointsEarnedTitle: 'Вам начислено {n}!',
+            pointsEarnedTasks: {
+                daily: 'Вы закончили еженедельное задание',
+                profile_completion: 'Вы закончили задание',
+                administration: 'Вы закончили задание администрации',
             }
         }
     },
