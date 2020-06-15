@@ -49,3 +49,7 @@ tasks:
 awards:
     resource: ../../src/Awards
     type: annotation
+
+profileNotifications:
+    resource: ../../src/ProfileNotifications
+    type: annotation

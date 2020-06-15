@@ -120,6 +120,14 @@ export default {
             tooManyRequestsError: 'Превышено допустимое количество попыток',
             errorPleaseRetry: 'Ошибка, пожалуйста повторите операцию'
         },
+        notifications: {
+            levelReachedText: 'Поздравляем, вы получили {level} уровень!',
+            levelReachedTitle: 'Новый уровень!',
+            ability: {
+                avatar_upload: 'Теперь вы можете загрузить аватар',
+                status_change: 'Теперь вы можете редактировать свой статус'
+            }
+        }
     },
     objects: {
         tabTitles: {
