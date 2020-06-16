@@ -146,7 +146,8 @@ export default {
             photosUploading: false,
             currentStepKey: 'first',
             presence: {},
-            presentIgnore: false
+            presentIgnore: false,
+            presenceChecked: false
         };
     },
     methods: {
@@ -177,10 +178,6 @@ export default {
                 if (this.errors.length) {
                     return false;
                 }
-                await this.checkPresence()
-                if (this.isPresent && !this.presentIgnore) {
-                    return false
-                }
             }
             if (this.availableSteps[index + 1]) {
                 this.currentStepKey = this.availableSteps[index + 1].key
@@ -193,12 +190,6 @@ export default {
             }
         },
         async submit() {
-            if(this.formVariant === 'small') {
-                await this.checkPresence()
-                if (this.isPresent && !this.presentIgnore) {
-                    return false
-                }
-            }
             await this.submitForm()
             if (this.errors.length) {
                 this.currentStepKey = "first"
@@ -264,6 +255,12 @@ export default {
     watch: {
         currentStepKey() {
             window.scrollTo({top: 0})
+        },
+        async 'form.first.address'() {
+            if(!this.presenceChecked) {
+                this.presenceChecked = true;
+                await this.checkPresence()
+            }
         }
     },
 }
