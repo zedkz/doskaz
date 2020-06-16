@@ -165,7 +165,7 @@
 
     .comment-form {
         display: flex;
-        margin-top: 35px;
+        margin-top: 15px;
 
         textarea {
             padding: 14px 20px;
