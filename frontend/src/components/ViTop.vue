@@ -212,6 +212,1118 @@
     }
 
     body {
+        &.sm {
+            * {
+                font-size: 16px;
+            }
+            .title {
+                font-size: 42px;
+                @media all and (max-width: 1023px) {
+                    font-size: 28px;
+                }
+                @media all and (max-width: 768px) {
+                    font-size: 18px;
+                }
+                &.--md {
+                    font-size: 30px;
+                    @media all and (max-width: 1023px) {
+                        font-size: 20px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 16px;
+                    }
+                }
+                &.--small {
+                    font-size: 20px;
+                    @media all and (max-width: 1023px) {
+                        font-size: 18px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 16px;
+                    }
+                }
+            }
+            .label {
+                font-size: 16px;
+            }
+            .button {
+                font-size: 16px;
+            }
+            .select {
+                select {
+                    font-size: 16px;
+                }
+            }
+            .violations_error {
+                font-size: 16px;
+            }
+            .select-text {
+                select {
+                    font-size: 28px;
+                }
+            }
+            .vi-top {
+                &__title {
+                    font-size: 18px;
+                }
+                &__link {
+                    &.--white, &.--black {
+                        font-size: 18px;
+                    }
+                    &.--btn {
+                        font-size: 18px;
+                    }
+                }
+            }
+            .represent {
+                &__item {
+                    &-text {
+                        font-size: 14px;
+                    }
+                }
+                &__title {
+                    font-size: 28px;
+                }
+            }
+            .contacts {
+                &__text {
+                    font-size: 14px;
+                }
+                &__link {
+                    font-size: 24px;
+                }
+            }
+            .main-header {
+                &__menu {
+                    line-height: 22px;
+                    a {
+                        span {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .lang-select {
+                &__selected, &__item {
+                     span {
+                         font-size: 14px;
+                     }
+                }
+            }
+            .breadcrumbs {
+                &__link {
+                    font-size: 14px;
+                }
+            }
+            .subscribe-link {
+                font-size: 14px;
+            }
+            .comment-form {
+                textarea {
+                    font-size: 16px;
+                }
+            }
+            .about {
+                &__title {
+                    font-size: 42px;
+                    @media all and (max-width: 1200px){
+                        font-size: 32px;
+                    }
+                    @media all and (max-width: 768px){
+                        font-size: 20px;
+                    }
+                }
+                &__text {
+                    font-size: 16px;
+                    @media all and (max-width: 768px){
+                        font-size: 14px;
+                    }
+                }
+                &__top-item {
+                    &__text, &-title {
+                        font-size: 16px;
+                        @media all and (max-width: 1200px){
+                            font-size: 14px;
+                        }
+                    }
+                }
+                &__part {
+                    &-text {
+                        font-size: 16px;
+                    }
+                }
+                &__link {
+                    &-text {
+                        font-size: 16px;
+                        @media all and (max-width: 768px){
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .blog {
+                &__content {
+                    &-top {
+                        &__text {
+                           h3 {
+                               font-size: 30px;
+                           }
+                        }
+                    }
+                }
+                &__inside {
+                    > p {
+                        font-size: 16px;
+                    }
+                    &-comments {
+                        > h4 {
+                            font-size: 20px;
+                        }
+                    }
+                    &-date {
+                        font-size: 14px;
+                    }
+                }
+                &__category {
+                    &_link {
+                        font-size: 16px;
+                    }
+                    &-title {
+                        font-size: 14px;
+                    }
+                }
+                &__item {
+                    &-title, > h3 {
+                        font-size: 28px;
+                    }
+                    &-text, > p {
+                        font-size: 16px;
+                    }
+                    &-link {
+                        font-size: 14px;
+                    }
+                }
+                &__material {
+                    &-link {
+                        span {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .user {
+                &-page{
+                    &__header {
+                        .menu {
+                            &__item {
+                                span {
+                                    font-size: 16px;
+                                }
+                            }
+                        }
+                    }
+                }
+                &-achievments {
+                    &__events {
+                        .title {
+                            span {
+                                font-size: 20px;
+                            }
+                        }
+                    }
+                }
+                &-profile {
+                    &__title, &-email, &-phone {
+                        span {
+                            font-size: 16px;
+                        }
+                    }
+                    &__edit {
+                        a span {
+                           font-size: 14px;
+                        }
+                    }
+                    &__name {
+                        font-size: 30px;
+                        span {
+                            font-size: 30px;
+                        }
+                    }
+                }
+                &-task {
+                    &__progress {
+                        .progress__num {
+                            span {
+                               font-size: 14px;
+                            }
+                        }
+                    }
+                    &__title {
+                        span {
+                            font-size: 20px;
+                        }
+                    }
+                    &__description {
+                        span {
+                            font-size: 16px;
+                        }
+                    }
+                }
+                &-tasks {
+                    &__item {
+                        &-date {
+                            font-size: 14px;
+                        }
+                    }
+                }
+                &-level {
+                    &__stats {
+                        .stat__cat {
+                            span {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                    &__progress {
+                        .info__points {
+                            span {
+                                font-size: 14px;
+                            }
+                        }
+                        .info__level-num {
+                            span {
+                                font-size: 44px;
+                            }
+                        }
+                    }
+                }
+                &-objects {
+                    &__filter {
+                        .filter {
+                            &__dropdown {
+                                .dropdown {
+                                    &__selected, &__item {
+                                        span {
+                                            font-size: 14px;
+                                        }
+                                    }
+                                }
+                            }
+                            &__text {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+            .add-object {
+                &__button {
+                    font-size: 14px;
+                    span {
+                        font-size: 14px;
+                    }
+                }
+                &__error {
+                    font-size: 16px;
+                }
+                &__top {
+                    &-title {
+                        font-size: 42px;
+                    }
+                    &-step {
+                        font-size: 18px;
+                    }
+                }
+                &__label {
+                    &-text {
+                         font-size: 14px;
+                    }
+                }
+                &__step {
+                    &-info {
+                        .step {
+                            font-size: 12px;
+                        }
+                    }
+                }
+                &__info {
+                    &-text {
+                        font-size: 14px;
+                    }
+                }
+                &__title {
+                    font-size: 20px;
+                    &.--lrg {
+                        font-size: 30px;
+                    }
+                }
+            }
+            .complaint {
+                &__pre {
+                    &-text {
+                        font-size: 16px;
+                    }
+                }
+                &__item {
+                    .label {
+                        font-size: 16px;
+                        &.--vertical {
+                            font-size: 17px;
+                        }
+                        &-text {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .add-link {
+                font-size: 14px;
+            }
+        }
+        &.md {
+            * {
+                font-size: 20px;
+            }
+            .title {
+                font-size: 46px;
+                @media all and (max-width: 1023px) {
+                    font-size: 32px;
+                }
+                @media all and (max-width: 768px) {
+                    font-size: 20px;
+                }
+                &.--md {
+                    font-size: 32px;
+                    @media all and (max-width: 1023px) {
+                        font-size: 22px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 18px;
+                    }
+                }
+                &.--small {
+                    font-size: 24px;
+                    @media all and (max-width: 1023px) {
+                        font-size: 20px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 18px;
+                    }
+                }
+            }
+            .label {
+                font-size: 18px;
+            }
+            .button {
+                font-size: 18px;
+            }
+            .select {
+                select {
+                    font-size: 18px;
+                }
+            }
+            .violations_error {
+                font-size: 18px;
+            }
+            .select-text {
+                select {
+                    font-size: 30px;
+                }
+            }
+            .vi-top {
+                &__title {
+                    font-size: 20px;
+                }
+                &__link {
+                    &.--white, &.--black {
+                        font-size: 20px;
+                    }
+                    &.--btn {
+                        font-size: 20px;
+                    }
+                }
+            }
+            .represent {
+                &__item {
+                    &-text {
+                        font-size: 16px;
+                    }
+                }
+                &__title {
+                    font-size: 30px;
+                }
+            }
+            .contacts {
+                &__text {
+                    font-size: 16px;
+                }
+                &__link {
+                    font-size: 26px;
+                }
+            }
+            .main-header {
+                &__menu {
+                    a {
+                       span {
+                        font-size: 18px;
+                       }
+                    }
+                }
+            }
+            .lang-select {
+                &__selected, &__item {
+                    span {
+                        font-size: 16px;
+                    }
+                }
+            }
+            .breadcrumbs {
+                &__link {
+                    font-size: 16px;
+                }
+            }
+            .subscribe-link {
+                font-size: 16px;
+            }
+            .comment-form {
+                textarea {
+                    font-size: 18px;
+                }
+            }
+            .about {
+                &__title {
+                    font-size: 44px;
+                    @media all and (max-width: 1200px){
+                        font-size: 34px;
+                    }
+                    @media all and (max-width: 768px){
+                        font-size: 22px;
+                    }
+                }
+                &__text {
+                    font-size: 18px;
+                    @media all and (max-width: 768px){
+                        font-size: 16px;
+                    }
+                }
+                &__top-item {
+                    &__text, &-title {
+                        font-size: 18px;
+                        @media all and (max-width: 1200px){
+                            font-size: 16px;
+                        }
+                    }
+                }
+                &__part {
+                    &-text {
+                        font-size: 18px;
+                    }
+                }
+                &__link {
+                    &-text {
+                        font-size: 18px;
+                        @media all and (max-width: 768px){
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+            .blog {
+                &__content {
+                    &-top {
+                        &__text {
+                            h3 {
+                                font-size: 32px;
+                            }
+                        }
+                    }
+                }
+                &__inside {
+                    > p {
+                        font-size: 18px;
+                    }
+                    &-comments {
+                        > h4 {
+                            font-size: 22px;
+                        }
+                    }
+                    &-date {
+                        font-size: 16px;
+                    }
+                }
+                &__category {
+                    &_link {
+                        font-size: 18px;
+                    }
+                    &-title {
+                        font-size: 16px;
+                    }
+                }
+                &__item {
+                    &-title, > h3 {
+                        font-size: 30px;
+                    }
+                    &-text, > p {
+                        font-size: 18px;
+                    }
+                    &-link {
+                        font-size: 16px;
+                    }
+                }
+                &__material {
+                    &-link {
+                        span {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+            .user {
+                &-page{
+                    &__header {
+                        .menu {
+                            &__item {
+                                span {
+                                    font-size: 18px;
+                                }
+                            }
+                        }
+                    }
+                }
+                &-achievments {
+                    &__events {
+                        .title {
+                            span {
+                                font-size: 22px;
+                            }
+                        }
+                    }
+                }
+                &-profile {
+                    &__title, &-email, &-phone {
+                        span {
+                            font-size: 18px;
+                        }
+                    }
+                    &__edit {
+                        a span {
+                            font-size: 16px;
+                        }
+                    }
+                    &__name {
+                        font-size: 32px;
+                        span {
+                            font-size: 32px;
+                        }
+                    }
+                }
+                &-task {
+                    &__progress {
+                        .progress__num {
+                            span {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    &__title {
+                        span {
+                            font-size: 22px;
+                        }
+                    }
+                    &__description {
+                        span {
+                            font-size: 18px;
+                        }
+                    }
+                }
+                &-tasks {
+                    &__item {
+                        &-date {
+                            font-size: 16px;
+                        }
+                    }
+                }
+                &-level {
+                    &__stats {
+                        .stat__cat {
+                            span {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    &__progress {
+                        .info__points {
+                            span {
+                                font-size: 16px;
+                            }
+                        }
+                        .info__level-num {
+                            span {
+                                font-size: 46px;
+                            }
+                        }
+                    }
+                }
+                &-objects {
+                    &__filter {
+                        .filter {
+                            &__dropdown {
+                                .dropdown {
+                                    &__selected, &__item {
+                                        span {
+                                            font-size: 18px;
+                                        }
+                                    }
+                                }
+                            }
+                            &__text {
+                                 font-size: 18px;
+                            }
+                        }
+                    }
+                }
+            }
+            .add-object {
+                &__button {
+                    font-size: 16px;
+                    span {
+                        font-size: 16px;
+                    }
+                }
+                &__error {
+                    font-size: 18px;
+                }
+                &__top {
+                    &-title {
+                        font-size: 44px;
+                    }
+                    &-step {
+                        font-size: 20px;
+                    }
+                }
+                &__label {
+                    &-text {
+                        font-size: 16px;
+                    }
+                }
+                &__step {
+                    &-info {
+                        .step {
+                            font-size: 14px;
+                        }
+                    }
+                }
+                &__info {
+                    &-text {
+                        font-size: 16px;
+                    }
+                }
+                &__title {
+                    font-size: 22px;
+                    &.--lrg {
+                        font-size: 32px;
+                    }
+                }
+            }
+            .complaint {
+                &__pre {
+                    &-text {
+                        font-size: 18px;
+                    }
+                }
+                &__item {
+                    .label {
+                        font-size: 18px;
+                        &.--vertical {
+                            font-size: 19px;
+                        }
+                        &-text {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .add-link {
+                font-size: 16px;
+            }
+        }
+
+        &.lrg {
+            .title {
+                font-size: 48px;
+                @media all and (max-width: 1023px) {
+                    font-size: 34px;
+                }
+                @media all and (max-width: 768px) {
+                    font-size: 22px;
+                }
+                &.--md {
+                    font-size: 34px;
+                    @media all and (max-width: 1023px) {
+                        font-size: 24px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 20px;
+                    }
+                }
+                &.--small {
+                    font-size: 26px;
+                    @media all and (max-width: 1023px) {
+                        font-size: 22px;
+                    }
+                    @media all and (max-width: 768px) {
+                        font-size: 20px;
+                    }
+                }
+            }
+            .label {
+                font-size: 20px;
+            }
+            .button {
+                font-size: 20px;
+            }
+            .select {
+                select {
+                    font-size: 20px;
+                }
+            }
+            .violations_error {
+                font-size: 20px;
+            }
+            .select-text {
+                select {
+                    font-size: 32px;
+                }
+            }
+            .vi-top {
+                &__title {
+                     font-size: 22px;
+                 }
+                &__link {
+                    &.--white, &.--black {
+                        font-size: 22px;
+                    }
+                    &.--btn {
+                        font-size: 22px;
+                    }
+                }
+            }
+            .represent {
+                &__item {
+                    &-text {
+                        font-size: 18px;
+                    }
+                }
+                &__title {
+                    font-size: 32px;
+                }
+            }
+            .contacts {
+                &__text {
+                    font-size: 18px;
+                }
+                &__link {
+                    font-size: 28px;
+                }
+            }
+            .main-header {
+                &__menu {
+                    a {
+                        span {
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+            .lang-select {
+                &__selected, &__item {
+                    span {
+                        font-size: 18px;
+                    }
+                }
+            }
+            .breadcrumbs {
+                &__link {
+                    font-size: 18px;
+                }
+            }
+            .subscribe-link {
+                font-size: 18px;
+            }
+            .comment-form {
+                textarea {
+                    font-size: 20px;
+                }
+            }
+            .about {
+                &__title {
+                    font-size: 44px;
+                    @media all and (max-width: 1200px){
+                        font-size: 34px;
+                    }
+                    @media all and (max-width: 768px){
+                        font-size: 22px;
+                    }
+                }
+                &__text {
+                    font-size: 18px;
+                    @media all and (max-width: 768px){
+                        font-size: 14px;
+                    }
+                }
+                &__top-item {
+                    &__text, &-title {
+                        font-size: 18px;
+                        @media all and (max-width: 1200px){
+                            font-size: 16px;
+                        }
+                    }
+                }
+                &__part {
+                    &-text {
+                        font-size: 18px;
+                    }
+                }
+                &__link {
+                    &-text {
+                        font-size: 18px;
+                        @media all and (max-width: 768px){
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+            .blog {
+                &__content {
+                    &-top {
+                        &__text {
+                            h3 {
+                                font-size: 34px;
+                            }
+                        }
+                    }
+                }
+                &__inside {
+                    > p {
+                        font-size: 20px;
+                    }
+                    &-comments {
+                        > h4 {
+                            font-size: 24px;
+                        }
+                    }
+                    &-date {
+                         font-size: 18px;
+                    }
+                }
+                &__category {
+                    &_link {
+                        font-size: 20px;
+                    }
+                    &-title {
+                        font-size: 18px;
+                    }
+                }
+                &__item {
+                    &-title, > h3 {
+                        font-size: 32px;
+                    }
+                    &-text, > p {
+                        font-size: 20px;
+                    }
+                    &-link {
+                        font-size: 18px;
+                    }
+                }
+                &__material {
+                    &-link {
+                        span {
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+            .user {
+                &-page{
+                    &__header {
+                        .menu {
+                            &__item {
+                                span {
+                                    font-size: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+                &-achievments {
+                    &__events {
+                        .title {
+                            span {
+                                font-size: 24px;
+                            }
+                        }
+                    }
+                }
+                &-profile {
+                    &__title, &-email, &-phone {
+                        span {
+                            font-size: 20px;
+                        }
+                    }
+                    &__edit {
+                        a span {
+                            font-size: 18px;
+                        }
+                    }
+                    &__name {
+                        font-size: 34px;
+                        span {
+                            font-size: 34px;
+                        }
+                    }
+                }
+                &-task {
+                    &__progress {
+                        .progress__num {
+                            span {
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                    &__title {
+                        span {
+                            font-size: 24px;
+                        }
+                    }
+                    &__description {
+                        span {
+                            font-size: 20px;
+                        }
+                    }
+                }
+                &-tasks {
+                    &__item {
+                        &-date {
+                            font-size: 18px;
+                        }
+                    }
+                }
+                &-level {
+                    &__stats {
+                        .stat__cat {
+                            span {
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                    &__progress {
+                        .info__points {
+                            span {
+                                font-size: 18px;
+                            }
+                        }
+                        .info__level-num {
+                            span {
+                                font-size: 48px;
+                            }
+                        }
+                    }
+                }
+                &-objects {
+                    &__filter {
+                        .filter {
+                            &__dropdown {
+                                .dropdown {
+                                    &__selected, &__item {
+                                        span {
+                                            font-size: 20px;
+                                        }
+                                    }
+                                }
+                            }
+                            &__text {
+                                 font-size: 20px;
+                             }
+                        }
+                    }
+                }
+            }
+            .add-object {
+                &__button {
+                    font-size: 18px;
+                    span {
+                        font-size: 18px;
+                    }
+                }
+                &__error {
+                    font-size: 20px;
+                }
+                &__top {
+                    &-title {
+                        font-size: 46px;
+                     }
+                    &-step {
+                        font-size: 22px;
+                    }
+                }
+                &__label {
+                    &-text {
+                        font-size: 18px;
+                    }
+                }
+                &__step {
+                    &-info {
+                        .step {
+                            font-size: 16px;
+                        }
+                    }
+                }
+                &__info {
+                    &-text {
+                        font-size: 20px;
+                    }
+                }
+                &__title {
+                    font-size: 24px;
+                    &.--lrg {
+                        font-size: 34px;
+                    }
+                }
+            }
+            .complaint {
+                &__pre {
+                    &-text {
+                        font-size: 20px;
+                    }
+                }
+                &__item {
+                    .label {
+                        font-size: 20px;
+                        &.--vertical {
+                            font-size: 21px;
+                        }
+                        &-text {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+            .add-link {
+                font-size: 18px;
+            }
+        }
+
+        &.sm, &.md, &.lrg {
+            .social {
+                font-size: 0;
+            }
+            .main-header {
+                &__logo {
+                    font-size: 0;
+                }
+            }
+        }
+
         &.black {
             * { color: #FFFFFF }
             background: #000000;
