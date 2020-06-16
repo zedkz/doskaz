@@ -1,5 +1,6 @@
 <template>
     <div class="blog">
+        <ViTop/>
         <MainHeader/>
 
         <div class="container">
@@ -10,8 +11,9 @@
 </template>
 <script>
     import MainHeader from "@/components/MainHeader";
+    import ViTop from "@/components/ViTop";
     export default {
-        components: {MainHeader}
+        components: {MainHeader, ViTop}
     }
 </script>
 

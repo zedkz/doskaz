@@ -6,9 +6,10 @@
     import UserObjects from "~/components/user/UserObjects";
 
     export default {
-        name: "objects",
-        head: {
-            title: 'Мои объекты'
+        head() {
+            return {
+                title: this.$t('profile.objects.tabTitle')
+            }
         },
         components: {
             UserObjects

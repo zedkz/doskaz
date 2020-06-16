@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import UserTickets from "@/components/user/UserTickets";
+    import UserTickets from "~/components/user/UserTickets";
 
     export default {
         components: {

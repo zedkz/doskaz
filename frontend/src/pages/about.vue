@@ -1,5 +1,6 @@
 <template>
     <div class="about">
+        <ViTop/>
         <MainHeader/>
         <div class="about__top">
             <div class="about__top-bg" :style="{'background-image': 'url(' + require('./../assets/img/files/about-top-bg.jpg') + ')'}"></div>
@@ -102,9 +103,10 @@
 
 <script>
     import MainHeader from "@/components/MainHeader";
+    import ViTop from "@/components/ViTop";
 
     export default {
-        components: {MainHeader}
+        components: {MainHeader, ViTop}
     }
 
 </script>

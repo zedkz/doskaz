@@ -45,6 +45,10 @@ class Movement extends Zone
                 ->withHearingFullAccessible();
         }
 
+        if ($this->isMatches([1, 6, 7], Attribute::yes()) && $this->isMatches([1000, 1001], Attribute::notProvided())) {
+            $builder->withMovementFullAccessible();
+        }
+
         return $builder->build();
     }
 }

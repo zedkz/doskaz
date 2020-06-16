@@ -165,7 +165,7 @@
 
     .comment-form {
         display: flex;
-        margin-top: 35px;
+        margin-top: 15px;
 
         textarea {
             padding: 14px 20px;
@@ -287,12 +287,12 @@
         }
 
         &__inside {
-            padding: 35px 0 0;
+            padding: 35px 0 30px;
             @media all and (max-width: 1023px) {
-                padding: 25px 0 0;
+                padding: 25px 0;
             }
             @media all and (max-width: 768px) {
-                padding: 16px 0 0;
+                padding: 16px 0 20px;
             }
 
             &-content {

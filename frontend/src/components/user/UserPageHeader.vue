@@ -1,21 +1,21 @@
 <template>
-    <div class="user-page__header" v-bind:style="{'background-image': 'url(' + require('./../../assets/user-bg.png') + ')'}">
+    <div class="user-page__header" v-bind:style="{'background-image': 'url(' + require('~/assets/user-bg.png') + ')'}">
         <div class="menu">
             <div class="menu__content">
                 <nuxt-link :to="localePath({name: 'profile-achievements'})" class="menu__item" active-class="isActive">
-                    <span>Достижения</span>
+                    <span>{{ $t('profile.achievements.tabTitle') }}</span>
                 </nuxt-link>
                 <nuxt-link :to="localePath({name: 'profile-objects'})" class="menu__item" active-class="isActive">
-                    <span>Мои объекты</span>
+                    <span>{{ $t('profile.objects.tabTitle') }}</span>
                 </nuxt-link>
                 <nuxt-link :to="localePath({name: 'profile-tickets'})" class="menu__item" active-class="isActive">
-                    <span>Мои тикеты</span>
+                    <span>{{ $t('profile.tickets.tabTitle') }}</span>
                 </nuxt-link>
                 <nuxt-link :to="localePath({name: 'profile-tasks'})" class="menu__item" active-class="isActive">
-                    <span>Мои задания</span>
+                    <span>{{ $t('profile.tasks.tabTitle') }}</span>
                 </nuxt-link>
                 <nuxt-link :to="localePath({name: 'profile-comments'})" class="menu__item" active-class="isActive">
-                    <span>Мои комментарии</span>
+                    <span>{{ $t('profile.comments.tabTitle') }}</span>
                 </nuxt-link>
                 <a class="menu__item --logout" @click="logout()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -33,18 +33,9 @@
     import {call} from 'vuex-pathify'
 
     export default {
-        data() {
-            return {};
-        },
-        computed: {
-            currentPage(){
-                return this.$route.path;
-            }
-        },
+        name: 'UserPageHeader',
         methods: {
-            ...call('authentication', [
-                'logout'
-            ])
+            logout: call('authentication/logout')
         }
     }
 </script>

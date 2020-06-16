@@ -1,15 +1,15 @@
 <template>
     <div class="user-objects">
-        <h3 class="user-profile__mob-title">Мои объекты</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.objects.tabTitle') }}</h3>
         <div class="user-objects__filter">
             <div class="filter">
-                <div class="filter__text --mob-hide">Сортировать по</div>
+                <div class="filter__text --mob-hide">{{ $t('profile.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="sortOptions" v-model="filter.sort"/>
                 </div>
             </div>
             <div class="filter">
-                <div class="filter__text --mob-hide">Показать</div>
+                <div class="filter__text --mob-hide">{{ $t('profile.objects.show') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="scoreOptions" v-model="filter.overallScore"/>
                 </div>
@@ -72,16 +72,16 @@
         computed: {
             sortOptions() {
                 return [
-                    {value: 'date desc', title: 'дате добавления'},
-                    {value: 'date asc', title: 'сначала старые'},
+                    {value: 'date desc', title: this.$t('profile.sortNewestFirst')},
+                    {value: 'date asc', title: this.$t('profile.sortOldestFirst')},
                 ]
             },
             scoreOptions() {
                 return [
-                    {value: 'all', title: 'все'},
-                    {value: 'full_accessible', title: 'доступные'},
-                    {value: 'partial_accessible', title: 'частично доступные'},
-                    {value: 'not_accessible', title: 'недоступные'},
+                    {value: 'all', title: this.$t('profile.objects.showAll')},
+                    {value: 'full_accessible', title: this.$t('profile.objects.showFullAccessible')},
+                    {value: 'partial_accessible', title: this.$t('profile.objects.showPartialAccessible')},
+                    {value: 'not_accessible', title: this.$t('profile.objects.showNotAccessible')},
                 ]
             },
         },

@@ -95,3 +95,8 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/RegionalCoordinators'
                 prefix: 'App\RegionalCoordinators'
+            ProfileNotifications:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/ProfileNotifications'
+                prefix: 'App\ProfileNotifications'

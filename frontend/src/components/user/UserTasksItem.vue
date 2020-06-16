@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import FormattedDate from "@/components/FormattedDate";
+    import FormattedDate from "~/components/FormattedDate";
     export default {
         components: {FormattedDate},
         props: [

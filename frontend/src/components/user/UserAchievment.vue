@@ -3,8 +3,14 @@
     <template v-if="addNew===undefined">
       <div class="user-achievment__icon">
         <img src="~/assets/img/user/award-gold.svg" alt="" v-if="awardType === 'gold'"/>
+        <img src="~/assets/img/user/award-gold-white.svg" class="white" alt="" v-if="awardType === 'gold'"/>
+        <img src="~/assets/img/user/award-gold-black.svg" class="black" alt="" v-if="awardType === 'gold'"/>
         <img src="~/assets/img/user/award-silver.svg" alt="" v-if="awardType === 'silver'"/>
+        <img src="~/assets/img/user/award-silver-white.svg" class="white" alt="" v-if="awardType === 'silver'"/>
+        <img src="~/assets/img/user/award-silver-black.svg" class="black" alt="" v-if="awardType === 'silver'"/>
         <img src="~/assets/img/user/award-bronze.svg" alt="" v-if="awardType === 'bronze'"/>
+        <img src="~/assets/img/user/award-bronze-white.svg" class="white" alt="" v-if="awardType === 'bronze'"/>
+        <img src="~/assets/img/user/award-bronze-black.svg" class="black" alt="" v-if="awardType === 'bronze'"/>
       </div>
       <div class="user-achievment__text">
         <span>{{text}}</span>
@@ -48,6 +54,9 @@ export default {
     img {
       width: 100%;
       height: auto;
+      &.black, &.white {
+        display: none;
+      }
     }
 
     &.user-achievment__icon_add {

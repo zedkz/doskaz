@@ -28,20 +28,28 @@ abstract class Zones
             $this->entrance3 ? $this->entrance3->accessibilityScore() : null,
         );
 
-        if($entrance->equalsTo(AccessibilityScore::notAccessible()) || $this->serviceAccessibility->accessibilityScore()->equalsTo(AccessibilityScore::notAccessible())) {
-            return AccessibilityScore::notAccessible();
-        }
+        $serviceAccessibilityScore = $this->serviceAccessibility->accessibilityScore();
 
-        return AccessibilityScore::average(
+        $average = AccessibilityScore::average(
             $this->parking->accessibilityScore(),
-            $this->entrance1->accessibilityScore(),
-            $this->entrance2 ? $this->entrance2->accessibilityScore() : null,
-            $this->entrance3 ? $this->entrance3->accessibilityScore() : null,
+            $entrance,
             $this->movement->accessibilityScore(),
             $this->service->accessibilityScore(),
             $this->toilet->accessibilityScore(),
             $this->navigation->accessibilityScore(),
-            $this->serviceAccessibility->accessibilityScore()
+            $serviceAccessibilityScore
         );
+
+        $builder = AccessibilityScoreBuilder::initUnknown();
+
+        foreach (AccessibilityScore::SCORE_CATEGORIES as $category) {
+            if ($entrance->{$category} === AccessibilityScore::SCORE_NOT_ACCESSIBLE || $serviceAccessibilityScore->{$category} === AccessibilityScore::SCORE_NOT_ACCESSIBLE) {
+                $builder->withCategoryNotAccessible($category);
+            } else {
+                $builder->withCategoryScore($category, $average->{$category});
+            }
+        }
+
+        return $builder->build();
     }
 }

@@ -3,6 +3,7 @@
 
 namespace App\Objects\Zone\Small;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Zones;
 
@@ -76,18 +77,29 @@ class SmallFormZones extends Zones
 
     public function overallScore(): AccessibilityScore
     {
-        if($this->entrance1->accessibilityScore()->equalsTo(AccessibilityScore::notAccessible()) || $this->serviceAccessibility->accessibilityScore()->equalsTo(AccessibilityScore::notAccessible())) {
-            return AccessibilityScore::notAccessible();
-        }
+        $entrance1AccessibilityScore = $this->entrance1->accessibilityScore();
+        $serviceAccessibilityScore = $this->serviceAccessibility->accessibilityScore();
 
-        return AccessibilityScore::average(
+        $average = AccessibilityScore::average(
             $this->parking->accessibilityScore(),
-            $this->entrance1->accessibilityScore(),
+            $entrance1AccessibilityScore,
             $this->movement->accessibilityScore(),
             $this->service->accessibilityScore(),
             $this->toilet->accessibilityScore(),
             $this->navigation->accessibilityScore(),
-            $this->serviceAccessibility->accessibilityScore()
+            $serviceAccessibilityScore
         );
+
+        $builder = AccessibilityScoreBuilder::initUnknown();
+
+        foreach (AccessibilityScore::SCORE_CATEGORIES as $category) {
+            if ($entrance1AccessibilityScore->{$category} === AccessibilityScore::SCORE_NOT_ACCESSIBLE || $serviceAccessibilityScore->{$category} === AccessibilityScore::SCORE_NOT_ACCESSIBLE) {
+                $builder->withCategoryNotAccessible($category);
+            } else {
+                $builder->withCategoryScore($category, $average->{$category});
+            }
+        }
+
+        return $builder->build();
     }
 }

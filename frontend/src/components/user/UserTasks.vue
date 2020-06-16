@@ -1,9 +1,9 @@
 <template>
     <div class="user-tasks">
-        <h3 class="user-profile__mob-title">Мои задания</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.tasks.tabTitle') }}</h3>
         <div class="user-objects__filter --between">
             <div class="filter">
-                <div class="filter__text">Сортировать по</div>
+                <div class="filter__text">{{ $t('profile.sort') }}</div>
                 <div class="filter__dropdown">
                     <dropdown :options="sortOptions" v-model="sort"/>
                 </div>
@@ -19,25 +19,25 @@
                     :tasksItemPoints="task.points"
             />
             <!--<UserTasksItem
-                    tasksItemStatus="&#45;&#45;current"
+                    tasksItemStatus="--current"
                     tasksItemDate="29 июня"
                     tasksItemText="Добавьте 5 объектов в Северном промышленном районе"
                     tasksItemPoints="15 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="&#45;&#45;done"
+                    tasksItemStatus="--done"
                     tasksItemDate="25 июня"
                     tasksItemText="Добавьте свой первый объект в городе"
                     tasksItemPoints="20 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="&#45;&#45;done"
+                    tasksItemStatus="--done"
                     tasksItemDate="15 июня"
                     tasksItemText="Добавьте 5 объектов в городе"
                     tasksItemPoints="10 баллов"
             />
             <UserTasksItem
-                    tasksItemStatus="&#45;&#45;done"
+                    tasksItemStatus="--done"
                     tasksItemDate="14 июня"
                     tasksItemText="Заполните профиль"
                     tasksItemPoints="50 баллов"
@@ -74,8 +74,8 @@
         computed: {
             sortOptions() {
                 return [
-                    {value: 'createdAt desc', title: 'сначала новые'},
-                    {value: 'createdAt asc', title: 'сначала старые'},
+                    {value: 'createdAt desc', title: this.$t('profile.sortNewestFirst')},
+                    {value: 'createdAt asc', title: this.$t('profile.sortOldestFirst')},
                 ]
             },
         },
@@ -127,7 +127,7 @@
 
                 &.--new {
                     background-size: 4px 20px;
-                    background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNSIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDUgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiPgo8cGF0aCBkPSJNMi4wNDA3NyAxNi4zMjY3VjIwLjAwMDEiIHN0cm9rZT0iIzMxODBGNyIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiLz4KPHBhdGggZD0iTTIuMDQwNzcgMFYxMy45OTQyIiBzdHJva2U9IiMzMTgwRjciIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDAiPgo8cmVjdCB3aWR0aD0iNC4wODE2MyIgaGVpZ2h0PSIyMCIgZmlsbD0id2hpdGUiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K") left 10px top no-repeat;
+                    background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNSIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDUgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiPgo8cGF0aCBkPSJNMi4wNDA3NyAxNi4zMjY3VjIwLjAwMDEiIHN0cm9rZT0iIzMxODBGNyIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiLz4KPHBhdGggZD0iTTIuMDQwNzcgMFYxMy45OTQyIiBzdHJva2U9IiMzMTgwRjciIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDAiPgo8cmVjdCB3aWR0aD0iNC4wODE2MyIgaGVpZ2h0PSIyMCIgZmlsbD0id2hpdGUiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K") left 6px top no-repeat;
                 }
 
                 &.--current {

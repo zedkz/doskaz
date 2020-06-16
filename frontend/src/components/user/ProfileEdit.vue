@@ -1,11 +1,11 @@
 <template>
     <div class="user-page__edit">
-        <h3 class="user-page__title">Редактирование анкеты</h3>
-        <p class="user-page__text --line">За заполнение анкеты вы получите 70 баллов.</p>
-        <p class="user-page__text --line">Ваша личная информация не будет видна другим пользователям</p>
+        <h3 class="user-page__title">{{ $t('profile.edit.pageTitle') }}</h3>
+        <p class="user-page__text --line">{{ $t('profile.edit.pointsInfo') }} {{ $tc('profile.edit.pointsCount', 70) }}</p>
+        <p class="user-page__text --line">{{ $t('profile.edit.personalDataInfo') }}</p>
         <div class="user-page__line">
             <div class="col --label">
-                <label class="user-page__label">Фамилия</label>
+                <label class="user-page__label">{{ $t('profile.edit.lastNameLabel') }}</label>
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.lastName}">
@@ -15,7 +15,7 @@
         </div>
         <div class="user-page__line">
             <div class="col --label">
-                <label class="user-page__label">Имя</label>
+                <label class="user-page__label">{{ $t('profile.edit.firstNameLabel') }}</label>
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.firstName}">
@@ -25,7 +25,7 @@
         </div>
         <div class="user-page__line">
             <div class="col --label">
-                <label class="user-page__label">Отчество</label>
+                <label class="user-page__label">{{ $t('profile.edit.middleNameLabel') }}</label>
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.middleName}">
@@ -35,7 +35,7 @@
         </div>
         <div class="user-page__line">
             <div class="col --label">
-                <label class="user-page__label">Эл. Почта</label>
+                <label class="user-page__label">{{ $t('profile.edit.emailLabel') }}</label>
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.email}">
@@ -46,7 +46,7 @@
         </div>
         <div class="user-page__line">
             <div class="col --label">
-                <label class="user-page__label">Телефон</label>
+                <label class="user-page__label">{{ $t('profile.edit.phoneLabel') }}</label>
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.phone}">
@@ -60,7 +60,7 @@
         </div>
         <div class="user-page__line">
             <div class="col --label">
-                <label class="user-page__label">Смс код</label>
+                <label class="user-page__label">{{ $t('profile.edit.smsCodeLabel') }}</label>
             </div>
             <div class="col --flex">
                 <div class="input --flex-col --sm " :class="{error: !!smsError}">
@@ -69,28 +69,28 @@
                 </div>
                 <div class="--flex-col">
                     <div class="user-page__sms" @click="sendSmsCode">
-                        <img class="user-page__sms-img" :src="require('@/assets/icons/sms-phone.svg')"/>
-                        <span class="user-page__sms-text" v-if="!smsWait">Отправить код</span>
+                        <img class="user-page__sms-img" :src="require('~/assets/icons/sms-phone.svg')"/>
+                        <span class="user-page__sms-text" v-if="!smsWait">{{ $t('profile.edit.sendSmsButton') }}</span>
                         <span class="user-page__sms-text"
-                              v-else>Повторную отправку можно выполнить через 15 секунд</span>
+                              v-else>{{ $t('profile.edit.resendSmsCodeMessage') }}</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="user-page__line" :class="{disabled: !profile.abilities.includes('status_change')}">
             <div class="col --label">
-                <label class="user-page__label">Отображаемый статус</label>
+                <label class="user-page__label">{{ $t('profile.edit.statusLabel') }}</label>
             </div>
             <div class="col">
                 <div class="input" :class="{error: !!violations.status}">
-                    <input type="text" v-model.trim="profile.status" :readonly="!profile.abilities.includes('status_change')" :placeholder="profile.abilities.includes('status_change') ? '' : 'Будет доступен с 5 уровня'">
+                    <input type="text" v-model.trim="profile.status" :readonly="!profile.abilities.includes('status_change')" :placeholder="profile.abilities.includes('status_change') ? '' : $t('profile.edit.statusInputPlaceholder')">
                 </div>
             </div>
         </div>
         <div class="user-page__line">
             <div class="col --label"></div>
             <div class="col">
-                <button type="button" class="user-page__button" @click.prevent="submit">Сохранить</button>
+                <button type="button" class="user-page__button" @click.prevent="submit">{{ $t('profile.edit.saveButton') }}</button>
             </div>
         </div>
         <div id="recaptcha_verifier"></div>
@@ -191,29 +191,21 @@
             },
             ...call('authentication', ['loadUser'])
         },
-        watch: {
-            smsErrorCode(v) {
-                console.log(v)
-            },
-            smsError(v) {
-                console.log(v)
-            }
-        },
         computed: {
             violations() {
                 return mapValidationErrors(this.errors)
             },
             smsError() {
                 const messages = {
-                    'auth/invalid-verification-code': 'Неверный код',
-                    'auth/too-many-requests': 'Превышено допустимое количество попыток'
+                    'auth/invalid-verification-code': this.$t('profile.edit.invalidVerificationCodeError'),
+                    'auth/too-many-requests': this.$t('profile.edit.tooManyRequestsError')
                 }
 
                 if (!this.smsErrorCode) {
                     return;
                 }
 
-                return messages[this.smsErrorCode] || 'Ошибка, пожалуйста повторите операцию'
+                return messages[this.smsErrorCode] || this.$t('profile.edit.errorPleaseRetry')
             }
         }
     }

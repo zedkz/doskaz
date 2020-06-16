@@ -1,106 +1,19 @@
 <template>
     <div class="user-achievments">
-        <h3 class="user-profile__mob-title">Достижения</h3>
+        <h3 class="user-profile__mob-title">{{ $t('profile.achievements.title') }}</h3>
         <div class="user-achievments__achievments">
             <UserAchievment v-for="award in awards" :key="award.id" :text="award.title" :award-type="award.type"/>
-
-
-<!--
-            <UserAchievment text="Первый вход" award-type="gold"/>
-            <UserAchievment text="Регистрация" award-type="silver"/>
-            <UserAchievment text="Добавлено 3 объекта" award-type="bronze"/>
-            <UserAchievment text="Добавлено 5 объектов" award-type="silver"/>
-            <UserAchievment text="Добавлено 18 объектов" award-type="gold"/>
-            <UserAchievment text="Награда от администрации" award-type="silver"/>
-            <UserAchievment text="За активное участие в развитии портала" award-type="bronze"/>
-            <UserAchievment text="Добавить награду" addNew/>-->
         </div>
+
         <div class="user-achievments__events">
             <div class="title">
-                <span>Лента событий</span>
+                <span>{{ $t('profile.achievements.events') }}</span>
             </div>
             <div class="list">
                 <user-event v-for="event in events" :key="event.id" :event="event"/>
-              <!--  <div class="list__item">
-                    <div class="list__date">
-                        <span>12 августа</span>
-                    </div>
-                    <div class="list__icon"></div>
-                    <div class="list__text">
-                        <a href="#">Арай Молдахметова</a> прокомментировала ваш объект
-                        <a href="#">Суши-бар Saya Sushi</a>
-                    </div>
-                </div>
-
-                <div class="list__item">
-                    <div class="list__date">
-                        <span>10 августа</span>
-                    </div>
-                    <div class="list__icon"></div>
-                    <div class="list__text">
-                        <a href="#">Илья Давыдов</a> дополнил ваш объект
-                        <a href="#">Суши-бар Saya Sushi</a>
-                    </div>
-                </div>
-
-                <div class="list__item">
-                    <div class="list__date">
-                        <span>6 августа</span>
-                    </div>
-                    <div class="list__icon"></div>
-                    <div class="list__text">
-                        <a href="#">Ирина Ахметова</a> ответила на ваш комментарий к объекту
-                        <a href="#">Ветеринарная клиника «Мурзик»</a>
-                    </div>
-                </div>
-
-                <div class="list__item">
-                    <div class="list__date">
-                        <span>1 августа</span>
-                    </div>
-                    <div class="list__icon"></div>
-                    <div class="list__text">
-                        Ваш объект
-                        <a href="#">Суши-бар Saya Sushi</a> проверен и верифицирован модератором
-                        <a href="#">Volkorn</a>
-                    </div>
-                </div>
-
-                <div class="list__item">
-                    <div class="list__date">
-                        <span>26 июля</span>
-                    </div>
-                    <div class="list__icon list__icon_level">
-                        <span>7</span>
-                    </div>
-                    <div class="list__text">Поздравляем, вы достигли 7 уровня! Теперь вы можете сменить аватар. До 8 уровня вам нужно набрать
-                        60 баллов.
-                    </div>
-                </div>
-
-                <div class="list__item">
-                    <div class="list__date">
-                        <span>23 июля</span>
-                    </div>
-                    <div class="list__icon list__icon_achievment">
-                        <img src="@/assets/img/user/award-gold.svg"/> &lt;!&ndash; здесь так же надо выводить нужную картинку &ndash;&gt;
-                    </div>
-                    <div class="list__text">Вам выдана награда за активное участие в развитии портала</div>
-                </div>
-
-                <div class="list__item">
-                    <div class="list__date">
-                        <span>10 июля</span>
-                    </div>
-                    <div class="list__icon"></div>
-                    <div class="list__text">
-                        Ваш объект
-                        <a href="#">Аптека №234</a> проверен и верифицирован модератором
-                        <a href="#">Валерия Осинская</a>
-                    </div>
-                </div>-->
             </div>
         </div>
+
     </div>
 </template>
 
@@ -110,7 +23,7 @@
 
     export default {
         components: {
-          UserEvent,
+            UserEvent,
             UserAchievment
         },
         props: [
@@ -238,6 +151,9 @@
                         img {
                             width: 100%;
                             height: auto;
+                            &.black, &.white {
+                                display: none;
+                            }
                         }
                     }
                 }
