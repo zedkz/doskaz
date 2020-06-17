@@ -9,12 +9,9 @@ use Doctrine\ORM\EntityRepository;
 
 class LevelRepository
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /**
-     * @var EntityRepository
-     */
-    private $repository;
+    private EntityRepository $repository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {

@@ -5,6 +5,7 @@ namespace App\Levels;
 
 use App\Infrastructure\DomainEvents\EventProducer;
 use App\Infrastructure\DomainEvents\ProducesEvents;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,33 +32,30 @@ class Level implements EventProducer
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
-     * @var int
      */
-    private $userId;
+    private int $userId;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      */
-    private $value;
+    private int $value;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      */
-    private $points;
+    private int $points;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $updatedAt;
+    private DateTimeImmutable $updatedAt;
 
     public function __construct(int $userId)
     {
         $this->userId = $userId;
         $this->value = 1;
         $this->points = 0;
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function addPoints(int $points)
@@ -70,7 +68,7 @@ class Level implements EventProducer
             $this->value = $level;
             $this->remember(new LevelReached($this->userId, $this->value));
         }
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function nextLevelThreshold(): int

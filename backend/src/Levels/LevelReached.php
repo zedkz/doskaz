@@ -5,15 +5,9 @@ namespace App\Levels;
 
 class LevelReached
 {
-    /**
-     * @var int
-     */
-    public $userId;
+    public int $userId;
 
-    /**
-     * @var int
-     */
-    public $level;
+    public int $level;
 
     /**
      * LevelReached constructor.

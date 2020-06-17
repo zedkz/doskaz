@@ -12,20 +12,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SeedLevels extends Command
 {
     protected static $defaultName = 'app:levels:seed';
-    /**
-     * @var Flusher
-     */
-    private $flusher;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Flusher $flusher;
 
-    /**
-     * @var LevelRepository
-     */
-    private $levelRepository;
+    private Connection $connection;
+
+    private LevelRepository $levelRepository;
 
     public function __construct(Flusher $flusher, Connection $connection, LevelRepository $levelRepository)
     {

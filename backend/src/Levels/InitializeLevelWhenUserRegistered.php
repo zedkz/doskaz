@@ -9,10 +9,7 @@ use App\Users\UserRegistered;
 
 class InitializeLevelWhenUserRegistered implements EventListener
 {
-    /**
-     * @var LevelRepository
-     */
-    private $levelRepository;
+    private LevelRepository $levelRepository;
 
     /**
      * @var Flusher
