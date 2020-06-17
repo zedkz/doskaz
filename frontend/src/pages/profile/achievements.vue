@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import {get} from 'vuex-pathify'
 import first from 'lodash/first'
 import UserAchievments from "~/components/user/UserAchievments";
 
@@ -91,12 +92,11 @@ export default {
         };
     },
     async asyncData({$axios}) {
-        const [awards, {items}, notifications] = await Promise.all([
-            $axios.$get('/api/profile/awards'),
+        const [{items}, notifications] = await Promise.all([
             $axios.$get('/api/profile/events'),
             $axios.$get('/api/profileNotifications')
         ])
-        return {awards, items, notifications}
+        return {items, notifications}
     },
     methods: {
         async closeNotification(notification) {
@@ -108,6 +108,7 @@ export default {
         currentPage() {
             return this.$route.path;
         },
+        awards: get('awards/items'),
         notification() {
             return first(this.notifications.filter(n => !this.closedNotifications.includes(n)));
         }

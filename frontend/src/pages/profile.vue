@@ -40,7 +40,10 @@
             ViTop
         },
         async fetch({store}) {
-           await store.dispatch('authentication/loadUser')
+           await Promise.all([
+               store.dispatch('authentication/loadUser'),
+               store.dispatch('awards/load')
+           ])
         }
     }
 </script>

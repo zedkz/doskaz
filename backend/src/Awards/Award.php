@@ -75,7 +75,6 @@ class Award implements EventProducer
         return $self;
     }
 
-
     public static function bronze(int $userId, string $title, ?int $issuedBy = null): self
     {
         $self = new self($userId, $title, $issuedBy);

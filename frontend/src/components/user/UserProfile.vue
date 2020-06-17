@@ -2,8 +2,8 @@
     <div class="user-profile">
         <div class="user-profile__content" v-bind:class="{ '--verified': isVerified }">
 
-            <div class="user-profile__favorites">
-                <img src="~/assets/img/user/award-gold.svg"/>
+            <div class="user-profile__favorites" v-if="currentAward">
+                <img :src="require(`~/assets/img/user/award-${currentAward.type}.svg`)" :alt="currentAward.title"/>
             </div>
 
             <div class="user-profile__icon"
@@ -137,6 +137,10 @@
             profile: sync('authentication/user'),
             avatarPresets() {
                 return range(1, 7).map(presetNumber => require(`~/assets/img/user/av${presetNumber}.svg`))
+            },
+            currentAward: get('awards/last'),
+            currentAwardIcon() {
+
             }
         },
         methods: {
