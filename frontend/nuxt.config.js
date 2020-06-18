@@ -79,6 +79,19 @@ export default {
         link: [
             {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
         ]
+    },
+    robots: process.env.ROBOTS_ALLOW
+        ? [
+            {UserAgent: "*"},
+            {Disallow: "*?query="},
+            {Disallow: "/search"},
+            {Allow: "*.css"},
+            {Allow: "*.js"},
+            {Allow: "*.jpeg"},
+            {Allow: "*.png"},
+            {Allow: "*.pdf"},
+            {Sitemap: "https://doskaz.kz/storage/sitemap.xml"},
+        ]
         : {
             UserAgent: "*",
             Disallow: "/",
