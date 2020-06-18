@@ -79,21 +79,10 @@ export default {
         link: [
             {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
         ]
-    },
-    robots: process.env.ROBOTS_ALLOW ? [
-        {UserAgent: '*'},
-        {Disallow: '*?query='},
-        {Disallow: '/search'},
-        {Allow: '*.css'},
-        {Allow: '*.js'},
-        {Allow: '*.jpeg'},
-        {Allow: '*.png'},
-        {Allow: '*.pdf'},
-        {Sitemap: 'https://doskaz.kz/sitemap.xml'},
-    ] : {
-        UserAgent: '*',
-        Disallow: '/'
-    },
+        : {
+            UserAgent: "*",
+            Disallow: "/",
+        },
     i18n: {
         strategy: 'prefix_except_default',
         defaultLocale: 'ru',
@@ -107,22 +96,6 @@ export default {
             {code: 'kz', name: 'Qazaq', file: 'ru.js'},
             {code: 'ru', name: 'Русский', file: 'ru.js'},
         ]
-    },
-    sitemap: {
-        gzip: true,
-        exclude: [
-            '/oauth/**',
-            '/profile',
-            '/complaint',
-            '/profile/**',
-            '/objects/pdf',
-            '/kz/**'
-        ],
-        routes: () => {
-            return [
-                
-            ]
-        }
     },
     feed: [
         {
