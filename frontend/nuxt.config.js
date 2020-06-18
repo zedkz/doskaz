@@ -11,7 +11,6 @@ export default {
         '@nuxtjs/redirect-module',
         '@nuxtjs/robots',
         'nuxt-i18n',
-        '@nuxtjs/sitemap',
         '@nuxtjs/feed',
         '@nuxtjs/sentry'
     ],
