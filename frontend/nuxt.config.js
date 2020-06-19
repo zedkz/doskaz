@@ -98,9 +98,8 @@ export default {
     i18n: {
         strategy: 'prefix_except_default',
         defaultLocale: 'ru',
-        parsePages: false,
-        pages: {
-            'oauth/callback': false
+        detectBrowserLanguage: {
+            alwaysRedirect: true
         },
         lazy: true,
         langDir: 'lang/',
