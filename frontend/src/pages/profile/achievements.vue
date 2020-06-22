@@ -87,7 +87,7 @@ export default {
         return {
             newLevelPopup: false,
             newPointsPopup: false,
-            addAwardPopup: false,
+            addAwardPopup: true,
             closedNotifications: []
         };
     },

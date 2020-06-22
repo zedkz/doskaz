@@ -304,6 +304,14 @@
                 font-size: 21px;
             }
             .vi {
+                &-popup {
+                    &__title {
+                        font-size: 29px !important;
+                    }
+                    &__text {
+                        font-size: 21px !important;
+                    }
+                }
                 &-add-object {
                     &__title {
                         font-size: 29px !important;
@@ -377,6 +385,14 @@
                 font-size: 18px;
             }
             .vi {
+                &-popup {
+                    &__title {
+                        font-size: 26px !important;
+                    }
+                    &__text {
+                        font-size: 18px !important;
+                    }
+                }
                 &-add-object {
                     &__title {
                         font-size: 26px !important;
@@ -468,6 +484,17 @@
                 border-color: #FFFFFF;
             }
             .vi {
+                &-popup {
+                    border-color: #FFFFFF;
+                    background: #000000;
+                    &__close {
+                        svg {
+                            path {
+                                stroke: #000;
+                            }
+                        }
+                    }
+                }
                 &-add-object {
                     &__link.--active {
                         border-color: #FFFFFF;
