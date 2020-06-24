@@ -103,6 +103,23 @@
             </div>
             <ViFooter></ViFooter>
         </div>
+        <div class="vi-popup__wrapper" v-if="viPopupExample">
+            <div class="vi-popup-b">
+                <div class="vi-popup">
+                    <div class="vi-popup__close" @click="viPopupExample = false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <path d="M50 10L9.99999 50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M10 10L50 50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h4 class="vi-popup__title">Подтвердите данные об объекте</h4>
+                    <p class="vi-popup__text">Считаете ли вы, что все данные об объекте суши-бар Saya Sushi заполнены верно?</p>
+                    <div class="vi-popup__button">
+                        <button class="vi__button --half" type="button">Да</button><button type="button" class="vi__button --half">Нет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -128,7 +145,8 @@ export default {
                 partial_accessible: true,
                 not_accessible: true
             },
-            results: []
+            results: [],
+            viPopupExample: true
         }
     },
     async fetch() {
@@ -191,6 +209,64 @@ export default {
 .vi {
     font-family: 'Lato', sans-serif;
     background: #ffffff;
+    &-popup {
+        border: 2px solid;
+        padding: 50px 60px 60px;
+        width: 100%;
+        max-width: 680px;
+        position: relative;
+        text-align: center;
+        background: #fff;
+        &__close {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            cursor: pointer;
+            right: -100px;
+            top: -10px;
+        }
+        &__wrapper {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #737373;
+            z-index: 100;
+        }
+        &__title {
+            font-size: 32px !important;
+            line-height: 40px;
+            margin: 0 0 24px;
+            color: #000000;
+        }
+        &__text {
+            font-size: 24px !important;
+            line-height: 47px;
+            margin:  0 0 50px;
+        }
+        &__button {
+            display: flex;
+            justify-content: space-between;
+            .vi__button {
+                width: 100%;
+                &.--half {
+                    width: calc(50% - 20px);
+                }
+            }
+        }
+        &-b {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+    }
 }
 
 </style>
