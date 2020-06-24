@@ -129,6 +129,7 @@
                 try {
                     this.confirmationResult = await firebase.auth().signInWithPhoneNumber(this.phoneAuth.number, this.recaptchaVerifier);
                 } catch (e) {
+                    this.$sentry.captureException(e)
                     this.errors.number = e.code
                 }
             },
@@ -141,6 +142,7 @@
                     const idToken = await result.user.getIdToken();
                     await this.$store.dispatch('authentication/phoneAuthenticate', idToken);
                 } catch (e) {
+                    this.$sentry.captureException(e)
                     this.errors.code = e.code
                 }
             }
