@@ -24,7 +24,6 @@ class UpdateSitemap extends Command
     {
         parent::__construct();
         $this->sitemap = new Sitemap($path);
-        $this->sitemap->setUseGzip(true);
         $this->connection = $connection;
     }
 
