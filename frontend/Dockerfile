@@ -6,6 +6,8 @@ COPY package*.json ./
 RUN ["npm", "ci"]
 COPY . .
 ARG firebase_api_key
+ARG sentry_dsn
+ENV SENTRY_DSN=$sentry_dsn
 ENV NUXT_ENV_FIREBASE_API_KEY=$firebase_api_key
 RUN ["npm", "run", "build"]
 

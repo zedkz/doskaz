@@ -11,7 +11,6 @@ export default {
         '@nuxtjs/redirect-module',
         '@nuxtjs/robots',
         'nuxt-i18n',
-        '@nuxtjs/sitemap',
         '@nuxtjs/feed',
         '@nuxtjs/sentry'
     ],
@@ -80,26 +79,27 @@ export default {
             {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
         ]
     },
-    robots: process.env.ROBOTS_ALLOW ? [
-        {UserAgent: '*'},
-        {Disallow: '*?query='},
-        {Disallow: '/search'},
-        {Allow: '*.css'},
-        {Allow: '*.js'},
-        {Allow: '*.jpeg'},
-        {Allow: '*.png'},
-        {Allow: '*.pdf'},
-        {Sitemap: 'https://doskaz.kz/sitemap.xml'},
-    ] : {
-        UserAgent: '*',
-        Disallow: '/'
-    },
+    robots: process.env.ROBOTS_ALLOW
+        ? [
+            {UserAgent: "*"},
+            {Disallow: "*?query="},
+            {Disallow: "/search"},
+            {Allow: "*.css"},
+            {Allow: "*.js"},
+            {Allow: "*.jpeg"},
+            {Allow: "*.png"},
+            {Allow: "*.pdf"},
+            {Sitemap: "https://doskaz.kz/storage/sitemap.xml"},
+        ]
+        : {
+            UserAgent: "*",
+            Disallow: "/",
+        },
     i18n: {
         strategy: 'prefix_except_default',
         defaultLocale: 'ru',
-        parsePages: false,
-        pages: {
-            'oauth/callback': false
+        detectBrowserLanguage: {
+            alwaysRedirect: true
         },
         lazy: true,
         langDir: 'lang/',
@@ -107,22 +107,6 @@ export default {
             {code: 'kz', name: 'Qazaq', file: 'ru.js'},
             {code: 'ru', name: 'Русский', file: 'ru.js'},
         ]
-    },
-    sitemap: {
-        gzip: true,
-        exclude: [
-            '/oauth/**',
-            '/profile',
-            '/complaint',
-            '/profile/**',
-            '/objects/pdf',
-            '/kz/**'
-        ],
-        routes: () => {
-            return [
-                
-            ]
-        }
     },
     feed: [
         {

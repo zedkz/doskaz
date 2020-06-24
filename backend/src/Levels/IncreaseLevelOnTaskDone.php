@@ -8,10 +8,7 @@ use App\Tasks\ProfileCompletion\ProfileCompletionTaskDone;
 
 class IncreaseLevelOnTaskDone implements EventListener
 {
-    /**
-     * @var LevelRepository
-     */
-    private $levelRepository;
+    private LevelRepository $levelRepository;
 
     public function __construct(LevelRepository $levelRepository)
     {

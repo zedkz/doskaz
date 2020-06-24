@@ -36,3 +36,4 @@ imports:
     - { resource: '../src/Awards/services.yaml' }
     - { resource: '../src/RegionalCoordinators/services.yaml' }
     - { resource: '../src/ProfileNotifications/services.yaml' }
+    - { resource: '../src/Sitemap/services.yaml' }

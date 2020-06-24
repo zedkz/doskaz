@@ -59,6 +59,10 @@
                     not_provided: {
                         title: this.$t('accessibilityStatus.not_provided'),
                         icon: require('~/assets/icons/red.svg')
+                    },
+                    unknown: {
+                        title: this.$t('accessibilityStatus.unknown'),
+                        icon: require('~/assets/icons/red.svg')
                     }
                 }
             }

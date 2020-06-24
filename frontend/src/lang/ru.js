@@ -294,7 +294,8 @@ export default {
         full_accessible: 'Доступно',
         partial_accessible: 'Частично доступно',
         not_accessible: 'Не доступно',
-        not_provided: 'не предусмотрено'
+        not_provided: 'не предусмотрено',
+        unknown: 'не известно'
     },
     mainFilter: {
         searchPlaceholder: 'Тип объекта, название или улица',
