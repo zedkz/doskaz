@@ -58,6 +58,7 @@ services:
       dockerfile: Dockerfile
       args:
         firebase_api_key: ${FIREBASE_API_KEY}
+        sentry_dsn: ${SENTRY_DSN_FRONTEND}
     labels:
       - traefik.enable=true
       - traefik.http.routers.doskaz_frontend.rule=Host(`${APP_HOST}`)
