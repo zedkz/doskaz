@@ -45,7 +45,7 @@ class AdminController extends AbstractController
             ])
             ->from('adding_requests')
             ->leftJoin('adding_requests', 'object_categories', 'object_categories', "(adding_requests.data->'first'->'categoryId')::INTEGER = object_categories.id")
-            ->leftJoin('adding_requests', 'cities_geometry', 'cities_geometry', 'ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float) && cities_geometry.geometry')
+            ->leftJoin('adding_requests', 'cities_geometry', 'cities_geometry', 'ST_Contains(cities_geometry.geometry, ST_SetSRID(ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float), 4326))')
             ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
             ->andWhere('adding_requests.deleted_at is null')
             ->andWhere('adding_requests.approved_at is null');

@@ -169,6 +169,8 @@ export default {
         },
         viSummaryScore: 'Оценка объекта: {score}',
         viReturnToObject: 'Вернуться к объекту {object}',
+        verificationPopupTitle: 'Подтвердите данные об объекте',
+        verificationPopupQuestion: 'Считаете ли вы, что все данные об объекте {objectName} заполнены верно?',
         verificationStatus: {
             full_verified: 'Объект верифицирован',
             not_verified: 'Объект не верифицирован',

@@ -1,27 +1,27 @@
 <template>
-    <div class="vi-top hidden" id="vi-top">
+    <div class="vi-top" v-if="enabled">
         <div class="vi-top__in">
             <div class="vi-top__item-b">
                 <div class="vi-top__item">
-                    <h5 class="vi-top__title">Размер шрифта</h5>
+                    <h5 class="vi-top__title">{{ $t('visualImpairedSettings.fontSize') }}</h5>
                     <div class="vi-top__link-wrapper">
-                        <span class="vi-top__link --sm" :class="{'--active': fontSize === 'sm', '--ct-black' : colorTheme === 'black'}" @click="setFontSize('sm')">A</span>
-                        <span class="vi-top__link --md" :class="{'--active': fontSize === 'md', '--ct-black' : colorTheme === 'black'}" @click="setFontSize('md')">A</span>
-                        <span class="vi-top__link --lrg" :class="{'--active': fontSize === 'lrg', '--ct-black' : colorTheme === 'black'}" @click="setFontSize('lrg')">A</span>
+                        <span class="vi-top__link --sm" :class="{'--active': fontSize === 'sm', '--ct-black' : colorTheme === 'black'}" @click="changeFontSize('sm')">A</span>
+                        <span class="vi-top__link --md" :class="{'--active': fontSize === 'md', '--ct-black' : colorTheme === 'black'}" @click="changeFontSize('md')">A</span>
+                        <span class="vi-top__link --lrg" :class="{'--active': fontSize === 'lrg', '--ct-black' : colorTheme === 'black'}" @click="changeFontSize('lrg')">A</span>
                     </div>
                 </div>
                 <div class="vi-top__item">
-                    <h5 class="vi-top__title">Цветовая схема</h5>
+                    <h5 class="vi-top__title">{{ $t('visualImpairedSettings.colorTheme') }}</h5>
                     <div class="vi-top__link-wrapper">
-                        <span class="vi-top__link --white" :class="{'--active': colorTheme === 'white', '--ct-black' : colorTheme === 'black'}" @click="setColorTheme('white')">Ц</span>
-                        <span class="vi-top__link --black" :class="{'--active': colorTheme === 'black'}" @click="setColorTheme('black')">Ц</span>
+                        <span class="vi-top__link --white" :class="{'--active': colorTheme === 'white', '--ct-black' : colorTheme === 'black'}" @click="changeColorTheme('white')">Ц</span>
+                        <span class="vi-top__link --black" :class="{'--active': colorTheme === 'black'}" @click="changeColorTheme('black')">Ц</span>
                     </div>
                 </div>
                 <div class="vi-top__item">
-                    <h5 class="vi-top__title">Шрифт</h5>
+                    <h5 class="vi-top__title">{{ $t('visualImpairedSettings.fontFamily') }}</h5>
                     <div class="vi-top__link-wrapper">
-                        <span class="vi-top__link --btn" :class="{'--active': fontFamily === 'lato', '--ct-black' : colorTheme === 'black'}" @click="setFontFamily('lato')">Обычный</span>
-                        <span class="vi-top__link --noto --btn" :class="{'--active': fontFamily === 'noto', '--ct-black' : colorTheme === 'black'}" @click="setFontFamily('noto')">С засечками</span>
+                        <span class="vi-top__link --btn" :class="{'--active': fontFamily === 'lato', '--ct-black' : colorTheme === 'black'}" @click="changeFontFamily('lato')">{{ $t('visualImpairedSettings.fontFamilySans') }}</span>
+                        <span class="vi-top__link --noto --btn" :class="{'--active': fontFamily === 'noto', '--ct-black' : colorTheme === 'black'}" @click="changeFontFamily('noto')">{{ $t('visualImpairedSettings.fontFamilySerif') }}</span>
                     </div>
                 </div>
             </div>
@@ -30,30 +30,32 @@
 </template>
 
 <script>
+    import {get, call} from 'vuex-pathify'
+
     export default {
-        data() {
-            return{
-                fontSize: '',
-                colorTheme: '',
-                fontFamily: ''
+        name: 'ViTop',
+        head() {
+          return {
+            bodyAttrs: {
+              class: this.bodyClasses
             }
+          }
         },
         methods: {
-            setFontSize(fsize) {
-                this.fontSize = '' + fsize + '';
-                document.body.classList.remove('sm','md','lrg');
-                document.body.classList.add('' + fsize + '')
-            },
-            setColorTheme(ctheme) {
-                this.colorTheme = '' + ctheme + '';
-                document.body.classList.remove("white","black");
-                document.body.classList.add('' + ctheme + '');
-            },
-            setFontFamily(ff) {
-                this.fontFamily = '' + ff + '';
-                document.body.classList.remove("lato","noto");
-                document.body.classList.add('' + ff + '');
-            }
+            ...call('visualImpairedModeSettings', [
+                'changeColorTheme',
+                'changeFontSize',
+                'changeFontFamily'
+            ])
+        },
+        computed: {
+            ...get('visualImpairedModeSettings', [
+                'bodyClasses',
+                'enabled',
+                'fontFamily',
+                'fontSize',
+                'colorTheme'
+            ])
         }
     }
 </script>

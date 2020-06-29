@@ -80,7 +80,7 @@
                     </div>
                     <div class="vi-object__content-complaint">
                         <nuxt-link :to="localePath({name: 'complaint', query: {objectId: $route.params.id}})" class="vi__button">{{ $t('objects.makeComplaint') }}</nuxt-link>
-                        <button type="button" class="vi__button">{{ $t('objects.confirm') }}</button>
+                        <button type="button" class="vi__button" @click="showVerificationPopup = true">{{ $t('objects.confirm') }}</button>
                     </div>
                 </div>
             </div>
@@ -119,6 +119,23 @@
             <gallery id="blueimp-gallery" :images="images" :index="imagesIndex" :options="imagesOptions" @close="imagesIndex = null"></gallery>
             <gallery id="blueimp-video" class="blueimp-gallery-controls" :images="videos" :index="videosIndex" :options="videosOptions" @close="videosIndex = null"></gallery>
         </client-only>
+      <div class="vi-popup__wrapper" v-if="showVerificationPopup">
+        <div class="vi-popup-b">
+          <div class="vi-popup">
+            <div class="vi-popup__close" @click="showVerificationPopup = false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <path d="M50 10L9.99999 50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M10 10L50 50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h4 class="vi-popup__title">{{ $t('objects.verificationPopupTitle') }}</h4>
+            <p class="vi-popup__text">{{ $t('objects.verificationPopupQuestion', {objectName: object.title}) }}</p>
+            <div class="vi-popup__button">
+              <button class="vi__button --half" type="button" @click="submitVerification('confirm')">Да</button><button type="button" @click="submitVerification('reject')" class="vi__button --half">Нет</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -137,6 +154,7 @@
         ],
         data() {
             return {
+                showVerificationPopup: false,
                 activeTab: 0,
                 reviewNew: false,
                 objectInfoShow: false,
@@ -208,7 +226,12 @@
                 this.reviewText = ''
                 this.reviewNew = false
             },
-            _submitReview: call('object/submitReview')
+            async submitVerification(status) {
+              this.showVerificationPopup = false
+              await this._submitVerification(status)
+            },
+            _submitReview: call('object/submitReview'),
+            _submitVerification: call('object/submitVerification'),
         }
     }
 </script>

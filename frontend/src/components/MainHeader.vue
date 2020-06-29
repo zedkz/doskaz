@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import {call} from 'vuex-pathify'
 import LangSelect from "~/components/LangSelect";
 export default {
   data() {
@@ -74,17 +75,7 @@ export default {
     LangSelect
   },
   methods: {
-    viToggle: function () {
-      document.getElementById('vi-top').classList.toggle('hidden');
-
-      if ( document.getElementById('vi-top').classList.contains('hidden') ) {
-        this.currentClassList = document.body.className; console.log(this.currentClassList);
-        document.body.className = "";
-      }
-      else {
-        document.body.className = this.currentClassList;
-      }
-    }
+    viToggle: call('visualImpairedModeSettings/toggle')
   }
 };
 </script>
