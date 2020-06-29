@@ -103,23 +103,6 @@
             </div>
             <ViFooter></ViFooter>
         </div>
-        <div class="vi-popup__wrapper" v-if="viPopupExample">
-            <div class="vi-popup-b">
-                <div class="vi-popup">
-                    <div class="vi-popup__close" @click="viPopupExample = false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-                            <path d="M50 10L9.99999 50" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M10 10L50 50" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h4 class="vi-popup__title">Подтвердите данные об объекте</h4>
-                    <p class="vi-popup__text">Считаете ли вы, что все данные об объекте суши-бар Saya Sushi заполнены верно?</p>
-                    <div class="vi-popup__button">
-                        <button class="vi__button --half" type="button">Да</button><button type="button" class="vi__button --half">Нет</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
