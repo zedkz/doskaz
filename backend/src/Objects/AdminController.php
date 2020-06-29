@@ -42,7 +42,7 @@ class AdminController extends AbstractController
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'object_categories', 'objects.category_id = object_categories.id')
-            ->leftJoin('objects', 'cities_geometry', 'cities_geometry', 'objects.point_value && cities_geometry.geometry')
+            ->leftJoin('objects', 'cities_geometry', 'cities_geometry', 'ST_Contains(cities_geometry.geometry, objects.point_value::geometry)')
             ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
             ->andWhere('objects.deleted_at IS NULL');
 
@@ -53,7 +53,7 @@ class AdminController extends AbstractController
                     SELECT 1
                     FROM cities_geometry
                     WHERE cities_geometry.id IN (:cities)
-                    AND cities_geometry.geometry && objects.point_value
+                    AND ST_Contains(cities_geometry.geometry, objects.point_value::geometry)
                     LIMIT 1
                 )
             ')->setParameter('cities', $cities, Connection::PARAM_INT_ARRAY);
