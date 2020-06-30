@@ -17,6 +17,8 @@ services:
 
   frontend:
     restart: unless-stopped
+    environment:
+      - ROBOTS_ALLOW=true
 
   database:
     restart: unless-stopped
