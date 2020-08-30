@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build --standalone",
-    "start": "nuxt-start"
+    "start": "nuxt start"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
@@ -15,8 +15,7 @@
     "@nuxtjs/sentry": "^4.3.4",
     "cookie-universal-nuxt": "^2.1.4",
     "dotenv": "^8.2.0",
-    "nuxt-i18n": "^6.13.12",
-    "nuxt-start": "^2.14.4"
+    "nuxt-i18n": "^6.13.12"
   },
   "devDependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
