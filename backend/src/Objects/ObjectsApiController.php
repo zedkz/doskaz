@@ -593,6 +593,9 @@ final class ObjectsApiController extends AbstractController
      *     path="/api/objects/filter",
      *     summary="Поиск объектов",
      *     tags={"Объекты"},
+     *     @Parameter(name="accessibilityLevels", in="query", description="Оценки доступности", style="deepObject", @Schema(type="array", @Items(type="string", enum={"full_accessiblie", "partial_accessible", "not_accessible"}))),
+     *     @Parameter(name="disabilitiesCategory", in="query", required=false, description="Категория пользователя", @Schema(type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_CATEGORIES)),
+     *     @Parameter(name="subCategoryId", in="query", description="id подкатегории", @Schema(type="integer")),
      *     @Parameter(name="cityId", in="query", required=true, description="id города", @Schema(type="integer"), example=9103),
      *     @Parameter(name="query", in="query", required=true, description="Текст поиска", @Schema(type="string")),
      *     @Response(
@@ -605,7 +608,7 @@ final class ObjectsApiController extends AbstractController
      *                  @Property(type="string", property="title", description="Наименование объекта"),
      *                  @Property(type="string", property="address", description="Адрес объекта"),
      *                  @Property(type="string", property="category", description="Категория объекта"),
-     *                  @Property(type="string", property="icon", description="Иконка объекта"),
+     *                  @Property(type="string", property="score", description="Оценка доступности объекта", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
      *              )
      *         )
      *     )

@@ -49,7 +49,9 @@ export default {
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
-        ['@nuxtjs/dotenv', {path: './'}]
+        ['@nuxtjs/dotenv', {path: './'}],
+        '@nuxtjs/google-analytics',
+        '@nuxtjs/yandex-metrika'
     ],
     css: [
         '~/static/normalize.css',
@@ -78,6 +80,16 @@ export default {
         link: [
             {rel: 'icon', type: 'image/png', href: '/favicon.png?v1'}
         ]
+    },
+    googleAnalytics: {
+        id: 'UA-176268948-1'
+    },
+    yandexMetrika: {
+        id: '66710635',
+        webvisor: true,
+        clickmap: true,
+        trackLinks:true,
+        accurateTrackBounce:true
     },
     robots: process.env.ROBOTS_ALLOW
         ? [

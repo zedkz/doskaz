@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\Routing\Annotation\Route;
+use function OpenApi\scan;
 
 /**
  * @Info(title="doskaz api", version="1")
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocumentationController extends AbstractController
 {
-    private $srcDir;
+    private string $srcDir;
 
     public function __construct(string $srcDir)
     {
@@ -29,7 +30,7 @@ class DocumentationController extends AbstractController
      */
     public function swaggerJson()
     {
-        $openapi = \OpenApi\scan($this->srcDir);
+        $openapi = scan($this->srcDir);
         return JsonResponse::fromJsonString($openapi->toJson());
     }
 
@@ -37,11 +38,15 @@ class DocumentationController extends AbstractController
      * @Route(path="/api/docs")
      * @Template(template="api_docs.html.twig")
      * @param Profiler|null $profiler
+     * @return array
      */
     public function docs(?Profiler $profiler)
     {
         if ($profiler) {
             $profiler->disable();
         }
+        return [
+            'spec' => scan($this->srcDir)->toJson()
+        ];
     }
 }

@@ -1,7 +1,7 @@
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.20.1/swagger-ui.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.20.1/swagger-ui-bundle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.18.1/swagger-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.18.1/swagger-ui-bundle.js"></script>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
 <script>
     (function () {
         SwaggerUIBundle({
-            url: {{ path('api.swagger.json') | json_encode | raw }},
+            spec: {{ spec | raw }},
             dom_id: '#swagger-ui',
             presets: [
                 SwaggerUIBundle.presets.apis,
