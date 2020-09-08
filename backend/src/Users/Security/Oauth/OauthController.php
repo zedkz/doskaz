@@ -86,6 +86,7 @@ final class OauthController extends AbstractController
      *         @JsonContent(
      *             @Property(type="string", property="provider", enum={"google", "facebook", "vkontakte", "mailru"}),
      *             @Property(type="string", property="code"),
+     *             @Property(type="string", property="redirectUri", nullable=true),
      *         )
      *     ),
      *     @\OpenApi\Annotations\Response(response="404", description="Provider not found"),

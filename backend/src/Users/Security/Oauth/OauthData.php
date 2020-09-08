@@ -16,4 +16,9 @@ final class OauthData implements DataObject
      * @var string
      */
     public $provider;
+
+    /**
+     * @var string|null
+     */
+    public $redirectUri;
 }
