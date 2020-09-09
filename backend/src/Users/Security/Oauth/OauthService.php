@@ -56,10 +56,9 @@ class OauthService
             if($redirectUri) {
                 $parameters['redirect_uri'] = $redirectUri;
             }
-
             $accessToken = $provider->getAccessToken('authorization_code', $parameters);
         } catch (IdentityProviderException $e) {
-            throw new InvalidCode('Invalid code', $e->getCode(), $e);
+            throw new InvalidCode($e->getMessage(), $e->getCode(), $e);
         }
 
         /**
