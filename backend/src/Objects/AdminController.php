@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -30,6 +31,9 @@ class AdminController extends AbstractController
      */
     public function list(Request $request, Connection $connection, RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder, RegionalCoordinatorRepository $regionalCoordinatorRepository)
     {
+
+        $filter = json_decode($request->query->get('filter', '{}'), true);
+
         $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
         $queryBuilder = $connection->createQueryBuilder()
             ->select([
@@ -45,6 +49,53 @@ class AdminController extends AbstractController
             ->leftJoin('objects', 'cities_geometry', 'cities_geometry', 'ST_Contains(cities_geometry.geometry, objects.point_value::geometry)')
             ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
             ->andWhere('objects.deleted_at IS NULL');
+
+        foreach ($filter as $option => $value) {
+            switch ($option) {
+                case 'cityId':
+                    if ($value !== 'all') {
+                        $queryBuilder->andWhere('cities.id = :cityId')
+                            ->setParameter('cityId', $value);
+                    }
+                    break;
+                case 'title':
+                    if ($value) {
+                        $queryBuilder->andWhere('objects.title ilike :title')
+                            ->setParameter('title', "%$value%");
+                    }
+                    break;
+                case 'address':
+                    if ($value) {
+                        $queryBuilder->andWhere('objects.address ilike :address')
+                            ->setParameter('address', "%$value%");
+                    }
+                    break;
+                case 'categoryId':
+                    if ($value !== 'all') {
+                        $queryBuilder->andWhere('object_categories.parent_id = :categoryId')
+                            ->setParameter('categoryId', $value);
+                    }
+                    break;
+                case 'subCategoryId':
+                    if ($value !== 'all') {
+                        $queryBuilder->andWhere('objects.category_id = :subCategoryId')
+                            ->setParameter('subCategoryId', $value);
+                    }
+                    break;
+                case 'dateFrom':
+                    if ($value) {
+                        $queryBuilder->andWhere('objects.created_at::date >= :dateFrom')
+                            ->setParameter('dateFrom', $value);
+                    }
+                    break;
+                case 'dateTo':
+                    if ($value) {
+                        $queryBuilder->andWhere('objects.created_at::date <= :dateTo')
+                            ->setParameter('dateTo', $value);
+                    }
+                    break;
+            }
+        }
 
         if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
             $cities = $coordinatorCitiesFinder->find($this->getUser()->id());
