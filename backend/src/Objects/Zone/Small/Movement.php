@@ -49,6 +49,13 @@ class Movement extends Zone
             $builder->withMovementFullAccessible();
         }
 
+        if ($this->isMatches([1, 6, 7, 1000], Attribute::yes()) && $this->isMatches([1001], Attribute::notProvided())) {
+            $builder->withMovementFullAccessible();
+        }
+        if ($this->isMatches([1, 6, 7, 1001], Attribute::yes()) && $this->isMatches([1000], Attribute::notProvided())) {
+            $builder->withMovementFullAccessible();
+        }
+
         return $builder->build();
     }
 }
