@@ -86,6 +86,7 @@ final class OauthController extends AbstractController
      *         @JsonContent(
      *             @Property(type="string", property="provider", enum={"google", "facebook", "vkontakte", "mailru"}),
      *             @Property(type="string", property="code"),
+     *             @Property(type="string", property="redirectUri", nullable=true),
      *         )
      *     ),
      *     @\OpenApi\Annotations\Response(response="404", description="Provider not found"),
@@ -97,7 +98,7 @@ final class OauthController extends AbstractController
     public function oauthAccessTokenAuthenticate(OauthService $oauthService, Request $request, OauthData $oauthData, UserAuthenticator $authenticator)
     {
         try {
-            ['user' => $user, 'created' => $created] = $oauthService->userByProviderAndCode($oauthData->provider, $oauthData->code);
+            ['user' => $user, 'created' => $created] = $oauthService->userByProviderAndCode($oauthData->provider, $oauthData->code, $oauthData->redirectUri);
             return $authenticator->authenticate($request, $user)->setStatusCode($created ? Response::HTTP_CREATED : Response::HTTP_OK);
         } catch (ProviderNotFound $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);

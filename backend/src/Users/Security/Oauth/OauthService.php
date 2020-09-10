@@ -38,7 +38,7 @@ class OauthService
         $this->flusher = $flusher;
     }
 
-    public function userByProviderAndCode(string $providerKey, string $code)
+    public function userByProviderAndCode(string $providerKey, string $code, ?string $redirectUri = null)
     {
         if (!$this->oauthProviderLocator->has($providerKey)) {
             throw new ProviderNotFound(sprintf('Provider %s not found', $providerKey));
@@ -50,11 +50,15 @@ class OauthService
         $provider = $this->oauthProviderLocator->get($providerKey);
 
         try {
-            $accessToken = $provider->getAccessToken('authorization_code', [
-                'code' => $code
-            ]);
+            $parameters = [
+                'code' => $code,
+            ];
+            if($redirectUri) {
+                $parameters['redirect_uri'] = $redirectUri;
+            }
+            $accessToken = $provider->getAccessToken('authorization_code', $parameters);
         } catch (IdentityProviderException $e) {
-            throw new InvalidCode('Invalid code', $e->getCode(), $e);
+            throw new InvalidCode($e->getMessage(), $e->getCode(), $e);
         }
 
         /**
