@@ -38,7 +38,7 @@ class Movement extends Zone
             $builder->withMovementNotAccessible();
         }
 
-        if (($this->isMatchesPartial([1, 6, 7, 1000, 1001], Attribute::yes()) || $this->isMatchesPartial([1, 6, 7, 1000, 1001], Attribute::unknown())) && !$this->isMatchesAll(Attribute::no())) {
+        if (($this->isMatchesPartial([1, 6, 7, 1000, 1001], Attribute::yes()) || $this->isMatchesPartial([1, 6, 7, 1000, 1001], Attribute::unknown())) && !$this->isMatchesPartial([1, 6, 7, 1000, 1001], Attribute::no())) {
             $builder->withMovementFullAccessible();
         }
 
