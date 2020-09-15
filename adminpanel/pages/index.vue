@@ -38,7 +38,7 @@
         },
         mounted() {
             if (this.$route.name === 'index') {
-                window.location.href = this.links[0].path
+                window.location.href = `/admin/${this.links[0].path}`
             }
         },
         computed: {
