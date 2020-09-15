@@ -4,7 +4,7 @@ name: stage
 
 steps:
   - name: deploy
-    image: docker/compose:1.24.0
+    image: docker/compose:1.27.0
     commands:
       - cd docker
       - docker-compose up -d -V --build
@@ -12,6 +12,8 @@ steps:
     environment:
       COMPOSE_PROJECT_NAME: doskaz
       COMPOSE_FILE: docker-compose.yml:docker-compose.stage.yml
+      COMPOSE_DOCKER_CLI_BUILD: 1
+      DOCKER_BUILDKIT: 1
       APP_HOST: doskaz.vps3.zed.kz
       BACKEND_DOMAIN: http://doskaz.vps3.zed.kz
       FIREBASE_API_KEY:
