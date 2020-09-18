@@ -2,6 +2,9 @@
     "aego/oauth2-mailru": {
         "version": "2.0"
     },
+    "brick/math": {
+        "version": "0.9.1"
+    },
     "clue/stream-filter": {
         "version": "v1.4.1"
     },
@@ -93,6 +96,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
+    },
     "geoip2/geoip2": {
         "version": "v2.10.0"
     },
@@ -135,9 +141,6 @@
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
-    },
     "jean85/pretty-package-versions": {
         "version": "1.2"
     },
@@ -171,6 +174,9 @@
             "config/packages/flysystem.yaml",
             "var/storage/.gitignore"
         ]
+    },
+    "league/mime-type-detection": {
+        "version": "1.4.0"
     },
     "league/oauth2-client": {
         "version": "2.4.1"
@@ -353,6 +359,9 @@
     "symfony/dotenv": {
         "version": "v4.3.5"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.13"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.3.5"
     },
@@ -399,6 +408,12 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/http-client": {
+        "version": "v4.3.11"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.10"
+    },
     "symfony/http-foundation": {
         "version": "v4.3.5"
     },
@@ -437,6 +452,9 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
     },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.18.1"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.12.0"
     },
@@ -445,6 +463,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.18.1"
     },
     "symfony/polyfill-uuid": {
         "version": "v1.13.1"
@@ -595,6 +616,9 @@
     },
     "twig/twig": {
         "version": "v2.12.0"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.5.0"
