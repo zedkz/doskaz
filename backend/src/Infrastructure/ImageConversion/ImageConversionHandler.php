@@ -37,7 +37,7 @@ class ImageConversionHandler implements MessageHandlerInterface
             return;
         }
 
-        $tempName = '/tmp/' . $message->path;
+        $tempName = tempnam('/tmp', 'image');
 
         $this->manager->make($this->filesystem->readStream($message->path))
             ->orientate()
