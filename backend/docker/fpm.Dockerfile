@@ -78,7 +78,7 @@ RUN docker-php-ext-install -j$(nproc) \
 
 ARG user_id=33
 RUN usermod -u $user_id www-data && groupmod -g $user_id www-data
-COPY --from=build /var/www/html /var/www/html
+COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
 COPY ./docker/opcache.ini $PHP_INI_DIR/conf.d/
