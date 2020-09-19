@@ -35,6 +35,9 @@ services:
   geoip_updater:
     restart: unless-stopped
 
+  rabbitmq:
+    restart: unless-stopped
+
   pgbackups:
     image: prodrigestivill/postgres-backup-local:11-alpine
     depends_on:

@@ -8,11 +8,7 @@ doctrine:
                 url: '%env(resolve:DATABASE_URL)%'
                 mapping_types:
                     _text: string
-            dospav:
-                driver: 'pdo_mysql'
-                url: '%env(resolve:DOSPAV_DATABASE_URL)%'
-                server_version: '5.7'
-                charset: utf8mb4
+
         types:
             geography:
                 class: 'Jsor\Doctrine\PostGIS\Types\GeographyType'

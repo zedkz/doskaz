@@ -51,3 +51,6 @@ services:
 
   gotenberg:
     restart: unless-stopped
+
+  rabbitmq:
+    restart: unless-stopped
