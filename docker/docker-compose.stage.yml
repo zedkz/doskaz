@@ -54,3 +54,8 @@ services:
 
   rabbitmq:
     restart: unless-stopped
+
+  worker:
+    environment:
+      - SENTRY_DSN
+    restart: unless-stopped
