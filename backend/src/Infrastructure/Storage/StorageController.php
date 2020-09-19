@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Storage;
 
 use App\Blog\Image;
+use App\Infrastructure\ImageConversion\ImageConversion;
 use Hoa\Mime\Mime;
 use League\Flysystem\FilesystemInterface;
 use OpenApi\Annotations\JsonContent;
@@ -16,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,15 +26,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 final class StorageController extends AbstractController
 {
-    /**
-     * @var FilesystemInterface
-     */
-    private $filesystem;
+    private FilesystemInterface $filesystem;
 
-    public function __construct(FilesystemInterface $defaultStorage)
+    private MessageBusInterface $messageBus;
+
+    public function __construct(FilesystemInterface $defaultStorage, MessageBusInterface $messageBus)
     {
-        //   $this->adapter = $adapter;
         $this->filesystem = $defaultStorage;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -69,6 +70,7 @@ final class StorageController extends AbstractController
         $extensions = Mime::getExtensionsFromMime($mime);
         $nameWithExtension = $name.'.'.$extensions[0];
         $this->filesystem->rename($name, $nameWithExtension);
+        $this->messageBus->dispatch(new ImageConversion($nameWithExtension));
 
         return [
             'path' => "/storage/{$nameWithExtension}"
