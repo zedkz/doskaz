@@ -1,15 +1,26 @@
-FROM php:7.4.4-fpm AS base
+FROM php:7.4.10-fpm AS base
 RUN apt-get update \
     && apt-get install -y \
         libpq-dev \
         libzip-dev \
         unzip \
-    && rm -rf /var/lib/apt/lists/*
+        librabbitmq-dev \
+        libmagickwand-dev \
+        jpegoptim \
+        optipng \
+        pngquant \
+        gifsicle \
+        webp \
+    && rm -rf /var/lib/apt/lists/* \
+    && pecl install amqp \
+    && pecl install imagick \
+    && echo extension=amqp.so > /usr/local/etc/php/conf.d/amqp.ini \
+    && echo extension=imagick.so > /usr/local/etc/php/conf.d/imagick.ini
+
 RUN docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
         zip \
         opcache
-
 
 FROM base as build
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer global require hirak/prestissimo

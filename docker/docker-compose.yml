@@ -19,6 +19,7 @@ services:
       - OAUTH_MAILRU_CLIENT_SECRET
       - OAUTH_MAILRU_REDIRECT_URI
       - OPENCAGE_API_KEY
+      - MESSENGER_TRANSPORT_DSN=amqp://guest:guest@rabbitmq:5672/%2f/messages
     build:
       context: ../backend
       dockerfile: ./docker/fpm.Dockerfile
@@ -131,6 +132,11 @@ services:
     volumes:
       - geoip_data:/data
 
+  rabbitmq:
+    image: rabbitmq:3.8.8-alpine
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   doskaz_db:
     external: true
@@ -138,6 +144,7 @@ volumes:
     external: true
   geoip_data:
     driver: local
+  rabbitmq_data: {}
 
 networks:
   web:
