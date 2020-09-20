@@ -25,13 +25,19 @@ class ConvertAllImages extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $files = $this->defaultStorage->listContents('', true);
-        foreach ($files as $file) {
-            $mime = $this->defaultStorage->getMimetype($file['path']);
+        ini_set('memory_limit', '512M');
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('/var/www/html/storage'));
+
+        foreach ($iterator as $value) {
+            if (!$value->isFile()) {
+                continue;
+            }
+            $path = str_replace('/var/www/html/storage/', '', $value->getPathname());
+            $mime = $this->defaultStorage->getMimetype($path);
             if (!str_starts_with($mime, 'image')) {
                 continue;
             }
-            $this->messageBus->dispatch(new ImageConversion($file['path']));
+            $this->messageBus->dispatch(new ImageConversion($path));
         }
     }
 }

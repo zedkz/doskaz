@@ -85,4 +85,4 @@ COPY ./docker/opcache.ini $PHP_INI_DIR/conf.d/
 
 USER www-data
 ARG app_env
-CMD ["/usr/local/bin/php", "/var/www/html/bin/console", "messenger:consume", "async", "--limit=100"]
+CMD ["/usr/local/bin/php", "/var/www/html/bin/console", "messenger:consume", "async", "--time-limit=3600"]

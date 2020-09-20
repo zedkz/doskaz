@@ -150,8 +150,14 @@
     "jsor/doctrine-postgis": {
         "version": "v1.7.0"
     },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
     "laminas/laminas-escaper": {
         "version": "2.6.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.3.0"
     },
     "laminas/laminas-feed": {
         "version": "2.12.0"
