@@ -32,6 +32,8 @@ class ImageConversionHandler implements MessageHandlerInterface
 
     public function __invoke(ImageConversion $message)
     {
+        ini_set('memory_limit', '512M');
+
         if (!$this->filesystem->has($message->path)) {
             $this->logger->warning(sprintf('File path "%s" not found', $message->path));
             return;
@@ -44,7 +46,7 @@ class ImageConversionHandler implements MessageHandlerInterface
             ->resize(1920, 1920, function (Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
-            })->save($tempName);
+            })->save($tempName, 100);
 
         $this->optimizer->optimize($tempName);
 
