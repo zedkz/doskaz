@@ -8,3 +8,16 @@ services:
         - user_id=1000
     volumes:
       - ../backend:/var/www/html
+
+  worker:
+    build:
+      args:
+        - app_env=prod
+        - user_id=1000
+    volumes:
+      - ../backend:/var/www/html
+
+  backend_nginx:
+    labels:
+      - traefik.http.routers.doskaz_app.rule=Host(`${APP_HOST}`) && PathPrefix(`/api`, `/storage`, `/static`, `/_profiler`)
+
