@@ -43,7 +43,7 @@ class ImageConversionHandler implements MessageHandlerInterface
 
         $this->manager->make($this->filesystem->readStream($message->path))
             ->orientate()
-            ->resize(1920, 1920, function (Constraint $constraint) {
+            ->resize(1920, 1080, function (Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })->save($tempName, 100);
