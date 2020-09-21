@@ -79,7 +79,7 @@ steps:
     image: docker/compose:1.24.0
     commands:
       - cd docker
-      - docker-compose up -d --build
+      - docker-compose up -d --build --scale worker=3
       - docker-compose exec -T --user www-data backend php bin/console d:m:m
     environment:
       COMPOSE_PROJECT_NAME: doskaz
