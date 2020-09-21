@@ -153,6 +153,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.8.8-alpine
+    hostname: rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
