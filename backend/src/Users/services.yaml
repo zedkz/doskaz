@@ -74,3 +74,6 @@ services:
 
     App\Users\AdminController:
         tags: ['controller.service_arguments']
+
+    App\Users\Security\SignInWithAppleController:
+        tags: ['controller.service_arguments']

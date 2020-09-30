@@ -11,6 +11,7 @@ RUN apt-get update \
         pngquant \
         gifsicle \
         webp \
+        libgmp-dev \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install amqp \
     && pecl install imagick \
@@ -20,7 +21,8 @@ RUN apt-get update \
 RUN docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
         zip \
-        opcache
+        opcache \
+        gmp
 
 FROM base as build
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer global require hirak/prestissimo
