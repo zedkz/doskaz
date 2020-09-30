@@ -55,6 +55,7 @@
         "symfony/yaml": "4.4.*",
         "thecodingmachine/gotenberg-php-client": "^6.1",
         "tuupola/base62": "^2.0",
+        "web-token/jwt-framework": "^2.2",
         "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
