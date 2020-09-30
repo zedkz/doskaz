@@ -480,27 +480,7 @@
                         <label class="label">{{ $t('complaint.uploadPhoto') }}</label>
                     </div>
                     <div class="complaint__col --lg --vertical">
-                        <div class="photo-input__wrapper">
-                            <div
-                                    class="photo-input required"
-                                    :class="{error: violations['content.photos'] && !photo.preview}"
-                                    v-for="(photo, index) in photosRaw" :key="index"
-                            >
-                                <input
-                                        type="file"
-                                        accept="image/*"
-                                        @change="imageFileChanged($event, index)"
-                                />
-                                <span
-                                        v-if="photo.preview"
-                                        v-bind:style="{'background-image': `url(${photo.preview})`}"
-                                ></span>
-                            </div>
-                        </div>
-
-                        <button type="button" @click.prevent="addPhotoInput" class="add-link">
-                            {{ $t('complaint.addMorePhotos') }}
-                        </button>
+                      <photo-uploader v-model="photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
                         <div class="complaint__line">
                             <button class="button" @click="submit">{{ $t('complaint.submit') }}</button>
                             <p class="complaint__hide-text" v-if="hasViolations">
@@ -520,6 +500,7 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import ru from 'vuejs-datepicker/dist/locale/translations/ru'
 import complaintTypes from "~/complaintTypes";
+import PhotoUploader from "@/components/object_add/PhotoUploader";
 
 const fields = [
     {
@@ -884,7 +865,7 @@ export default {
             url: null
         };
     },
-    components: {Loading},
+    components: {PhotoUploader, Loading},
     mounted() {
         this.complaint = this.initialData
     },
@@ -947,16 +928,12 @@ export default {
             this.isLoading = true;
             this.violations = {};
             try {
-                const uploads = await Promise.all(
-                        this.photosRaw.filter(photo => !!photo.file)
-                                .map(photo => this.$axios.post("/api/storage/upload", photo.file))
-                );
                 this.complaint.content.options = transform(this.complaintType2Attributes, (r, v, k) => {
                     if (v) {
                         r.push(k)
                     }
                 }, []);
-                this.complaint.content.photos = uploads.map(upload => upload.data.path);
+                this.complaint.content.photos = this.photos;
                 const {data} = await this.$axios.post("/api/complaints", this.complaint);
                 return this.redirect(data.id, this.complaint.objectId)
             } catch (e) {

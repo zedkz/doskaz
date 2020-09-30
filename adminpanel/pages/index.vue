@@ -38,7 +38,7 @@
         },
         mounted() {
             if (this.$route.name === 'index') {
-                this.$router.push(this.links[0].path)
+                window.location.href = `/adminpanel${this.links[0].path}`
             }
         },
         computed: {
