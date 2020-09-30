@@ -19,6 +19,7 @@ services:
       - OAUTH_MAILRU_CLIENT_SECRET
       - OAUTH_MAILRU_REDIRECT_URI
       - OPENCAGE_API_KEY
+      - MESSENGER_TRANSPORT_DSN=amqp://guest:guest@rabbitmq:5672/%2f/messages
     build:
       context: ../backend
       dockerfile: ./docker/fpm.Dockerfile
@@ -31,6 +32,25 @@ services:
       - geoip_data:/geoip_data:ro
     depends_on:
       - database
+
+  worker:
+    environment:
+      - DATABASE_URL=pgsql://postgres:${DB_PASSWORD}@database:5432/${DB_NAME}
+      - MESSENGER_TRANSPORT_DSN=amqp://guest:guest@rabbitmq:5672/%2f/messages
+      - OPENCAGE_API_KEY
+    build:
+      context: ../backend
+      dockerfile: ./docker/fpm.Dockerfile
+      target: worker
+      args:
+        - app_env=prod
+    restart: unless-stopped
+    volumes:
+      - doskaz_storage:/var/www/html/storage
+      - doskaz_storage:/var/www/html/public/storage
+    depends_on:
+      - database
+      - rabbitmq
 
   backend_nginx:
     build:
@@ -131,6 +151,12 @@ services:
     volumes:
       - geoip_data:/data
 
+  rabbitmq:
+    image: rabbitmq:3.8.8-alpine
+    hostname: rabbitmq
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   doskaz_db:
     external: true
@@ -138,6 +164,7 @@ volumes:
     external: true
   geoip_data:
     driver: local
+  rabbitmq_data: {}
 
 networks:
   web:

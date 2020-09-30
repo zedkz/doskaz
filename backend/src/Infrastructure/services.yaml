@@ -88,3 +88,10 @@ services:
         lazy: true
 
     App\Infrastructure\Storage\Storage:
+
+    App\Infrastructure\ImageConversion\ImageConversionHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\Infrastructure\ImageConversion\ConvertAllImages:
+        tags:
+            - { name: 'console.command', command: 'app:convert-images'}

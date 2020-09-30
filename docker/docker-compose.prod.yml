@@ -8,6 +8,11 @@ services:
       - SENTRY_DSN
       - TRUSTED_PROXIES=172.21.0.3/8
 
+  worker:
+    environment:
+      - SENTRY_DSN
+    restart: unless-stopped
+
   backend_nginx:
     restart: unless-stopped
     networks:
@@ -33,6 +38,9 @@ services:
     restart: unless-stopped
 
   geoip_updater:
+    restart: unless-stopped
+
+  rabbitmq:
     restart: unless-stopped
 
   pgbackups:
