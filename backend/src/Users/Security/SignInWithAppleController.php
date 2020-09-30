@@ -34,12 +34,12 @@ use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Property;
 
 /**
- * @Route(path="/api/sginInWithApple")
+ * @Route(path="/api/accessToken")
  */
 class SignInWithAppleController extends AbstractController
 {
     /**
-     * @Route(path="/byToken", methods={"POST"})
+     * @Route(path="/apple", methods={"POST"})
      * @param Request $request
      * @param OauthCredentialsRepository $credentialsRepository
      * @param UserRepository $userRepository
@@ -49,7 +49,7 @@ class SignInWithAppleController extends AbstractController
      * @throws InvalidClaimException
      * @throws MissingMandatoryClaimException
      * @Post(
-     *     path="/api/sginInWithApple/byToken",
+     *     path="/api/accessToken/apple",
      *     summary="Получение токена доступа через apple",
      *     tags={"Токены"},
      *     @RequestBody(
