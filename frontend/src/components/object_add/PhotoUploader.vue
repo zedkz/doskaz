@@ -3,7 +3,7 @@
         <div class="photo-input__wrapper">
             <div class="photo-input required" v-for="(slot, index) in slots" :key="index">
                 <loading :active="slot.isLoading" :is-full-page="false" :style="{'z-index': 10}"/>
-                <input type="file" accept="image/*" @change="onFileSelected($event, slot)"/>
+                <input type="file" accept="image/*" @change="onFileSelected($event, slot)" multiple="multiple"/>
                 <span v-if="slot.preview"
                       :style="{'background-image': `url(${slot.preview})`, 'background-size': 'cover'}"></span>
             </div>
@@ -51,32 +51,54 @@
         },
         methods: {
             addSlot() {
-                this.slots.push({
-                    preview: null,
-                    file: null,
-                    uploadedFile: null,
-                    isLoading: false
-                })
+              const slot = {
+                preview: null,
+                file: null,
+                uploadedFile: null,
+                isLoading: false
+              }
+              this.slots.push(slot)
+              return slot
+            },
+            uploadToSlot(file, slot) {
+              const reader = new FileReader();
+
+              reader.onload = e => {
+                slot.preview = e.target.result;
+              };
+              reader.readAsDataURL(file);
+              slot.file = file;
+              slot.isLoading = true;
+              this.$emit('is-uploading', true);
+              this.queue.push(slot, (e, res) => {
+                slot.isLoading = false;
+                slot.file = null;
+                slot.uploadedFile = res;
+              });
             },
             onFileSelected(e, slot) {
-                const [file] = e.target.files;
-                const reader = new FileReader();
+                if(e.target.files.length === 1) {
+                  return this.uploadToSlot(e.target.files[0], slot)
+                }
 
-                reader.onload = e => {
-                    slot.preview = e.target.result;
-                };
-                reader.readAsDataURL(file);
-                slot.file = file;
-                slot.isLoading = true;
-                this.$emit('is-uploading', true);
-                this.queue.push(slot, (e, res) => {
-                    slot.isLoading = false;
-                    slot.file = null;
-                    slot.uploadedFile = res;
-                });
+                const emptySlotsCount = this.emptySlots.length
+
+                const addCount = e.target.files.length - emptySlotsCount
+                if(addCount > 0) {
+                  for (let i = 0; i < addCount; i++) {
+                    this.addSlot()
+                  }
+                }
+
+                for (const file of e.target.files) {
+                  this.uploadToSlot(file, this.emptySlots[0])
+                }
             }
         },
         computed: {
+            emptySlots() {
+              return this.slots.filter(slot => !slot.file && !slot.isLoading && !slot.uploadedFile)
+            },
             uploaded() {
                 return this.slots.filter(slot => slot.uploadedFile)
                     .map(slot => slot.uploadedFile)
