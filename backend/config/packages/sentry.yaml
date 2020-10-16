@@ -6,4 +6,5 @@ sentry:
             - 'Symfony\Component\Security\Core\Exception\AccessDeniedException'
             - 'Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException'
             - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+            - 'Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException'
             - 'Symfony\Component\Routing\Exception\MethodNotAllowedException'
