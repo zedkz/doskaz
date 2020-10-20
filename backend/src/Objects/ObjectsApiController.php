@@ -574,7 +574,7 @@ final class ObjectsApiController extends AbstractController
             ->from('objects')
             ->join('objects', 'object_categories', 'object_categories', 'object_categories.id = objects.category_id')
             ->andWhere("ST_CONTAINS(($cityGeometry), objects.point_value::geometry)")
-            ->andWhere('SIMILARITY(CONCAT(objects.title, \' \', objects.address, \' \', object_categories.title), :search) > 0')
+            ->andWhere('SIMILARITY(CONCAT(objects.title, \' \', objects.address, \' \', object_categories.title, \' \', objects.other_names), :search) > 0')
             ->andWhere('deleted_at IS NULL')
             ->setParameter('search', $request->query->get('query', ''))
             ->setParameter('id', $cityId)
