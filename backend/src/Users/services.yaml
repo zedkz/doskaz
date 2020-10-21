@@ -80,3 +80,6 @@ services:
 
     App\Users\Security\SignInWithGoogleController:
         tags: [ 'controller.service_arguments' ]
+
+    App\Users\Security\SignInWithFacebookController:
+        tags: [ 'controller.service_arguments' ]
