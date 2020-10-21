@@ -83,3 +83,6 @@ services:
 
     App\Users\Security\SignInWithFacebookController:
         tags: [ 'controller.service_arguments' ]
+
+    App\Users\Security\SignInWithVkController:
+        tags: [ 'controller.service_arguments' ]
