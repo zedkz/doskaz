@@ -37,10 +37,10 @@ use OpenApi\Annotations\Property;
 /**
  * @Route(path="/api/accessToken")
  */
-class SignInWithFacebookController extends AbstractController
+class SignInWithMailruController extends AbstractController
 {
     /**
-     * @Route(path="/facebook", methods={"POST"})
+     * @Route(path="/mailru", methods={"POST"})
      * @param Request $request
      * @param OauthCredentialsRepository $credentialsRepository
      * @param UserRepository $userRepository
@@ -50,8 +50,8 @@ class SignInWithFacebookController extends AbstractController
      * @throws InvalidClaimException
      * @throws MissingMandatoryClaimException
      * @Post(
-     *     path="/api/accessToken/facebook",
-     *     summary="Получение токена доступа через facebook",
+     *     path="/api/accessToken/mailru",
+     *     summary="Получение токена доступа через mailru",
      *     tags={"Токены"},
      *     @RequestBody(
      *         @JsonContent(
@@ -67,18 +67,15 @@ class SignInWithFacebookController extends AbstractController
         $requestData = json_decode($request->getContent(), true);
 
         $token = $requestData['token'];
-
-        $response = file_get_contents("https://graph.facebook.com/v8.0/me?access_token=$token");
-
+        $response = file_get_contents(sprintf("https://oauth.mail.ru/userinfo?access_token=%s", $token));
         $profile = json_decode($response, true);
-
-        $credential = $credentialsRepository->findByNetworkAndIdentifier('facebook', $profile['id']);
+        $credential = $credentialsRepository->findByNetworkAndIdentifier('mailru', $profile['id']);
         $created = false;
 
         if (!$credential) {
-            $user = new User(FullName::parseFromString($profile['name']));
+            $user = new User(new FullName($profile['first_name'], $profile['last_name']));
             $userRepository->add($user);
-            $credential = new OauthCredentials($user->id(), 'facebook', $profile['id']);
+            $credential = new OauthCredentials($user->id(), 'mailru', $profile['id']);
             $credentialsRepository->add($credential);
             $flusher->flush();
             $created = true;

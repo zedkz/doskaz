@@ -72,7 +72,7 @@ class SignInWithVkController extends AbstractController
 
         $profile = json_decode($response, true)['response'];
 
-        $credential = $credentialsRepository->findByNetworkAndIdentifier('facebook', $profile['id']);
+        $credential = $credentialsRepository->findByNetworkAndIdentifier('vkontakte', $profile['id']);
         $created = false;
 
         if (!$credential) {
