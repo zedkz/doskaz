@@ -58,7 +58,7 @@ class AdminController extends AbstractController
                     SELECT 1
                     FROM cities_geometry
                     WHERE cities_geometry.id IN (:cities)
-                    AND cities_geometry.geometry && ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float)
+                    AND ST_Contains(cities_geometry.geometry, ST_SetSRID(ST_MakePoint((data->\'first\'->\'point\'->>1)::float, (data->\'first\'->\'point\'->>0)::float), 4326))
                     LIMIT 1
                 )
             ')->setParameter('cities', $cities, Connection::PARAM_INT_ARRAY);
