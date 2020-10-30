@@ -25,7 +25,7 @@ RUN docker-php-ext-install -j$(nproc) \
         gmp
 
 FROM base as build
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer global require hirak/prestissimo
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader --no-suggest && composer clear-cache
 COPY . .
