@@ -32,7 +32,7 @@ class ServiceAccessibility extends Zone
             return AccessibilityScore::partialAccessible();
         }
 
-        if ($this->isMatchesAll(Attribute::yes()) || $this->isMatches([1, 2], Attribute::yes())) {
+        if ($this->isMatchesAll(Attribute::yes()) || $this->isMatchesPartial([1, 2], Attribute::yes())) {
             return AccessibilityScore::fullAccessible();
         }
 
