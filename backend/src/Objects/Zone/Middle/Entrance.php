@@ -48,8 +48,12 @@ class Entrance extends Zone
             $intellectual = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 
-        if ($this->isMatches([1, 18, 60], Attribute::no()) || $this->isMatches([23, 24], Attribute::no())) {
+        if ($this->isMatches([1, 18, 60, 23, 24, 25], Attribute::no()) || $this->isMatchesPartial([1, 18, 60, 23, 24, 25], Attribute::no()) || $this->isMatchesPartial([1, 18, 60, 23, 24, 25], Attribute::notProvided())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
+        }
+
+        if ($this->isMatches([1], Attribute::no()) && $this->isMatchesAllExcept([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 32, 34, 35], Attribute::yes())) {
+            $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
 
         if ($this->isMatches([1], Attribute::no()) && $this->isMatches([2, 3, 4, 5, 6, 7, 8, 9, 10], Attribute::yes())) {

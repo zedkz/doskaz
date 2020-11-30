@@ -3,6 +3,7 @@
 
 namespace App\Objects\Zone\Middle;
 
+use App\Objects\AccessibilityScoreBuilder;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
 use App\Objects\AttributesConfiguration;
@@ -27,10 +28,26 @@ class Navigation extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        if ($this->isMatches([5, 6], Attribute::no())) {
-            return AccessibilityScore::notAccessible();
+
+        $scoreBuilder = AccessibilityScoreBuilder::initPartialAccessible();
+
+        if ($this->isMatches([1], Attribute::yes())) {
+            $scoreBuilder->withMovementFullAccessible()
+                ->withLimbFullAccessible();
         }
 
-        return AccessibilityScore::partialAccessible();
+        if ($this->isMatches([1, 15], Attribute::yes())) {
+            $scoreBuilder->withIntellectualFullAccessible();
+        }
+
+        if ($this->isMatches([1, 13], Attribute::yes())) {
+            $scoreBuilder->withHearingFullAccessible();
+        }
+
+        if ($this->isMatches([1, 4, 5, 6], Attribute::yes())) {
+            $scoreBuilder->withVisionFullAccessible();
+        }
+
+        return $scoreBuilder->build();
     }
 }

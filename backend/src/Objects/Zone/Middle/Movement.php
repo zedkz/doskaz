@@ -35,7 +35,7 @@ class Movement extends Zone
         $hearing = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
         $intellectual = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
 
-        if ($this->isMatches([32, 70], Attribute::no())) {
+        if ($this->isMatches([32, 70, 34, 35, 36], Attribute::no()) || $this->isMatchesPartial([32, 70, 34, 35, 36], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         }
 

@@ -92,7 +92,7 @@ class Entrance extends Zone
         }
 
         $builder = AccessibilityScoreBuilder::initPartialAccessible();
-        if ($this->isMatches([1, 18, 60], Attribute::no()) || $this->isMatches([23, 24], Attribute::no())) {
+        if (!$this->isMatches([1, 18, 60, 51, 23, 24, 25], Attribute::yes())) {
             $builder->withMovementNotAccessible();
         }
         if ($this->isMatches([1], Attribute::yes())) {
@@ -111,7 +111,7 @@ class Entrance extends Zone
             $builder->withVisionFullAccessible();
         }
 
-        if ($this->isMatches([1], Attribute::no()) && $this->isMatchesAllExcept([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], Attribute::yes())) {
+        if ($this->isMatches([1], Attribute::no()) && $this->isMatchesAllExcept([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 32, 34, 35], Attribute::yes())) {
             $builder->withMovementFullAccessible();
         }
 
