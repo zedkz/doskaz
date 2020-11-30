@@ -80,7 +80,7 @@ class SignInWithGoogleController extends AbstractController
         $verifier = new JWSVerifier($x);
         $verified = $verifier->verifyWithKeySet($token, $set, 0);
 
-        if(!$verified) {
+        if (!$verified) {
             return $this->json(['message' => 'Invalid token'], 400);
         }
 
@@ -91,14 +91,21 @@ class SignInWithGoogleController extends AbstractController
             new ExpirationTimeChecker()
         ];
 
-        $aud1 = new AudienceChecker('511916625182-f2o6lj1jocc7ak2un3bn4tbiipevlpn6.apps.googleusercontent.com');
+        $androidAud = new AudienceChecker('511916625182-f2o6lj1jocc7ak2un3bn4tbiipevlpn6.apps.googleusercontent.com');
+        $iosAud = new AudienceChecker('626405536439-etjda3n0sfj78jfn69qukt2vuu3754lq.apps.googleusercontent.com');
 
 
-        $checker = new ClaimCheckerManager([...$claimCheckers, $aud1]);
-
+        $androidChecker = new ClaimCheckerManager([...$claimCheckers, $androidAud]);
+        $iosChecker = new ClaimCheckerManager([...$claimCheckers, $iosAud]);
 
         $claims = json_decode($token->getPayload(), true);
-        $checker->check($claims);
+
+        try {
+            $androidChecker->check($claims);
+        } catch (InvalidClaimException $exception) {
+            $iosChecker->check($claims);
+        }
+
         $credential = $credentialsRepository->findByNetworkAndIdentifier('google', $claims['sub']);
         $created = false;
 
