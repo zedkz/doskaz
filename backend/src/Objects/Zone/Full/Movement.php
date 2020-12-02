@@ -44,6 +44,10 @@ class Movement extends Zone
             $builder->withVisionFullAccessible();
         }
 
+        if ($this->isMatchesPartial([32, 70, 34, 35, 55, 56, 57], Attribute::yes())) {
+            $builder->withMovementPartialAccessible();
+        }
+
         if ($this->isMatchesAllExcept([36, 58, 12, 13, 14, 15, 16, 17, 18], Attribute::yes())) {
             $builder->withMovementFullAccessible();
         }
