@@ -87,7 +87,7 @@ final class ObjectsApiController extends AbstractController
                 'ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS lat'
             ])
             ->from('objects')
-            ->andWhere('ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326) && point_value')
+            ->andWhere('ST_Contains(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326)::geometry, point_value::geometry)')
             ->andWhere('objects.deleted_at IS NULL')
             ->groupBy('hash')
             ->having('COUNT(*) > 1')
@@ -133,7 +133,7 @@ final class ObjectsApiController extends AbstractController
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'categories', 'categories.id = objects.category_id')
-            ->andWhere('ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326) && point_value')
+            ->andWhere('ST_Contains(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326)::geometry, point_value::geometry)')
             ->andWhere('objects.deleted_at IS NULL')
             ->andWhere('ST_GEOHASH(point_value, :precision) NOT IN (:ids)')
             ->setParameters([
@@ -777,7 +777,7 @@ final class ObjectsApiController extends AbstractController
                 'ST_Y(ST_CENTROID(ST_COLLECT(objects.point_value::GEOMETRY))) AS lat'
             ])
             ->from('objects')
-            ->andWhere('ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326) && point_value')
+            ->andWhere('ST_Contains(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326)::geometry, point_value::geometry)')
             ->andWhere('objects.deleted_at IS NULL')
             ->groupBy('hash')
             ->having('COUNT(*) > 1')
@@ -817,7 +817,7 @@ final class ObjectsApiController extends AbstractController
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'categories', 'categories.id = objects.category_id')
-            ->andWhere('ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326) && point_value')
+            ->andWhere('ST_Contains(ST_MAKEENVELOPE(:x1,:y1,:x2,:y2, 4326)::geometry, point_value::geometry)')
             ->andWhere('objects.deleted_at IS NULL')
             ->andWhere('ST_GEOHASH(point_value, :precision) NOT IN (:ids)')
             ->setParameters([
