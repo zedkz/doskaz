@@ -33,7 +33,7 @@ class Toilet extends Zone
         }
 
         $builder = AccessibilityScoreBuilder::initPartialAccessible();
-        if ($this->isMatches([30, 31, 33], Attribute::no()) || $this->isMatches([30, 31, 33], Attribute::unknown())) {
+        if ($this->isMatchesPartial([30, 33], Attribute::no())) {
             $builder->withMovementNotAccessible();
         }
 
