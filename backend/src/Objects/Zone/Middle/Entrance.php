@@ -66,6 +66,9 @@ class Entrance extends Zone
         if ($this->isMatches([1], Attribute::no()) && $this->isMatchesAllExcept([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], Attribute::yes())) {
             $movement = AccessibilityScore::SCORE_FULL_ACCESSIBLE;
         }
+        if ($this->isMatches([1], Attribute::no()) && $this->isMatchesPartial([18, 60, 23, 24, 25], Attribute::yes())) {
+            $movement = AccessibilityScore::SCORE_PARTIAL_ACCESSIBLE;
+        }
 
 
         return AccessibilityScore::new($movement, $limb, $vision, $hearing, $intellectual);

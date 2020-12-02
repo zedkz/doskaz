@@ -33,7 +33,7 @@ class Navigation extends Zone
         if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 13, 14], Attribute::yes())) {
             $builder->withHearingFullAccessible();
         }
-        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21, 7], Attribute::yes())) {
+        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 5, 16, 6, 17, 18, 19, 20, 21], Attribute::yes())) {
             $builder->withVisionFullAccessible();
         }
         if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12, 15], Attribute::yes())) {
