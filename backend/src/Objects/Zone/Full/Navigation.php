@@ -44,6 +44,29 @@ class Navigation extends Zone
                 ->withLimbFullAccessible();
         }
 
+        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12], Attribute::no())) {
+            $builder->withMovementNotAccessible()
+                ->withLimbNotAccessible();
+
+            if ($this->isMatches([15], Attribute::no())) {
+                $builder->withIntellectualNotAccessible();
+            }
+
+            if ($this->isMatches([13, 14], Attribute::no())) {
+                $builder->withHearingNotAccessible();
+            }
+
+            if ($this->isMatches([5, 16, 6, 17, 18, 19, 20, 21], Attribute::no())) {
+                $builder->withVisionNotAccessible();
+            }
+        }
+
+        if ($this->isMatches([1, 2, 3, 4, 8, 9, 10, 11, 12], Attribute::yes())) {
+            if ($this->isMatchesPartial([13, 14], Attribute::yes()) && $this->isMatchesPartial([13, 14], Attribute::notProvided())) {
+                $builder->withHearingFullAccessible();
+            }
+        }
+
         return $builder->build();
     }
 }

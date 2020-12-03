@@ -91,7 +91,8 @@ class Entrance extends Zone
             return AccessibilityScore::notProvided();
         }
 
-        $builder = AccessibilityScoreBuilder::initPartialAccessible();
+        $builder = AccessibilityScoreBuilder::initPartialAccessible()
+            ->withMovementNotAccessible();
 
         if ($this->isMatches([1], Attribute::yes())) {
             $builder->withLimbFullAccessible()
