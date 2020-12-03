@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 /**
  * @Route(path="/api")
+ * @IsGranted("ROLE_USER")
  */
 class AdminController extends AbstractController
 {
