@@ -48,6 +48,23 @@ class Navigation extends Zone
             $scoreBuilder->withVisionFullAccessible();
         }
 
+        if ($this->isMatches([1], Attribute::no())) {
+            $scoreBuilder->withMovementNotAccessible()
+                ->withLimbNotAccessible();
+        }
+
+        if ($this->isMatches([1, 15], Attribute::no())) {
+            $scoreBuilder->withIntellectualNotAccessible();
+        }
+
+        if ($this->isMatches([1, 13], Attribute::no())) {
+            $scoreBuilder->withHearingNotAccessible();
+        }
+
+        if ($this->isMatches([1, 4, 5, 6], Attribute::no())) {
+            $scoreBuilder->withVisionNotAccessible();
+        }
+
         return $scoreBuilder->build();
     }
 }

@@ -15,7 +15,7 @@ class Toilet extends Zone
     {
         return AttributesConfiguration::getAttributesKeysForFormAndZone('full', 'toilet');
     }
-    
+
     public function calculateScore(): AccessibilityScore
     {
         if ($this->isMatchesAll(Attribute::yes())) {
@@ -33,7 +33,9 @@ class Toilet extends Zone
         }
 
         $builder = AccessibilityScoreBuilder::initPartialAccessible();
-        if ($this->isMatchesPartial([30, 33], Attribute::no())) {
+        if ($this->isMatchesPartial([30, 33], Attribute::yes()) || $this->isMatches([30, 33], Attribute::yes())) {
+            $builder->withMovementFullAccessible();
+        } else {
             $builder->withMovementNotAccessible();
         }
 

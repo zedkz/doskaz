@@ -3,6 +3,7 @@
         title="Объекты"
         api-path="/api/admin/objects"
         :table-fields="fields"
+        :actions="actions"
     >
         <objects-filter slot="filter"/>
     </crud-list>
@@ -16,6 +17,12 @@
     export default {
         components: {ObjectsFilter, CrudList},
         computed: {
+            actions() {
+              if(this.$store.state.authentication.user.roles.includes('ROLE_ADMIN')) {
+                  return ['edit', 'delete']
+              }
+              return ['edit']
+            },
             fields() {
                 return [
                     {key: 'title', label: 'Наименование', type: EditLink},
