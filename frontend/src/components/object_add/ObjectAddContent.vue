@@ -22,14 +22,14 @@
                     </div>
                 </div>
                 <div class="add-object__top">
-                    <span class="add-object__top-step">Шаг {{ currentStepNumber }} из {{ stepsShow.length }}</span> <h4
+                    <span class="add-object__top-step">{{ $t('objectAdding.currentStep', {currentStepNumber, totalSteps: stepsShow.length }) }}</span> <h4
                         class="add-object__top-title">{{ activeStep.title }}</h4>
                 </div>
             </template>
             <template v-else>
                 <div class="add-object__line --lrg">
                     <h5 class="add-object__title">
-                        Общая информация
+                      {{ $t('objectAdding.commonInformation') }}
                     </h5>
                 </div>
             </template>
@@ -39,7 +39,6 @@
                     :key="zone.key"
                     v-show="['middle', 'full'].includes(formVariant) && currentStepKey !== 'first' && currentStepKey === zone.key"
                     :comment-label="zone.commentLabel"
-                    :comment-placeholder="zone.commentPlaceholder"
                     :form="formVariant"
                     :zone="zone.group"
                     :zone-key="zone.key"
@@ -51,7 +50,7 @@
                         class="add-object__button --cancel"
                         v-show="activeStepIndex === 0"
                 >
-                    <span>Отмена</span>
+                    <span>{{ $t('cancel') }}</span>
                 </nuxt-link>
                 <button type="button" class="add-object__button --prev" v-show="activeStepIndex > 0" @click="prevStep">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="5" viewBox="0 0 20 5" fill="none">
@@ -66,15 +65,15 @@
                             </clipPath>
                         </defs>
                     </svg>
-                    <span>Назад</span>
+                    <span>{{ $t('backward') }}</span>
                 </button>
                 <button type="button" class="add-object__button --dub" v-if="showDuplicateEntranceStepButton"
                         @click="duplicateEntranceStep">
-                    <span>Дублировать шаг</span></button>
+                    <span>{{ $t('objectAdding.duplicateStep') }}</span></button>
                 <button type="button" class="add-object__button --next"
                         v-if="activeStepIndex + 1 < availableSteps.length"
                         @click="nextStep">
-                    <span>Далее </span>
+                    <span>{{ $t('next') }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="5" viewBox="0 0 20 5" fill="none">
                         <g clip-path="url(#clip0)">
                             <path d="M12.5 4.3199V0.680095L18.3237 2.5L12.5 4.3199Z" fill="white" stroke="white"/>
@@ -91,7 +90,7 @@
                 <button type="button" class="add-object__button --submit"
                         v-if="activeStepIndex + 1 === availableSteps.length"
                         @click.prevent="submit">
-                    <span>Готово!</span>
+                    <span>{{ $t('ready') }}!</span>
                 </button>
             </div>
         </div>
@@ -99,7 +98,7 @@
             <div v-for="tab in zonesTabsAvailable" :key="tab.key" style="margin-bottom: 36px">
                 <div class="add-object__line --lrg">
                     <h5 class="add-object__title">
-                        {{tab.title}}
+                        {{ tab.title }}
                     </h5>
                 </div>
                 <div class="add-object__content">
@@ -114,7 +113,7 @@
 
             <div class="add-object__button-b" style="justify-content: right">
                 <button type="button" class="add-object__button --submit" @click.prevent="submit">
-                    <span>Отправить</span>
+                    <span>{{ $t('submit') }}</span>
                 </button>
             </div>
         </div>

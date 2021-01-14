@@ -10,7 +10,7 @@
                 <div class="popup__buttons" style="justify-content: center">
                     <button class="popup__button --yes" style="text-align: center; padding: 14px 0 16px 14px"  @click="close">
                         <span style="margin: 0">
-                            Ок
+                            {{ $t('ok') }}
                         </span>
                     </button>
                 </div>

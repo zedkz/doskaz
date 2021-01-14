@@ -190,11 +190,23 @@ export default {
             unknown: 'Не известно',
             not_provided: 'Не предусмотрено'
         },
-        download: 'Скачать'
+        download: 'Скачать',
     },
     objectAdding: {
         presenceMessageHeader: 'Уведомляем!',
-        presenceMessage: 'Объект "{name}" уже опубликован на сайте.'
+        presenceMessage: 'Объект "{name}" уже опубликован на сайте.',
+        pageHeader: 'Добавить объект',
+        formType: {
+            small: 'Простая форма',
+            middle: 'Средняя форма',
+            full: 'Сложная форма'
+        },
+        currentStep: 'Шаг {currentStepNumber} из {totalSteps}',
+        commonInformation: 'Общая информация',
+        zoneCommentLabel: 'Комментарий к оценке зоны',
+        zoneCommentPlaceholder: 'Система самостоятельно оценила доступность зоны на основании ваших ответов. Если вы не согласны с оценкой, пожалуйста, оставьте в этом поле ваш комментарий с пояснениями. Модератор сайта сможет исправить оценку сайта.',
+        duplicateStep: 'Дублировать шаг'
+
     },
     contacts: {
         title: 'Контакты',
@@ -389,5 +401,12 @@ export default {
     complaintTypes: {
         complaint1: 'Жалоба на отсутствие пандуса / подъемника на входе в объект',
         complaint2: 'Жалоба на отсутствие доступа на объект или несоответствии функциональных зон объекта требованиям нормативного законодательства',
-    }
+    },
+    yes: 'Да',
+    no: 'Нет',
+    cancel: 'Отмена',
+    submit: 'Отправить',
+    backward: 'Назад',
+    next: 'Далее',
+    ready: 'Готово'
 }
