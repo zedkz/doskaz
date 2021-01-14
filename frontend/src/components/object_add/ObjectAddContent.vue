@@ -222,7 +222,7 @@ export default {
             return this.steps2.find(step => step.key === this.currentStepKey);
         },
         steps2() {
-            return [{key: 'first', title: 'Общая информация', group: 'first'}].concat(this.zonesTabsAvailable)
+            return [{key: 'first', title: this.$t('objectAdding.commonInformation'), group: 'first'}].concat(this.zonesTabsAvailable)
         },
         activeStepIndex() {
             return this.availableSteps.indexOf(this.activeStep)
