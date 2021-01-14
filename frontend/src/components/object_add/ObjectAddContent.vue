@@ -17,7 +17,7 @@
                                 v-for="(step, index) in stepsShow"
                                 :class="{ active: false }"
                                 :key="index">
-                            {{ step.title }}
+                          {{ $t(step.group === 'first' ? 'objectAdding.commonInformation' : `objects.zone.${step.group}`) }}
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
             <div v-for="tab in zonesTabsAvailable" :key="tab.key" style="margin-bottom: 36px">
                 <div class="add-object__line --lrg">
                     <h5 class="add-object__title">
-                        {{ tab.title }}
+                      {{ $t(`objects.zone.${tab.group}`) }}
                     </h5>
                 </div>
                 <div class="add-object__content">
