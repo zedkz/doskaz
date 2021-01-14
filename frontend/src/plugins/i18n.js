@@ -32,3 +32,10 @@ VueI18n.prototype.getChoiceIndex = function (choice, choicesLength) {
 
     return (choicesLength < 4) ? 2 : 3;
 }
+
+
+export default function ({ app }) {
+    app.i18n.onLanguageSwitched = (oldLocale, newLocale) => {
+        app.store.dispatch('cities/load')
+    }
+}

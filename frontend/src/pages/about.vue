@@ -6,71 +6,67 @@
             <div class="about__top-bg" :style="{'background-image': 'url(' + require('./../assets/img/files/about-top-bg.jpg') + ')'}"></div>
             <div class="container">
                 <div class="about__text-b">
-                    <h3 class="about__title">Что представляет собой проект «Доступный Казахстан»</h3>
-                    <p class="about__text">«Доступный Казахстан» — это онлайн-карта, на которую нанесена информация о доступности городских объектов и услуг. Открытые и бесплатные данные на карте дают возможность маломобильным группам населения (включая людей с инвалидностью, родителей с маленькими детьми на колясках, пожилых, беременных, временно-травмированных) ориентироваться в городском пространстве, а в случае отсутствия объекта на карте удобный интерфейс предоставляет возможность любому желающему поделиться со всеми информацией о доступности объекта.</p>
+                    <h3 class="about__title">{{ $t('about.title') }}</h3>
+                    <p class="about__text">{{ $t('about.text') }}</p>
                 </div>
                 <div class="about__text-b">
-                    <h3 class="about__title">Как работает карта</h3>
-                    <p class="about__text">Доступность объектов для маломобильных групп населения обозначена на карте международной системой светофора:</p>
+                    <h3 class="about__title">{{ $t('about.map') }}</h3>
+                    <p class="about__text">{{ $t('about.accessibility') }}</p>
                 </div>
                 <div class="about__top-list">
                     <div class="about__top-item">
                         <img :src="require('@/assets/icons/green.svg')" class="about__top-item__img"/>
-                        <h4 class="about__top-item__title">Доступно</h4>
-                        <p class="about__top-item__text">Зеленая иконка обозначает, что объект полностью доступен, его можно посетить и воспользоваться услугами самостоятельно, без посторонней помощи.</p>
+                        <h4 class="about__top-item__title">{{ $t('about.accessible') }}</h4>
+                        <p class="about__top-item__text">{{ $t('about.accessibleDescription') }}</p>
                     </div>
                     <div class="about__top-item">
                         <img :src="require('@/assets/icons/yellow.svg')" class="about__top-item__img"/>
-                        <h4 class="about__top-item__title">Частично доступно</h4>
-                        <p class="about__top-item__text">Желтая иконка — объект частично доступен, для посещения данного объекта нужна посторонняя помощь, либо не все его функциональные зоны доступны.</p>
+                        <h4 class="about__top-item__title">{{ $t('about.partialAccessible') }}</h4>
+                        <p class="about__top-item__text">{{ $t('about.partialAccessibleDescription') }}</p>
                     </div>
                     <div class="about__top-item">
                         <img :src="require('@/assets/icons/red.svg')" class="about__top-item__img"/>
-                        <h4 class="about__top-item__title">Недоступно</h4>
-                        <p class="about__top-item__text">Красная иконка — объект недоступен, попасть на объект невозможно из-за недоступности входной группы (например, нет пандуса), либо невозможности движения по объекту.</p>
+                        <h4 class="about__top-item__title">{{ $t('about.notAccessible') }}</h4>
+                        <p class="about__top-item__text">{{ $t('about.notAccessibleDescription') }}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="about__part">
             <div class="container">
-                <h2 class="about__title">Стань участником проекта</h2>
+                <h2 class="about__title">{{ $t('about.participant') }}</h2>
                 <div class="about__part-content">
                     <div class="about__part-img">
                         <img :src="require('@/assets/icons/about/about-part-bg.svg')"/>
                         <img :src="require('@/assets/icons/about/about-part.png')"/>
                     </div>
-                    <p class="about__part-text">На этапе запуска карты обученные волонтеры собрали информацию о более 2000 общественных объектов, есть не только фото-, но и видеообзоры. Мы возлагаем большие надежды именно на ВАС, на тех, кто пользуется картой, кому она ежедневно помогает получать актуальную информацию о доступности городских объектов! Мы позиционируем карту как сообщество, и надеемся, что ВЫ станете ее активным членом, полноценным участником и будете сами добавлять объекты на карту, а также комментировать и дополнять информацию об уже отраженных на карте объектах.
-                        При самостоятельном размещении на карте нового объекта, пожалуйста, оставляйте в комментариях как можно более подробную информацию и прикрепляйте фотографии, ведь именно эти материалы помогут другому человеку ориентироваться в городской среде.
-                    </p>
+                    <p class="about__part-text">{{ $t('about.participantDescription') }}</p>
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="about__item-b">
-                <h2 class="about__title">Почему эта карта необходима</h2>
+                <h2 class="about__title">{{ $t('about.text1') }}</h2>
                 <div class="about__item">
                     <img :src="require('@/assets/icons/about/about-map.png')"/>
-                    <p>Зайдя на карту, вы сразу же увидите, что множество объектов отмечены красной иконкой. Так получилось не потому, что на карту специально заносились недоступные объекты, а потому, что доступных и частично доступных объектов в населенных пунктах намного меньше. Организации обязаны сделать вход в здание доступным для всех, но в большинстве случаев либо пандус не соответствует нормативам, либо человек, даже попав в здание, не может воспользоваться услугами, так как на его пути встречается мебель в узких коридорах, лестницы, а лифты отсутствуют и т.п.</p>
+                    <p>{{ $t('about.text2') }}</p>
                 </div>
                 <div class="about__item">
                     <img :src="require('@/assets/icons/about/about-doc.png')" class="--right"/>
-                    <p>Мы все — граждане своей страны с одинаковыми правами, отраженными в Конституции. Считаете ли вы, что ограничение в доступе к объектам и услугам является нарушением наших прав? Мы в этом уверены. 20 февраля 2015 года в Нур-Султане была ратифицирована Конвенция о правах людей с инвалидностью, после чего наше государство взяло на себя обязанность обеспечить благоприятную среду жизнедеятельности для людей с инвалидностью. В ближайшей перспективе Конвенция должна максимально ускорить процесс стирания барьеров, мешающих людям с инвалидностью полноценно участвовать в жизни общества наравне с другими гражданами.</p>
+                    <p>{{ $t('about.text3') }}</p>
                 </div>
                 <div class="about__item">
                     <img :src="require('@/assets/icons/about/about-social.png')"/>
-                    <p>Доступность открывает путь к получению образования, трудоустройству, лечению, отдыху, к возможности вести независимый образ жизни. Безбарьерная среда является общественным благом и тесно связана с социальным и экономическим развитием страны. Пусть термин «безбарьерная среда» для многих уже приобрел окрас разочарования, но мы надеемся и верим, что безбарьерная среда — это ближайшая реальность, и данная карта один из инструментов ее приближения!</p>
+                    <p>{{ $t('about.text4') }}</p>
                 </div>
             </div>
             <div class="about__text-b">
-                <h3 class="about__title">Реальная польза проекта</h3>
-                <p class="about__text">Информация на карте поможет не только эффективно распланировать свой день и передвижения по городу, но и будет способствовать созданию инклюзивной среды.
-                    При разработке карты была создана функция сбора данных об объектах — администратор карты в любой момент может предоставить статистические данные о количестве доступных или недоступных для посещения городских объектах. Представленные данные — это актуальный инструмент, показывающий реальную ситуацию в населенном пункте, необходимый для неправительственных и государственных организаций.
-                </p>
+                <h3 class="about__title">{{ $t('about.text5') }}</h3>
+                <p class="about__text">{{ $t('about.text6') }}</p>
             </div>
             <div class="about__link-b">
                 <div class="about__link-item">
-                    <h3 class="title --md">Реализация проекта</h3>
+                    <h3 class="title --md">{{ $t('about.text7') }}</h3>
                     <div class="about__link-logo">
                         <a href="https://www.ef-ca.kz/" target="_blank" rel="noreferrer noopener" class="about__link">
                             <img :src="require('@/assets/icons/about/efca.svg')"/>
@@ -82,10 +78,10 @@
                             <img :src="require('@/assets/icons/about/erekshe.svg')"/>
                         </a>
                     </div>
-                    <p class="about__link-text">Проект реализуется консорциумом общественных организаций. Смотрите страницу «<nuxt-link :to="localePath({name: 'contacts'})">Контакты</nuxt-link>».</p>
+                    <p class="about__link-text">{{ $t('about.text8') }} «<nuxt-link :to="localePath({name: 'contacts'})">{{ $t('about.contacts') }}</nuxt-link>» {{ $t('about.text9')}}.</p>
                 </div>
                 <div class="about__link-item">
-                    <h3 class="title --md">Финансирование</h3>
+                    <h3 class="title --md">{{ $t('about.financing') }}</h3>
                     <div class="about__link-logo">
                         <a href="https://eeas.europa.eu/delegations/kazakhstan_ru" target="_blank" rel="noreferrer noopener" class="about__link">
                             <img :src="require('@/assets/icons/about/es.svg')"/>
@@ -94,7 +90,7 @@
                             <img :src="require('@/assets/icons/about/usembassy.svg')"/>
                         </a>
                     </div>
-                    <p class="about__link-text">Проект финансируется Европейским Союзом и Дипломатической миссией США в Казахстане.</p>
+                    <p class="about__link-text">{{ $t('about.financingDescription') }}</p>
                 </div>
             </div>
         </div>
