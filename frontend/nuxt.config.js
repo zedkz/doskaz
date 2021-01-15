@@ -14,9 +14,6 @@ export default {
         '@nuxtjs/feed',
         '@nuxtjs/sentry'
     ],
-    router: {
-        middleware: 'languageUnderConstruction'
-    },
     proxy: {
         '/pipeline': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
