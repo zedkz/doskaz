@@ -38,12 +38,8 @@ services:
       - DATABASE_URL=pgsql://postgres:${DB_PASSWORD}@database:5432/${DB_NAME}
       - MESSENGER_TRANSPORT_DSN=amqp://guest:guest@rabbitmq:5672/%2f/messages
       - OPENCAGE_API_KEY
-    build:
-      context: ../backend
-      dockerfile: ./docker/fpm.Dockerfile
-      target: worker
-      args:
-        - app_env=prod
+    image: ${COMPOSE_PROJECT_NAME}_backend:latest
+    command: su www-data -s /bin/bash -c "php /var/www/html/bin/console messenger:consume async --time-limit=3600"
     restart: unless-stopped
     volumes:
       - doskaz_storage:/var/www/html/storage

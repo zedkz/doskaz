@@ -52,39 +52,3 @@ VOLUME /var/www/html/storage
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
 COPY ./docker/opcache.ini $PHP_INI_DIR/conf.d/
-
-
-FROM php:7.4.10-cli AS worker
-RUN apt-get update \
-    && apt-get install -y \
-        libpq-dev \
-        libzip-dev \
-        unzip \
-        librabbitmq-dev \
-        libmagickwand-dev \
-        jpegoptim \
-        optipng \
-        pngquant \
-        gifsicle \
-        webp \
-    && rm -rf /var/lib/apt/lists/* \
-    && pecl install amqp \
-    && pecl install imagick \
-    && echo extension=amqp.so > /usr/local/etc/php/conf.d/amqp.ini \
-    && echo extension=imagick.so > /usr/local/etc/php/conf.d/imagick.ini
-
-RUN docker-php-ext-install -j$(nproc) \
-        pdo_pgsql \
-        zip \
-        opcache
-
-ARG user_id=33
-RUN usermod -u $user_id www-data && groupmod -g $user_id www-data
-COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ./docker/override.ini $PHP_INI_DIR/conf.d/
-COPY ./docker/opcache.ini $PHP_INI_DIR/conf.d/
-
-USER www-data
-ARG app_env
-CMD ["/usr/local/bin/php", "/var/www/html/bin/console", "messenger:consume", "async", "--time-limit=3600"]
