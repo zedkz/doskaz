@@ -12,6 +12,9 @@ VueI18n.prototype.getChoiceIndex = function (choice, choicesLength) {
     // this === VueI18n instance, so the locale property also exists here
     if (this.locale !== 'ru') {
         // proceed to the default implementation
+        if(choicesLength === 1) {
+            return 0
+        }
         return defaultImpl.apply(this, arguments)
     }
 

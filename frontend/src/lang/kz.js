@@ -1,6 +1,6 @@
 export default {
     usernameDefault: 'Атауы жоқ',
-    pointsCount: '0 ұпай | {n} ұпай | {n} ұпай | {n} ұпай',
+    pointsCount: '{n} ұпай',
     login: {
         pageTitle: 'Кіру',
         popupTitle: 'Қолжетімді Қазақстан - өз қалаңызды жақындатыңыз',
@@ -61,7 +61,7 @@ export default {
         sortOldestFirst: 'бірінші ескілері',
         tasks: {
             tabTitle: 'Менің тапсырмаларым',
-            pointsCount: '0 ұпай | {n} ұпай | {n} ұпай | {n} ұпай'
+            pointsCount: '{n} ұпай'
         },
         achievements: {
             tabTitle: 'Жетістіктер',
@@ -103,7 +103,7 @@ export default {
         },
         edit: {
             pageTitle: 'Сауалнаманы түзету',
-            pointsCount: '0 ұпай | {n} ұпай | {n} ұпай | {n} ұпай',
+            pointsCount: '{n} ұпай',
             pointsInfo: 'Сауалнаманы толтырғаныңыз үшін ұпай аласыз',
             personalDataInfo: 'Сіздің жеке ақпаратыңыз басқа қолданушыларға көрінбейді',
             lastNameLabel: 'Тегі',
