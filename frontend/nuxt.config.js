@@ -116,7 +116,7 @@ export default {
         lazy: true,
         langDir: 'lang/',
         locales: [
-            {code: 'kz', name: 'Qazaq', file: 'ru.js'},
+            {code: 'kz', name: 'Qazaq', file: 'kz.js'},
             {code: 'ru', name: 'Русский', file: 'ru.js'},
         ]
     },

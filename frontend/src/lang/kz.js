@@ -1,237 +1,237 @@
 export default {
-    usernameDefault: 'Без имени',
-    pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов',
+    usernameDefault: 'Атауы жоқ',
+    pointsCount: '0 ұпай | {n} ұпай | {n} ұпай | {n} ұпай',
     login: {
-        pageTitle: 'Вход',
-        popupTitle: 'Доступный Казахстан — сделайте свой город ближе',
-        phoneLoginAdvice: 'Или войдите с помощью телефона',
-        profileFillingAdvice: 'Продолжите регистрацию и заполните свой профиль',
-        profileLinkTitle: 'Перейти в мой профиль',
-        phoneNumberInputPlaceholder: 'Номер телефона',
-        smsCodeInputPlaceholder: 'Код из СМС',
-        smsCodeTimeoutMessage: 'Повторную отправку можно выполнить через {time} секунд',
-        sendSmsCodeButtonTitle: 'Отправить код',
-        confirmSmsCodeButtonTitle: 'Войти на сайт',
-        invalidPhoneNumberMessage: 'Введен неверный формат номера',
-        invalidSmsCodeMessage: 'Введен неверный код',
-        viHeaderLoginTitle: 'Войти',
-        viHeaderLoginOr: 'Или',
-        viHeaderRegister: 'Зарегистрироваться'
+        pageTitle: 'Кіру',
+        popupTitle: 'Қолжетімді Қазақстан - өз қалаңызды жақындатыңыз',
+        phoneLoginAdvice: 'Немесе ұялы телефонның нөмірімен кіріңіз',
+        profileFillingAdvice: 'Тіркелуді жалғастырып, өз профиліңізді толтырыңыз',
+        profileLinkTitle: 'Менің профиліме өту',
+        phoneNumberInputPlaceholder: 'Ұялы телефонның нөмірі',
+        smsCodeInputPlaceholder: 'СМС-пен келген код',
+        smsCodeTimeoutMessage: '{time}  секундтан кейін, қайта жіберуге болады',
+        sendSmsCodeButtonTitle: 'Код жіберу',
+        confirmSmsCodeButtonTitle: 'Сайтқа кіру',
+        invalidPhoneNumberMessage: 'Қате сан форматы енгізілді',
+        invalidSmsCodeMessage: 'Қате код енгізілді',
+        viHeaderLoginTitle: 'Кіру',
+        viHeaderLoginOr: 'Немесе',
+        viHeaderRegister: 'Тіркелу'
     },
     blog: {
         title: 'Блог',
-        similarPosts: 'Похожие материалы',
-        categories: 'Категории',
-        allCategories: 'Все категории',
-        searchPlaceholder: 'Поиск по блогу',
-        date: 'Дата',
-        dateOverall: 'За все время',
-        share: 'Поделиться',
-        subscribe: 'Подписаться на рассылку',
-        postLinkTitle: 'Подробнее',
+        similarPosts: 'Ұқсас материалдар',
+        categories: 'Категориялар',
+        allCategories: 'Барлық категориялар',
+        searchPlaceholder: 'Блог бойынша іздеу',
+        date: 'Күні',
+        dateOverall: 'Бар уақыт бойынша',
+        share: 'Бөлісу',
+        subscribe: 'Пошталық жіберулерге жазылу',
+        postLinkTitle: 'Толығырақ',
         dateFilterPeriod: {
-            year: 'За год',
-            month: 'За месяц',
-            week: 'За неделю'
+            year: 'Жыл бойынша',
+            month: 'Ай бойынша',
+            week: 'Апта бойынша'
         },
-        commentsCount: '0 комментариев | {n} комментарий | {n} комментария | {n} комментариев',
+        commentsCount: '0 комментарий | {n} комментарий | {n} комментарилер | {n} комментарилер',
         commentsSort: {
-            newest: 'Сначала новые',
-            oldest: 'Сначала старые',
-            popular: 'Популярные'
+            newest: 'Бірінші жаңалары',
+            oldest: 'Бірінші ескілері',
+            popular: 'Танымал'
         },
-        commentReplied: 'ответил(а)',
-        commentReply: 'Ответить',
-        showComments: 'Показать комментарии',
-        hideComments: 'Скрыть комментарии',
-        commentInputPlaceholder: 'Напишите комментарий'
+        commentReplied: 'жауап берді',
+        commentReply: 'Жауап беру',
+        showComments: 'Комментарилерді көрсету',
+        hideComments: 'Комментарилерді жасыру',
+        commentInputPlaceholder: 'Комментарий жазыңыз'
     },
     profile: {
-        updateAvatar: 'Обновить фотографию',
-        deleteAvatar: 'Удалить',
-        namePlaceholder: 'Ваше имя',
-        statusPlaceholder: 'Всем привет! Я с вами :)',
-        emailPlaceholder: 'Ваша эл. почта',
-        phonePlaceholder: 'Ваш телефон',
-        editLink: 'Редактировать анкету',
-        avatarChangeHint: 'Выберите себе аватар. Учтите, что сменить его вы сможете только на {level} уровне :)',
-        avatarChangePopupTitle: 'Обновление фотографии',
-        sort: 'Сортировать по',
-        sortNewestFirst: 'дате добавления',
-        sortOldestFirst: 'сначала старые',
+        updateAvatar: 'Фотосуретті жаңарту',
+        deleteAvatar: 'Жою',
+        namePlaceholder: 'Сіздің атыңыз',
+        statusPlaceholder: 'Бәріңе сәлем! Мен сіздермен біргемін :)',
+        emailPlaceholder: 'Сіздің электрондық поштаңыз',
+        phonePlaceholder: 'Сіздің ұялы телефоныңыз',
+        editLink: 'Сауалнаманы түзету',
+        avatarChangeHint: 'Аватарыңызды таңдаңыз. Сіз оны тек {level} деңгейде өзгерте алатыныңызды ескеріңіз :)',
+        avatarChangePopupTitle: 'Фотосуретті жаңарту',
+        sort: 'Бойынша сұрыптау',
+        sortNewestFirst: 'қосылған күні',
+        sortOldestFirst: 'бірінші ескілері',
         tasks: {
-            tabTitle: 'Мои задания',
-            pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов'
+            tabTitle: 'Менің тапсырмаларым',
+            pointsCount: '0 ұпай | {n} ұпай | {n} ұпай | {n} ұпай'
         },
         achievements: {
-            tabTitle: 'Достижения',
-            title: 'Достижения',
-            events: 'Лента событий',
+            tabTitle: 'Жетістіктер',
+            title: 'Жетістіктер',
+            events: 'Оқиғалар лентасы',
             event: {
-                objectReviewed: 'прокомментировал(а) ваш объект',
-                awardIssued: 'Вам выдана награда: "{award}"',
-                objectAdded: 'Вы добавлили объект',
+                objectReviewed: 'сіздің нысаныңызға комментарий қалдырды',
+                awardIssued: 'Сіз марапатталдыңыз: "{award}"',
+                objectAdded: 'Сіз нысан қостыңыз',
                 blogCommentReplied: 'ответил(а) ваш комментарий к посту',
-                levelReached: 'Поздравляем, вы достигли {level} уровень!',
-                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}'
+                levelReached: 'Құттықтаймыз, сіз {level} деңгейіне жеттіңіз!',
+                pointsUntilNextLevel: '{nextLevel} деңгейіне дейін сіз {points} ұпай жинауыңыз керек'
             },
             ability: {
-                status_change: 'Теперь вы можете сменить статус.',
-                avatarUpload: 'Теперь вы можете загрузить аватар.'
+                status_change: 'Енді сіз статусыңызды өзгерте аласыз.',
+                avatarUpload: 'Енді сіз аватарыңызды жүктей аласыз.'
             }
         },
         objects: {
-            tabTitle: 'Мои объекты',
-            show: 'Показать',
-            showAll: 'все',
-            showFullAccessible: 'доступные',
-            showPartialAccessible: 'частично доступные',
-            showNotAccessible: 'недоступные',
-            commentsCountLabel: 'комментариев',
-            complaintsCountLabel: 'жалоб'
+            tabTitle: 'Менің нысандарым',
+            show: 'Көрсету',
+            showAll: 'барлығы',
+            showFullAccessible: 'қолжетімді',
+            showPartialAccessible: 'жартылай қолжетімді',
+            showNotAccessible: 'қолжетімсіз',
+            commentsCountLabel: 'комментарий',
+            complaintsCountLabel: 'шағымдар'
         },
         tickets: {
-            tabTitle: 'Мои тикеты',
-            makeComplaintButton: 'Подать жалобу',
-            downloadComplaintButton: 'Скачать жалобу'
+            tabTitle: 'Менің ұпайларым',
+            makeComplaintButton: 'Шағым беру',
+            downloadComplaintButton: 'Шағымды жүктеу'
         },
         comments: {
-            tabTitle: 'Мои комментарии',
-            sortByPopularity: 'популярности',
-            forPost: 'к посту',
-            forObject: 'к объекту'
+            tabTitle: 'Менің комментарилерім',
+            sortByPopularity: 'танымалдығы',
+            forPost: 'постқа',
+            forObject: 'нысанға'
         },
         edit: {
-            pageTitle: 'Редактирование анкеты',
-            pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов',
-            pointsInfo: 'За заполнение анкеты вы получите',
-            personalDataInfo: 'Ваша личная информация не будет видна другим пользователям',
-            lastNameLabel: 'Фамилия',
-            firstNameLabel: 'Имя',
-            middleNameLabel: 'Отчество',
-            emailLabel: 'Эл. Почта',
+            pageTitle: 'Сауалнаманы түзету',
+            pointsCount: '0 ұпай | {n} ұпай | {n} ұпай | {n} ұпай',
+            pointsInfo: 'Сауалнаманы толтырғаныңыз үшін ұпай аласыз',
+            personalDataInfo: 'Сіздің жеке ақпаратыңыз басқа қолданушыларға көрінбейді',
+            lastNameLabel: 'Тегі',
+            firstNameLabel: 'Аты',
+            middleNameLabel: 'Әкесінің аты',
+            emailLabel: 'Электрондық пошта',
             phoneLabel: 'Телефон',
-            smsCodeLabel: 'Смс код',
-            sendSmsButton: 'Отправить код',
-            resendSmsCodeMessage: 'Повторную отправку можно выполнить через 15 секунд',
-            statusLabel: 'Отображаемый статус',
-            saveButton: 'Сохранить',
-            statusInputPlaceholder: 'Будет доступен с 5 уровня',
-            invalidVerificationCodeError: 'Неверный код',
-            tooManyRequestsError: 'Превышено допустимое количество попыток',
-            errorPleaseRetry: 'Ошибка, пожалуйста повторите операцию'
+            smsCodeLabel: 'Смс коды',
+            sendSmsButton: 'Код жіберу',
+            resendSmsCodeMessage: 'Қайта жіберуді 15 секундтан кейін жасауға болады',
+            statusLabel: 'Көрсетілетін статус',
+            saveButton: 'Сақтау',
+            statusInputPlaceholder: '5 деңгейден бастап қол жетімді',
+            invalidVerificationCodeError: 'Қате код',
+            tooManyRequestsError: 'Рұқсат етілген әрекет санынан асып кетті',
+            errorPleaseRetry: 'Қате, әрекетті қайталаңыз'
         },
         notifications: {
-            levelReachedText: 'Поздравляем, вы получили {level} уровень!',
-            levelReachedTitle: 'Новый уровень!',
+            levelReachedText: 'Құттықтаймыз, сіз {level} деңгейін алдыңыз!',
+            levelReachedTitle: 'Жаңа деңгей!',
             ability: {
-                avatar_upload: 'Теперь вы можете загрузить аватар',
-                status_change: 'Теперь вы можете редактировать свой статус'
+                avatar_upload: 'Енді сіз аватарыңызды жүктей аласыз',
+                status_change: 'Енді сіз статусыңызды түзете аласыз'
             },
-            pointsEarnedTitle: 'Вам начислено {n}!',
+            pointsEarnedTitle: 'Сіз {n} алдыңыз!',
             pointsEarnedTasks: {
-                daily: 'Вы закончили еженедельное задание',
-                profile_completion: 'Вы закончили задание',
-                administration: 'Вы закончили задание администрации',
+                daily: 'Сіз апта сайынғы тапсырманы аяқтадыңыз',
+                profile_completion: 'Сіз тапсырманы аяқтадыңыз',
+                administration: 'Сіз әкімшілік тапсырмасын аяқтадыңыз',
             }
         }
     },
     objects: {
         tabTitles: {
-            description: 'Описание',
-            photos: 'Фото',
+            description: 'Сипаттама',
+            photos: 'Фотосуреттер',
             videos: 'Видео',
-            reviews: 'Отзывы',
-            history: 'История'
+            reviews: 'Пікірлер',
+            history: 'Қарау тарихы'
         },
         review: {
-            linkButtonTitle: 'Оставить отзыв',
-            popupTitle: 'Написать отзыв',
-            submitButtonTitle: 'Отправить',
-            textareaPlaceholder: 'Расскажите о ваших впечатлениях',
-            textareaHelpText: 'Введите минимум 20 символов'
+            linkButtonTitle: 'Пікір қалдыру',
+            popupTitle: 'Пікір жазу',
+            submitButtonTitle: 'Жіберу',
+            textareaPlaceholder: 'Әсерлеріңіз туралы айтып беріңіз',
+            textareaHelpText: 'Ең азы 20 таңба енгізіңіз'
         },
         zone: {
-            parking: 'Парковка',
-            entrance: 'Входная группа',
-            movement: 'Пути движения по объекту',
-            service: 'Зона оказания услуги',
-            toilet: 'Туалет',
+            parking: 'Көлік тұрағы',
+            entrance: 'Кірер топ',
+            movement: 'Нысан бойынша қозғалыс жолдары',
+            service: 'Қызмет көрсету аймағы',
+            toilet: 'Дәретхана',
             navigation: 'Навигация',
-            serviceAccessibility: 'Доступность услуги',
+            serviceAccessibility: 'Қызметтің қолжетімділігі',
         },
-        viBreadcrumbsTitle: 'Вернуться в категорию {category} / {subCategory}',
+        viBreadcrumbsTitle: '{category} / {subCategory} категориясына қайту',
         viAccessibilityCategory: {
-            full_accessible: 'доступно',
-            partial_accessible: 'частично доступно',
-            not_accessible: 'недоступно',
-            not_provided: 'не предусмотрено'
+            full_accessible: 'қолжетімді',
+            partial_accessible: 'жартылай қолжетімді',
+            not_accessible: 'қолжетімсіз',
+            not_provided: 'ескерілмеген'
         },
-        viSummaryScore: 'Оценка объекта: {score}',
-        viReturnToObject: 'Вернуться к объекту {object}',
-        verificationPopupTitle: 'Подтвердите данные об объекте',
-        verificationPopupQuestion: 'Считаете ли вы, что все данные об объекте {objectName} заполнены верно?',
+        viSummaryScore: '{score} нысанын бағалау',
+        viReturnToObject: '{object} нысанына қайту',
+        verificationPopupTitle: 'Нысан туралы мәліметтерді растаңыз',
+        verificationPopupQuestion: 'Нысан туралы барлық мәліметтер дұрыс толтырылған деп ойлайсыз ба?',
         verificationStatus: {
-            full_verified: 'Объект верифицирован',
-            not_verified: 'Объект не верифицирован',
-            partial_verified: 'Объект частично верифицирован',
+            full_verified: 'Нысан анықталды',
+            not_verified: 'Нысан анықталмады',
+            partial_verified: 'Нысан жартылай анықталды',
         },
-        detailedInfo: 'Подробная информация',
-        confirm: 'Подтвердить данные',
-        makeComplaint: 'Подать жалобу',
+        detailedInfo: 'Егжей-тегжейлі ақпарат',
+        confirm: 'Мәліметтерді растау',
+        makeComplaint: 'Шағым беру',
         history: {
-            reviewed: 'прокомментировал(а) объект',
-            confirmed: 'подтвердил(а) данные',
-            notConfirmed: 'не подтвердил(а) данные'
+            reviewed: 'нысанға комментарий қалдырды',
+            confirmed: 'мәліметтерді растады',
+            notConfirmed: 'мәліметтерді растаған жоқ'
         },
         attribute: {
-            yes: 'Да',
-            no: 'Нет',
-            unknown: 'Не известно',
-            not_provided: 'Не предусмотрено'
+            yes: 'Я',
+            no: 'Жоқ',
+            unknown: 'Белгісіз',
+            not_provided: 'Ескерілмеген'
         },
-        download: 'Скачать',
+        download: 'Жүктеу',
     },
     objectAdding: {
-        presenceMessageHeader: 'Уведомляем!',
-        presenceMessage: 'Объект "{name}" уже опубликован на сайте.',
-        pageHeader: 'Добавить объект',
+        presenceMessageHeader: 'Хабарлаймыз!',
+        presenceMessage: '"{name}" нысаны сайтта жарияланды.',
+        pageHeader: 'Нысан қосу',
         formType: {
-            small: 'Простая форма',
-            middle: 'Средняя форма',
-            full: 'Сложная форма'
+            small: 'Жеңіл форма',
+            middle: 'Орташа форма',
+            full: 'Күрделі форма'
         },
-        currentStep: 'Шаг {currentStepNumber} из {totalSteps}',
-        commonInformation: 'Общая информация',
-        zoneCommentLabel: 'Комментарий к оценке зоны',
+        currentStep: '{totalSteps} дан {currentStepNumber} қадам',
+        commonInformation: 'Жалпы ақпарат',
+        zoneCommentLabel: 'Аймақтың бағалауына комментарий',
         zoneCommentPlaceholder: 'Система самостоятельно оценила доступность зоны на основании ваших ответов. Если вы не согласны с оценкой, пожалуйста, оставьте в этом поле ваш комментарий с пояснениями. Модератор сайта сможет исправить оценку сайта.',
-        duplicateStep: 'Дублировать шаг',
-        objectName: 'Наименование',
-        objectOtherNames: 'Другие наименования',
-        mapPoint: 'Точка на карте',
-        address: 'Адрес',
-        addressPlaceholder: 'улица Айманова, 11',
-        category: 'Категория',
-        emptyCategoryPlaceholder: 'Выберите категорию',
-        categoryHelp1: 'Выберите категорию объекта из списка.',
-        categoryHelp2: 'Если категория в списке отсутствует, выберите категорию “Другое”.',
-        subCategory: 'Подкатегория',
-        emptySubCategoryPlaceholder: 'Выберите подкатегорию',
-        subCategoryHelp1: 'Выберите подкатегорию объекта из списка.',
-        subCategoryHelp2: 'Если категория в списке отсутствует, выберите подкатегорию “Другое”.',
-        description: 'Описание',
-        videoLink: 'Ссылка на видео',
-        addMoreVideos: 'Добавить еще видео',
-        uploadPhotos: 'Загрузить фото',
-        photosHelp1: 'Дополните информацию об объекте фотографиями, демонстрирующимидоступность или недоступность объекта.',
-        photosHelp2: 'Не более 2 Мб в форматах jpg, png, bmp, tif, gif.'
+        duplicateStep: 'Қадамды қайталау',
+        objectName: 'Атауы',
+        objectOtherNames: 'Басқа атаулары',
+        mapPoint: 'Картадағы нүкте',
+        address: 'Мекен-жай',
+        addressPlaceholder: 'Айманова көшесі, 11',
+        category: 'Категориясы',
+        emptyCategoryPlaceholder: 'Категориясын таңдаңыз',
+        categoryHelp1: 'Тізімнен нысанның категориясын  таңдаңыз.',
+        categoryHelp2: 'Егер категория тізімде болмаса, «Басқасы» категориясын таңдаңыз.',
+        subCategory: 'Категорияның санаттары',
+        emptySubCategoryPlaceholder: 'Категорияның санаттарын таңдаңыз',
+        subCategoryHelp1: 'Тізімнен нысанның категорияның санаттарын таңдаңыз.',
+        subCategoryHelp2: 'Егер категория тізімде болмаса, «Басқасы» категорияның санаттарын таңдаңыз.',
+        description: 'Сипаттама',
+        videoLink: 'Видеоға сілтеме',
+        addMoreVideos: 'Көбірек видео қосу',
+        uploadPhotos: 'Фотосуретті жүктеңіз',
+        photosHelp1: 'Нысан туралы ақпаратты сол нысанның қолжетімділігін немесе қолжетімсіздігін көрсететін фотосуреттермен толықтырыңыз.',
+        photosHelp2: 'Jpg, png, bmp, tif, gif форматтарында 2 Мб артық емес.'
 
     },
     contacts: {
-        title: 'Контакты',
-        contactMessage: 'Вы можете связаться с нами по электронной почте, через колл-центр или\n же заполнив форму',
-        callCenterWorkingHours: 'Колл-центр работает в рабочие дни с {from} до {to}.',
-        chooseRegionalRepresentativeLabel: 'Выберите регионального представителя',
+        title: 'Байланысу',
+        contactMessage: 'Бізбен электрондық пошта, колл-орталық немесе форманы толтыру арқылы байланыса аласыз.',
+        callCenterWorkingHours: 'Колл-орталық жұмыс күндері  {from} ден {to} дейін жұмыс жасайды.',
+        chooseRegionalRepresentativeLabel: 'Аймақтық өкілді таңдаңыз',
         regionalRepresentativesText: `
             В проекте работают 24 организации из 19 городов Казахстана. Если ваш вопрос
             касается конкретного города, рекомендуем вам связаться с региональным представителем. Данные
@@ -240,130 +240,126 @@ export default {
             безбарьерную среду.
         `,
         form: {
-            nameLabel: 'Ваше имя',
-            emailLabel: 'Эл. почта',
-            messageLabel: 'Текст сообщения',
-            submitButtonLabel: 'Отправить',
-            submittedPopupTitle: 'Готово!',
-            submittedPopupMessage: 'Сообщение успешно отправлено. Спасибо за сотрудничество!'
+            nameLabel: 'Сіздің атыңыз',
+            emailLabel: 'Электрондық пошта',
+            messageLabel: 'Хабарлама мәтіні',
+            submitButtonLabel: 'Жіберу',
+            submittedPopupTitle: 'Дайын!',
+            submittedPopupMessage: 'Хабарлама сәтті жіберілді. Ынтымақтастығыңыз үшін рахмет!'
         }
     },
     error: {
-        title: 'Ошибка {code}',
+        title: 'Қате {code}',
         error404: {
-            message: 'К сожалению, страницы, на которую вы хотели попасть, нет на нашем сайте. Возможно, вы ввели неправильный адрес или она была удалена.',
-            searchAdvice: 'Попробуйте вернуться на главную страницу или воспользуйтесь поиском.',
-            searchPlaceholder: 'Найти'
+            message: 'Өкінішке орай, сіз іздеген парақ біздің сайтта жоқ. Мүмкін сіз дұрыс емес мекен-жай енгізген боларсыз немесе ол жойылған шығар.',
+            searchAdvice: 'Негізгі бетке оралуға тырысыңыз немесе іздеуді қолданыңыз.',
+            searchPlaceholder: 'Табу'
         },
         error500: {
-            message: 'Что-то пошло не так!',
-            advice: 'Какие-то технические неполадки. Мы обязательно это починим! А пока вернитесь на предыдущую страницу',
-            linkToMainPageTitle: 'Вернуться назад'
+            message: 'Бірдеңе дұрыс болмады!',
+            advice: 'Кейбір техникалық ақау. Біз оны міндетті түрде жөндейміз! Оған дейін алдыңғы параққа оралыңыз',
+            linkToMainPageTitle: 'Артқа қайту'
         }
     },
-    loginLinkTitle: 'Вход',
-    eventsTabTitle: 'Лента событий',
+    loginLinkTitle: 'Кіру',
+    eventsTabTitle: 'Оқиғалар лентасы',
     blogTabTitle: 'Блог',
-    blogLink: 'Перейти в раздел',
+    blogLink: 'Бөлімге өту',
     events: {
         objectAdded: {
-            yourself: 'Вы добавили объект',
-            others: 'добавил(а) объект'
+            yourself: 'Сіз, нысанды қостыңыз',
+            others: 'нысанды қосты'
         },
         objectReviewed: {
-            yourself: 'Вы прокомментировали объект',
-            others: 'прокомментировал(а) объект',
-            yourObject: 'прокомментировал(а) ваш объект',
+            yourself: 'Сіз, нысанға комментарий қалдырдыңыз',
+            others: 'нысанға комментарий қалдырды',
+            yourObject: 'сіздің нысаныңызға комментарий қалдырды',
         },
         levelReached: {
-            yourself: 'Вы получаете уровень {level}',
-            others: 'получает уровень {level}',
+            yourself: 'Сіз деңгей аласыз {level}',
+            others: 'деңгей алады {level}',
         },
         blogCommentReplied: {
-            yourself: 'Вы оставили ответ на комментарий к записи',
-            others: 'отвечает на комментарий к записи'
+            yourself: 'Сіз, жазбаға қалдырылған комментарийге жауап қалдырдыңыз',
+            others: 'жазбаға қалдырылған комментарийге жауап беруде'
         },
         awardIssued: {
-            yourself: 'Вы получили награду',
-            others: 'получает награду'
+            yourself: 'Сіз марапат алдыңыз',
+            others: 'марапат алады'
         },
-        profileLinkTitle: 'Перейти в профиль'
+        profileLinkTitle: 'Профильге өту'
     },
     disabilityCategories: {
-        movement: 'Люди, передвигающиеся на кресло-коляске',
-        vision: 'Люди с инвалидностью по зрению',
-        limb: 'Люди с нарушениями опорно-двигательного аппарата',
-        hearing: 'Люди с инвалидностью по слуху',
-        temporal: 'Временно травмированные люди',
-        babyCarriage: 'Люди с детскими колясками',
-        missingLimbs: 'Люди с отсутствующими конечностями',
-        pregnant: 'Беременные женщины',
-        intellectual: 'Люди с интелектуальной инвалидностью',
-        agedPeople: 'Пожилые люди',
-        justView: 'Просто посмотреть',
+        movement: 'Мүгедектер арбасымен қозғалатын адамдар',
+        vision: 'Көру қабілеті бойынша мүгедектігі бар адамдар',
+        limb: 'Тірек-қимыл аппаратында зақымы бар адамдар',
+        hearing: 'Есту қабілеті бойынша мүгедектігі бар адамдар',
+        temporal: 'Уақытша жарақат алған адамдар',
+        babyCarriage: 'Коляскасы бар адамдар',
+        missingLimbs: 'Қол-аяғы жоқ адамдар',
+        pregnant: 'Жүкті әйелдер',
+        intellectual: 'Интеллектуалды қабілеті бойынша мүгедектігі бар адамдар ',
+        agedPeople: 'Қарт адамдар',
+        justView: 'Жай қарау',
     },
     startCategory: {
-        title: 'Порталға қош келдіңіз!',
-        adviceText: 'Пожалуйста, выберите свою категорию, <br>чтобы работать с сайтом вам было максимально комфортно',
-        justView: 'Нет, спасибо. Я просто посмотреть'
+        title: 'Қолжетімді Қазақстан порталына қош келдіңіз!',
+        adviceText: 'Сайтпен жұмыс жасау мүмкіндігінше ыңғайлы болу үшін <br> өз категорияңызды, таңдаңыз',
+        justView: 'Жоқ рахмет. Мен жай көремін'
     },
     accessibilityScore: {
-        title: 'Оценка доступности зоны',
+        title: 'Аймақтың қолжетімділігін бағалау',
         category: {
-            movement: 'Люди, передвигающиеся на кресло-коляске',
-            limb: 'Люди с нарушениями опорно-двигательного аппарата',
-            vision: 'Люди с инвалидностью по зрению',
-            hearing: 'Люди с инвалидностью по слуху',
-            intellectual: 'Люди с интелектуальной инвалидностью',
+            movement: 'Мүгедектер арбасымен қозғалатын адамдар',
+            limb: 'Тірек-қимыл аппаратында зақымы бар адамдар',
+            vision: 'Көру қабілеті бойынша мүгедектігі бар адамдар',
+            hearing: 'Есту қабілеті бойынша мүгедектігі бар адамдар',
+            intellectual: 'Интеллектуалды қабілеті бойынша мүгедектігі бар адамдар ',
         },
         status: {
-            full_accessible: 'доступно',
-            partial_accessible: 'частично доступно',
-            not_accessible: 'не доступно',
-            not_provided: 'Не предусмотрено'
+            full_accessible: 'қолжетімді',
+            partial_accessible: 'жартылай қолжетімді',
+            not_accessible: 'қолжетімсіз',
+            not_provided: 'ескерілмеген'
         }
     },
     accessibilityStatus: {
-        full_accessible: 'Доступно',
-        partial_accessible: 'Частично доступно',
-        not_accessible: 'Не доступно',
-        not_provided: 'не предусмотрено',
-        unknown: 'не известно'
+        full_accessible: 'Қолжетімді',
+        partial_accessible: 'Жартылай қолжетімді',
+        not_accessible: 'Қолжетімсіз',
+        not_provided: 'ескерілмеген',
+        unknown: 'Белгісіз'
     },
     mainFilter: {
-        searchPlaceholder: 'Тип объекта, название или улица',
+        searchPlaceholder: 'Нысан түрі, атауы немесе көше',
         accessibilityStatus: {
-            accessible: 'Доступно',
-            partialAccessible: 'Частично доступно',
-            notAccessible: 'Недоступно'
+            accessible: 'Қолжетімді',
+            partialAccessible: 'Жартылай қолжетімді',
+            notAccessible: 'Қолжетімсіз'
         }
     },
     mainMenu: {
-        help: 'Помощь',
+        help: 'Көмек',
         about: 'Жоба туралы',
         blog: 'Блог',
         contacts: 'Байланысу',
     },
     visualImpairedSettings: {
-        fontSize: 'Размер шрифта',
-        colorTheme: 'Цветовая схема',
-        fontFamily: 'Шрифт',
-        fontFamilySans: 'Обычный',
-        fontFamilySerif: 'С засечками',
-        normalModeSwitchTitle: 'Обычная версия сайта',
-        siteLanguage: 'Язык сайта'
+        fontSize: 'Қаріп өлшемі',
+        colorTheme: 'Түс схемасы',
+        fontFamily: 'Қаріп',
+        fontFamilySans: 'Дағдылы',
+        fontFamilySerif: 'Засечкалармен',
+        normalModeSwitchTitle: 'Сайттың дағдылы нұсқасы',
+        siteLanguage: 'Сайт тілі'
     },
     complaint: {
-        pageTitle: 'Подать жалобу',
+        pageTitle: 'Шағым беру',
         infoText: `
-            Внимание! В связи с тем, что Ваше письмо в дальнейшем будет направлено в
-                    государственный орган, оно должно выполнять определенные требования, такие как наличие Ф.И.О., ИИН,
-                    адреса (пункт 2 статьи 6 Закона Республики Казахстан от 12.01.2007 г. № 221-III «О порядке
-                    рассмотрения обращений физических и юридических лиц»). Пожалуйста, заполните данные поля без ошибок.
-                    Анонимные обращения не рассматриваются.
+            Назар аударыңыз! Сіздің хатыңыз мемлекеттік органға жіберілетін болғандықтан келесі талаптарды орындауыңыз керек: аты-жөніңізді, ЖСН, мекенжайды көрсету (Қазақстан Республикасының «Жеке және заңды тұлғалардың өтініштерін қарау тәртібі туралы» Заңының 6 бабының 2 тармағы).  Жолдарды қатесіз толтыруларыңызды сұраймыз. Ананомиді өтініштер қарастырылмайды.
         `,
-        personalInfoTitle: 'Персональная информация',
-        requiredFields: 'Поля, обязательные для заполнения',
+        personalInfoTitle: 'Жеке ақпарат',
+        requiredFields: 'Толтырылуы міндетті жолдар',
         lastName: 'Фамилия',
         firstName: 'Имя',
         middleName: 'Отчество',
