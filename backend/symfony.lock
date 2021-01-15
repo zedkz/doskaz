@@ -2,6 +2,9 @@
     "aego/oauth2-mailru": {
         "version": "2.0"
     },
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "brick/math": {
         "version": "0.9.1"
     },
@@ -101,6 +104,9 @@
     },
     "fgrosse/phpasn1": {
         "version": "v2.1.1"
+    },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.0.0"
     },
     "geoip2/geoip2": {
         "version": "v2.10.0"

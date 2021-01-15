@@ -20,6 +20,15 @@ services:
         tags:
             - { name: serializer.normalizer, priority: -999 }
 
+
+    App\Infrastructure\TranslatableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setDefaultLocale, [ 'ru' ] ]
+            - [ setTranslationFallback, [ false ] ]
+
 imports:
     - { resource: '../src/Infrastructure/services.yaml' }
     - { resource: '../src/Users/services.yaml' }
