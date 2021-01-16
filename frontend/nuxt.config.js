@@ -114,7 +114,8 @@ export default {
         locales: [
             {code: 'kz', name: 'Qazaq', file: 'kz.js'},
             {code: 'ru', name: 'Русский', file: 'ru.js'},
-        ]
+        ],
+        vueI18n: '~/plugins/i18n-options.js'
     },
     feed: [
         {
