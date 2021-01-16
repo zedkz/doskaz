@@ -1,4 +1,9 @@
 export default {
+    meta: {
+        title: 'Қолжетімді Қазақстан',
+        description: '',
+        keywords: ''
+    },
     usernameDefault: 'Атауы жоқ',
     pointsCount: '{n} ұпай',
     login: {
