@@ -1,10 +1,10 @@
 <template>
     <div class="user-task" v-if="currentTask">
         <div class="user-task__title">
-            <span>Текущее задание</span>
+            <span>{{ $t('profile.tasks.current') }}</span>
         </div>
         <div class="user-task__description">
-            <span>{{currentTask.title}}</span>
+            <span>{{ currentTask.title }}</span>
         </div>
 
         <div class="user-task__progress">

@@ -64,7 +64,15 @@ export default {
         sort: 'Сортировать по',
         sortNewestFirst: 'дате добавления',
         sortOldestFirst: 'сначала старые',
+        level: 'уровень',
+        points: 'баллов',
+        stats: {
+            objects: 'объектов',
+            verifications: 'проверок',
+            complaints: 'жалоб'
+        },
         tasks: {
+            current: 'Текущее задание',
             tabTitle: 'Мои задания',
             pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов'
         },

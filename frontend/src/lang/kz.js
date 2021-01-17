@@ -64,7 +64,15 @@ export default {
         sort: 'Бойынша сұрыптау',
         sortNewestFirst: 'қосылған күні',
         sortOldestFirst: 'бірінші ескілері',
+        level: 'деңгей',
+        points: 'ұпайлар',
+        stats: {
+            objects: 'нысандар',
+            verifications: 'тексерулер',
+            complaints: 'шағымдар'
+        },
         tasks: {
+            current: 'Ағымдағы тапсырмалар',
             tabTitle: 'Менің тапсырмаларым',
             pointsCount: '{n} ұпай'
         },
