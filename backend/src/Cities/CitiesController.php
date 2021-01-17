@@ -3,6 +3,9 @@
 
 namespace App\Cities;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
+use Gedmo\Translatable\TranslatableListener;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
@@ -32,12 +35,39 @@ class CitiesController
      *         )
      *     }
      * )
-     * @param CityFinder $cityFinder
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
      * @return City[]
      */
-    public function index(CityFinder $cityFinder)
+    public function index(EntityManagerInterface $entityManager, Request $request)
     {
-        return $cityFinder->findAll();
+        $query = $entityManager->createQueryBuilder()->from(Cities::class, 'c')
+            ->addSelect('c.id')
+            ->addSelect('c.name')
+            ->addSelect('ST_YMIN(c.bbox) as ymin')
+            ->addSelect('ST_XMIN(c.bbox) as xmin')
+            ->addSelect('ST_YMAX(c.bbox) as ymax')
+            ->addSelect('ST_XMAX(c.bbox) as xmax')
+            ->getQuery();
+
+        $query->setHint(
+            Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $query->setHint(
+            TranslatableListener::HINT_TRANSLATABLE_LOCALE,
+            $request->getLocale()
+        );
+
+        $query->setHint(
+            TranslatableListener::HINT_FALLBACK,
+            1
+        );
+
+        $citites = $query->getArrayResult();
+
+        return array_map(fn($city) => new City($city['id'], $city['name'], [[(float) $city['ymin'], (float) $city['xmin']], [(float) $city['ymax'], (float) $city['xmax']]]), $citites);
     }
 
     /**

@@ -21,6 +21,14 @@ doctrine:
                 commented: false
 
     orm:
+        dql:
+            string_functions:
+                ST_AsGeoJSON: Jsor\Doctrine\PostGIS\Functions\ST_AsGeoJSON
+            numeric_functions:
+                ST_YMin: Jsor\Doctrine\PostGIS\Functions\ST_YMin
+                ST_XMin: Jsor\Doctrine\PostGIS\Functions\ST_XMin
+                ST_XMax: Jsor\Doctrine\PostGIS\Functions\ST_XMax
+                ST_Ymax: Jsor\Doctrine\PostGIS\Functions\ST_YMax
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
