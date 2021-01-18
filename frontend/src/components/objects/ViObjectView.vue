@@ -131,7 +131,7 @@
             <h4 class="vi-popup__title">{{ $t('objects.verificationPopupTitle') }}</h4>
             <p class="vi-popup__text">{{ $t('objects.verificationPopupQuestion', {objectName: object.title}) }}</p>
             <div class="vi-popup__button">
-              <button class="vi__button --half" type="button" @click="submitVerification('confirm')">Да</button><button type="button" @click="submitVerification('reject')" class="vi__button --half">Нет</button>
+              <button class="vi__button --half" type="button" @click="submitVerification('confirm')">{{ $t('yes') }}</button><button type="button" @click="submitVerification('reject')" class="vi__button --half">{{ $t('no') }}</button>
             </div>
           </div>
         </div>

@@ -1,4 +1,3 @@
-require('dotenv').config();
 import axios from 'axios'
 
 
@@ -14,9 +13,6 @@ export default {
         '@nuxtjs/feed',
         '@nuxtjs/sentry'
     ],
-    router: {
-        middleware: 'languageUnderConstruction'
-    },
     proxy: {
         '/pipeline': {
             target: process.env.BACKEND_DOMAIN || 'http://localhost',
@@ -59,20 +55,9 @@ export default {
         '~/styles/layout.scss'
     ],
     head: {
-        title: 'Доступный Казахстан',
         meta: [
             {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {
-                hid: 'description',
-                name: 'description',
-                content: 'Актуальная информация о доступности объектов для людей с ограниченными возможностями, полезные статьи, законодательные акты, обсуждение, отзывы'
-            },
-            {
-                hid: 'keywords',
-                name: 'keywords',
-                content: 'Доступность объектов, Инвалиды Павлодар, Инвалиды Астана, Инвалиды Нур-Султан, Инвалиды Алматы, Инвалиды Алмата, Инвалиды Кокшетау, Инвалиды Костанай, Инвалиды Талдыкорган, Инвалиды Кызылорда, Инвалиды Капчагай, Инвалиды Актау, Инвалиды Атырау, Инвалиды Актобе, Инвалиды Караганда, Инвалиды Семей, Инвалиды Тараз, Инвалиды Туркестан, Инвалиды Шымкент, Инвалиды Уральск, Инвалиды Усть-Каменагорск, Инвалиды Петрапаволск, Инвалиды Экибастуз, Инвалиды Казахстан, Объекты для инвалидов, Люди с ограниченными возможностями'
-            }
+            {name: 'viewport', content: 'width=device-width, initial-scale=1'}
         ],
         script: [
             {type: "text/javascript", src: "https://code.jquery.com/jquery-1.11.0.min.js"}
@@ -116,9 +101,10 @@ export default {
         lazy: true,
         langDir: 'lang/',
         locales: [
-            {code: 'kz', name: 'Qazaq', file: 'ru.js'},
+            {code: 'kz', name: 'Qazaq', file: 'kz.js'},
             {code: 'ru', name: 'Русский', file: 'ru.js'},
-        ]
+        ],
+        vueI18n: '~/plugins/i18n-options.js'
     },
     feed: [
         {

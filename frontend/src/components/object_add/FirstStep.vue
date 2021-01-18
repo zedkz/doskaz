@@ -2,7 +2,7 @@
     <div class="add-object__content">
         <field :error="validationErrors.name">
             <div class="col">
-                <label class="add-object__label" for="input_name">Наименование</label>
+                <label class="add-object__label" for="input_name">{{ $t('objectAdding.objectName') }}</label>
             </div>
             <div class="col --long">
                 <div class="input">
@@ -12,7 +12,7 @@
         </field>
         <field :error="validationErrors.otherNames">
             <div class="col">
-                <label class="add-object__label">Другие наименования</label>
+                <label class="add-object__label">{{ $t('objectAdding.objectOtherNames') }}</label>
             </div>
             <div class="col --long">
                 <div class="input">
@@ -21,7 +21,7 @@
             </div>
         </field>
         <field :error="validationErrors.point">
-            <div class="col"><label class="add-object__label --title">Точка на карте</label></div>
+            <div class="col"><label class="add-object__label --title">{{ $t('objectAdding.mapPoint') }}</label></div>
             <div class="col --long">
                 <client-only>
                     <yandex-map
@@ -44,22 +44,22 @@
         </field>
         <field :error="validationErrors.address">
             <div class="col">
-                <label class="add-object__label">Адрес</label>
+                <label class="add-object__label">{{ $t('objectAdding.address') }}</label>
             </div>
             <div class="col --long">
                 <div class="input">
-                    <input type="text" placeholder="улица Айманова, 11" v-model.trim="address"/>
+                    <input type="text" :placeholder="$t('objectAdding.addressPlaceholder')" v-model.trim="address"/>
                 </div>
             </div>
         </field>
         <div class="add-object__line --lrg">
             <div class="col">
-                <label class="add-object__label">Категория</label>
+                <label class="add-object__label">{{ $t('objectAdding.category') }}</label>
             </div>
             <div class="col --long --info">
                 <div class="select">
                     <select v-model="selectedCategory">
-                        <option disabled :value="null">Выберите категорию</option>
+                        <option disabled :value="null">{{ $t('objectAdding.emptyCategoryPlaceholder') }}</option>
                         <option :value="category" v-for="category in categories" :key="category.id">{{ category.title
                             }}
                         </option>
@@ -74,18 +74,18 @@
                     </svg>
                 </span>
                 <div class="add-object__info-text">
-                    Выберите категорию объекта из списка.<br>Если категория в списке отсутствует, выберите категорию “Другое”.
+                    {{ $t('objectAdding.categoryHelp1') }}<br>{{ $t('objectAdding.categoryHelp2') }}
                 </div>
             </div>
         </div>
         <field :error="validationErrors.categoryId">
             <div class="col">
-                <label class="add-object__label">Подкатегория</label>
+                <label class="add-object__label">{{ $t('objectAdding.subCategory') }}</label>
             </div>
             <div class="col --long --info">
                 <div class="select">
                     <select :disabled="!selectedCategory" v-model="categoryId">
-                        <option disabled :value="null">Выберите подкатегорию</option>
+                        <option disabled :value="null">{{ $t('objectAdding.emptySubCategoryPlaceholder') }}</option>
                         <template v-if="selectedCategory">
                             <option :value="category.id" v-for="category in selectedCategory.subCategories"
                                     :key="category.id">{{ category.title }}
@@ -102,13 +102,13 @@
                     </svg>
                 </span>
                 <div class="add-object__info-text">
-                    Выберите подкатегорию объекта из списка.<br>Если категория в списке отсутствует, выберите подкатегорию “Другое”.
+                    {{ $t('objectAdding.subCategoryHelp1') }}<br>{{ $t('objectAdding.subCategoryHelp2') }}
                 </div>
             </div>
         </field>
         <field :error="validationErrors.description">
             <div class="col">
-                <label class="add-object__label">Описание</label>
+                <label class="add-object__label">{{ $t('objectAdding.description') }}</label>
             </div>
             <div class="col --long">
                 <textarea class="add-object__textarea" :value="description" @input="updateData({path: 'first.description', value: $event.target.value})"></textarea>
@@ -116,19 +116,19 @@
         </field>
         <field>
             <div class="col">
-                <label class="add-object__label">Ссылка на видео</label>
+                <label class="add-object__label">{{ $t('objectAdding.videoLink') }}</label>
             </div>
             <div class="col --long">
                 <div class="input" v-for="(photo, index) in videos" :key="index">
                     <input type="text" placeholder="http://" :value="videos[index]" @input="updateData({path: `first.videos.${index}`, value: $event.target.value})"/>
                 </div>
-                <button type="button" class="add-link" @click="videos = [...videos, '']">Добавить еще видео</button>
+                <button type="button" class="add-link" @click="videos = [...videos, '']">{{ $t('objectAdding.addMoreVideos') }}</button>
             </div>
         </field>
 
         <field :error="validationErrors.photos">
             <div class="col">
-                <label class="add-object__label">Загрузить фото</label>
+                <label class="add-object__label">{{ $t('objectAdding.uploadPhotos') }}</label>
             </div>
             <div class="col --long --info">
                 <photo-uploader v-model="photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
@@ -149,7 +149,7 @@
                     </svg>
                 </span>
                 <div class="add-object__info-text">
-                    Дополните информацию об объекте фотографиями, демонстрирующимидоступность или недоступность объекта.<br>Не более 2 Мб в форматах jpg, png, bmp, tif, gif.
+                    {{ $t('objectAdding.photosHelp1') }}<br>{{ $t('objectAdding.photosHelp2') }}
                 </div>
             </div>
         </field>

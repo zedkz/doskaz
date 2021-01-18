@@ -3,11 +3,14 @@
 
 namespace App\Objects;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
+use Gedmo\Translatable\TranslatableListener;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CategoriesController extends AbstractController
@@ -15,7 +18,8 @@ class CategoriesController extends AbstractController
     /**
      * @Route(path="/api/objectCategories", methods={"GET"})
      * @Route(path="/api/objects/categories", methods={"GET"})
-     * @param Connection $connection
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @return array
      * @Get(
      *     path="/api/objects/categories",
@@ -30,37 +34,49 @@ class CategoriesController extends AbstractController
      *     }
      * )
      */
-    public function list(Connection $connection)
+    public function list(Request $request, EntityManagerInterface $entityManager)
     {
-        $categories = $connection->createQueryBuilder()
-            ->select([
-                'id',
-                'title',
-                'icon',
-                'parent_id'
-            ])
-            ->from('object_categories')
-            ->execute()
-            ->fetchAll();
+        $query = $entityManager->createQueryBuilder()->select('c')->from(Category::class, 'c')
+            ->getQuery();
 
-        return array_map(function ($category) use ($categories) {
+        $query->setHint(
+            Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $query->setHint(
+            TranslatableListener::HINT_TRANSLATABLE_LOCALE,
+            $request->getLocale()
+        );
+
+        $query->setHint(
+            TranslatableListener::HINT_FALLBACK,
+            1
+        );
+
+        /**
+         * @var $categories Category[]
+         */
+        $categories = $query->getResult();
+
+        return array_map(function (Category $category) use ($categories) {
             return new CategoryData(
-                $category['id'],
-                $category['title'],
-                $category['icon'],
+                $category->getId(),
+                $category->getTitle(),
+                $category->getIcon(),
                 array_map(function ($category) {
                     return new CategoryData(
-                        $category['id'],
-                        $category['title'],
-                        $category['icon'],
+                        $category->getId(),
+                        $category->getTitle(),
+                        $category->getIcon(),
                         []
                     );
-                }, array_values(array_filter($categories, function ($subCategory) use ($category) {
-                    return $subCategory['parent_id'] === $category['id'];
+                }, array_values(array_filter($categories, function (Category $subCategory) use ($category) {
+                    return $subCategory->getParentId() === $category->getId();
                 })))
             );
         }, array_filter($categories, function ($category) {
-            return is_null($category['parent_id']);
+            return is_null($category->getParentId());
         }));
     }
 }

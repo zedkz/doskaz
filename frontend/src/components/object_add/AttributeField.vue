@@ -8,7 +8,7 @@
         <div class="col --small">
             <div class="select">
                 <select v-model="val">
-                    <option v-for="option in options" :key="option.value" :value="option.value">{{ option.text }}
+                    <option v-for="option in options" :key="option" :value="option">{{ $t(`objects.attribute.${option}`) }}
                     </option>
                 </select>
             </div>
@@ -34,12 +34,12 @@ export default {
             }
         },
         options() {
-            return [
-                {value: 'unknown', text: 'Неизвестно'},
-                {value: 'not_provided', text: 'Не предусмотрено'},
-                {value: 'no', text: 'Нет'},
-                {value: 'yes', text: 'Да'},
-            ]
+          return [
+            'unknown',
+            'not_provided',
+            'no',
+            'yes'
+          ]
         }
     }
 }

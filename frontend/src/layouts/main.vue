@@ -210,6 +210,23 @@
             mobileOpenedFalse: function (count) {
                 this.mobileOpened = false;
             }
+        },
+        head() {
+          return {
+            title: this.$t('meta.title'),
+            meta: [
+              {
+                hid: 'description',
+                name: 'description',
+                content: this.$t('meta.description')
+              },
+              {
+                hid: 'keywords',
+                name: 'keywords',
+                content: this.$t('meta.keywords')
+              }
+            ]
+          }
         }
     }
 </script>

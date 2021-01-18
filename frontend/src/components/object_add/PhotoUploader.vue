@@ -8,7 +8,7 @@
                       :style="{'background-image': `url(${slot.preview})`, 'background-size': 'cover'}"></span>
             </div>
         </div>
-        <button type="button" class="add-link" @click.prevent="addSlot">Добавить еще фото</button>
+        <button type="button" class="add-link" @click.prevent="addSlot">{{ $t('complaint.addMorePhotos') }}</button>
     </div>
 </template>
 

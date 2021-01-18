@@ -7,11 +7,11 @@
                         <span>{{ level.current }}</span>
                     </div>
                     <div class="info__level-text">
-                        <span>уровень</span>
+                        <span>{{ $t('profile.level') }}</span>
                     </div>
                 </div>
                 <div class="info__points">
-                    <span><span class="--mob-hide">баллов </span>{{ level.currentPoints }} / {{ level.nextLevelThreshold }}</span>
+                    <span><span class="--mob-hide">{{ $t('profile.points') }} </span>{{ level.currentPoints }} / {{ level.nextLevelThreshold }}</span>
                 </div>
             </div>
             <div class="progress">
@@ -24,7 +24,7 @@
                     <span>{{ stats.objects }}</span>
                 </div>
                 <div class="stat__cat">
-                    <span>объектов</span>
+                    <span>{{ $t('profile.stats.objects') }}</span>
                 </div>
             </div>
             <div class="stat">
@@ -32,7 +32,7 @@
                     <span>0</span>
                 </div>
                 <div class="stat__cat">
-                    <span>проверок</span>
+                    <span>{{ $t('profile.stats.verifications') }}</span>
                 </div>
             </div>
             <div class="stat">
@@ -40,7 +40,7 @@
                     <span>{{ stats.complaints }}</span>
                 </div>
                 <div class="stat__cat">
-                    <span>жалоб</span>
+                    <span>{{ $t('profile.stats.complaints') }}</span>
                 </div>
             </div>
         </div>

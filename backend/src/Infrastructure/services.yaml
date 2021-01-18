@@ -95,3 +95,7 @@ services:
     App\Infrastructure\ImageConversion\ConvertAllImages:
         tags:
             - { name: 'console.command', command: 'app:convert-images'}
+
+    App\Infrastructure\Api\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 110 }

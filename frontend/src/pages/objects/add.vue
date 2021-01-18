@@ -4,7 +4,7 @@
         <MainHeader/>
         <div class="container">
             <div class="complaint__top">
-                <h2 class="title">Добавить объект</h2>
+                <h2 class="title">{{ $t('objectAdding.pageHeader') }}</h2>
                 <div class="add-object__link-b">
                     <span class="add-object__link"
                           v-for="form in forms"
@@ -12,7 +12,7 @@
                           @click="changeForm(form.key)"
                           :class="{active: form.key === selectedForm}"
                     >
-                        {{ form.title }}
+                        {{ $t(`objectAdding.formType.${form.key}`) }}
                     </span>
                 </div>
             </div>
@@ -32,7 +32,7 @@
     export default {
         head() {
             return {
-                title: 'Добавить объект'
+                title: this.$t('objectAdding.pageHeader')
             }
         },
         middleware: ['authenticated'],

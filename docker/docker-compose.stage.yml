@@ -1,15 +1,26 @@
 version: "3.4"
 
+x-default-logging: &default-logging
+  logging:
+    driver: 'json-file'
+    options:
+      max-size: '1M'
+
+x-default-restart-policy: &default-restart-policy
+  restart: unless-stopped
+
 
 services:
   backend:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
     environment:
       - SENTRY_DSN
       - TRUSTED_PROXIES=172.25.0.0/16
 
   backend_nginx:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
     labels:
       - traefik.http.routers.doskaz_app.tls=true
       - traefik.http.routers.doskaz_app.entrypoints=websecure
@@ -30,32 +41,39 @@ services:
       - traefik.http.routers.doskaz_frontend.tls=true
       - traefik.http.routers.doskaz_frontend.entrypoints=websecure
       - traefik.http.routers.doskaz_frontend.tls.certresolver=le
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
 
   database:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
 
   imgproxy:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
     labels:
       - traefik.http.routers.doskaz_imgproxy.tls=true
       - traefik.http.routers.doskaz_imgproxy.entrypoints=websecure
       - traefik.http.routers.doskaz_imgproxy.tls.certresolver=le
 
   adminpanel:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
     labels:
       - traefik.http.routers.doskaz_adminpanel.tls=true
       - traefik.http.routers.doskaz_adminpanel.entrypoints=websecure
       - traefik.http.routers.doskaz_adminpanel.tls.certresolver=le
 
   gotenberg:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
 
   rabbitmq:
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging
 
   worker:
     environment:
       - SENTRY_DSN
-    restart: unless-stopped
+    <<: *default-restart-policy
+    <<: *default-logging

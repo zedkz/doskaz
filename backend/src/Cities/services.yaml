@@ -11,6 +11,9 @@ services:
     App\Cities\Seed:
         tags: ['console.command']
 
+    App\Cities\TranslateCommand:
+        tags: [ 'console.command' ]
+
     App\Cities\CitiesController:
         tags: ['controller.service_arguments']
 
