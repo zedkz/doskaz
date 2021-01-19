@@ -25,6 +25,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\Loader\CsvFileLoader;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\ClientException;
 use TheCodingMachine\Gotenberg\RequestException;
@@ -36,6 +38,16 @@ use Webmozart\Assert\Assert;
  */
 final class ObjectsApiController extends AbstractController
 {
+    /**
+     * @var CsvFileLoader
+     */
+    private CsvFileLoader $csvFileLoader;
+
+    public function __construct(CsvFileLoader $csvFileLoader)
+    {
+        $this->csvFileLoader = $csvFileLoader;
+    }
+
     /**
      * @Route(path="/ymaps", methods={"GET"})
      * @param Request $request
@@ -495,9 +507,18 @@ final class ObjectsApiController extends AbstractController
 
     /**
      * @Route(path="/attributes", methods={"GET"})
+     * @param TranslatorInterface $translator
+     * @return array
      */
-    public function attributes()
+    public function attributes(TranslatorInterface $translator)
     {
+        $this->csvFileLoader->setCsvControl(',');
+        array_walk_recursive(AttributesConfiguration::$configuration, function (&$val) use ($translator) {
+            if(is_string($val)) {
+                $val = $translator->trans($val, [], 'attributes');
+            }
+        });
+
         return AttributesConfiguration::$configuration;
     }
 

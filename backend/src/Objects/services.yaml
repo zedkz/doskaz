@@ -12,6 +12,8 @@ services:
 
     App\Objects\ObjectsApiController:
         tags: ['controller.service_arguments']
+        arguments:
+            - '@translation.loader.csv'
 
     App\Objects\MigrateZones:
         tags: ['console.command']
