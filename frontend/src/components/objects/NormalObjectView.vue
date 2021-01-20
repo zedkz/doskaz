@@ -31,11 +31,11 @@
                 </div>
                 <div class="availability"
                      :style="{backgroundColor: overallAccessibility.backgroundColor}">
-                    <div class="availability__title" :class="overallAccessibility.class">{{ overallAccessibility.label }}
+                    <div class="availability__title" :class="overallAccessibility.class">{{ $t(`accessibilityStatus.${object.overallScore}`) }}
                     </div>
                     <div class="availability__list">
                         <div class="availability__item" :class="zone.class" v-for="zone in zones" :key="zone.key">
-                            {{ zone.label }}
+                            {{ $t(`objects.zone.${zone.key}`) }}
                         </div>
                     </div>
                 </div>
