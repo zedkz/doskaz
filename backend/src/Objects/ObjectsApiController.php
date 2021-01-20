@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace App\Objects;
 
 use App\Infrastructure\FileReference;
+use App\Infrastructure\TranslatableListener;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\EventsHistory\EventData;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Imgproxy\UrlBuilder;
 use OpenApi\Annotations\ExternalDocumentation;
 use OpenApi\Annotations\Get;
@@ -325,7 +328,7 @@ final class ObjectsApiController extends AbstractController
      *     )
      * )
      */
-    public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request)
+    public function object($id, Connection $connection, UrlBuilder $urlBuilder, Request $request, EntityManagerInterface $entityManager)
     {
         $disabilitiesCategory = $request->query->get('disabilitiesCategory', AccessibilityScore::SCORE_CATEGORIES[0]);
         Assert::oneOf($disabilitiesCategory, AccessibilityScore::SCORE_CATEGORIES);
@@ -347,7 +350,6 @@ final class ObjectsApiController extends AbstractController
                 'ST_Y(ST_AsText(objects.point_value)) as lat',
                 'sub_categories.title as sub_category',
                 'sub_categories.icon as sub_category_icon',
-                'object_categories.title as category',
                 'object_categories.icon as category_icon',
                 'object_verifications.status as verification_status',
                 'objects.zones->>\'type\' as form_type',
@@ -366,6 +368,57 @@ final class ObjectsApiController extends AbstractController
         if (!$object) {
             throw new NotFoundHttpException();
         }
+
+        $categoryQuery = $entityManager->createQueryBuilder()->select('c')->from(Category::class, 'c')
+            ->where('c.id = :categoryId')
+            ->setParameter('categoryId', $object['category_id'])
+            ->getQuery();
+
+        $categoryQuery->setHint(
+            Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $categoryQuery->setHint(
+            TranslatableListener::HINT_TRANSLATABLE_LOCALE,
+            $request->getLocale()
+        );
+
+        $categoryQuery->setHint(
+            TranslatableListener::HINT_FALLBACK,
+            1
+        );
+
+        $subCategoryQuery = $entityManager->createQueryBuilder()->select('c')->from(Category::class, 'c')
+            ->where('c.id = :categoryId')
+            ->setParameter('categoryId', $object['sub_category_id'])
+            ->getQuery();
+
+        $subCategoryQuery->setHint(
+            Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $subCategoryQuery->setHint(
+            TranslatableListener::HINT_TRANSLATABLE_LOCALE,
+            $request->getLocale()
+        );
+
+        $subCategoryQuery->setHint(
+            TranslatableListener::HINT_FALLBACK,
+            1
+        );
+
+        /**
+         * @var $category Category
+         */
+        $category = $categoryQuery->getResult()[0];
+
+
+        /**
+         * @var $subCategory Category
+         */
+        $subCategory = $subCategoryQuery->getResult()[0];
 
         /**
          * @var Zones
@@ -448,10 +501,10 @@ final class ObjectsApiController extends AbstractController
             'title' => $object['title'],
             'address' => $object['address'],
             'description' => strip_tags($object['description']),
-            'subCategory' => $object['sub_category'],
+            'subCategory' => $subCategory->getTitle(),
             'categoryId' => $object['category_id'],
             'subCategoryId' => $object['sub_category_id'],
-            'category' => $object['category'],
+            'category' => $category->getTitle(),
             'coordinates' => [
                 (float)$object['lat'], (float)$object['long']
             ],
