@@ -398,9 +398,9 @@
                                             :id="`option-${field.key}-${option.key}`"
                                             v-model="complaintType2Attributes[option.key]"
                                     />
-                                    <label :for="`option-${field.key}-${option.key}`">{{
-                                        option.label
-                                        }}</label>
+                                    <label :for="`option-${field.key}-${option.key}`">
+                                      {{ $t(`complaint.attribute.${option.key}`) }}
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -627,8 +627,7 @@ const fields = [
             },
             {
                 key: "bb43be62-8457-4ab9-be12-27b0d1e6e092",
-                label:
-                        "Вместо внутреннего пандуса/подъемника установлен швеллер/ колейная аппарель"
+                label: "Вместо внутреннего пандуса/подъемника установлен швеллер/ колейная аппарель"
             },
             {
                 key: "b57ca558-dfc9-4e17-b39b-cb289aa9822c",
@@ -687,8 +686,7 @@ const fields = [
             },
             {
                 key: "a38aeb4f-1c3a-48db-b9e7-9afe24077e3f",
-                label:
-                        "Отсутствие специальных мест в концертных и спортивных залах, на смотровых площадках "
+                label: "Отсутствие специальных мест в концертных и спортивных залах, на смотровых площадках"
             }
         ]
     },
