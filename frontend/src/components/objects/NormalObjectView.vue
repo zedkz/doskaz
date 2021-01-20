@@ -187,27 +187,22 @@
     const accessibilityValues = {
         full_accessible: {
             class: '--available',
-            label: 'Доступно',
             backgroundColor: 'rgba(61,186,59,0.15)'
         },
         partial_accessible: {
             class: '--partially',
-            label: 'Частично доступно',
             backgroundColor: 'rgba(248,172,26,0.15)'
         },
         not_accessible: {
             class: '--not-available',
-            label: 'Недоступно',
             backgroundColor: 'rgba(222,18,32,0.1)'
         },
         not_provided: {
             class: '--not-provided',
-            label: 'Не предусмотрено',
             backgroundColor: 'rgba(123,149,167,0.15)'
         },
         unknown: {
             class: '--not-provided',
-            label: 'Неизвестно',
             backgroundColor: 'rgba(123,149,167,0.15)'
         }
     };

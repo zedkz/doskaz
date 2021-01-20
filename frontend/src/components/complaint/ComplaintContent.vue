@@ -385,7 +385,7 @@
                                     :class="{isActive: openedGroups.includes(field.key)}"
                                     v-on:click="toggleGroup(field.key)"
                             >
-                                {{ field.title }}
+                                {{ $t(`objects.zone.${field.key}`) }}
                             </div>
                             <div class="complaint__accordion-content complaint__col --lg">
                                 <div
@@ -536,7 +536,7 @@ const fields = [
         ]
     },
     {
-        key: "inputGroup",
+        key: "entrance",
         title: "Входная группа",
         options: [
             {
@@ -665,7 +665,7 @@ const fields = [
         ]
     },
     {
-        key: "serviceZone",
+        key: "service",
         title: "Зона оказания услуг",
         options: [
             {
@@ -693,7 +693,7 @@ const fields = [
         ]
     },
     {
-        key: "wc",
+        key: "toilet",
         title: "Туалет",
         options: [
             {
