@@ -385,7 +385,7 @@
                                     :class="{isActive: openedGroups.includes(field.key)}"
                                     v-on:click="toggleGroup(field.key)"
                             >
-                                {{ field.title }}
+                                {{ $t(`objects.zone.${field.key}`) }}
                             </div>
                             <div class="complaint__accordion-content complaint__col --lg">
                                 <div
@@ -398,9 +398,9 @@
                                             :id="`option-${field.key}-${option.key}`"
                                             v-model="complaintType2Attributes[option.key]"
                                     />
-                                    <label :for="`option-${field.key}-${option.key}`">{{
-                                        option.label
-                                        }}</label>
+                                    <label :for="`option-${field.key}-${option.key}`">
+                                      {{ $t(`complaint.attribute.${option.key}`) }}
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -536,7 +536,7 @@ const fields = [
         ]
     },
     {
-        key: "inputGroup",
+        key: "entrance",
         title: "Входная группа",
         options: [
             {
@@ -627,8 +627,7 @@ const fields = [
             },
             {
                 key: "bb43be62-8457-4ab9-be12-27b0d1e6e092",
-                label:
-                        "Вместо внутреннего пандуса/подъемника установлен швеллер/ колейная аппарель"
+                label: "Вместо внутреннего пандуса/подъемника установлен швеллер/ колейная аппарель"
             },
             {
                 key: "b57ca558-dfc9-4e17-b39b-cb289aa9822c",
@@ -665,7 +664,7 @@ const fields = [
         ]
     },
     {
-        key: "serviceZone",
+        key: "service",
         title: "Зона оказания услуг",
         options: [
             {
@@ -687,13 +686,12 @@ const fields = [
             },
             {
                 key: "a38aeb4f-1c3a-48db-b9e7-9afe24077e3f",
-                label:
-                        "Отсутствие специальных мест в концертных и спортивных залах, на смотровых площадках "
+                label: "Отсутствие специальных мест в концертных и спортивных залах, на смотровых площадках"
             }
         ]
     },
     {
-        key: "wc",
+        key: "toilet",
         title: "Туалет",
         options: [
             {
