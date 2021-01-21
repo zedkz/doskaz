@@ -3,7 +3,7 @@
         <div class="vi-container">
             <ViHeader></ViHeader>
             <div class="vi-add-object">
-                <h3 class="vi__title --fcolor">Добавить объект</h3>
+                <h3 class="vi__title --fcolor">{{ $t('index.addObjectLink')}}</h3>
                 <div class="vi-object__tab-link-b">
                     <span class="vi-object__tab-link" :class="{ '--active': activeForm == 1 }" @click="setActiveForm(1)">Простая форма</span>
                     <span class="vi-object__tab-link" :class="{ '--active': activeForm == 2 }" @click="setActiveForm(2)">Средняя форма</span>

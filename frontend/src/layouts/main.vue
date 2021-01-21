@@ -86,27 +86,27 @@
 
                             <template v-if="user">
                                 <username :value="name"/>
-                                <nuxt-link :to="localePath({name: 'profile-achievements'})">Достижения</nuxt-link>
-                                <nuxt-link :to="localePath({name: 'profile-objects'})">Мои объекты</nuxt-link>
-                                <nuxt-link :to="localePath({name: 'profile-tickets'})">Мои тикеты</nuxt-link>
-                                <nuxt-link :to="localePath({name: 'profile-tasks'})">Мои задания</nuxt-link>
-                                <nuxt-link :to="localePath({name: 'profile-comments'})">Мои комментарии</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-achievements'})">{{ $t('profile.achievements.tabTitle') }}</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-objects'})">{{ $t('profile.objects.tabTitle') }}</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-tickets'})">{{ $t('profile.tickets.tabTitle') }}</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-tasks'})">{{ $t('profile.tasks.tabTitle') }}</nuxt-link>
+                                <nuxt-link :to="localePath({name: 'profile-comments'})">{{ $t('profile.comments.tabTitle') }}</nuxt-link>
                             </template>
 
                         </div>
                     </div>
                     <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
-                            <a href="#"><span>Помощь</span></a>
-                            <nuxt-link :to="localePath({name: 'about'})"><span>О проекте</span></nuxt-link>
-                            <nuxt-link :to="localePath({name: 'blog-category'})"><span>Блог</span></nuxt-link>
-                            <nuxt-link :to="localePath({name: 'contacts'})"><span>Контакты</span></nuxt-link>
+<!--                            <a href="#"><span>Помощь</span></a>-->
+                            <nuxt-link :to="localePath({name: 'about'})"><span>{{ $t('mainMenu.about') }}</span></nuxt-link>
+                            <nuxt-link :to="localePath({name: 'blog-category'})"><span>{{ $t('mainMenu.blog') }}</span></nuxt-link>
+                            <nuxt-link :to="localePath({name: 'contacts'})"><span>{{ $t('mainMenu.contacts') }}</span></nuxt-link>
                             <button class="button button_blue" type="button" @click="popupOpen = true" v-if="currentCategory">
                                 <span>{{ $t(`disabilityCategories.${currentCategory.key}`) }}</span>
                                 <img :src="require(`~/assets/icons/categories/${currentCategory.key}.svg`)"/>
                             </button>
                             <nuxt-link :to="localePath({name: 'objects-add'})" class="button button_green" type="button" name="add_object">
-                                <span>Добавить объект</span>
+                                <span>{{ $t('index.addObjectLink')}}</span>
                                 <svg
                                         width="20"
                                         height="20"
@@ -123,7 +123,7 @@
                                 </svg>
                             </nuxt-link>
                             <nuxt-link :to="localePath({name: 'complaint'})" class="button button_red">
-                                <span>Добавить жалобу</span>
+                                <span>{{ $t('index.makeComplaintLink') }}</span>
                                 <svg
                                         width="19"
                                         height="21"

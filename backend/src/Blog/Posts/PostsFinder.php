@@ -18,9 +18,9 @@ final class PostsFinder
         $this->connection = $connection;
     }
 
-    private function initializeQuery(): QueryBuilder
+    private function initializeQuery(?string $lang): QueryBuilder
     {
-        return $this->connection->createQueryBuilder()
+        $query = $this->connection->createQueryBuilder()
             ->addSelect('blog_posts.id')
             ->addSelect('blog_posts.title')
             ->addSelect('blog_posts.annotation')
@@ -28,8 +28,8 @@ final class PostsFinder
             ->addSelect('blog_posts.slug_value as slug')
             ->addSelect('blog_categories.slug_value as "categorySlug"')
             ->addSelect('blog_categories.id as "categoryId"')
-            ->addSelect('content')
-            ->addSelect('image')
+            ->addSelect('blog_posts.content')
+            ->addSelect('blog_posts.image')
             ->addSelect('blog_categories.title as category_title')
             ->addSelect('blog_posts.published_at')
             ->addSelect('blog_posts.meta_title')
@@ -42,6 +42,12 @@ final class PostsFinder
             ->andWhere('blog_posts.deleted_at IS NULL AND blog_posts.is_published = true')
             ->andWhere('blog_posts.published_at <= CURRENT_TIMESTAMP')
             ->join('blog_posts', 'blog_categories', 'blog_categories', 'blog_posts.category_id = blog_categories.id');
+
+        if($lang && $lang != 'ru') {
+            $query->addSelect('coalesce(blog_category_translations.content, blog_categories.title) as category_title');
+            $query->leftJoin('blog_categories', 'blog_category_translations', 'blog_category_translations', 'blog_categories.id::text = blog_category_translations.foreign_key');
+        }
+        return $query;
     }
 
     private function mapItem(array $data)
@@ -74,9 +80,9 @@ final class PostsFinder
         ];
     }
 
-    public function find(array $filter = [], int $page = 1, int $perPage = self::ITEMS_PER_PAGE): array
+    public function find(array $filter = [], int $page = 1, int $perPage = self::ITEMS_PER_PAGE, ?string $lang = null): array
     {
-        $queryBuilder = $this->initializeQuery();
+        $queryBuilder = $this->initializeQuery($lang);
 
         foreach ($filter as $property => $filterValue) {
             switch ($property) {
@@ -124,9 +130,9 @@ final class PostsFinder
         ];
     }
 
-    public function findOneBySlug(string $slug): ?array
+    public function findOneBySlug(string $slug, string $lang): ?array
     {
-        $item = $this->initializeQuery()
+        $item = $this->initializeQuery($lang)
             ->andWhere('blog_posts.slug_value = :slug')
             ->setParameter('slug', $slug)
             ->execute()->fetch();
@@ -135,7 +141,7 @@ final class PostsFinder
             return null;
         }
 
-        $similarPosts = $this->initializeQuery()
+        $similarPosts = $this->initializeQuery($lang)
             ->andWhere('blog_posts.id != :id')
             ->orderBy('similarity(:title, blog_posts.title)', 'desc')
             ->setParameter('title', $item['title'])
@@ -157,9 +163,9 @@ final class PostsFinder
         ];
     }
 
-    public function findOneById($id): ?array
+    public function findOneById($id, string $lang): ?array
     {
-        $item = $this->initializeQuery()
+        $item = $this->initializeQuery($lang)
             ->andWhere('blog_posts.id = :id')
             ->setParameter('id', $id)
             ->execute()->fetch();
@@ -168,7 +174,7 @@ final class PostsFinder
             return null;
         }
 
-        $similarPosts = $this->initializeQuery()
+        $similarPosts = $this->initializeQuery($lang)
             ->andWhere('blog_posts.id != :id')
             ->orderBy('similarity(:title, blog_posts.title)', 'desc')
             ->setParameter('title', $item['title'])

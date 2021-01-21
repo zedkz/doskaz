@@ -77,7 +77,7 @@ final class PostsController extends AbstractController
         if ($request->query->has('categoryId') && !$categoryRepository->find($request->query->getInt('categoryId'))) {
             throw new NotFoundHttpException();
         }
-        return $postsFinder->find($request->query->all(), $request->query->getInt('page', 1));
+        return $postsFinder->find($request->query->all(), $request->query->getInt('page', 1), PostsFinder::ITEMS_PER_PAGE, $request->getLocale());
     }
 
     /**
@@ -86,9 +86,9 @@ final class PostsController extends AbstractController
      * @param PostsFinder $postsFinder
      * @return array
      */
-    public function bySlug(string $slug, PostsFinder $postsFinder)
+    public function bySlug(string $slug, PostsFinder $postsFinder, Request $request)
     {
-        $post = $postsFinder->findOneBySlug($slug);
+        $post = $postsFinder->findOneBySlug($slug, $request->getLocale());
         if (!$post) {
             throw new NotFoundHttpException();
         }
@@ -137,9 +137,9 @@ final class PostsController extends AbstractController
      *     )
      * )
      */
-    public function byId($id, PostsFinder $postsFinder)
+    public function byId($id, PostsFinder $postsFinder, Request $request)
     {
-        $post = $postsFinder->findOneById($id);
+        $post = $postsFinder->findOneById($id, $request->getLocale());
         if (!$post) {
             throw new NotFoundHttpException();
         }
