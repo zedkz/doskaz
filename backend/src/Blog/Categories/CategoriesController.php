@@ -8,6 +8,9 @@ use App\Blog\MetaData;
 use App\Blog\SlugFactory;
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
+use Gedmo\Translatable\TranslatableListener;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
@@ -47,25 +50,24 @@ final class CategoriesController extends AbstractController
      *     )
      * )
      */
-    public function list(Request $request, Connection $connection): array
+    public function list(Request $request, EntityManagerInterface $entityManager, Connection $connection): array
     {
-        $qb = $connection->createQueryBuilder()->from('blog_categories')
-            ->andWhere('deleted_at IS NULL');
+        $query = $entityManager->createQueryBuilder()->select('c')->from(Category::class, 'c')
+            ->where('c.deletedAt is null')
+            ->orderBy('c.id', 'desc')
+            ->getQuery()
+            ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(TranslatableListener::HINT_TRANSLATABLE_LOCALE, $request->getLocale())
+            ->setHint(TranslatableListener::HINT_FALLBACK, 1);
 
-        $items = (clone $qb)
-            ->addSelect('id')
-            ->addSelect('title')
-            ->addSelect('slug_value as slug')
-            ->orderBy('id', 'desc')
-            ->execute()
-            ->fetchAll();
+        $categories = $query->execute();
 
-        return array_map(function ($item) {
+        return array_map(function (Category $item) {
             $categoryData = new CategoryData();
-            $categoryData->id = $item['id'];
-            $categoryData->title = $item['title'];
-            $categoryData->slug = $item['slug'];
+            $categoryData->id = $item->id();
+            $categoryData->title = $item->getTitle();
+            $categoryData->slug = $item->getSlug()->value;
             return $categoryData;
-        }, $items);
+        }, $categories);
     }
 }

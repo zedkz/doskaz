@@ -6,10 +6,12 @@ namespace App\Blog\Categories;
 use App\Blog\Meta;
 use App\Blog\Slug;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="blog_categories")
+ * @Gedmo\TranslationEntity(class="App\Blog\Categories\CategoryTranslation")
  */
 class Category
 {
@@ -22,6 +24,7 @@ class Category
 
     /**
      * @ORM\Column(type="text")
+     * @Gedmo\Translatable()
      */
     private $title;
 
@@ -52,6 +55,11 @@ class Category
      */
     private $meta;
 
+    /**
+     * @Gedmo\Locale()
+     */
+    private $locale;
+
     public function __construct(string $title, Slug $slug, ?Meta $meta = null)
     {
         $this->title = $title;
@@ -77,5 +85,35 @@ class Category
     public function markAsDeleted()
     {
         $this->deletedAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return Slug
+     */
+    public function getSlug(): Slug
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }
