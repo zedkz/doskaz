@@ -82,7 +82,7 @@
                     </div>
                     <div class="main-page__mobile-item">
                         <div class="main-filter__menu">
-                            <nuxt-link :to="localePath({name: 'login'})" v-if="!user">Войти</nuxt-link>
+                            <nuxt-link :to="localePath({name: 'login'})" v-if="!user">{{ $t('login.linkTitle') }}</nuxt-link>
 
                             <template v-if="user">
                                 <username :value="name"/>
