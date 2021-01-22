@@ -7,6 +7,7 @@ export default {
     usernameDefault: 'Без имени',
     pointsCount: '0 баллов | {n} балл | {n} балла | {n} баллов',
     login: {
+        linkTitle: 'Войти',
         pageTitle: 'Вход',
         popupTitle: 'Доступный Казахстан — сделайте свой город ближе',
         phoneLoginAdvice: 'Или войдите с помощью телефона',
