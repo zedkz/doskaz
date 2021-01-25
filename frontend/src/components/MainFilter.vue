@@ -3,7 +3,7 @@
         <div class="main-filter__mobile-top">
             <div class="main-filter__header">
                 <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo --mob">
-                    <img :src="require('~/assets/logo.svg')" alt/>
+                    <img :src="require(`@/assets/logo_${$i18n.locale}.svg`)" alt/>
                 </nuxt-link>
 
                 <div class="main-filter__menu --desktop">
@@ -46,7 +46,7 @@
 
             <div class="main-filter__title --desktop">
                 <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
-                    <img :src="require('@/assets/logo.svg')" alt/>
+                    <img :src="require(`@/assets/logo_${$i18n.locale}.svg`)" alt/>
                 </nuxt-link>
                 <city-selector/>
             </div>

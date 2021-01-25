@@ -68,7 +68,7 @@
                 <div class="main-page__mobile-in">
                     <div class="main-page__mobile-item --md">
                         <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
-                            <img :src="require('@/assets/logo.svg')" alt/>
+                            <img :src="require(`@/assets/logo_${$i18n.locale}.svg`)" alt/>
                         </nuxt-link>
                     <span class="main-page__mobile-close" @click="mobileOpenedFalse">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">

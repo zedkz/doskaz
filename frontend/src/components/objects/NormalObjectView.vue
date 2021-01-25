@@ -2,7 +2,7 @@
     <div class="sidebar-wrapper" :class="{opened: mobileOpened}">
         <div class="mob-menu">
             <nuxt-link :to="localePath({name: 'index'})" class="main-filter__logo">
-                <img :src="require('~/assets/logo.svg')" alt/>
+                <img :src="require(`@/assets/logo_${$i18n.locale}.svg`)" alt/>
             </nuxt-link>
             <div class="burger-wrapper" @click="mainPageMobOpened()">
                 <span class="burger">
