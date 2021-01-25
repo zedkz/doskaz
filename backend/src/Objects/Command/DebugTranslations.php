@@ -40,6 +40,7 @@ class DebugTranslations extends Command
         array_walk_recursive(AttributesConfiguration::$configuration, function (&$val) {
             if(is_string($val)) {
                 $val = $this->translator->trans($val, [], 'attributes', 'kz');
+                dd($val);
             }
         });
 
