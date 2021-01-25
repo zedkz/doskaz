@@ -46,3 +46,8 @@ services:
 
     App\Objects\Command\UpdateCategoryTranslations:
         tags: [ 'console.command' ]
+
+    App\Objects\Command\DebugTranslations:
+        tags: [ 'console.command' ]
+        arguments:
+            $csvFileLoader: '@translation.loader.csv'
