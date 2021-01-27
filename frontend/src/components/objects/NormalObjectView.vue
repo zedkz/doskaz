@@ -309,15 +309,15 @@
             },
             detailsZones() {
                 const zones = [
-                    {key: 'parking', title: 'Парковка', group: 'parking'},
-                    {key: 'entrance1', title: 'Входная группа 1', group: 'entrance'},
-                    {key: 'entrance2', title: 'Входная группа 2', group: 'entrance'},
-                    {key: 'entrance3', title: 'Входная группа 3', group: 'entrance'},
-                    {key: 'movement', title: 'Пути движения по объекту', group: 'movement'},
-                    {key: 'service', title: 'Зона оказания услуги', group: 'service'},
-                    {key: 'toilet', title: 'Туалет', group: 'toilet'},
-                    {key: 'navigation', title: 'Навигация', group: 'navigation'},
-                    {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
+                    {key: 'parking', title: this.$t('objects.zone.parking'), group: 'parking'},
+                    {key: 'entrance1', title: this.$t('objects.zone.entrance') + ' 1', group: 'entrance'},
+                    {key: 'entrance2', title: this.$t('objects.zone.entrance') + ' 2', group: 'entrance'},
+                    {key: 'entrance3', title: this.$t('objects.zone.entrance') + ' 3', group: 'entrance'},
+                    {key: 'movement', title: this.$t('objects.zone.movement'), group: 'movement'},
+                    {key: 'service', title: this.$t('objects.zone.service'), group: 'service'},
+                    {key: 'toilet', title: this.$t('objects.zone.toilet'), group: 'toilet'},
+                    {key: 'navigation', title: this.$t('objects.zone.navigation'), group: 'navigation'},
+                    {key: 'serviceAccessibility', title: this.$t('objects.zone.serviceAccessibility'), group: 'serviceAccessibility'},
                 ]
 
                 return zones.filter(z => this.object.attributes.zones[z.key])
