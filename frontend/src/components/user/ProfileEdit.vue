@@ -100,7 +100,7 @@
 <script>
     import {call} from 'vuex-pathify'
     import mapValidationErrors from "@/mapValidationErrors";
-    import * as firebase from 'firebase/app'
+    import firebase from 'firebase/app'
     import 'firebase/auth'
 
     export default {

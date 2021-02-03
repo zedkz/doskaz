@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import * as firebase from 'firebase/app'
+    import firebase from 'firebase/app'
     import 'firebase/auth'
     import get from 'lodash/get'
     import VueMask from 'v-mask'
