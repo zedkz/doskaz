@@ -1,8 +1,8 @@
-require('dotenv').config()
+/*require('dotenv').config()*/
 
 
 export default {
-    mode: 'spa',
+    ssr: false,
     /*
     ** Headers of the page
     */
@@ -49,7 +49,6 @@ export default {
     modules: [
         'bootstrap-vue/nuxt',
         '@nuxtjs/axios',
-        '@nuxtjs/dotenv',
         'cookie-universal-nuxt'
     ],
     /*
