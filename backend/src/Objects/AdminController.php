@@ -11,7 +11,6 @@ use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -28,10 +27,10 @@ class AdminController extends AbstractController
      * @param RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder
      * @param RegionalCoordinatorRepository $regionalCoordinatorRepository
      * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
     public function list(Request $request, Connection $connection, RegionalCoordinatorCitiesFinder $coordinatorCitiesFinder, RegionalCoordinatorRepository $regionalCoordinatorRepository)
     {
-
         $filter = json_decode($request->query->get('filter', '{}'), true);
 
         $this->denyAccessUnlessGranted(AdminpanelPermission::OBJECTS_ACCESS);
@@ -42,13 +41,19 @@ class AdminController extends AbstractController
                 'objects.address',
                 'objects.created_at as "createdAt"',
                 'object_categories.title as category',
-                'cities.name as city',
+                'cities.name as city'
             ])
             ->from('objects')
             ->leftJoin('objects', 'object_categories', 'object_categories', 'objects.category_id = object_categories.id')
             ->leftJoin('objects', 'cities_geometry', 'cities_geometry', 'ST_Contains(cities_geometry.geometry, objects.point_value::geometry)')
             ->leftJoin('cities_geometry', 'cities', 'cities', 'cities.id = cities_geometry.id')
             ->andWhere('objects.deleted_at IS NULL');
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $queryBuilder->addSelect('COALESCE(users.full_name->>\'firstAndLast\', users.email, phone_credentials.number) as "createdBy"')
+                ->leftJoin('objects', 'users', 'users', 'users.id = objects.created_by')
+                ->leftJoin('objects', 'phone_credentials', 'phone_credentials', 'phone_credentials.id = objects.created_by');
+        }
 
         foreach ($filter as $option => $value) {
             switch ($option) {
