@@ -37,7 +37,8 @@ abstract class Zones
             $this->service->accessibilityScore(),
             $this->toilet->accessibilityScore(),
             $this->navigation->accessibilityScore(),
-            $serviceAccessibilityScore
+            $serviceAccessibilityScore,
+            $this->kidsAccessibility->accessibilityScore()
         );
 
         $builder = AccessibilityScoreBuilder::initUnknown();

@@ -23,7 +23,7 @@
                 </div>
                 <div class="add-object__top">
                     <span class="add-object__top-step">{{ $t('objectAdding.currentStep', {currentStepNumber, totalSteps: stepsShow.length }) }}</span> <h4
-                        class="add-object__top-title">{{ activeStep.title }}</h4>
+                        class="add-object__top-title">{{ $t(activeStep.group === 'first' ? 'objectAdding.commonInformation' : `objects.zone.${activeStep.group}`) }}</h4>
                 </div>
             </template>
             <template v-else>

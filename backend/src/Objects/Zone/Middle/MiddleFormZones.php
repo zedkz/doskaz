@@ -3,7 +3,6 @@
 
 namespace App\Objects\Zone\Middle;
 
-use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Zones;
 
 class MiddleFormZones extends Zones
@@ -54,6 +53,11 @@ class MiddleFormZones extends Zones
     public $serviceAccessibility;
 
     /**
+     * @var KidsAccessibility
+     */
+    public $kidsAccessibility;
+
+    /**
      * Zones constructor.
      * @param Parking $parking
      * @param Entrance $entrance1
@@ -64,6 +68,7 @@ class MiddleFormZones extends Zones
      * @param Toilet $toilet
      * @param Navigation $navigation
      * @param ServiceAccessibility $serviceAccessibility
+     * @param KidsAccessibility|null $kidsAccessibility
      */
     public function __construct(
         Parking $parking,
@@ -74,7 +79,8 @@ class MiddleFormZones extends Zones
         Service $service,
         Toilet $toilet,
         Navigation $navigation,
-        ServiceAccessibility $serviceAccessibility
+        ServiceAccessibility $serviceAccessibility,
+        ?KidsAccessibility $kidsAccessibility = null
     ) {
         $this->parking = $parking;
         $this->entrance1 = $entrance1;
@@ -85,5 +91,6 @@ class MiddleFormZones extends Zones
         $this->toilet = $toilet;
         $this->navigation = $navigation;
         $this->serviceAccessibility = $serviceAccessibility;
+        $this->kidsAccessibility = $kidsAccessibility ?? new KidsAccessibility();
     }
 }

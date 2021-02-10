@@ -47,6 +47,7 @@
     import Toilet from "@/components/tabs/Toilet";
     import Navigation from "@/components/tabs/Navigation";
     import ServiceAccecssibility from "@/components/tabs/ServiceAccecssibility";
+    import KidsAccecssibility from "@/components/tabs/KidsAccecssibility";
 
     export default {
         components: {Fields, CrudEdit, Loading},
@@ -84,6 +85,7 @@
                     {title: 'Туалет', key: 'toilet', component: Toilet},
                     {title: 'Навигация', key: 'navigation', component: Navigation},
                     {title: 'Доступность услуги', key: 'serviceAccessibility', component: ServiceAccecssibility},
+                    {title: 'Доступность и безопасность услуг для детей до 7 лет', key: 'kidsAccessibility', component: KidsAccecssibility},
                 ].filter(tab => (this.item || {form: {}}).form[tab.key])
             }
         },
