@@ -32,7 +32,6 @@ services:
       - geoip_data:/geoip_data:ro
     depends_on:
       - database
-      - backend_nginx
 
   worker:
     environment:
@@ -66,6 +65,7 @@ services:
       - web
     volumes:
       - doskaz_storage:/var/www/html/storage
+    depends_on: [ backend ]
 
   frontend:
     build:
@@ -159,7 +159,7 @@ volumes:
     external: true
   geoip_data:
     driver: local
-  rabbitmq_data: {}
+  rabbitmq_data: { }
 
 networks:
   web:

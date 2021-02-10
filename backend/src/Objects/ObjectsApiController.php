@@ -268,6 +268,7 @@ final class ObjectsApiController extends AbstractController
      *                     @Property(property="toilet", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
      *                     @Property(property="navigation", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
      *                     @Property(property="serviceAccessibility", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS),
+     *                     @Property(property="kidsAccessibility", type="string", enum=App\Objects\Adding\AccessibilityScore::SCORE_VARIANTS)
      *                 ),
      *                 @Property(property="icon", type="string", example="fa-credit-card"),
      *                 @Property(
@@ -320,6 +321,7 @@ final class ObjectsApiController extends AbstractController
      *                         @Property(property="toilet", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
      *                         @Property(property="navigation", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
      *                         @Property(property="serviceAccessibility", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
+     *                         @Property(property="kidsAccessibility", type="object", properties={"default": @Property(property="attribute1", type="string", enum=App\Objects\Adding\Attribute::ATTRIBUTES)}),
      *                     )
      *                 ),
      *                 @Property(property="verificationStatus", type="string", enum=App\Objects\Verification\Verification::STATUSES)
@@ -444,7 +446,8 @@ final class ObjectsApiController extends AbstractController
             'service' => $zones->service->accessibilityScore(),
             'toilet' => $zones->toilet->accessibilityScore(),
             'navigation' => $zones->navigation->accessibilityScore(),
-            'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore()
+            'serviceAccessibility' => $zones->serviceAccessibility->accessibilityScore(),
+            'kidsAccessibility' => $zones->kidsAccessibility->accessibilityScore()
         ];
 
         //  $baseUrl = $request->getSchemeAndHttpHost();

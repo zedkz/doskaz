@@ -173,13 +173,15 @@ export default {
             toilet: 'Туалет',
             navigation: 'Навигация',
             serviceAccessibility: 'Доступность услуги',
+            kidsAccessibility: 'Доступность и безопасность услуг для детей до 7 лет',
         },
         viBreadcrumbsTitle: 'Вернуться в категорию {category} / {subCategory}',
         viAccessibilityCategory: {
             full_accessible: 'доступно',
             partial_accessible: 'частично доступно',
             not_accessible: 'недоступно',
-            not_provided: 'не предусмотрено'
+            not_provided: 'не предусмотрено',
+            unknown: 'не известно'
         },
         viSummaryScore: 'Оценка объекта: {score}',
         viReturnToObject: 'Вернуться к объекту {object}',

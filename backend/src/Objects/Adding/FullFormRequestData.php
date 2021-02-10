@@ -6,6 +6,7 @@ namespace App\Objects\Adding;
 use App\Infrastructure\ObjectResolver\DataObject;
 use App\Objects\Adding\Steps\FirstStep;
 use App\Objects\Adding\Steps\Full\Entrance;
+use App\Objects\Adding\Steps\Full\KidsAccessibility;
 use App\Objects\Adding\Steps\Full\Movement;
 use App\Objects\Adding\Steps\Full\Navigation;
 use App\Objects\Adding\Steps\Full\Parking;
@@ -86,6 +87,13 @@ final class FullFormRequestData implements DataObject, Form
      */
     public $serviceAccessibility;
 
+    /**
+     * @var KidsAccessibility
+     * @Assert\NotBlank()
+     * @Assert\Valid()
+     */
+    public $kidsAccessibility;
+
     public function toZones(): Zones
     {
         return new FullFormZones(
@@ -97,7 +105,8 @@ final class FullFormRequestData implements DataObject, Form
             new \App\Objects\Zone\Full\Service($this->service->attributes, $this->service->overriddenScore),
             new \App\Objects\Zone\Full\Toilet($this->toilet->attributes, $this->toilet->overriddenScore),
             new \App\Objects\Zone\Full\Navigation($this->navigation->attributes, $this->navigation->overriddenScore),
-            new \App\Objects\Zone\Full\ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore)
+            new \App\Objects\Zone\Full\ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore),
+            new \App\Objects\Zone\Full\KidsAccessibility($this->kidsAccessibility->attributes, $this->kidsAccessibility->overriddenScore)
         );
     }
 }

@@ -71,6 +71,13 @@ export const state = () => ({
             commentLabel: 'Комментарий к навигации',
             commentPlaceholder: 'Система оценила доступность услуги. Если вы не согласны с оценкой, вы можете оставить комментарий с пояснением'
         },
+        {
+            key: 'kidsAccessibility',
+            title: '',
+            group: 'kidsAccessibility',
+            commentLabel: 'Комментарий к навигации',
+            commentPlaceholder: 'Система оценила доступность услуги. Если вы не согласны с оценкой, вы можете оставить комментарий с пояснением'
+        },
     ],
     smallFormZonesTabs: [
         {key: 'parking', title: 'Территория объекта', group: 'parking'},
@@ -80,6 +87,7 @@ export const state = () => ({
         {key: 'toilet', title: 'Туалет', group: 'toilet'},
         {key: 'navigation', title: 'Навигация', group: 'navigation'},
         {key: 'serviceAccessibility', title: 'Доступность услуги', group: 'serviceAccessibility'},
+        {key: 'kidsAccessibility', title: '', group: 'kidsAccessibility'},
     ],
     forms: [
         {key: 'small', title: 'Простая форма'},
@@ -122,6 +130,10 @@ export const state = () => ({
             comment: null
         },
         serviceAccessibility: {
+            attributes: {},
+            comment: null
+        },
+        kidsAccessibility: {
             attributes: {},
             comment: null
         }

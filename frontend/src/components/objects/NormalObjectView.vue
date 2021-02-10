@@ -26,7 +26,6 @@
                     <h2 class="object-side__title">{{ object.title }}</h2>
                     <div class="object-side__address">
                         {{ object.address }}
-                        <!--<a href="" class="object-side__address-link">Редактировать объект</a>-->
                     </div>
                 </div>
                 <div class="availability"
@@ -215,6 +214,7 @@
         {key: 'toilet', label: 'Туалет'},
         {key: 'navigation', label: 'Навигация'},
         {key: 'serviceAccessibility', label: 'Доступность услуги'},
+        {key: 'kidsAccessibility', label: ''},
     ]
 
     export default {
@@ -318,6 +318,7 @@
                     {key: 'toilet', title: this.$t('objects.zone.toilet'), group: 'toilet'},
                     {key: 'navigation', title: this.$t('objects.zone.navigation'), group: 'navigation'},
                     {key: 'serviceAccessibility', title: this.$t('objects.zone.serviceAccessibility'), group: 'serviceAccessibility'},
+                    {key: 'kidsAccessibility', title: this.$t('objects.zone.kidsAccessibility'), group: 'kidsAccessibility'},
                 ]
 
                 return zones.filter(z => this.object.attributes.zones[z.key])

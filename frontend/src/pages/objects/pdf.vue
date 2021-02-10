@@ -76,7 +76,7 @@
             return {
                 object,
                 attributes,
-                host: req.headers.host
+                host: 'doskaz.kz'
             }
         },
         computed: {
@@ -126,6 +126,11 @@
                         key: 'serviceAccessibility',
                         title: 'Доступность услуги',
                         group: 'serviceAccessibility',
+                    },
+                    {
+                        key: 'kidsAccessibility',
+                        title: 'Доступность и безопасность услуг для детей до 7 лет',
+                        group: 'kidsAccessibility',
                     },
                 ].filter(z => !!this.object.attributes.zones[z.key])
             },

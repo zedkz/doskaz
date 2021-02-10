@@ -54,6 +54,11 @@ class FullFormZones extends Zones
     public $serviceAccessibility;
 
     /**
+     * @var KidsAccessibility
+     */
+    private KidsAccessibility $kidsAccessibility;
+
+    /**
      * Zones constructor.
      * @param Parking $parking
      * @param Entrance $entrance1
@@ -64,6 +69,7 @@ class FullFormZones extends Zones
      * @param Toilet $toilet
      * @param Navigation $navigation
      * @param ServiceAccessibility $serviceAccessibility
+     * @param KidsAccessibility $kidsAccessibility
      */
     public function __construct(
         Parking $parking,
@@ -74,7 +80,8 @@ class FullFormZones extends Zones
         Service $service,
         Toilet $toilet,
         Navigation $navigation,
-        ServiceAccessibility $serviceAccessibility
+        ServiceAccessibility $serviceAccessibility,
+        KidsAccessibility $kidsAccessibility
     ) {
         $this->parking = $parking;
         $this->entrance1 = $entrance1;
@@ -85,5 +92,6 @@ class FullFormZones extends Zones
         $this->toilet = $toilet;
         $this->navigation = $navigation;
         $this->serviceAccessibility = $serviceAccessibility;
+        $this->kidsAccessibility = $kidsAccessibility ?? new KidsAccessibility();
     }
 }

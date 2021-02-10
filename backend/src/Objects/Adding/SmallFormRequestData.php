@@ -12,6 +12,7 @@ use App\Objects\Adding\Steps\Small\Parking;
 use App\Objects\Adding\Steps\Small\Service;
 use App\Objects\Adding\Steps\Small\ServiceAccessibility;
 use App\Objects\Adding\Steps\Small\Toilet;
+use App\Objects\Zone\Small\KidsAccessibility;
 use App\Objects\Zone\Small\SmallFormZones;
 use App\Objects\Zones;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -90,6 +91,13 @@ final class SmallFormRequestData implements DataObject, Form
      */
     public $serviceAccessibility;
 
+    /**
+     * @var \App\Objects\Adding\Steps\Small\KidsAccessibility|null
+     * @Assert\NotBlank()
+     * @Assert\Valid()
+     */
+    public $kidsAccessibility;
+
     public function toZones(): Zones
     {
         return new SmallFormZones(
@@ -99,7 +107,8 @@ final class SmallFormRequestData implements DataObject, Form
             new \App\Objects\Zone\Small\Service($this->service->attributes, $this->service->overriddenScore),
             new \App\Objects\Zone\Small\Toilet($this->toilet->attributes, $this->toilet->overriddenScore),
             new \App\Objects\Zone\Small\Navigation($this->navigation->attributes, $this->navigation->overriddenScore),
-            new \App\Objects\Zone\Small\ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore)
+            new \App\Objects\Zone\Small\ServiceAccessibility($this->serviceAccessibility->attributes, $this->serviceAccessibility->overriddenScore),
+            new \App\Objects\Zone\Small\KidsAccessibility($this->kidsAccessibility->attributes, $this->kidsAccessibility->overriddenScore)
         );
     }
 }

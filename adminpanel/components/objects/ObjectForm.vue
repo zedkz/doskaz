@@ -122,6 +122,7 @@
                     {title: 'Туалет', key: 'toilet', group: 'toilet'},
                     {title: 'Навигация', key: 'navigation', group: 'navigation'},
                     {title: 'Доступность услуги', key: 'serviceAccessibility', group: 'serviceAccessibility'},
+                    {title: 'Доступность и безопасность услуг для детей до 7 лет', key: 'kidsAccessibility', group: 'kidsAccessibility'},
                 ].filter(tab => (this.zones || {})[tab.key])
             }
         },
