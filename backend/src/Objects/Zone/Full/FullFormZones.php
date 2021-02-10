@@ -56,7 +56,7 @@ class FullFormZones extends Zones
     /**
      * @var KidsAccessibility
      */
-    private KidsAccessibility $kidsAccessibility;
+    public KidsAccessibility $kidsAccessibility;
 
     /**
      * Zones constructor.
