@@ -159,6 +159,9 @@
                     :to="localePath(reviewsLink)"
                     class="object-side__review-add">{{ $t('objects.review.linkButtonTitle') }}
             </nuxt-link>
+            <a class="object-side__review-add"
+               v-if="$route.query.tab === 'photos'"
+               @click.prevent="addPhotosPopup = true">Добавить фото</a>
         </div>
 
         <nuxt-child :objectName="object.title"/>
@@ -169,6 +172,45 @@
                      @close="videosIndex = null"></gallery>
         </client-only>
         <post-submit-message/>
+        <div class="popup__wrapper" v-if="addPhotosPopup">
+            <div class="popup__scroll">
+                <div class="popup__in --md">
+                    <span class="popup__close" v-on:click="addPhotosPopup = false"></span>
+                    <h5 class="popup__title --s-m">Добавить фото к объекту</h5>
+                    <p class="popup__text">Суши-бар Saya Sushi, ул. Локомотивная, 7</p>
+                    <div class="popup__photos">
+                        <!--<div class="photo-input__wrapper">-->
+                            <!--<div class="photo-input required">-->
+                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                            <!--<div class="photo-input required">-->
+                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                            <!--<div class="photo-input required">-->
+                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                            <!--<div class="photo-input required">-->
+                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                            <!--<div class="photo-input required">-->
+                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<button type="button" class="add-link">Добавить еще фото</button>-->
+                        <photo-uploader v-model="photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
+                    </div>
+                    <div class="popup__buttons">
+                        <a @click.prevent="addPhotosPopup = false" type="button" class="popup__button --no --text"><span>Отмена</span></a>
+                        <a href="#" class="popup__button --yes --text"><span>Загрузить</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -182,6 +224,7 @@
     import LangSelect from "~/components/LangSelect";
     import {eventBus} from '~/store/bus.js'
     import FormattedDate from "~/components/FormattedDate";
+    import PhotoUploader from "~/components/object_add/Photouploader";
 
     const accessibilityValues = {
         full_accessible: {
@@ -218,7 +261,7 @@
     ]
 
     export default {
-        components: {FormattedDate, PostSubmitMessage, Username, LangSelect},
+        components: {FormattedDate, PostSubmitMessage, Username, LangSelect, PhotoUploader},
         name: 'NormalObjectView',
         props: [
             'mobileOpened',
@@ -236,6 +279,7 @@
                 activeItem: 'tab-description',
                 visibleDetail: 'detail_1',
                 moreDetailsShow: false,
+                addPhotosPopup: false,
                 videosIndex: null,
                 videosOptions: {
                     container: '#blueimp-video',
@@ -1341,6 +1385,7 @@
             }
 
             &-add {
+                cursor: pointer;
                 position: absolute;
                 bottom: 0;
                 left: 40px;
