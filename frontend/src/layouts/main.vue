@@ -173,7 +173,6 @@
     import LoginForm from "../components/LoginForm";
     import LangSelect from "./../components/LangSelect";
     import CitySelector from "./../components/CitySelector";
-    import {eventBus} from './../store/bus'
     import {sync, get} from 'vuex-pathify'
     import Username from "../components/Username";
 
@@ -201,9 +200,12 @@
             name: get('authentication/name'),
         },
         created() {
-            eventBus.$on('mainPageMobOpened', this.mobileOpenedTrue)
+            this.$nuxt.$on('mainPageMobOpened', this.mobileOpenedTrue)
         },
-        methods: {
+        beforeDestroy() {
+          this.$nuxt.$off('mainPageMobOpened')
+        },
+      methods: {
             mobileOpenedTrue: function (count) {
                 this.mobileOpened = true;
             },

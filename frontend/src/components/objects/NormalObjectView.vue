@@ -180,7 +180,6 @@
     import Username from "~/components/Username";
     import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
     import LangSelect from "~/components/LangSelect";
-    import {eventBus} from '~/store/bus.js'
     import FormattedDate from "~/components/FormattedDate";
 
     const accessibilityValues = {
@@ -335,7 +334,7 @@
         },
         methods: {
             mainPageMobOpened() {
-                eventBus.$emit('mainPageMobOpened');
+                this.$nuxt.$emit('mainPageMobOpened');
             },
             isActive(tabItem) {
                 return this.activeItem === tabItem

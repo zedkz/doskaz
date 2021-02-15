@@ -131,7 +131,6 @@
 <script>
     import CategorySelector from "./../components/CategorySelector";
     import LangSelect from "./../components/LangSelect";
-    import {eventBus} from './../store/bus.js'
     import throttle from 'lodash/throttle'
     import {get, call, sync} from 'vuex-pathify'
     import CitySelector from "./CitySelector";
@@ -162,7 +161,7 @@
             },
             search: throttle(call('map/search'), 1000),
             mainPageMobOpened() {
-                eventBus.$emit('mainPageMobOpened');
+                this.$nuxt.$emit('mainPageMobOpened');
             },
             enableVisualImpairedMode: call('visualImpairedModeSettings/enable')
         }
