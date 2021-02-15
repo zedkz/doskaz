@@ -224,7 +224,7 @@
     import LangSelect from "~/components/LangSelect";
     import {eventBus} from '~/store/bus.js'
     import FormattedDate from "~/components/FormattedDate";
-    import PhotoUploader from "~/components/object_add/Photouploader";
+    import PhotoUploader from "~/components/object_add/PhotoUploader";
 
     const accessibilityValues = {
         full_accessible: {
