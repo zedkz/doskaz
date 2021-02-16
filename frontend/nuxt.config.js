@@ -4,6 +4,7 @@ import axios from 'axios'
 export default {
     srcDir: 'src/',
     loading: false,
+    components: true,
     modules: [
         '@nuxtjs/axios',
         'cookie-universal-nuxt',

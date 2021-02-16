@@ -6,7 +6,7 @@
                 <input type="file" accept="image/*" @change="onFileSelected($event, slot)" multiple="multiple"/>
                 <span class="photo-input__bg" v-if="slot.preview"
                       :style="{'background-image': `url(${slot.preview})`, 'background-size': 'cover'}"></span>
-                <span class="photo-input__remove"></span>
+                <span class="photo-input__remove" @click.prevent="clearSlot(slot)" v-if="!slot.isLoading && slot.preview"></span>
             </div>
         </div>
         <button type="button" class="add-link" @click.prevent="addSlot">{{ $t('complaint.addMorePhotos') }}</button>
@@ -63,7 +63,6 @@
             },
             uploadToSlot(file, slot) {
               const reader = new FileReader();
-
               reader.onload = e => {
                 slot.preview = e.target.result;
               };
@@ -76,6 +75,11 @@
                 slot.file = null;
                 slot.uploadedFile = res;
               });
+            },
+            clearSlot(slot) {
+              slot.preview = null;
+              slot.file = null;
+              slot.uploadedFile = null;
             },
             onFileSelected(e, slot) {
                 if(e.target.files.length === 1) {

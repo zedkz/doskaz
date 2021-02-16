@@ -159,9 +159,12 @@
                     :to="localePath(reviewsLink)"
                     class="object-side__review-add">{{ $t('objects.review.linkButtonTitle') }}
             </nuxt-link>
-            <a class="object-side__review-add"
+            <nuxt-link class="object-side__review-add"
                v-if="$route.query.tab === 'photos'"
-               @click.prevent="addPhotosPopup = true">Добавить фото</a>
+              :to="addPhotosRoute"
+            >
+              Добавить фото
+            </nuxt-link>
         </div>
 
         <nuxt-child :objectName="object.title"/>
@@ -172,45 +175,6 @@
                      @close="videosIndex = null"></gallery>
         </client-only>
         <post-submit-message/>
-        <div class="popup__wrapper" v-if="addPhotosPopup">
-            <div class="popup__scroll">
-                <div class="popup__in --md">
-                    <span class="popup__close" v-on:click="addPhotosPopup = false"></span>
-                    <h5 class="popup__title --s-m">Добавить фото к объекту</h5>
-                    <p class="popup__text">Суши-бар Saya Sushi, ул. Локомотивная, 7</p>
-                    <div class="popup__photos">
-                        <!--<div class="photo-input__wrapper">-->
-                            <!--<div class="photo-input required">-->
-                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
-                                <!--<span></span>-->
-                            <!--</div>-->
-                            <!--<div class="photo-input required">-->
-                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
-                                <!--<span></span>-->
-                            <!--</div>-->
-                            <!--<div class="photo-input required">-->
-                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
-                                <!--<span></span>-->
-                            <!--</div>-->
-                            <!--<div class="photo-input required">-->
-                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
-                                <!--<span></span>-->
-                            <!--</div>-->
-                            <!--<div class="photo-input required">-->
-                                <!--<input type="file" accept="image/*" multiple="multiple"/>-->
-                                <!--<span></span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<button type="button" class="add-link">Добавить еще фото</button>-->
-                        <photo-uploader v-model="photos" @is-uploading="$emit('is-photos-uploading', $event)"/>
-                    </div>
-                    <div class="popup__buttons">
-                        <a @click.prevent="addPhotosPopup = false" type="button" class="popup__button --no --text"><span>Отмена</span></a>
-                        <a href="#" class="popup__button --yes --text"><span>Загрузить</span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -306,6 +270,9 @@
                 'zoom',
                 'coordinatesAndZoom'
             ]),
+            addPhotosRoute() {
+              return this.localePath({name: 'objects-id-add-photos', query: {tab: 'photos'}, params: {id: this.$route.params.id}})
+            },
             overallAccessibility() {
                 return accessibilityValues[this.object.overallScore]
             },
