@@ -6,4 +6,7 @@ services:
   App\Objects\PhotosAdding\Controller\PhotosAddingController:
     tags: [ 'controller.service_arguments' ]
 
+  App\Objects\PhotosAdding\Controller\PhotosAddingAdminController:
+    tags: [ 'controller.service_arguments' ]
+
   App\Objects\PhotosAdding\Repository\PhotosAddingRequestRepository:
