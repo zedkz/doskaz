@@ -2,6 +2,7 @@ imports:
     - { resource: './Reviews/services.yaml' }
     - { resource: './EventsHistory/services.yaml' }
     - { resource: './Verification/services.yaml' }
+    - { resource: './PhotosAdding/services.yaml' }
 
 services:
     _defaults:

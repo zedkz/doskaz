@@ -179,7 +179,7 @@ class MapObject implements EventProducer
         $this->deletedAt = new \DateTimeImmutable();
     }
 
-    public function idDeleted(): bool
+    public function isDeleted(): bool
     {
         return !is_null($this->deletedAt);
     }
