@@ -222,6 +222,8 @@ class MapObject implements EventProducer
     public function addPhotos(FileReferenceCollection $newPhotos)
     {
         $this->remember(new PhotosUpdated($this->uuid, $this->photos, $newPhotos));
+        $this->photos = $this->photos->merge($newPhotos);
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public static function fromMapObjectRequestData(MapObjectData $mapObjectData, int $userId): self
