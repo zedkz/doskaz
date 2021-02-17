@@ -14,26 +14,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class RememberWhenObjectReviewed implements EventListener
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
-    /**
-     * @var Flusher
-     */
-    private $flusher;
-    /**
-     * @var UserEventRepository
-     */
-    private $repository;
-    /**
-     * @var Connection
-     */
-    private $connection;
-    /**
-     * @var MapObjectRepository
-     */
-    private $mapObjectRepository;
+    private Flusher $flusher;
+
+    private UserEventRepository $repository;
+
+    private Connection $connection;
+
+    private MapObjectRepository $mapObjectRepository;
 
     public function __construct(Flusher $flusher, UserEventRepository $repository, Connection $connection, MapObjectRepository $mapObjectRepository)
     {

@@ -5,9 +5,10 @@ namespace App\UserEvents\ObjectReviewed;
 
 use App\UserEvents\Context;
 use App\UserEvents\Data;
+use App\UserEvents\DataFormatter;
 use Doctrine\DBAL\Connection;
 
-class ObjectReviewedDataFormatter implements \App\UserEvents\DataFormatter
+class ObjectReviewedDataFormatter implements DataFormatter
 {
     /**
      * @var Connection

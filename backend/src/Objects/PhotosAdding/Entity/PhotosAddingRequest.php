@@ -81,6 +81,6 @@ class PhotosAddingRequest implements EventProducer
         $this->approvedAt = new \DateTimeImmutable();
         $this->approvedBy = $approvedBy;
         $this->status = self::STATUS_APPROVED;
-        $this->remember(new PhotosAddingRequestApproved($this->id));
+        $this->remember(new PhotosAddingRequestApproved($this->id, $this->objectId, $this->createdBy, $this->photos));
     }
 }

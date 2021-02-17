@@ -135,7 +135,8 @@ class MapObject implements EventProducer
         array $videos,
         ?int $createdBy = null,
         ?string $otherNames = null
-    ) {
+    )
+    {
         $this->uuid = Uuid::uuid4();
         $this->point = $point;
         $this->categoryId = $categoryId;
@@ -168,7 +169,8 @@ class MapObject implements EventProducer
         array $videos,
         ?int $createdBy = null,
         ?string $otherNames = null
-    ): self {
+    ): self
+    {
         $self = new self($point, $title, $categoryId, $zones, $address, $description, $photos, $videos, $createdBy, $otherNames);
         $self->requestId = $requestId;
         return $self;
@@ -215,6 +217,11 @@ class MapObject implements EventProducer
         $this->overallScore = $this->zones->overallScore();
         $this->otherNames = $mapObjectData->otherNames;
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function addPhotos(FileReferenceCollection $newPhotos)
+    {
+        $this->remember(new PhotosUpdated($this->uuid, $this->photos, $newPhotos));
     }
 
     public static function fromMapObjectRequestData(MapObjectData $mapObjectData, int $userId): self
