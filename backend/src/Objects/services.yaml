@@ -53,5 +53,5 @@ services:
         arguments:
             $csvFileLoader: '@translation.loader.csv'
 
-    AddPhotosToObjectWhenRequestApproved:
+    App\Objects\EventListener\AddPhotosToObjectWhenRequestApproved:
         tags: ['domain_events.listener']
