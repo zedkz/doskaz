@@ -10,18 +10,19 @@ use App\Objects\PhotosAdding\Entity\PhotosAddingRequest;
 use App\Objects\PhotosAdding\PhotosAddingData;
 use App\Objects\PhotosAdding\Repository\PhotosAddingRequestRepository;
 use App\Users\Security\AuthenticatedUser;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="/api/objects/{object}", requirements={"object" = "\d+"})
+ * @Route(path="/api/objects/{id}", requirements={"id" = "\d+"})
  * @IsGranted("ROLE_USER")
  */
 class PhotosAddingController extends AbstractController
 {
     /**
+     * @Entity("object", expr="repository.findOneBy({""id"": id, ""deletedAt"": null})")
      * @Route(path="/addPhotos", methods={"POST"})
      * @param PhotosAddingData $photosAddingData
      * @param MapObject $object
@@ -35,9 +36,6 @@ class PhotosAddingController extends AbstractController
         Flusher $flusher
     )
     {
-        if ($object->isDeleted()) {
-            throw new NotFoundHttpException();
-        }
         /**
          * @var $user AuthenticatedUser
          */
