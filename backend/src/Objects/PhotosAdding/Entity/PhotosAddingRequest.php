@@ -6,9 +6,11 @@ namespace App\Objects\PhotosAdding\Entity;
 use App\Infrastructure\DomainEvents\EventProducer;
 use App\Infrastructure\DomainEvents\ProducesEvents;
 use App\Infrastructure\FileReferenceCollection;
+use App\Objects\PhotosAdding\Event\PhotosAddingRequestApproved;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity()
@@ -19,6 +21,7 @@ class PhotosAddingRequest implements EventProducer
     use ProducesEvents;
 
     private const STATUS_ON_REVIEW = 'on_review';
+    private const STATUS_APPROVED = 'approved';
 
     /**
      * @ORM\Id()
@@ -58,7 +61,7 @@ class PhotosAddingRequest implements EventProducer
 
     /**
      * @var FileReferenceCollection
-     * @ORM\Column(type=App\Infrastructure\FileReferenceCollection::class, options={"jsonb" = true})
+     * @ORM\Column(type="App\Infrastructure\FileReferenceCollection", options={"jsonb" = true})
      */
     private FileReferenceCollection $photos;
 
@@ -70,5 +73,14 @@ class PhotosAddingRequest implements EventProducer
         $this->createdAt = new \DateTimeImmutable();
         $this->status = self::STATUS_ON_REVIEW;
         $this->photos = $photos;
+    }
+
+    public function approve(int $approvedBy)
+    {
+        Assert::eq($this->status, self::STATUS_ON_REVIEW);
+        $this->approvedAt = new \DateTimeImmutable();
+        $this->approvedBy = $approvedBy;
+        $this->status = self::STATUS_APPROVED;
+        $this->remember(new PhotosAddingRequestApproved($this->id));
     }
 }
