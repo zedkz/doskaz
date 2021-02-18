@@ -3,7 +3,6 @@
 
 namespace App\Objects\PhotosAdding\Controller;
 
-
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -42,7 +41,7 @@ class PhotosAddingAdminController extends AbstractController
             ->execute()->fetchAll();
 
         return [
-            'items' => array_map(fn($item) => array_replace($item, [
+            'items' => array_map(fn ($item) => array_replace($item, [
                 'createdAt' => $connection->convertToPHPValue($item['createdAt'], 'datetimetz_immutable')
             ]), $items),
             'count' => $query->select('COUNT(*)')->execute()->fetchColumn()

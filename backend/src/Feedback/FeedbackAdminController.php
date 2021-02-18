@@ -3,7 +3,6 @@
 
 namespace App\Feedback;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -25,7 +24,6 @@ class FeedbackAdminController extends AbstractController
      */
     public function list(Request $request, Connection $connection)
     {
-
         $query = $connection->createQueryBuilder()
             ->from('feedback')
             ->where('deleted_at IS NULL');
@@ -58,5 +56,4 @@ class FeedbackAdminController extends AbstractController
         $feedback->delete();
         $flusher->flush();
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace App\Users\Security;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Users\Security\Oauth\OauthCredentials;
 use App\Users\Security\Oauth\OauthCredentialsRepository;
@@ -79,7 +78,7 @@ class SignInWithAppleController extends AbstractController
         $verifier = new JWSVerifier($x);
         $verified = $verifier->verifyWithKeySet($token, $set, 0);
 
-        if(!$verified) {
+        if (!$verified) {
             return $this->json(['message' => 'Invalid token'], 400);
         }
 

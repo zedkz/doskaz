@@ -193,12 +193,14 @@ class AccessibilityScoreBuilder
         return AccessibilityScore::new($this->movement, $this->limb, $this->vision, $this->hearing, $this->intellectual);
     }
 
-    public function withCategoryNotAccessible(string $category): self {
+    public function withCategoryNotAccessible(string $category): self
+    {
         $this->{$category} = AccessibilityScore::SCORE_NOT_ACCESSIBLE;
         return $this;
     }
 
-    public function withCategoryScore(string $category, string $score): self {
+    public function withCategoryScore(string $category, string $score): self
+    {
         $this->{$category} = $score;
         return $this;
     }

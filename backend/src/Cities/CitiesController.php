@@ -67,7 +67,7 @@ class CitiesController
 
         $citites = $query->getArrayResult();
 
-        return array_map(fn($city) => new City($city['id'], $city['name'], [[(float) $city['ymin'], (float) $city['xmin']], [(float) $city['ymax'], (float) $city['xmax']]]), $citites);
+        return array_map(fn ($city) => new City($city['id'], $city['name'], [[(float) $city['ymin'], (float) $city['xmin']], [(float) $city['ymax'], (float) $city['xmax']]]), $citites);
     }
 
     /**

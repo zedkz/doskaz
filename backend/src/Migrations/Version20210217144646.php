@@ -26,7 +26,7 @@ final class Version20210217144646 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN object_photos_adding_requests.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN object_photos_adding_requests.created_at IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('COMMENT ON COLUMN object_photos_adding_requests.approved_at IS \'(DC2Type:datetimetz_immutable)\'');
-}
+    }
 
     public function down(Schema $schema) : void
     {

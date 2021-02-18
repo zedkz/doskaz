@@ -3,7 +3,6 @@
 
 namespace App\Cities;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +25,6 @@ class TranslateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $citiesData = array_combine(array_column(Cities::list(), 'id'), array_column(Cities::list(), 'nameKz'));
         /**
          * @var $city Cities

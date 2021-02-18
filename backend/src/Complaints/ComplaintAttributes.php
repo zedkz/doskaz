@@ -3,7 +3,6 @@
 
 namespace App\Complaints;
 
-
 class ComplaintAttributes
 {
     public static array $attributes = [

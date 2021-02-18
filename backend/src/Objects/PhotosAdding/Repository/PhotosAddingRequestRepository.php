@@ -3,7 +3,6 @@
 
 namespace App\Objects\PhotosAdding\Repository;
 
-
 use App\Objects\PhotosAdding\Entity\PhotosAddingRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;

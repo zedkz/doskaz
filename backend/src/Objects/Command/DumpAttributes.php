@@ -27,7 +27,7 @@ class DumpAttributes extends Command
 
     public function __construct(Connection $connection, EntityManagerInterface $entityManager)
     {
-      //  dd($t);
+        //  dd($t);
         parent::__construct();
         $this->connection = $connection;
         $this->entityManager = $entityManager;
@@ -43,17 +43,17 @@ class DumpAttributes extends Command
             'kk' // take locale from session or request etc.
         );
 
-       /* $q->setHint(
-            \Gedmo\Translatable\TranslatableListener::HINT_FALLBACK,
-            1 // fallback to default values in case if record is not translated
-        );*/
+        /* $q->setHint(
+             \Gedmo\Translatable\TranslatableListener::HINT_FALLBACK,
+             1 // fallback to default values in case if record is not translated
+         );*/
 
 
         $this->entityManager->persist(new Category("test"));
         $this->entityManager->flush();
 
 
-    //    dd($this->entityManager->find(Category::class, 137));
+        //    dd($this->entityManager->find(Category::class, 137));
 
 
         // $c[0]->setLocale('ru');

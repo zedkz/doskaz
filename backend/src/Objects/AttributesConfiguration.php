@@ -1104,23 +1104,24 @@ class AttributesConfiguration
         return iterator_to_array($f());
     }
 
-    public static function getFlatList() {
+    public static function getFlatList()
+    {
         $f = function () {
             foreach (self::$configuration as $form) {
                 foreach ($form as $zone) {
                     foreach ($zone as $group) {
-                        if( array_key_exists('title', $group)) {
+                        if (array_key_exists('title', $group)) {
                             yield $group['title'];
                         }
                         foreach ($group['subGroups'] as $subGroup) {
-                            if( array_key_exists('title', $subGroup)) {
+                            if (array_key_exists('title', $subGroup)) {
                                 yield $subGroup['title'];
                             }
                             foreach ($subGroup['attributes'] as $attribute) {
                                 yield $attribute['title'] ??  $attribute['subTitle'];
                             }
                         }
-                   }
+                    }
                 }
             }
         };

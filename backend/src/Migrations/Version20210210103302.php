@@ -87,7 +87,6 @@ final class Version20210210103302 extends AbstractMigration
                 \"overriddenScore\": null
             }')
         ");
-
     }
 
     public function down(Schema $schema) : void

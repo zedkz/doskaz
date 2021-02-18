@@ -570,7 +570,7 @@ final class ObjectsApiController extends AbstractController
     {
         $this->csvFileLoader->setCsvControl(',');
         array_walk_recursive(AttributesConfiguration::$configuration, function (&$val) use ($translator) {
-            if(is_string($val)) {
+            if (is_string($val)) {
                 $val = $translator->trans($val, [], 'attributes');
             }
         });

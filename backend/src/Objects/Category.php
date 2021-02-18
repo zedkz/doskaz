@@ -104,5 +104,4 @@ class Category implements Translatable
     {
         $this->title = $title;
     }
-
 }

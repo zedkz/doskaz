@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\ImageConversion;
 
-
 class ImageConversion
 {
     public string $path;

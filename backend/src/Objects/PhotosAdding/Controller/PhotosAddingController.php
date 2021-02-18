@@ -3,7 +3,6 @@
 
 namespace App\Objects\PhotosAdding\Controller;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Objects\MapObject;
 use App\Objects\PhotosAdding\Entity\PhotosAddingRequest;
@@ -34,8 +33,7 @@ class PhotosAddingController extends AbstractController
         MapObject $object,
         PhotosAddingRequestRepository $photosAddingRequestRepository,
         Flusher $flusher
-    )
-    {
+    ) {
         /**
          * @var $user AuthenticatedUser
          */

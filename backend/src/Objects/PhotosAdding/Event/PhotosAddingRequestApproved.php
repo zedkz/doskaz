@@ -3,7 +3,6 @@
 
 namespace App\Objects\PhotosAdding\Event;
 
-
 use App\Infrastructure\FileReferenceCollection;
 use Ramsey\Uuid\UuidInterface;
 

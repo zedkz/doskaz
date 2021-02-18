@@ -3,7 +3,6 @@
 
 namespace App\ProfileNotifications;
 
-
 class PointsEarnedNotificationData extends ProfileNotificationData
 {
     public int $points;

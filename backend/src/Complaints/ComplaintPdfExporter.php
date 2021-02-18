@@ -3,7 +3,6 @@
 
 namespace App\Complaints;
 
-
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\DocumentFactory;
 use TheCodingMachine\Gotenberg\OfficeRequest;
@@ -30,5 +29,4 @@ class ComplaintPdfExporter implements ComplaintExporter
         unlink($document->getPathname());
         return new \SplFileObject($path);
     }
-
 }
