@@ -304,6 +304,11 @@ export default {
             yourself: 'Вы получили награду',
             others: 'получает награду'
         },
+        objectSupplemented: {
+            yourself: 'Вы дополнили объект',
+            others: 'дополнил(а) объект',
+            yourObject: 'дополнил(а) ваш объект',
+        },
         profileLinkTitle: 'Перейти в профиль'
     },
     disabilityCategories: {

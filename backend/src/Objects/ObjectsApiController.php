@@ -301,7 +301,7 @@ final class ObjectsApiController extends AbstractController
      *                         @Property(
      *                             type="object",
      *                             property="data",
-     *                             @Property(property="type", type="string", enum={"review_created", "verification_rejected", "verification_confirmed"})
+     *                             @Property(property="type", type="string", enum={"review_created", "verification_rejected", "verification_confirmed", "supplemented"})
      *                         ),
      *                     ),
      *                 ),
