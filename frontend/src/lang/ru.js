@@ -198,7 +198,8 @@ export default {
         history: {
             reviewed: 'прокомментировал(а) объект',
             confirmed: 'подтвердил(а) данные',
-            notConfirmed: 'не подтвердил(а) данные'
+            notConfirmed: 'не подтвердил(а) данные',
+            supplemented: 'дополнил (а) объект'
         },
         attribute: {
             yes: 'Да',

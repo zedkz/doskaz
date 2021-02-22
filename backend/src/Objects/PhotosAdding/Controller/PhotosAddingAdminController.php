@@ -3,11 +3,16 @@
 
 namespace App\Objects\PhotosAdding\Controller;
 
+use App\Infrastructure\Doctrine\Flusher;
+use App\Infrastructure\FileReferenceCollection;
+use App\Objects\PhotosAdding\Entity\PhotosAddingRequest;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -41,10 +46,50 @@ class PhotosAddingAdminController extends AbstractController
             ->execute()->fetchAll();
 
         return [
-            'items' => array_map(fn ($item) => array_replace($item, [
+            'items' => array_map(fn($item) => array_replace($item, [
                 'createdAt' => $connection->convertToPHPValue($item['createdAt'], 'datetimetz_immutable')
             ]), $items),
             'count' => $query->select('COUNT(*)')->execute()->fetchColumn()
         ];
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"GET"})
+     * @param $id
+     * @param Connection $connection
+     * @return mixed
+     * @throws Exception
+     */
+    public function retrieve($id, Connection $connection)
+    {
+        $item = $connection->createQueryBuilder()
+            ->addSelect('id')
+            ->addSelect('status')
+            ->addSelect('photos')
+            ->from('object_photos_adding_requests')
+            ->where('id = :id')
+            ->setParameter('id', $id)
+            ->execute()
+            ->fetch();
+
+        if (!$item) {
+            throw new NotFoundHttpException();
+        }
+
+        return array_replace($item, [
+            'photos' => $connection->convertToPHPValue($item['photos'], FileReferenceCollection::class)
+        ]);
+    }
+
+    /**
+     * @Route(path="/{item}/approve", methods={"POST"})
+     * @param PhotosAddingRequest $item
+     * @param EntityManagerInterface $entityManager
+     */
+    public function approve(PhotosAddingRequest $item, EntityManagerInterface $entityManager)
+    {
+        $entityManager->transactional(function () use ($item) {
+            $item->approve($this->getUser()->id());
+        });
     }
 }
