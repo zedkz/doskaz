@@ -87,7 +87,8 @@ export default {
                 objectAdded: 'Вы добавлили объект',
                 blogCommentReplied: 'ответил(а) ваш комментарий к посту',
                 levelReached: 'Поздравляем, вы достигли {level} уровень!',
-                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}'
+                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}',
+                objectSupplemented: 'дополнил(а) ваш объект'
             },
             ability: {
                 status_change: 'Теперь вы можете сменить статус.',
