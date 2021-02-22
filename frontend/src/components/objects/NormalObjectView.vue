@@ -114,6 +114,7 @@
                                         <template v-if="item.data.type === 'review_created'">{{ $t('objects.history.reviewed') }}</template>
                                         <template v-if="item.data.type === 'verification_confirmed'">{{ $t('objects.history.confirmed') }}</template>
                                         <template v-if="item.data.type === 'verification_rejected'">{{ $t('objects.history.notConfirmed') }}</template>
+                                        <template v-if="item.data.type === 'supplemented'">{{ $t('objects.history.supplemented') }}</template>
                                     </p>
                                 </li>
                             </ul>

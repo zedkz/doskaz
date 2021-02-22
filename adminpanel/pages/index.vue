@@ -5,7 +5,7 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul>
-                        <sidebar-link v-for="link in links" :key="link.key" :path="link.path"><i :class="link.icon"></i>
+                        <sidebar-link v-for="link in links" :key="link.path" :path="link.path"><i :class="link.icon"></i>
                             {{link.title}}</sidebar-link>
                     </ul>
                 </nav>
@@ -54,14 +54,14 @@
                     {path: '/objects', key: 'objects_access', icon: 'fa fa-map-marker-alt', title: 'Объекты'},
                     {path: '/regionalRepresentatives', key: 'regional_representatives_access', icon: 'fa fa-id-card', title: 'Региональные представители'},
                     {path: '/regionalCoordinators', key: 'regional_coordinators_access', icon: 'fa fa-id-card', title: 'Региональные координаторы'},
-                    {path: '/administrationTasks', key: 'administration_tasks_access', icon: 'fa fa-id-card', title: 'Задания от администрации'},
-                    {path: '/feedback', key: 'feedback_access', icon: 'fa fa-id-card', title: 'Обратная связь'},
+                    {path: '/administrationTasks', key: 'administration_tasks_access', icon: 'fa fa-check', title: 'Задания от администрации'},
+                    {path: '/feedback', key: 'feedback_access', icon: 'fa fa-comment-alt', title: 'Обратная связь'},
+                    {path: '/photosAddingRequests', key: 'objects_access', icon: 'fa fa-images', title: 'Запросы на добавление фото'},
                 ].filter(item => this.can(item.key))
             }
         },
         watch: {
             operationResult(v) {
-                console.log(v)
                 if(v) {
                     this.$bvToast.toast(v.message, {
                         toaster: 'b-toaster-top-center',
