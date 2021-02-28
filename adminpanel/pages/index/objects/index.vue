@@ -29,8 +29,11 @@
                     {key: 'address', label: 'Адрес'},
                     {key: 'city', label: 'Город'},
                     {key: 'category', label: 'Категория'},
+                    {key: 'createdBy', label: 'Пользователь'},
                     {key: 'createdAt', label: 'Дата создания', type: FormattedDate},
-                ]
+                ].filter(i => {
+                   return  i.key === 'createdBy' ? this.$store.state.authentication.user.roles.includes('ROLE_ADMIN') : true
+                })
             }
         }
     }

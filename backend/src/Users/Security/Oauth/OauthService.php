@@ -53,7 +53,7 @@ class OauthService
             $parameters = [
                 'code' => $code,
             ];
-            if($redirectUri) {
+            if ($redirectUri) {
                 $parameters['redirect_uri'] = $redirectUri;
             }
             $accessToken = $provider->getAccessToken('authorization_code', $parameters);

@@ -54,6 +54,8 @@ class SmallFormZones extends Zones
      */
     public $serviceAccessibility;
 
+    public KidsAccessibility $kidsAccessibility;
+
     /**
      * SmallFormZones constructor.
      * @param Parking $parking
@@ -63,8 +65,9 @@ class SmallFormZones extends Zones
      * @param Toilet $toilet
      * @param Navigation $navigation
      * @param ServiceAccessibility $serviceAccessibility
+     * @param KidsAccessibility|null $kidsAccessibility
      */
-    public function __construct(Parking $parking, Entrance $entrance1, Movement $movement, Service $service, Toilet $toilet, Navigation $navigation, ServiceAccessibility $serviceAccessibility)
+    public function __construct(Parking $parking, Entrance $entrance1, Movement $movement, Service $service, Toilet $toilet, Navigation $navigation, ServiceAccessibility $serviceAccessibility, ?KidsAccessibility $kidsAccessibility = null)
     {
         $this->parking = $parking;
         $this->entrance1 = $entrance1;
@@ -73,6 +76,7 @@ class SmallFormZones extends Zones
         $this->toilet = $toilet;
         $this->navigation = $navigation;
         $this->serviceAccessibility = $serviceAccessibility;
+        $this->kidsAccessibility = $kidsAccessibility ?? new KidsAccessibility();
     }
 
     public function overallScore(): AccessibilityScore
@@ -87,7 +91,8 @@ class SmallFormZones extends Zones
             $this->service->accessibilityScore(),
             $this->toilet->accessibilityScore(),
             $this->navigation->accessibilityScore(),
-            $serviceAccessibilityScore
+            $serviceAccessibilityScore,
+            $this->kidsAccessibility->accessibilityScore()
         );
 
         $builder = AccessibilityScoreBuilder::initUnknown();

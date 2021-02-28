@@ -3,7 +3,6 @@
 
 namespace App\Complaints;
 
-
 use Carbon\Carbon;
 use Doctrine\DBAL\Connection;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -85,7 +84,6 @@ class ComplaintDocExporter implements ComplaintExporter
         $templateProcessor->setValues($data);
 
         if ($content instanceof ComplaintType2) {
-
             $x = array_map(function ($attr) use ($content) {
                 return [
                     'title' => $attr['title'],
@@ -113,7 +111,12 @@ class ComplaintDocExporter implements ComplaintExporter
             $templateProcessor->cloneBlock('violations', 0, true, false, iterator_to_array($c()));
 
             if ($content->threatToLife) {
-                $templateProcessor->cloneBlock('threatToLife', 0, true, false, [
+                $templateProcessor->cloneBlock(
+                    'threatToLife',
+                    0,
+                    true,
+                    false,
+                    [
                         [
                             'threatToLifeText' => 'Данными условиями создана угроза причинения вреда моей жизни и здоровью.'
                         ]
@@ -122,7 +125,7 @@ class ComplaintDocExporter implements ComplaintExporter
             } else {
                 $templateProcessor->cloneBlock('threatToLife', 0, true);
             }
-        } else if ($content instanceof ComplaintType1) {
+        } elseif ($content instanceof ComplaintType1) {
             $templateProcessor->cloneBlock('threatToLife', 0, true);
             $templateProcessor->cloneBlock('violations', 0, true, false, [
                 ['violationTitle' => 'отсутствие пандуса/подъемника не позволило мне посетить данный объект.'],

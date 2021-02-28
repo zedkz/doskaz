@@ -26,7 +26,6 @@
                     <h2 class="object-side__title">{{ object.title }}</h2>
                     <div class="object-side__address">
                         {{ object.address }}
-                        <!--<a href="" class="object-side__address-link">Редактировать объект</a>-->
                     </div>
                 </div>
                 <div class="availability"
@@ -115,6 +114,7 @@
                                         <template v-if="item.data.type === 'review_created'">{{ $t('objects.history.reviewed') }}</template>
                                         <template v-if="item.data.type === 'verification_confirmed'">{{ $t('objects.history.confirmed') }}</template>
                                         <template v-if="item.data.type === 'verification_rejected'">{{ $t('objects.history.notConfirmed') }}</template>
+                                        <template v-if="item.data.type === 'supplemented'">{{ $t('objects.history.supplemented') }}</template>
                                     </p>
                                 </li>
                             </ul>
@@ -160,6 +160,12 @@
                     :to="localePath(reviewsLink)"
                     class="object-side__review-add">{{ $t('objects.review.linkButtonTitle') }}
             </nuxt-link>
+            <nuxt-link class="object-side__review-add"
+               v-if="$route.query.tab === 'photos'"
+              :to="addPhotosRoute"
+            >
+              Добавить фото
+            </nuxt-link>
         </div>
 
         <nuxt-child :objectName="object.title"/>
@@ -181,8 +187,8 @@
     import Username from "~/components/Username";
     import PostSubmitMessage from "~/components/complaint/PostSubmitMessage";
     import LangSelect from "~/components/LangSelect";
-    import {eventBus} from '~/store/bus.js'
     import FormattedDate from "~/components/FormattedDate";
+    import PhotoUploader from "~/components/object_add/PhotoUploader";
 
     const accessibilityValues = {
         full_accessible: {
@@ -215,10 +221,11 @@
         {key: 'toilet', label: 'Туалет'},
         {key: 'navigation', label: 'Навигация'},
         {key: 'serviceAccessibility', label: 'Доступность услуги'},
+        {key: 'kidsAccessibility', label: ''},
     ]
 
     export default {
-        components: {FormattedDate, PostSubmitMessage, Username, LangSelect},
+        components: {FormattedDate, PostSubmitMessage, Username, LangSelect, PhotoUploader},
         name: 'NormalObjectView',
         props: [
             'mobileOpened',
@@ -236,6 +243,7 @@
                 activeItem: 'tab-description',
                 visibleDetail: 'detail_1',
                 moreDetailsShow: false,
+                addPhotosPopup: false,
                 videosIndex: null,
                 videosOptions: {
                     container: '#blueimp-video',
@@ -263,6 +271,9 @@
                 'zoom',
                 'coordinatesAndZoom'
             ]),
+            addPhotosRoute() {
+              return this.localePath({name: 'objects-id-add-photos', query: {tab: 'photos'}, params: {id: this.$route.params.id}})
+            },
             overallAccessibility() {
                 return accessibilityValues[this.object.overallScore]
             },
@@ -318,6 +329,7 @@
                     {key: 'toilet', title: this.$t('objects.zone.toilet'), group: 'toilet'},
                     {key: 'navigation', title: this.$t('objects.zone.navigation'), group: 'navigation'},
                     {key: 'serviceAccessibility', title: this.$t('objects.zone.serviceAccessibility'), group: 'serviceAccessibility'},
+                    {key: 'kidsAccessibility', title: this.$t('objects.zone.kidsAccessibility'), group: 'kidsAccessibility'},
                 ]
 
                 return zones.filter(z => this.object.attributes.zones[z.key])
@@ -334,7 +346,7 @@
         },
         methods: {
             mainPageMobOpened() {
-                eventBus.$emit('mainPageMobOpened');
+                this.$nuxt.$emit('mainPageMobOpened');
             },
             isActive(tabItem) {
                 return this.activeItem === tabItem
@@ -1340,6 +1352,7 @@
             }
 
             &-add {
+                cursor: pointer;
                 position: absolute;
                 bottom: 0;
                 left: 40px;

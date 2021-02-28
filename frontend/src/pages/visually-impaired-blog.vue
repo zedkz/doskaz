@@ -94,7 +94,6 @@
 <script>
     import ViHeader from "./../components/ViHeader";
     import ViFooter from "./../components/ViFooter";
-    import {eventBus} from "./../store/bus";
     export default {
         data() {
             return{
@@ -104,11 +103,16 @@
             }
         },
         created() {
-            eventBus.$on('setFontSize', this.setFontSize);
-            eventBus.$on('setColorTheme', this.setColorTheme);
-            eventBus.$on('setFontFamily', this.setFontFamily);
+            this.$nuxt.$on('setFontSize', this.setFontSize);
+            this.$nuxt.$on('setColorTheme', this.setColorTheme);
+            this.$nuxt.$on('setFontFamily', this.setFontFamily);
         },
-        components: {
+      beforeDestroy() {
+        this.$nuxt.$off('setFontSize', this.setFontSize);
+        this.$nuxt.$off('setColorTheme', this.setColorTheme);
+        this.$nuxt.$off('setFontFamily', this.setFontFamily);
+      },
+      components: {
             ViHeader,
             ViFooter
         },

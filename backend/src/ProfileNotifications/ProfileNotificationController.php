@@ -3,7 +3,6 @@
 
 namespace App\ProfileNotifications;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use Doctrine\DBAL\Connection;
 use OpenApi\Annotations\Delete;
@@ -76,7 +75,7 @@ class ProfileNotificationController extends AbstractController
             ->execute()
             ->fetchAll();
 
-        return array_map(fn($notification) => [
+        return array_map(fn ($notification) => [
             'id' => $notification['id'],
             'data' => $connection->convertToPHPValue($notification['data'], ProfileNotificationData::class)
         ], $notifications);

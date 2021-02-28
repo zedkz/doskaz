@@ -3,7 +3,6 @@
 
 namespace App\Infrastructure\ImageConversion;
 
-
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemInterface;

@@ -3,7 +3,6 @@
 
 namespace App\ProfileNotifications;
 
-
 class LevelReachedNotificationData extends ProfileNotificationData
 {
     public int $level;

@@ -122,6 +122,20 @@
                                       {{ $t('events.awardIssued.others') }} <b>"{{ event.data.title }}"</b>
                                 </span>
                             </template>
+                            <template v-if="event.type === 'object_supplemented'">
+                                  <span v-if="userId === event.userId">
+                                      <username tag="b" :value="event.data.username"/>
+                                      {{ $t('events.objectSupplemented.yourObject') }}
+                                      <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                  </span>
+                              <span v-else-if="event.data.userId === userId">
+                                      {{ $t('events.objectSupplemented.yourself') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                  </span>
+                              <span v-else>
+                                      <username tag="b" :value="event.data.username"/>
+                                      {{ $t('events.objectSupplemented.others') }} <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})"><b>{{ event.data.title }}</b></nuxt-link>
+                                  </span>
+                            </template>
                         </div>
                     </div>
                   <!--  <div class="item">

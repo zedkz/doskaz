@@ -4,8 +4,9 @@
             <div class="photo-input required" v-for="(slot, index) in slots" :key="index">
                 <loading :active="slot.isLoading" :is-full-page="false" :style="{'z-index': 10}"/>
                 <input type="file" accept="image/*" @change="onFileSelected($event, slot)" multiple="multiple"/>
-                <span v-if="slot.preview"
+                <span class="photo-input__bg" v-if="slot.preview"
                       :style="{'background-image': `url(${slot.preview})`, 'background-size': 'cover'}"></span>
+                <span class="photo-input__remove" @click.prevent="clearSlot(slot)" v-if="!slot.isLoading && slot.preview"></span>
             </div>
         </div>
         <button type="button" class="add-link" @click.prevent="addSlot">{{ $t('complaint.addMorePhotos') }}</button>
@@ -62,7 +63,6 @@
             },
             uploadToSlot(file, slot) {
               const reader = new FileReader();
-
               reader.onload = e => {
                 slot.preview = e.target.result;
               };
@@ -75,6 +75,11 @@
                 slot.file = null;
                 slot.uploadedFile = res;
               });
+            },
+            clearSlot(slot) {
+              slot.preview = null;
+              slot.file = null;
+              slot.uploadedFile = null;
             },
             onFileSelected(e, slot) {
                 if(e.target.files.length === 1) {

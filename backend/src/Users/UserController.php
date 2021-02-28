@@ -711,7 +711,7 @@ final class UserController extends AbstractController
      *                 @Items(
      *                     type="object",
      *                     @Property(property="date", type="string", format="date-time"),
-     *                     @Property(property="type", type="string", enum={"object_reviewed", "level_reached", "blog_comment_replied", "award_issued", "object_created"}),
+     *                     @Property(property="type", type="string", enum={"object_reviewed", "level_reached", "blog_comment_replied", "award_issued", "object_created", "object_supplemented"}),
      *                     @Property(
      *                         property="data",
      *                         type="object",
@@ -744,6 +744,13 @@ final class UserController extends AbstractController
      *                                 @Property(property="id", type="integer", description="id объекта"),
      *                                 @Property(property="title", type="string", description="Наименование поста"),
      *                                 @Property(property="categoryTitle", type="string", description="Наименование подкатегории"),
+     *                             ),
+     *                              @Schema(
+     *                                 title="object_supplemented",
+     *                                 @Property(property="id", type="integer", description="id объекта"),
+     *                                 @Property(property="username", type="string", nullable=true, description="Имя пользователя"),
+     *                                 @Property(property="userId", type="string", nullable=true, description="Id пользователя"),
+     *                                 @Property(property="title", type="string", description="Наименование объекта"),
      *                             ),
      *                         },
      *                     ),

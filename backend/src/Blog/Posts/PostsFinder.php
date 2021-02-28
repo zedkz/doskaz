@@ -43,7 +43,7 @@ final class PostsFinder
             ->andWhere('blog_posts.published_at <= CURRENT_TIMESTAMP')
             ->join('blog_posts', 'blog_categories', 'blog_categories', 'blog_posts.category_id = blog_categories.id');
 
-        if($lang && $lang != 'ru') {
+        if ($lang && $lang != 'ru') {
             $query->addSelect('coalesce(blog_category_translations.content, blog_categories.title) as category_title');
             $query->leftJoin('blog_categories', 'blog_category_translations', 'blog_category_translations', 'blog_categories.id::text = blog_category_translations.foreign_key');
         }

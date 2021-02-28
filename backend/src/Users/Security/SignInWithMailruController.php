@@ -3,7 +3,6 @@
 
 namespace App\Users\Security;
 
-
 use App\Infrastructure\Doctrine\Flusher;
 use App\Users\FullName;
 use App\Users\Security\Oauth\OauthCredentials;

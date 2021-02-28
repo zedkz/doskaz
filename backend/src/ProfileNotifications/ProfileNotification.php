@@ -56,5 +56,4 @@ class ProfileNotification
     {
         $this->closedAt = new \DateTimeImmutable();
     }
-
 }

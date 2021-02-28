@@ -3,7 +3,6 @@
 
 namespace App\Sitemap;
 
-
 use Doctrine\DBAL\Connection;
 use samdark\sitemap\Sitemap;
 use Symfony\Component\Console\Command\Command;

@@ -179,7 +179,7 @@ class MapObject implements EventProducer
         $this->deletedAt = new \DateTimeImmutable();
     }
 
-    public function idDeleted(): bool
+    public function isDeleted(): bool
     {
         return !is_null($this->deletedAt);
     }
@@ -214,6 +214,14 @@ class MapObject implements EventProducer
         $this->zones = $mapObjectData->zones;
         $this->overallScore = $this->zones->overallScore();
         $this->otherNames = $mapObjectData->otherNames;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function addPhotos(FileReferenceCollection $newPhotos)
+    {
+        $oldPhotos = $this->photos;
+        $this->photos = $this->photos->merge($newPhotos);
+        $this->remember(new PhotosUpdated($this->uuid, $oldPhotos, $this->photos));
         $this->updatedAt = new \DateTimeImmutable();
     }
 

@@ -92,6 +92,17 @@ class AttributesConfiguration
                         ]
                     ]
                 ]
+            ],
+            'kidsAccessibility' => [
+                [
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 1, 'title' => 'Наличие детского меню, детского стульчика, огороженной детской зоны с игрушками, досуговой программы, пеленального столика, детского стульчака в туалете'],
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ],
         'middle' => [
@@ -475,6 +486,45 @@ class AttributesConfiguration
                                 ['key' => 5, 'title' => 'Оказание ситуационной помощи со стороны персонала', 'subTitle' => ''],
                                 ['key' => 6, 'title' => 'Протоколы/инструкции по коммуникации и оказанию помощи маломобильным гражданам', 'subTitle' => 'Был ли обучен персонал'],
                                 ['key' => 7, 'title' => 'Льготы для людей с инвалидностью 1, 2, 3 групп, пожилых, детей', 'subTitle' => ''],
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'kidsAccessibility' => [
+                [
+                    'title' => 'Заведения общественного питания',
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 1, 'title' => 'Детское меню'],
+                                ['key' => 2, 'title' => 'Детский стульчик: наличие стульчика с пятиточечным ремнем либо ограничителем между ног'],
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Досуг',
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 3, 'title' => 'Наличие огороженной детской зоны'],
+                                ['key' => 4, 'title' => 'Наличие игрушек / раскрасок / карандашей / красок'],
+                                ['key' => 5, 'title' => 'Наличие досуговой программы'],
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Безопасность и инфраструктура',
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 6, 'title' => 'Наличие персонала для присмотра за детьми'],
+                                ['key' => 7, 'title' => 'Доступность сантехнического оборудования (стульчик-приступка / детский стульчак / низкая раковина с дозатором для мыла / низкая сушилка для рук)'],
+                                ['key' => 8, 'title' => 'Наличие пеленального столика / зоны для кормления и пеленания'],
+                                ['key' => 9, 'title' => 'Наличие видеонаблюдения'],
+                                ['key' => 10, 'title' => 'Наличие охраны'],
                             ]
                         ]
                     ]
@@ -995,6 +1045,45 @@ class AttributesConfiguration
                         ]
                     ]
                 ]
+            ],
+            'kidsAccessibility' => [
+                [
+                    'title' => 'Заведения общественного питания',
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 1, 'title' => 'Детское меню'],
+                                ['key' => 2, 'title' => 'Детский стульчик: наличие стульчика с пятиточечным ремнем либо ограничителем между ног'],
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Досуг',
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 3, 'title' => 'Наличие огороженной детской зоны'],
+                                ['key' => 4, 'title' => 'Наличие игрушек / раскрасок / карандашей / красок'],
+                                ['key' => 5, 'title' => 'Наличие досуговой программы'],
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Безопасность и инфраструктура',
+                    'subGroups' => [
+                        [
+                            'attributes' => [
+                                ['key' => 6, 'title' => 'Наличие персонала для присмотра за детьми'],
+                                ['key' => 7, 'title' => 'Доступность сантехнического оборудования (стульчик-приступка / детский стульчак / низкая раковина с дозатором для мыла / низкая сушилка для рук)'],
+                                ['key' => 8, 'title' => 'Наличие пеленального столика / зоны для кормления и пеленания'],
+                                ['key' => 9, 'title' => 'Наличие видеонаблюдения'],
+                                ['key' => 10, 'title' => 'Наличие охраны'],
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ]
     ];
@@ -1015,23 +1104,24 @@ class AttributesConfiguration
         return iterator_to_array($f());
     }
 
-    public static function getFlatList() {
+    public static function getFlatList()
+    {
         $f = function () {
             foreach (self::$configuration as $form) {
                 foreach ($form as $zone) {
                     foreach ($zone as $group) {
-                        if( array_key_exists('title', $group)) {
+                        if (array_key_exists('title', $group)) {
                             yield $group['title'];
                         }
                         foreach ($group['subGroups'] as $subGroup) {
-                            if( array_key_exists('title', $subGroup)) {
+                            if (array_key_exists('title', $subGroup)) {
                                 yield $subGroup['title'];
                             }
                             foreach ($subGroup['attributes'] as $attribute) {
                                 yield $attribute['title'] ??  $attribute['subTitle'];
                             }
                         }
-                   }
+                    }
                 }
             }
         };

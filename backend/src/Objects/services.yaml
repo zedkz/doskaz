@@ -2,6 +2,7 @@ imports:
     - { resource: './Reviews/services.yaml' }
     - { resource: './EventsHistory/services.yaml' }
     - { resource: './Verification/services.yaml' }
+    - { resource: './PhotosAdding/services.yaml' }
 
 services:
     _defaults:
@@ -51,3 +52,6 @@ services:
         tags: [ 'console.command' ]
         arguments:
             $csvFileLoader: '@translation.loader.csv'
+
+    App\Objects\EventListener\AddPhotosToObjectWhenRequestApproved:
+        tags: ['domain_events.listener']

@@ -200,6 +200,23 @@ class AddingController extends AbstractController
      *                     )
      *                 ),
      *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="kidsAccessibility",
+     *                 description="Доступность и безопасность услуг для детей до 7 лет",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
      *             )
      *         )
      *     ),
@@ -390,6 +407,23 @@ class AddingController extends AbstractController
      *                     )
      *                 ),
      *                 @Property(property="comment", type="string", description="Комментарий к зоне")
+     *             ),
+     *             @Property(
+     *                 property="kidsAccessibility",
+     *                 description="Доступность и безопасность услуг для детей до 7 лет",
+     *                 type="object",
+     *                 @Property(
+     *                     property="attributes",
+     *                     type="object",
+     *                     description="Аттрибуты зоны",
+     *                     @Property(
+     *                         type="object",
+     *                         property="attribute1",
+     *                         type="string",
+     *                         enum=App\Objects\Adding\Attribute::ATTRIBUTES
+     *                     )
+     *                 ),
+     *                 @Property(property="comment", type="string", description="Комментарий к зоне")
      *             )
      *         )
      *     ),
@@ -425,12 +459,14 @@ class AddingController extends AbstractController
      *                     "navigation_small",
      *                     "accessibility_small",
      *                     "serviceAccessibility_small",
+     *                     "kidsAccessibility_small",
      *                     "parking_middle",
      *                     "entrance_middle",
      *                     "toilet_middle",
      *                     "service_middle",
      *                     "accessibility_middle",
      *                     "serviceAccessibility_middle",
+     *                     "kidsAccessibility_middle",
      *                     "movement_middle",
      *                     "navigation_middle",
      *                     "parking_full",
@@ -441,6 +477,7 @@ class AddingController extends AbstractController
      *                     "navigation_full",
      *                     "serviceAccessibility_full",
      *                     "accessibility_full",
+     *                     "kidsAccessibility_full",
      *                 }
      *             ),
      *             @Property(

@@ -16,3 +16,7 @@ services:
   App\Objects\EventsHistory\Listener\VerificationRejectedListener:
     tags:
       - { name: domain_events.listener }
+
+  App\Objects\EventsHistory\Listener\SupplementedListener:
+    tags:
+      - { name: domain_events.listener }

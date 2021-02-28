@@ -65,8 +65,7 @@ services:
       - web
     volumes:
       - doskaz_storage:/var/www/html/storage
-    depends_on:
-      - backend
+    depends_on: [ backend ]
 
   frontend:
     build:
@@ -160,7 +159,7 @@ volumes:
     external: true
   geoip_data:
     driver: local
-  rabbitmq_data: {}
+  rabbitmq_data: { }
 
 networks:
   web:

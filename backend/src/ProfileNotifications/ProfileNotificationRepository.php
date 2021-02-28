@@ -3,7 +3,6 @@
 
 namespace App\ProfileNotifications;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 

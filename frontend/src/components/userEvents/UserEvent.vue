@@ -10,6 +10,13 @@
                 <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>
             </div>
         </template>
+      <template v-if="event.type === 'object_supplemented'">
+        <div class="list__icon"></div>
+        <div class="list__text">
+          <a><username :value="event.data.username"/></a> {{ $t('profile.achievements.event.objectSupplemented') }}
+          <nuxt-link :to="localePath({name: 'objects-id', params: {id: event.data.id}})">{{ event.data.title }}</nuxt-link>
+        </div>
+      </template>
         <template v-if="event.type === 'blog_comment_replied'">
             <div class="list__icon"></div>
             <div class="list__text">

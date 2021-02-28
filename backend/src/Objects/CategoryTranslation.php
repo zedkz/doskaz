@@ -3,7 +3,6 @@
 
 namespace App\Objects;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
 
@@ -13,5 +12,4 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  */
 class CategoryTranslation extends AbstractTranslation
 {
-
 }

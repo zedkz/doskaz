@@ -34,10 +34,6 @@
     import range from 'lodash/range'
     import last from 'lodash/last'
     import first from 'lodash/first'
-    import Vue from 'vue'
-    import VueHotkey from 'v-hotkey'
-
-    Vue.use(VueHotkey);
 
     export default {
         props: [

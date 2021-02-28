@@ -6,6 +6,7 @@ import VueGallery from 'vue-gallery'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import {IMaskDirective} from 'vue-imask';
+import VueHotkey from 'v-hotkey'
 
 const plugin = {
     install(Vue) {
@@ -19,3 +20,4 @@ const plugin = {
 Vue.use(plugin);
 Vue.use(Loading);
 Vue.use(YmapPlugin)
+Vue.use(VueHotkey);

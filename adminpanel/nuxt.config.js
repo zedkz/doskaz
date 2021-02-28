@@ -1,8 +1,8 @@
-require('dotenv').config()
+/*require('dotenv').config()*/
 
 
 export default {
-    mode: 'spa',
+    ssr: false,
     /*
     ** Headers of the page
     */
@@ -24,7 +24,7 @@ export default {
     /*
     ** Customize the progress-bar color
     */
-    loading: {color: '#fff'},
+    loading: {color: '#fb9678'},
     /*
     ** Global CSS
     */
@@ -49,7 +49,6 @@ export default {
     modules: [
         'bootstrap-vue/nuxt',
         '@nuxtjs/axios',
-        '@nuxtjs/dotenv',
         'cookie-universal-nuxt'
     ],
     /*

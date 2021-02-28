@@ -87,7 +87,8 @@ export default {
                 objectAdded: 'Вы добавлили объект',
                 blogCommentReplied: 'ответил(а) ваш комментарий к посту',
                 levelReached: 'Поздравляем, вы достигли {level} уровень!',
-                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}'
+                pointsUntilNextLevel: 'До {nextLevel} уровня вам нужно набрать баллов: {points}',
+                objectSupplemented: 'дополнил(а) ваш объект'
             },
             ability: {
                 status_change: 'Теперь вы можете сменить статус.',
@@ -173,13 +174,15 @@ export default {
             toilet: 'Туалет',
             navigation: 'Навигация',
             serviceAccessibility: 'Доступность услуги',
+            kidsAccessibility: 'Доступность и безопасность услуг для детей до 7 лет',
         },
         viBreadcrumbsTitle: 'Вернуться в категорию {category} / {subCategory}',
         viAccessibilityCategory: {
             full_accessible: 'доступно',
             partial_accessible: 'частично доступно',
             not_accessible: 'недоступно',
-            not_provided: 'не предусмотрено'
+            not_provided: 'не предусмотрено',
+            unknown: 'не известно'
         },
         viSummaryScore: 'Оценка объекта: {score}',
         viReturnToObject: 'Вернуться к объекту {object}',
@@ -196,7 +199,8 @@ export default {
         history: {
             reviewed: 'прокомментировал(а) объект',
             confirmed: 'подтвердил(а) данные',
-            notConfirmed: 'не подтвердил(а) данные'
+            notConfirmed: 'не подтвердил(а) данные',
+            supplemented: 'дополнил (а) объект'
         },
         attribute: {
             yes: 'Да',
@@ -301,6 +305,11 @@ export default {
             yourself: 'Вы получили награду',
             others: 'получает награду'
         },
+        objectSupplemented: {
+            yourself: 'Вы дополнили объект',
+            others: 'дополнил(а) объект',
+            yourObject: 'дополнил(а) ваш объект',
+        },
         profileLinkTitle: 'Перейти в профиль'
     },
     disabilityCategories: {
@@ -309,7 +318,7 @@ export default {
         limb: 'Люди с нарушениями опорно-двигательного аппарата',
         hearing: 'Люди с инвалидностью по слуху',
         temporal: 'Временно травмированные люди',
-        babyCarriage: 'Люди с детскими колясками',
+        babyCarriage: 'Люди с детскими колясками, дети до 7 лет',
         missingLimbs: 'Люди с отсутствующими конечностями',
         pregnant: 'Беременные женщины',
         intellectual: 'Люди с интелектуальной инвалидностью',

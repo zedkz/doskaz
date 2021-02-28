@@ -6,6 +6,7 @@ namespace App\Objects;
 use App\Infrastructure\ObjectResolver\DataObject;
 use App\Objects\Adding\AccessibilityScore;
 use App\Objects\Adding\Attribute;
+use App\Objects\Zone\Small\KidsAccessibility;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 /**
@@ -41,6 +42,9 @@ abstract class Zone implements DataObject
         "navigation_full" => \App\Objects\Zone\Full\Navigation::class,
         "serviceAccessibility_full" => \App\Objects\Zone\Full\ServiceAccessibility::class,
         "accessibility_full" => \App\Objects\Zone\Full\ServiceAccessibility::class,
+        "kidsAccessibility_small" => \App\Objects\Zone\Small\KidsAccessibility::class,
+        "kidsAccessibility_middle" => \App\Objects\Zone\Middle\KidsAccessibility::class,
+        "kidsAccessibility_full" => \App\Objects\Zone\Full\KidsAccessibility::class,
     ];
 
     /**
@@ -55,7 +59,7 @@ abstract class Zone implements DataObject
 
     abstract protected static function attributesKeys(): array;
 
-    public function __construct(?AttributesMap $attributes, ?AccessibilityScore $overriddenScore = null)
+    public function __construct(?AttributesMap $attributes = null, ?AccessibilityScore $overriddenScore = null)
     {
         $this->attributes = new AttributesMap();
         $this->overriddenScore = $overriddenScore;

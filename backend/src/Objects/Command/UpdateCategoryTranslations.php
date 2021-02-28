@@ -3,7 +3,6 @@
 
 namespace App\Objects\Command;
 
-
 use App\Objects\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -12,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCategoryTranslations extends Command
 {
-
     protected static $defaultName = 'app:objects:update-category-translations';
 
     /**
