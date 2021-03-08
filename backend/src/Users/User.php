@@ -67,7 +67,7 @@ class User implements EventProducer
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $status;
+    private ?string $status = null;
 
     public function __construct(?FullName $fullName, ?string $email = null)
     {

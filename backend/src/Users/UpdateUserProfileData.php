@@ -37,5 +37,5 @@ class UpdateUserProfileData implements DataObject
     /**
      * @var string|null
      */
-    public ?string $status;
+    public ?string $status = null;
 }

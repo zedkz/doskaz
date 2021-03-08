@@ -49,6 +49,22 @@ class CurrentTaskDataProvider
             return new CurrentTaskData(0, $administrationTask['name'], $administrationTask['points']);
         }
 
+        $administrationTask = $this->connection->createQueryBuilder()
+            ->select('*')
+            ->from('administration_tasks')
+            ->andWhere('administration_tasks.closed_at IS NULL')
+            ->andWhere('NOT EXISTS(select 1 from user_administration_tasks where user_administration_tasks.user_id = :userId and user_administration_tasks.task_id = administration_tasks.id)')
+            ->setParameter('userId', $userId)
+            ->andWhere('administration_tasks.city_id = :cityId OR city_id is NULL')
+            ->setParameter('cityId', $cityId)
+            ->addOrderBy('city_id', 'desc nulls last')
+            ->execute()
+            ->fetch();
+
+        if($administrationTask) {
+            return new CurrentTaskData(0, $administrationTask['name']);
+        }
+
         $task = $this->connection->createQueryBuilder()
             ->select('*')
             ->from('daily_verification_tasks')
