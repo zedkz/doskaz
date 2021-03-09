@@ -74,8 +74,8 @@ export default {
         id: '66710635',
         webvisor: true,
         clickmap: true,
-        trackLinks:true,
-        accurateTrackBounce:true
+        trackLinks: true,
+        accurateTrackBounce: true
     },
     robots: process.env.ROBOTS_ALLOW
         ? [
@@ -132,5 +132,12 @@ export default {
                 })
             }
         }
-    ]
+    ],
+    build: {
+        extend(config, {isClient}) {
+            if (isClient) {
+                config.devtool = 'source-map'
+            }
+        }
+    }
 }
