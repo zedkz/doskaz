@@ -46,7 +46,6 @@ export default {
         {src: '~plugins/authenticated.js'}
     ],
     buildModules: [
-        ['@nuxtjs/dotenv', {path: './'}],
         '@nuxtjs/google-analytics',
         '@nuxtjs/yandex-metrika'
     ],
