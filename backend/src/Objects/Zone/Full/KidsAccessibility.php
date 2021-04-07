@@ -20,6 +20,9 @@ class KidsAccessibility extends Zone
         if ($this->isMatchesAll(Attribute::yes())) {
             return AccessibilityScore::fullAccessible();
         }
+        if ($this->isMatchesAll(Attribute::no())) {
+            return AccessibilityScore::notAccessible();
+        }
         if ($this->isMatchesAll(Attribute::unknown())) {
             return AccessibilityScore::unknown();
         }
