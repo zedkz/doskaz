@@ -28,8 +28,8 @@ services:
       args:
         - app_env=prod
     volumes:
-      - doskaz_storage:/var/www/html/storage
-      - doskaz_storage:/var/www/html/public/storage
+      - storage:/var/www/html/storage
+      - storage:/var/www/html/public/storage
       - geoip_data:/geoip_data:ro
     depends_on:
       - database
@@ -43,8 +43,8 @@ services:
     command: su www-data -s /bin/bash -c "php /var/www/html/bin/console messenger:consume async --time-limit=3600"
     restart: unless-stopped
     volumes:
-      - doskaz_storage:/var/www/html/storage
-      - doskaz_storage:/var/www/html/public/storage
+      - storage:/var/www/html/storage
+      - storage:/var/www/html/public/storage
     depends_on:
       - database
       - rabbitmq
@@ -65,7 +65,7 @@ services:
       - default
       - web
     volumes:
-      - doskaz_storage:/var/www/html/storage
+      - storage:/var/www/html/storage
     depends_on: [ backend ]
 
   frontend:
@@ -112,7 +112,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - doskaz_db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 
   imgproxy:
     image: darthsim/imgproxy:v2.10
@@ -122,7 +122,7 @@ services:
       - IMGPROXY_ENABLE_WEBP_DETECTION=true
       - IMGPROXY_ENFORCE_WEBP=true
     volumes:
-      - doskaz_storage:/mnt/data/storage
+      - storage:/mnt/data/storage
     networks:
       - web
     labels:
@@ -154,12 +154,9 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
-  doskaz_db:
-    external: true
-  doskaz_storage:
-    external: true
-  geoip_data:
-    driver: local
+  db: { }
+  storage: { }
+  geoip_data: { }
   rabbitmq_data: { }
 
 networks:
