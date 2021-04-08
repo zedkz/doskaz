@@ -22,6 +22,7 @@ class PhotosAddingRequest implements EventProducer
 
     private const STATUS_ON_REVIEW = 'on_review';
     private const STATUS_APPROVED = 'approved';
+    private const STATUS_DELETED = 'deleted';
 
     /**
      * @ORM\Id()
@@ -42,7 +43,7 @@ class PhotosAddingRequest implements EventProducer
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $approvedBy;
+    private ?int $approvedBy = null;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
@@ -52,7 +53,7 @@ class PhotosAddingRequest implements EventProducer
     /**
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
-    private ?\DateTimeImmutable $approvedAt;
+    private ?\DateTimeImmutable $approvedAt = null;
 
     /**
      * @ORM\Column(type="string")
@@ -82,5 +83,15 @@ class PhotosAddingRequest implements EventProducer
         $this->approvedBy = $approvedBy;
         $this->status = self::STATUS_APPROVED;
         $this->remember(new PhotosAddingRequestApproved($this->id, $this->objectId, $this->createdBy, $this->photos));
+    }
+
+    public function updatePhotos(FileReferenceCollection $photos)
+    {
+        $this->photos = $photos;
+    }
+
+    public function markAsDeleted()
+    {
+        $this->status = self::STATUS_DELETED;
     }
 }

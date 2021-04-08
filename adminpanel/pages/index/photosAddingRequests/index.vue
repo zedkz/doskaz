@@ -20,7 +20,7 @@ export default {
     components: {ObjectsFilter, CrudList},
     computed: {
         actions() {
-            return ['edit']
+            return ['edit', 'delete']
         },
         fields() {
             return [
