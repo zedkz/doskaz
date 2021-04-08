@@ -7,8 +7,8 @@
         </div>
         <b-card>
             <div class="form">
-                <images-collection :disabled="true" label="Фото" :value="item.photos"/>
-                <button @click="approve" :disabled="item.status !== 'on_review' || isLoading" class="btn btn-primary">
+                <images-collection :disabled="false" label="Фото" v-model="item.photos"/>
+                <button @click="approve" :disabled="item.status !== 'on_review' || isLoading || item.photos.length === 0" class="btn btn-primary">
                     Принять
                 </button>
             </div>
@@ -34,6 +34,9 @@ export default {
         async approve() {
             this.isLoading = true
             try {
+                await this.$axios.$put(`/api/admin/photosAdding/${this.item.id}`, {
+                    photos: this.item.photos
+                })
                 await this.$axios.$post(`/api/admin/photosAdding/${this.item.id}/approve`)
                 await this.$nuxt.refresh()
                 this.$bvToast.toast('Запрос одобрен', {

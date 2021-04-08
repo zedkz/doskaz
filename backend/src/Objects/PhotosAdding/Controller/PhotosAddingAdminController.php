@@ -7,6 +7,7 @@ use App\AdminpanelPermissions\AdminpanelPermission;
 use App\Infrastructure\Doctrine\Flusher;
 use App\Infrastructure\FileReferenceCollection;
 use App\Objects\PhotosAdding\Entity\PhotosAddingRequest;
+use App\Objects\PhotosAdding\PhotosAddingData;
 use App\RegionalCoordinators\RegionalCoordinatorCitiesFinder;
 use App\RegionalCoordinators\RegionalCoordinatorRepository;
 use Doctrine\DBAL\Connection;
@@ -37,7 +38,7 @@ class PhotosAddingAdminController extends AbstractController
     {
         $query = $connection->createQueryBuilder()
             ->from('object_photos_adding_requests', 'r')
-            ->andWhere("r.status != 'approved'")
+            ->andWhere("r.status = 'on_review'")
             ->join('r', 'objects', 'objects', 'objects.id = r.object_id');
 
         if ($regionalCoordinatorRepository->findByUserId($this->getUser()->id())) {
@@ -101,6 +102,19 @@ class PhotosAddingAdminController extends AbstractController
     }
 
     /**
+     * @Route(path="/{item}", methods={"PUT"})
+     * @param PhotosAddingRequest $item
+     * @param PhotosAddingData $photosAddingData
+     * @param EntityManagerInterface $entityManager
+     */
+    public function update(PhotosAddingRequest $item, PhotosAddingData $photosAddingData, EntityManagerInterface $entityManager)
+    {
+        $entityManager->transactional(function () use ($item, $photosAddingData) {
+            $item->updatePhotos($photosAddingData->photos);
+        });
+    }
+
+    /**
      * @Route(path="/{item}/approve", methods={"POST"})
      * @param PhotosAddingRequest $item
      * @param EntityManagerInterface $entityManager
@@ -110,5 +124,15 @@ class PhotosAddingAdminController extends AbstractController
         $entityManager->transactional(function () use ($item) {
             $item->approve($this->getUser()->id());
         });
+    }
+
+    /**
+     * @Route(path="/{item}", methods={"DELETE"})
+     * @param PhotosAddingRequest $item
+     * @param Flusher $flusher
+     */
+    public function delete(PhotosAddingRequest $item, Flusher $flusher) {
+        $item->markAsDeleted();
+        $flusher->flush();
     }
 }

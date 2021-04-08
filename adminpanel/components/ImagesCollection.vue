@@ -77,24 +77,12 @@
                     });
                 })
             },
-            changeValue(index, event) {
-                const val = [...this.value]
-                val[index] = event.target.value
-
-                this.value = val
-            },
             addItem(item) {
-                this.value = [...this.value, item]
+                this.$emit('input', [...this.value, item])
             },
             deleteItem(index) {
-                this.value = this.value.filter((v, i) => i !== index)
+                this.$emit('input', this.value.filter((v, i) => i !== index))
             },
-            /*cancelItem(item) {
-                this.queue.remove(({data}) => {
-                    console.log(data)
-                    return data === item;
-                })
-            }*/
         },
         computed: {
             currentUploadingFiles() {
