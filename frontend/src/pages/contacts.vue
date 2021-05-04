@@ -14,7 +14,7 @@
                         <p class="contacts__text">{{ $t('contacts.contactMessage') }}</p>
                         <div class="contacts__link-list">
                             <div class="contacts__link-item">
-                                <a href="tel:+77013462177" class="contacts__link --phone">8 (701) 346-2177</a>
+                                <a href="tel:+77013462177" class="contacts__link --phone">8(701) 223-4630</a>
                             </div>
                             <div class="contacts__link-item">
                                 <a href="mailto:info@doskaz.kz" class="contacts__link --mail">info@doskaz.kz</a>
